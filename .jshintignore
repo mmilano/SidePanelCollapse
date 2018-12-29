@@ -1,0 +1,7 @@
+// -------------------------------------------
+// JSHint ignored files
+// -------------------------------------------
+
+node_modules/
+src/js/vendor/
+bower_components/

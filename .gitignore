@@ -1,0 +1,35 @@
+#osx stuff
+.DS_Store
+
+#bbedit file
+sidebar-slide.bbprojectd
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# node stuff
+node_modules
+npm-debug.log
+_site
+
+#sass scss etc
+.sass-cache
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+
+# destination folders for builds
+public
+build
+
+
+#bootstrap scss files
+assets/scss/
+
+#explicit project ignoring

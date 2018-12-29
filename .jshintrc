@@ -1,0 +1,20 @@
+{
+    "browser":      true,
+    "browserify":   true,
+    "jquery":       true,
+    "node":         true,
+    "eqeqeq":       true,    // Require triple equals i.e. '==='
+    "latedef":      true,    // Prohibit variable use before definition.
+    "loopfunc":     true,    // Allow functions to be defined within loops
+
+    "debug":        true,    // Allow debugger statements e.g. browser breakpoints
+    "devel":        true,    // Allow development statements e.g. 'console.log();'
+    "multistr":     true,    // Tolerate multi-line strings
+
+    "-W032":        false,   // disable 'unnecessary-semicolon' error
+    "globals": {
+        "Mustache": true
+    },
+    "esversion": 6,  // some of the javascript uses esversion 6
+    "sub": true     // turn off error flagging for '[x] is better written in dot notation'
+}
