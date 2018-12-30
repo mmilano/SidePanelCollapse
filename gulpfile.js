@@ -456,13 +456,14 @@ gulp.task("watch:handlebars", watchHandlebars);
 
 
 
-// ********************
-// validate the html pages
+// **********
+// HTML
+//
+// validate the (built) html page
 
 const validatorOptions = {
     "errors-only": true
 };
-
 
 function validateAPage(page) {
     return gulp
@@ -472,7 +473,6 @@ function validateAPage(page) {
     done();
 }
 
-
 // html validation: index page
 gulp.task("validate:index", function validateIndexPage() {
     return gulp
@@ -481,7 +481,7 @@ gulp.task("validate:index", function validateIndexPage() {
     .on("error", err => glog("index page validation error: " + err.message))
 });
 
-// html validation: A page
+// html validation: a page
 gulp.task("validate:page", function validateAPage(page) {
     validateAPage(page, done);
     done();
@@ -501,10 +501,10 @@ gulp.task("validate:all", gulp.parallel("validate:pages", "validate:index"));
 
 
 
-
-// ********************
-// ********************
-// compile sass/scss
+// **********
+// SCSS/SASS
+//
+// compile the scss, etc
 
 const scssOptions = {
     errLogToConsole: true,
@@ -538,6 +538,18 @@ function maketheCSS(done) {
 
 gulp.task("compile:scss", maketheCSS);
 
+// watch the scss
+
+function watchSCSS(done) {
+    gulp
+    .watch(paths.scssSourceGLOB, gulp.series("compile:scss"))
+	.on("error",  err => glog("watch error: " + err.message))
+    .on("change", path => glog("watch:scss >>> " + path + " changed."))
+    .on("unlink", path => glog(path + " was deleted"));
+    done();
+}
+
+gulp.task("watch:scss", watchSCSS);
 
 
 
@@ -576,8 +588,7 @@ gulp.task("watch:siteData", watchSiteData);
 // **********
 // JAVASCRIPT
 //
-// assemble, compile, and etc. for the javascript
-
+// lint, assemble, compile, and etc. for the javascript
 
 function lintJS(done) {
     gulp
@@ -590,7 +601,6 @@ function lintJS(done) {
 }
 
 gulp.task ("lint:js", lintJS);
-
 
 
 const babelOptions = {
@@ -630,26 +640,11 @@ function browserifyScript(file, standaloneFile) {
         .on("end", () => glog("browserify SITE complete"));
 }
 
-// browserify the site js code
+// browserify the site.js code
 gulp.task("browserify:site-js", function browserifySiteJS(done) {
     browserifyScript(paths.jsFile_site);
     done();
 });
-
-
-// watch the sass/scss
-
-function watchSCSS(done) {
-    gulp
-    .watch(paths.scssSourceGLOB, gulp.series("compile:scss"))
-	.on("error",  err => glog("watch error: " + err.message))
-    .on("change", path => glog("watch:scss >>> " + path + " changed."))
-    .on("unlink", path => glog(path + " was deleted"));
-    done();
-}
-
-gulp.task("watch:scss", watchSCSS);
-
 
 // watch the js
 
