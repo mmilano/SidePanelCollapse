@@ -1,0 +1,356 @@
+// ------- PORTFOLIO -------*/
+
+$gallery-image-max-height: 190px;
+
+$gallery-image-max-height-xs: 200px;  // @breakpoint x-small
+
+$gallery-image-max-height-sm: 210px;  // @breakpoint sm
+
+$gallery-image-max-height-md: 170px;  // @breakpoint md
+
+$gallery-image-max-height-lg: 170px;  // @breakpoint lg
+
+$gallery-image-max-height-xl: 180px;  // @breakpoint xl
+
+
+$portfolio-item-text-color: $core-black;
+$gutter: $grid-gutter-width;
+
+$portfolio-item-side-padding:           10px;
+$portfolio-item-topbottom-margin:       25px;
+
+$portfolio-item-inside-margin-side:     30px;
+$portfolio-item-inside-margin-top:      25px;
+$portfolio-item-inside-margin-bottom:   25px;
+
+$portfolio-item-content-space-side:     20px;
+
+
+$portfolio-card-background-color-default:           #DBDBD7;
+
+$portfolio-card-background-color-light:             lighten($portfolio-card-background-color-default, 11%);   // hovering
+$portfolio-card-background-color-dark:              darken($portfolio-card-background-color-default, 16.9%);     // not-hovering
+
+
+$portfolio-card-border-radius:      4px;
+$card-image-border-radius:          $portfolio-card-border-radius;
+
+$card-image-border-color:           #C1C1BF;
+
+$action-button-background-color:    darken($about-background-color, 6.6667%);
+$action-button-border-color:        darken($action-button-background-color, 6.6667%);
+
+
+
+// timing and definitions for the hovers/not-hovers
+//
+// $portfolio-card-hover-opacity:          0.17;
+// $portfolio-card-hover-opacity-inverse:  .82;
+
+// $card-image-nothover-opacity:           .79;
+// $card-image-nothover-opacity-inverse:   .3;
+
+// $card-block-nothover-opacity:           0.67;
+
+
+// use the inverse because the card overview is whitebackground on top of the image
+// $image-overlay-background-color-default:    rgba($core-white, 0);
+// $image-overlay-background-color-default:    $core-white;
+// $image-overlay-background-color-hover:      rgba($color-white-darker1, $portfolio-card-hover-opacity-inverse);
+// $image-overlay-background-color-hover:      $core-white;
+// $image-overlay-background-color-nothover:   rgba($color-black-lighter1, $card-image-nothover-opacity-inverse);
+// $image-overlay-background-color-nothover:   $color-black-lighter1;
+
+$image-overlay-background-color-light:      $core-white;
+$image-overlay-background-color-dark:       $color-black-lighter1;
+
+$image-overlay-nothover-opacity:    .3;
+
+
+//
+// normal/default
+// $card-image-background-default-transition-duration: 0.25s;  // fast
+// $card-image-default-transition-duration:            0.9s;   // slow
+
+// hovering
+// $card-hover-transition-duration-default:            0.25s;  // fast
+$card-hover-transition-function-default:            ease;
+// $overview-text-hover-transition-duration:           0.25s;  // fast
+// $image-overlay-hover-transition-duration:           0.125s; // fast/2
+
+
+$duration-fast:       0.25s;
+$duration-med:        0.4s;
+$duration-slow:       0.8s;
+$duration-slower:     1.1s;
+$duration-very-slow:  1.8s;
+
+$duration-long:       1.8s;
+
+$image-overlay-duration-default:    .15s;
+$image-overlay-duration-fadeIn:     .25s;
+$image-overlay-duration-fadeOut:    .25s;
+
+$card-overlay-light-duration-default:    .25s;
+
+$card-overlay-dark-duration-default:     .25s;
+
+
+
+#portfolio-grid {
+    margin-left: -$portfolio-item-side-padding;
+    margin-right: -$portfolio-item-side-padding;
+}
+
+.portfolio-item {
+
+    position: relative;  // TODO: not sure this is needed?
+
+    // padding and margins that affect the overall grid layout of the set of cards
+    margin: 0 0 $portfolio-item-topbottom-margin 0;
+
+    // override the default BS side padding (15px)
+    // this override also requires adjusting the containing row
+    padding-right: $portfolio-item-side-padding;
+    padding-left: $portfolio-item-side-padding;
+
+    // overrides of bootstrap .card
+    .card {
+
+        padding-bottom: $portfolio-item-inside-margin-bottom;
+
+        background-color: $portfolio-card-background-color-default;
+        border: 0;
+        border-radius: $portfolio-card-border-radius;
+
+        // transition-property: background-color;
+        // transition-duration: ($duration-fast / 2);  // cut in half because the color difference in background-color between normal and hovered is very small
+        // transition-timing-function: $card-hover-default-transition-function;
+
+        // layer of pure color. an attempt to optimize animation
+        // using opacity of layers, instead of transforming the background-color.
+        // will change the apparent background-color of the card
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            opacity: 0;
+            // will-change: opacity;
+            visibility: hidden;
+
+            // transition-property: opacity;
+            // transition-duration: ($duration-fast / 2);  // cut in half because the color difference in background-color between normal and hovered is very small
+            // transition-timing-function: $card-hover-transition-function-default;
+            transition: opacity ($duration-fast / 2) $card-hover-transition-function-default;
+
+            border-radius: $portfolio-card-border-radius;
+
+            &.light {
+                background-color: $portfolio-card-background-color-light;
+            }
+            &.dark {
+                background-color: $portfolio-card-background-color-dark;
+            }
+        }
+
+
+        // link element is the primary container so that the entire card is clickable
+        a {
+            padding: $portfolio-item-inside-margin-top $portfolio-item-inside-margin-side $portfolio-item-inside-margin-bottom $portfolio-item-inside-margin-side;
+        }
+
+        &:hover {
+//                 animation-name: cardbeat;
+//                 animation-duration: 2s;
+//                 animation-iteration-count: infinite;
+//                 animation-timing-function: ease-in-out;
+//                 animation-delay: 0.5s;
+
+
+            .card-overlay {
+                &.light {
+                    visibility: visible;
+                    opacity: 1;  // turn on visibility when hovering
+                }
+                &.dark {
+                    visibility: hidden;  // turn off visibility when hovering in attempt to optimize. can't use display: none
+                }
+            }
+
+            // on hover, the image-overlay 'whitens out' the image underneath (instead of changing the opacity of the image itself)
+//             .image-overlay {
+// //                &.light {
+// //                     opacity: $portfolio-card-hover-opacity-inverse;
+// //                     transition-duration: $duration-fast;
+// //                 }
+// //                 &.dark {
+// //                    opacity: 0;
+// //                 }
+//
+//                 // transition: background-color $image-overlay-hover-transition-duration $card-hover-transition-function;
+//                 // animation: overviewFadeIn $duration-fast $card-hover-default-transition-function 0s;
+//             }
+
+        }
+
+        // when hovering over one of the cards, change display of the other cards that are not hovered over.
+        // effect is to focus on the current item
+
+        &.nothovered {
+            // background-color: $portfolio-card-background-color-nothover;  // darken the background color of the card = the area around the image
+            transition-duration: $duration-slow;
+
+            .card-overlay {
+                &.light {
+                   visibility: hidden;
+                }
+                &.dark {
+                    visibility: visible;
+                    opacity: 1;
+                    transition-duration: $duration-very-slow;   // delay when changing to this state
+                }
+            }
+
+//             .card-block {
+//                 opacity: $card-block-nothover-opacity;
+//             }
+
+            .image-overlay {
+                //&.light {
+                //    opacity: 0;
+                //}
+                &.dark {
+                    opacity: $image-overlay-nothover-opacity;
+                    transition-duration: ($duration-very-slow * .75);  // delay when changing to this state
+                }
+            }
+
+        }
+
+
+       // container for the gallery image
+        .card-image {
+            position: relative;  // has position relative so that child elements (overview) can have correct position
+            overflow: hidden;
+            height: $gallery-image-max-height;
+
+            border: 1px solid $card-image-border-color;
+            border-radius: $card-image-border-radius $card-image-border-radius $card-image-border-radius/2 $card-image-border-radius/2;
+
+            margin-bottom: 10px;
+
+            // transition-property: background-color;
+            // transition-duration: $card-image-background-default-transition-duration;
+            // transition-timing-function: $card-hover-default-transition-function;
+            // transition: none;
+        }
+
+        img {
+            // position: relative;
+            display: block;
+            width: 100%;
+
+            //transition-timing-function: $card-hover-transition-function;
+            //transition-duration: $card-image-default-transition-duration;
+            //transition-property: opacity;
+            transition: unset;
+
+            // hack to fix wiggle glitch of the img on hover
+            backface-visibility: hidden;
+        }
+
+        // contains the page description text
+        .card-overview {
+            flex-grow: 2;
+            position: relative;
+
+            margin: 0 $portfolio-item-content-space-side 2rem $portfolio-item-content-space-side;
+
+            font-size: 14px;
+            line-height: 1.4;
+
+            color: $portfolio-item-text-color;
+        }
+
+        // contains the group and page name
+        .card-info {
+            position: relative;
+
+            margin: 0 $portfolio-item-content-space-side;
+            // padding: 0 $portfolio-item-content-space-side $portfolio-item-inside-margin-bottom $portfolio-item-content-space-side;
+            // padding-bottom: $portfolio-item-inside-margin-bottom;
+            font-size: 16px;
+            line-height: 1.4;
+
+            color: $portfolio-item-text-color;
+        }
+
+        // subtitle = group name
+        .card-projectGroup {
+            margin: 0;
+            font-size: inherit;
+            font-weight: $font-weight-normal;
+        }
+
+        // title = project name
+        .card-projectName {
+            margin: 2px 0 0 0;
+            font-size: inherit;
+            font-weight: $font-weight-semibold;
+        }
+    }
+
+        // image-overlay is a layer over the image to hack the fade-in effect
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        opacity: 0;
+
+        // duration applies when transitioning to default state (i.e. this rule. opacity: 0)
+        // transition-duration: ($duration-slow * .6);
+        transition-duration: $image-overlay-duration-default;
+        will-change: opacity;
+
+//         &.light {
+//             background-color: $image-overlay-background-color-light;
+//         }
+        &.dark {
+            background-color: $image-overlay-background-color-dark;
+        }
+    }
+
+}
+
+
+@include media-breakpoint-up(md) {
+    .portfolio-item {
+        .card {
+            .card-image {
+                height: $gallery-image-max-height-md;
+            }
+        }
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .portfolio-item {
+        .card {
+            .card-image {
+                height: $gallery-image-max-height-lg;
+            }
+        }
+    }
+}
+
+@include media-breakpoint-up(xl) {
+    .portfolio-item {
+        .card {
+            .card-image {
+                height: $gallery-image-max-height-xl;
+            }
+        }
+    }
+}

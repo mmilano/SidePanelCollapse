@@ -1,0 +1,163 @@
+// media queries
+
+// *****
+// breakpoints refer to the bootstrap4 breakpoint definitions
+// incorporated by inclusion of the bootstrap4 mixins/_breakpoints in the site build process
+
+// $grid-breakpoints: (
+//   xs: 0,
+//   sm: 576px,
+//   md: 768px,
+//   lg: 992px,
+//   xl: 1200px
+// ) !default;
+// @include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
+// @include _assert-starts-at-zero($grid-breakpoints);
+
+
+// key names to reference the bootstrap breakpoints
+// $key-sm: "sm";   //   sm: 576px
+// $key-md: "md";   //   md: 768px
+// $key-lg: "lg";   //   lg: 992px
+// $key-xl: "xl";   //   xl: 1200px
+//
+// $breakpoint-small:   map-get($grid-breakpoints, $key-sm);
+// $breakpoint-medium:  map-get($grid-breakpoints, $key-md);
+// $breakpoint-large:   map-get($grid-breakpoints, $key-lg);
+// $breakpoint-xlarge:  map-get($grid-breakpoints, $key-xl);
+
+
+
+// x Small
+@include media-breakpoint-down(xs) {
+
+    // fix for container width.
+    // particularly in the primarynav
+    // TODO: check if this is still necessary, not that nav uses container-fluid !!!
+    .container {
+        max-width: 100%;
+    }
+
+}
+
+
+
+$pageName-font-size-md: 2.7rem;
+$pageName-font-size-sm: 2.5rem;
+
+// Medium. 48em
+@include media-breakpoint-down(md) {
+
+    .theme-page {
+
+        .page-header {
+            margin-bottom: 1.25rem;
+
+            h1 {
+                font-size: $pageName-font-size-md;
+            }
+        }
+
+        .page-overview {
+
+            // reduce the small shift of entire block upwards for better visual alignment of the text with the sidebar rules
+            $overview-shift: -7px;
+            margin-top: $overview-shift;
+
+            // special case of margin bottom because of the shift up
+            font-size: $page-h3-font-size-md;   // TODO: fix this reference somehow
+            line-height: 1.4;
+            letter-spacing: -0.01rem;
+        }
+    }
+
+    .page-sidebar {
+        font-size: .91rem;
+
+        h4, .h4 {
+           margin: 0 0 .3rem 0;
+           font-size: .96rem;
+           line-height: 1.35rem;
+        }
+    }
+
+}
+
+
+@include media-breakpoint-down(sm) {
+    .theme-page {
+
+        .page-header {
+
+            h1 {
+                font-size: $pageName-font-size-sm;
+            }
+        }
+    }
+}
+
+
+
+@include media-breakpoint-up(md) {
+    .breakNobreak {
+        display: inline;
+    }
+
+    .theme-section-title {
+        font-size: $section-heading-primary-size-medium;
+        word-spacing: 0.26rem;
+        line-height: 1.2;
+
+        @at-root h1#{&} {
+            letter-spacing: -0.115rem;
+        }
+        @at-root h2#{&} {
+            letter-spacing: -0.029rem;
+        }
+    }
+
+    .subtitle {
+        font-size: 2.5rem;
+        line-height: 1.4;
+    }
+
+}
+
+
+// Large. Above 62em (992px)
+@include media-breakpoint-up(lg) {
+
+    .theme-section-title {
+        font-size: $section-heading-primary-size-large;
+        word-spacing: 0.275rem;
+
+        @at-root h1#{&} {
+            letter-spacing: -0.115rem;
+        }
+        @at-root h2#{&} {
+            letter-spacing: -0.06rem;
+        }
+    }
+
+    .subtitle {
+        font-size: 3.5rem;
+        line-height: 1.4;
+    }
+}
+
+// Extra large. Above 75em (1200px)
+@include media-breakpoint-up(xl) {
+
+    .theme-section-title {
+        font-size: $section-heading-primary-size-x-large;
+        line-height: 1.15;
+
+        @at-root h1#{&} {
+            letter-spacing: -0.18rem
+        }
+
+        @at-root h2#{&} {
+            letter-spacing: -0.1rem;
+        }
+    }
+}

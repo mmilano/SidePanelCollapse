@@ -1,0 +1,227 @@
+// base file for site style variable values
+
+// !!!!!
+//
+// NON-RENDERING SASS
+// Do not put any "rendering" css rules into this file, or it will be needlessly duplicated
+// This file is only for declaration of variables and mixins
+// !!!!!
+//
+// explanation note:
+// rendering = sass that renders css in the final sass generation/compilation
+// non-rendering = variables, mixins, and other resources that are used by the rendering sass
+//
+// !!!!!
+
+
+// SITE values
+
+// where are the image assets in relation to the css
+$images-path:            "../images/";
+$images-path-background: $images-path + "background/";
+$images-path-portfolio:  $images-path + "portfolio/";
+$images-path-general:    $images-path + "general/";
+
+
+
+// COLORS
+// core colors
+
+$core-black:             #000000;
+$core-charcoal:          #424242;
+$core-white:		     #FFFFFF;
+$core-blue:              #2C95DD;
+
+// color increments of 17/255
+$color-black-lighter1:   lighten($core-black, 6.66667%);   // #111111
+$color-black-lighter2:   lighten($core-black, 13.33333%);  // #222222
+$color-black-lighter3:   lighten($core-black, 20.0%);      // #333333
+$color-black-lighter4:   lighten($core-black, 26.66667);   // #444444
+$color-black-lighter5:   lighten($core-black, 33.33333);   // #555555
+
+
+$color-white-darker1:    darken($core-white, 6.66667%);   // #EEEEEE
+$color-white-darker2:    darken($core-white, 13.33333%);    // #DDDDDD
+$color-white-darker3:    darken($core-white, 20.0%);       // #CCCCCC
+$color-white-darker4:    darken($core-white, 26.66667%);  // #BBBBBB
+$color-white-darker5:    darken($core-white, 33.33333%);   // #AAAAAA
+
+// background colors
+
+// $about-background-color:        #6E94FF;  // bluish-kin to core-blue
+$about-background-color:        #618BFF;  // bluish-kin to core-blue. v2
+$social-background-color:       #0A5A4A;
+
+$footer-background-color:       #363739;
+
+// text colors
+// increment the colors in steps of 1/15
+$text-color-black:              $core-black;
+$text-color-black-lighter1:     lighten($core-black, 6.66667%);   // #111111
+$text-color-black-lighter2:     lighten($core-black, 13.33333%);  // #222222
+$text-color-black-lighter3:     lighten($core-black, 20.0%);      // #333333
+
+$text-color-white:              $core-white;
+$text-color-white-muted:        darken($core-white, 6.66667%);   // #EEEEEE
+$text-color-white-darker1:      darken($core-white, 6.66667%);   // #EEEEEE
+$text-color-white-darker2:      darken($core-white, 13.33333%);  // #DDDDDD
+$text-color-white-darker3:      darken($core-white, 20%);        // #CCCCCC
+$text-color-white-darker4:      darken($core-white, 26.66667%);  // #BBBBBB
+
+
+// @debug $text-color-black-lighter-10;
+// @debug $text-color-black-lighter-20;
+// @debug $text-color-black-lighter-30;
+// @debug $text-color-white-muted;
+
+
+// borrowed from bootstrap
+// Links
+//
+// --primary: #007BFF;
+$link-color-primary: #007BFF;
+
+$theme-link-color:                $link-color-primary;
+$theme-link-decoration:           none;
+$theme-link-hover-color:          darken($link-color-primary, 13%);
+$theme-link-hover-decoration:     none;
+
+
+
+// navbar
+
+$site-primarynavbar-colorOpacity: 0.67;
+$site-primarynavbar-background-color: #EEEEED;
+$site-primarynavbar-background-color-translucent: rgba($site-primarynavbar-background-color, $site-primarynavbar-colorOpacity);
+
+
+
+$body-text-color-default:       $text-color-black-lighter1;
+$text-color-nav-default:        $color-black-lighter3;
+$text-color-primarynav-active:  $text-color-black-lighter1;
+
+$text-color-sidenav-active:     $color-white-darker1;
+
+$primary-text-color:    $core-white;
+$dark-text-color:       $text-color-black-lighter1;
+
+$default-link-color:    $core-blue;
+$link-color-highlight:  #55AA11;
+$dropdown-link-disabled-color: #838C92;
+$caption-text-color:    #85858A;
+$default-border-color: $color-white-darker5;
+
+
+// image widgets
+$imagewidget-inner-element-bgcolor:   #70A0B0;
+$imagewidget-inner-element-active-bgcolor: #575750;
+
+
+// content sections & components
+$page-footer-background-color: #FFF;
+
+
+
+// LAYOUT
+
+$homepage-primarynavbar-height:     60px;
+$page-primarynavbar-height:      40px;  // height of the primary nav bar in interior pages. < $homepage-primarynavbar-height
+
+$caption-margin-top: 0.4rem;
+
+$sidenav-zindex:            $zindex-fixed + 1;
+
+$sidenav-backdrop-zindex:   $sidenav-zindex - 100;
+
+
+
+// TYPOGRAPHY
+
+// font families
+$font-family-primary:   "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-secondary: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-serif:     serif;
+$font-family-caption:   -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+
+
+// scale factor for how much to reduce $font-secondary compared to font-primary,
+// used when roboto appears within text with $primary.
+// roboto slab has a larger x-height than source sans.
+// this is kind of a brittle tweak to try to achieve better visual harmonry between the fonts,
+// and is pretty much entirely dependent on my own visual evaluation
+$font-secondary-scale:  0.91;
+
+// font weights
+$font-weight-light:     300;
+$font-weight-normal:    400;
+$font-weight-semibold:  600;
+$font-weight-bold:      700;
+
+// font sizes
+
+$homepage-intro-title-size-sm: 3.1rem;
+$homepage-intro-title-size-md: 5.1rem;
+$homepage-intro-title-size-lg: 5.7rem;
+$homepage-intro-title-size-xl: 6.9rem;
+
+$page-heading-size-sm:      2.9rem;
+$page-heading-size-md:      2.9rem;
+$page-heading-size-lg:      2.9rem;
+$page-heading-size-xl:      2.9rem;
+
+// primary text sizes
+$section-heading-primary-size-x-small:  2.9rem;
+$section-heading-primary-size-small:    3.1rem;
+$section-heading-primary-size-medium:   5.1rem;
+$section-heading-primary-size-large:    5.7rem;
+$section-heading-primary-size-x-large:  6.9rem;   // 6.9 * 14 = 96.6px
+
+
+// NAV transitions
+
+$nav-item-color-transition-duration:    0.3s;
+$nav-item-color-transition-duration-long:    0.8s;
+
+
+// MIXINS
+
+@mixin uppercase {
+    text-transform: uppercase;
+}
+@mixin titlecase {
+    text-transform: capitalize;
+}
+@mixin lowercase {
+    text-transform: lowercase;
+}
+
+// subtle_border
+// style a slightly subtle border around an element. mostly for img's
+
+@mixin subtle_border ($color-main: $default-border-color, $color-top: lighten($color-main, 14%), $color-left: lighten($color-main, 11%)) {
+    border-width: 1px;
+    border-style: solid;
+    border-color: $color-top $color-main $color-main $color-left;
+}
+
+@mixin cursor-grab {
+    cursor: grab;
+}
+
+@mixin cursor-grabbing {
+    cursor: grabbing;
+}
+
+@mixin pill ($color-base: $default-border-color, $color-text: $default-text-color) {
+    background-color: rgba($color-base, 0.37);
+    border: 4px solid rgba($color-base, 0.36);
+    color: $color-text;
+}
+
+@mixin padding-sides-remove {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+// Do not put any css rules into this file. This file is only for declaration of variables and mixins
+//

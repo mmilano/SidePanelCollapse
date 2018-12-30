@@ -1,0 +1,83 @@
+//
+// site homepage
+//
+
+
+// =============
+// intro section
+
+.subtitle {
+    font-weight: $font-weight-normal;
+}
+
+#intro {
+
+    #intro-container {
+        position: relative;
+        top: -5.0rem;  // visual adjustment upwards
+    }
+
+    h1 {
+        font-weight: $font-weight-semibold;
+        color: #111;
+        // shadow behind text for readibility
+        backface-visibility: hidden;
+    }
+
+}
+
+// =============
+// ABOUT
+
+.background-blue {
+    background-color: $about-background-color;
+}
+
+#about {
+    color: $primary-text-color;
+
+    h2 {
+        margin: 0 0 3.5rem 0;
+        font-weight: $font-weight-normal;
+    }
+
+}
+
+
+// =============
+// PORTFOLIO
+
+.background-portfolio {
+    background-color: #EDEDEB;
+}
+
+
+#portfolio-title {
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+
+    h2 {
+        margin-top: 0;
+        color: $dark-text-color;
+        font-weight: $font-weight-normal;
+    }
+}
+
+#portfolio-gallery {
+    padding-top: 1rem;
+    padding-bottom: 6rem;
+}
+
+
+
+// =============
+// FOOTER
+
+.theme-footer {
+    padding: 1rem 0 2.6rem 0;
+    background-color: $footer-background-color;
+    color: $text-color-white-muted;
+
+    font-size: 0.91rem;
+    font-family: $font-family-secondary;
+}

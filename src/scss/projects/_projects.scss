@@ -1,0 +1,420 @@
+// PROJECTS
+// styles for individual projects
+
+
+$page-primarynavbar-background-color: $site-primarynavbar-background-color;
+$page-primarynavbar-background-color-initial: $site-primarynavbar-background-color;
+
+$page-header-background-color-scrolled:  lighten($page-primarynavbar-background-color, 3%);
+
+$page-header-space-top:                     15px;
+
+$page-section-spacing-top:                  0;
+$page-section-spacing-bottom:               3.5rem;
+$page-subsection-spacing-top:               .5rem;
+$page-subsection-spacing-bottom:            1rem;
+
+$page-layout-space-between-column:       20px;
+
+$projectName-font-size-lg:                  3.5rem;
+$projectName-line-height:                   1.1;
+$group-font-size-lg:                      1.7rem;
+$group-line-height:                       0.9;
+
+$page-section-border-bar-color:             #AFAFAA;
+
+$nav-link-padding:                          0 0 1px 0;
+
+$page-sidesection-padding-top:           .55rem;
+
+$list-padding: 10px;
+
+// $side-item is used for the individual items in the right sidebar (tags, roles, etc) and the left nav (table of contents)
+$side-item-line-height:                 1.21rem;
+$side-item-margin-bottom:               .5rem;
+$side-item-margin-bottom-adjustment:    .15rem;
+$side-item-heading-lineheight:          1.4rem;
+
+
+@mixin next-widget-button {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+@mixin section-border-bar ($border-side: "border-top") {
+    #{$border-side}: 1px dotted $page-section-border-bar-color;
+}
+
+@mixin sidebar-z-index {
+    position: relative;
+    z-index: 30;
+}
+
+@mixin sidebarText {
+    line-height: $side-item-line-height;
+    margin-bottom: $side-item-margin-bottom;
+}
+
+
+
+
+// **********
+
+section {
+
+    li {
+        padding-left: $list-padding; // space between the bullet and the text
+    }
+}
+
+
+ul, ol {
+
+    &.list-unstyled {
+        li {
+            padding-left: 0;
+        }
+
+    }
+
+}
+
+.blockquote {
+    // override boostrap styles
+    $spacer:   2rem;
+
+    padding: ($spacer / 4) 0 ($spacer / 2) 0;
+    font-size: 1.5rem;
+    font-style: italic;
+    border: none;
+}
+
+
+
+// layout with flexbox 3 column
+.theme-page {
+
+    // ordering of the layout sections in project page.
+    // this order allows the sidebars to come first in the html content but not in the display
+    .leftColumn {
+        order: 1;
+    }
+
+    .mainColumn {
+        order: 2;
+    }
+}
+
+
+.mainColumn {
+    font-size: 15px;
+}
+
+
+@include media-breakpoint-up(md) {
+    .mainColumn {
+        font-size: 16px;
+    }
+
+    .theme-page {
+
+        .mainColumn {
+            // override default BS padding-right in order to pull the maincolumn closer to the right column
+            padding-right: 0;
+        }
+    }
+}
+
+
+// header on general page layout
+.page-header {
+    margin-bottom: 3rem;
+    padding-top: $page-primarynavbar-height + $page-header-space-top;
+
+    h1 {
+        position: relative;
+        left: -2px;
+        font-weight: $font-weight-semibold;
+        font-size: $projectName-font-size-lg;
+        line-height: $projectName-line-height;
+        letter-spacing: -0.03rem;
+        word-spacing: 0.05rem;
+    }
+}
+
+
+// content-page specific styles
+.theme-page {
+
+    .top-navbar {
+        height: $page-primarynavbar-height;
+
+        background-color: $page-primarynavbar-background-color-initial;
+        border-bottom: 1px solid desaturate(darken($page-primarynavbar-background-color, 21%), 9%);
+    }
+
+    // should only be applied to a <section>
+    .page-section {
+        margin-top: $page-section-spacing-top;
+        margin-bottom: $page-section-spacing-bottom;
+
+        &+.page-subsection {
+            margin-top: -1rem;
+        }
+    }
+
+    .page-subsection {
+        padding-top: $page-subsection-spacing-top;
+        margin-bottom: $page-subsection-spacing-bottom;
+    }
+
+    // h2 follwed immediately by h3
+    h2 + h3 {
+        margin-top: 1rem;
+    }
+
+    // adding extra space above the div when it comes right after a heading
+    h2 {
+        & + div {
+            padding-top: 1.5rem;
+        }
+    }
+    h3, h4 {
+        & + div {
+            padding-top: 1rem;
+        }
+    }
+}
+
+
+#pageNav {
+    padding: $page-sidesection-padding-top 0 1rem 0;
+
+    @include section-border-bar;
+    @include section-border-bar("border-bottom");
+
+    font-family: $font-family-secondary;
+    font-size: #{$font-secondary-scale}em;   // default. TODO: work out font size for smaller screen widths, like the sidebar link text sizes
+
+    .nav-item {
+        @include sidebarText;
+    }
+
+    // spacing for each top-level .nav-item (FIRST-LEVEL headings)
+    > .nav-item {
+        margin-bottom: $side-item-margin-bottom;
+    }
+
+}
+
+
+// bigger
+@include media-breakpoint-up(md) {
+
+.theme-page {
+
+
+    // should only be applied to a <section>
+    .page-section {
+        margin-top: $page-section-spacing-top;
+        margin-bottom: $page-section-spacing-bottom;
+
+        &+.page-subsection {
+            margin-top: -1rem;
+        }
+    }
+
+    .page-subsection {
+        padding-top: $page-subsection-spacing-top;
+        margin-bottom: $page-subsection-spacing-bottom;
+    }
+
+    // h2 follwed immediately by h3
+    h2 + h3 {
+        margin-top: 1.5rem;
+    }
+
+    // adding extra space above the div when it comes right after a heading
+    h2 {
+        & + div {
+            padding-top: 1.5rem;
+        }
+    }
+    h3, h4 {
+        & + div {
+            padding-top: 1rem;
+        }
+    }
+
+}
+
+    #pageNav {
+        position: fixed;
+        border-bottom: none;  // turn off border bottom at larger sizes where the pageNav is in its own column
+        font-size: #{$font-secondary-scale}em;  // should be default font size for larger page sizes
+    }
+}
+
+
+
+#pageNav {
+
+    // FIRST-LEVEL NAV,
+    // the main sections (usually h2 headings in the page)
+    @at-root nav#{&} {  // = nav#pageNav
+        flex-direction: column;
+
+        // SECOND-LEVEL NAV,
+        // the subsections (usually h3 headings in the page)
+        nav {
+            flex-direction: column;
+
+            margin-top: .41rem;
+            margin-bottom: $side-item-margin-bottom;  // repeat the item margin bottom for additional visual spacing
+            padding-left: 15px;
+
+            // subsection text is slightly smaller than the main section
+            $second-level-font-size: decimal-round(($font-secondary-scale * 0.95), 3);
+            font-size: #{$second-level-font-size}em;
+
+            // vertical spacing adjustment for the subsections in table of contents nav
+            &.subnav {
+                margin-bottom: -$side-item-margin-bottom-adjustment;
+            }
+        }
+    }
+
+
+    .nav-link {
+        padding: 0;
+
+        transition: color $nav-item-color-transition-duration-long ease;
+
+        &.active {
+            transition: color $nav-item-color-transition-duration ease;
+        }
+
+        &:not(.active):hover {
+            transition: color $nav-item-color-transition-duration ease;
+        }
+    }
+
+
+//     .nav-link {
+//
+//         // NAV: SECOND LEVEL
+//         + nav {
+//             // display: block; // hide by default
+//         }
+//     }
+
+}
+
+// intended width of the pageNav section
+// this is basically recreating/hardcoding the eventual widths of the .leftColumn section in the layout
+// but done this way because pageNav is given position: fixed, so physical width needs to be hardcoded
+// - $size is keyed to the bootstrap breakpoints
+// - $width is measurement of how wide the column ends up being inside fixed width .container
+// smaller sizes not needed because the TOC is set to not display at those sizes
+$pageNav-widths: (
+    md:  150px,
+    lg:  130px,
+    xl:  160px,
+);
+
+@each $size, $width in ($pageNav-widths) {
+
+    @include media-breakpoint-up($size) {
+        #pageNav {
+            width: $width;
+        }
+    }
+}
+
+
+
+.theme-page {
+    .project-overview {
+
+        $overview-shift: -10px;
+
+        position: relative;
+        // small shift of entire block upwards for better visual alignment of the text with the sidebar rules
+        margin-top: $overview-shift;
+
+        font-size: $page-h3-font-size-lg;  // TODO: fix this reference. better name?
+        line-height: 1.43;
+        letter-spacing: -0.02rem;
+
+        p {
+            margin-bottom: 1.5rem;
+        }
+
+        ul,
+        ol {
+            margin-top: -.5rem;
+        }
+    }
+}
+
+
+
+
+// smallest, and up
+@include media-breakpoint-up(xs) {
+
+    .theme-page {
+        .project-overview {
+            margin-bottom: 2.5rem;
+        }
+    }
+
+
+}
+
+// medium, and up
+@include media-breakpoint-up(md) {
+
+    .theme-page {
+        .project-overview {
+            margin-bottom: 4.5rem;
+        }
+    }
+
+}
+
+// fix for 100% images on ie.
+.img-width-100 {
+    width: 100%;
+}
+
+
+.theme-page {
+    .theme-footer {
+        border-top: 1px dotted #BBB;
+        background-color: $page-footer-background-color;
+        color: $text-color-black-lighter3;
+    }
+}
+
+.project-sidebar {
+
+    .list-unstyled {
+        li {
+            @include sidebarText;
+        }
+    }
+
+    h4, .h4 {
+       margin: 0 0 .35rem 0;
+       font-size: 1.0em;
+       font-weight: $font-weight-semibold;
+       line-height: $side-item-heading-lineheight;
+    }
+
+    a {
+        font-family: $font-family-secondary;
+        font-size: #{$font-secondary-scale}em;
+    }
+}
+
