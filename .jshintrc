@@ -12,9 +12,6 @@
     "multistr":     true,    // Tolerate multi-line strings
 
     "-W032":        false,   // disable 'unnecessary-semicolon' error
-    "globals": {
-        "Mustache": true
-    },
-    "esversion": 6,  // some of the javascript uses esversion 6
-    "sub": true     // turn off error flagging for '[x] is better written in dot notation'
+    "esversion":    6,       // some of the javascript uses esversion 6
+    "sub":          true     // turn off error flagging for '[x] is better written in dot notation'
 }
