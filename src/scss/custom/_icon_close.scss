@@ -1,9 +1,9 @@
 // **********
 // pure css close "x" icon
-// from: https://codepen.io/ndeniche/pen/ljbDL
+// based on: https://codepen.io/ndeniche/pen/ljbDL
 
 $closeicon-size:                    25px;
-$closeicon-thickness:               3.4px;  // // the graphic's bars are rotated rectangles. thickness of the bars
+$closeicon-thickness:               3.4px;  // the graphic's bars are rotated rectangles. thickness of the bars
 $closeicon-rounding:                1.8px;  // the rounding value is the css corners of the rectangles, to soften the bars
 $closeicon-color-default:           $color-white-darker4;   // color of the graphic in normal state
 $closeicon-color-hover:             $core-white;            // color of the graphic when hovered
