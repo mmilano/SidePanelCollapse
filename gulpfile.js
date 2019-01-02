@@ -147,11 +147,11 @@ var paths = {
     // panini/handlebars
     siteHBSFiles: siteBuildSource + "{layouts,helpers,partials}/**/*",
 
-    // MASTER FILE of the portfolio data.
+    // MASTER FILE of the gallery data.
     // stored in the site client-side files
-    sitePortfolioDataFile: "site-portfolio-data.js",
-    sitePortfolioDataDestination: "./src/js/site/",
-    sitePortfolioDataMASTER: "./src/js/site/portfolio/site-portfolio-canonical.js",
+    siteGalleryDataFile: "site-gallery-data.js",
+    siteGalleryDataDestination: "./src/js/site/",
+    siteGalleryDataMASTER: "./src/js/site/gallery/site-gallery-canonical.js",
 
 
 };
@@ -379,6 +379,7 @@ function constructPageFilename(file) {
 // constructProjectPath:
 // given a data file of /path/path/file.js,
 // break down the path and construct the path & name of the counterpart file.html
+// remove the src path from both files: src/site/pages/data  &  src/site/pages/page
 function constructPagePath(file) {
     const extension = ".html";
     const pathBase = paths.siteBuildSource;  // top portion location of the content pages
@@ -388,21 +389,16 @@ function constructPagePath(file) {
 
     let htmlPagePathBase = "src/site/pages/page";
 
-    glog ("construct:");
-
     let parsedFile = node_path.parse(file);
     let filePath = parsedFile.dir;
     let htmlFilename = constructPageFilename(parsedFile.name);
 
     let counterpathPath = filePath.replace("src/site/pages/data", "src/site/pages/page");
 
-    glog ("other path: ", counterpathPath);
-
     // construct path to the html version...
     let htmlFile = counterpathPath + node_path.sep + htmlFilename;
     return htmlFile;
 };
-
 
 
 
@@ -570,7 +566,7 @@ gulp.task("watch:scss", watchSCSS);
 // SITE DATA
 
 function touchSiteData(done) {
-    let file = paths.sitePortfolioDataDestination + paths.sitePortfolioDataFile;
+    let file = paths.siteGalleryDataDestination + paths.siteGalleryDataFile;
     touch(file);
     done();
 }
@@ -581,20 +577,20 @@ function touchIndexPage(done) {
     done();
 }
 
-gulp.task("touch:site-portfolio", touchSiteData);
+gulp.task("touch:site-gallery", touchSiteData);
 gulp.task("touch:index", touchIndexPage);
 
 
 function watchSiteData(done) {
     gulp
-    .watch(paths.sitePortfolioDataMASTER)
+    .watch(paths.siteGalleryDataMASTER)
 	.on("error", err => glog("watch siteData error: " + err.message))
-	.on("change", gulp.parallel("touch:site-portfolio", "touch:index"))
+	.on("change", gulp.parallel("touch:site-gallery", "touch:index"))
 	.on("change", path => glog("watch:siteData >>> " + path));
     done();
 }
 
-// watch the project portfolio data
+// watch the project gallery data
 gulp.task("watch:siteData", watchSiteData);
 
 
