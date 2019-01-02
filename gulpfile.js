@@ -78,6 +78,10 @@ var paths = {
         "./build/index.html",
     ],
 
+    // ico
+    icoSource: "./assets/ico/favicon.ico",
+    icoDestination: siteBuildDestinationRoot + "/.",
+
     // images
     imgSourceGLOBDIR: "./assets/images/**/*",
     imgSourceGLOB: "./assets/images/**/*.+(png|jpg|jpeg|gif|svg)",
@@ -160,7 +164,13 @@ gulp.task("site:clean", function siteClean() {
 });
 
 
-// utility: copy images into public folder
+// copy images
+function copyIco(done) {
+    gulp
+    .src([paths.icoSource])
+    .pipe(gulp.dest(paths.icoDestination));
+    done();
+}
 
 function copyImages(done) {
     gulp
@@ -199,6 +209,7 @@ function copyJSVendor(done) {
     done();
 }
 
+gulp.task("copy:ico", copyIco);
 gulp.task("copy:images", copyImages);
 gulp.task("copy:images-changed", copyImagesChanged);
 gulp.task("copy:js-vendor", copyJSVendor);
@@ -342,13 +353,15 @@ function buildPageOnDataChange(done) {
         panini.refresh();
 
         // given the full path to the html file,
-        // need to remove the common root part of the path that is the pages directory
+        // need to remove the common root part of the path that is the pages directory (-pageBuildSourceRoot)
         // to get the page's own subdirectory
 
+        // ie get pagefile - pageBuildSourceRoot
+        // src/site/pages/page/pageA.html - src/site/pages/
         let pageFile = constructPagePath(dataFile);
         glog ("data:", dataFile);
         glog ("page:", pageFile);
-        glog ("root:", paths.pagesBuildDestinationRoot);
+        glog ("root destination:", paths.pagesBuildDestinationRoot);
 
         let pageSubPath = "/.";
 
