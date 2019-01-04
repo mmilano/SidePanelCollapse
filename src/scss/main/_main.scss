@@ -22,6 +22,10 @@ $page-h4-margin-top-sm:     1rem;
 $navbar-toggler-icon-font-size: 2.1rem;
 
 
+html {
+  scroll-behavior: smooth;
+}
+
 // TYPOGRAPHY */
 
 body {
@@ -31,12 +35,12 @@ body {
 
 // links. obviously.
 a {
-    color: $theme-link-color;  // $link-color-primary
-    text-decoration: $theme-link-decoration;  // none
+    color: $theme-link-color;
+    text-decoration: $theme-link-decoration;
 
     &:hover {
         color: $theme-link-hover-color;
-        text-decoration: $theme-link-hover-decoration;  // none
+        text-decoration: $theme-link-hover-decoration;
     }
 }
 
@@ -103,10 +107,6 @@ h4 {
 }
 
 
-.nobr {
-    white-space: nowrap;
-}
-
 // SECTION TYPES
 
 .theme-section {
@@ -127,15 +127,6 @@ h4 {
     padding-top: 4rem;
     padding-bottom: 4rem;
 }
-
-.theme-table-cell {
-    position: relative;
-    display: table-cell;
-    vertical-align: middle;
-    padding-top: 6rem;
-    padding-bottom: 6rem;
-}
-
 
 
 main {
