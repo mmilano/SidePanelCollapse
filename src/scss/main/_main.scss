@@ -69,44 +69,6 @@ b, strong, dt {
 }
 
 
-// bigger
-@include media-breakpoint-up(md) {
-    .h2, h2 {
-        font-size: $page-h2-font-size-lg;
-    }
-
-    .h3, h3 {
-        font-size: $page-h3-font-size-lg;
-    }
-
-    .h4, h4 {
-        font-size: $page-h4-font-size-lg;
-    }
-}
-
-
-h2 {
-    margin: $page-h2-margin-top-md 0 .9rem 0;
-}
-.h2 {
-    margin: $page-h2-margin-top-md 0 .3rem 0;
-}
-
-h3 {
-    margin: $page-h3-margin-top-md 0 .5rem 0;
-}
-.h3 {
-    margin: $page-h3-margin-top-md 0 .3rem 0;
-}
-
-h4 {
-    margin: $page-h4-margin-top-md 0 .4rem 0;
-}
-.h4 {
-    margin: $page-h4-margin-top-md 0 .3rem 0;
-}
-
-
 // SECTION TYPES
 
 .theme-section {

@@ -16,18 +16,16 @@ $page-subsection-spacing-bottom:            1rem;
 
 $page-layout-space-between-column:       20px;
 
-$projectName-font-size-lg:                  3.5rem;
-$projectName-line-height:                   1.1;
-$group-font-size-lg:                      1.7rem;
-$group-line-height:                       0.9;
+$heading-font-size-lg:                  3.5rem;
+$heading-line-height:                   1.1;
 
 $page-section-border-bar-color:             #AFAFAA;
 
 $nav-link-padding:                          0 0 1px 0;
 
-$page-sidesection-padding-top:           .55rem;
+$page-sidesection-padding-top:           0;
 
-$list-padding: 10px;
+$list-padding:      10px;
 
 // $side-item is used for the individual items in the right sidebar (tags, roles, etc) and the left nav (table of contents)
 $side-item-line-height:                 1.21rem;
@@ -79,7 +77,7 @@ ul, ol {
 // layout with flexbox
 .theme-page {
 
-    // ordering of the layout sections in project page.
+    // ordering of the layout sections in the interior pages.
     // this order allows the sidebars to come first in the html content but not in the display
     .leftColumn {
         order: 1;
@@ -120,8 +118,8 @@ ul, ol {
         position: relative;
         left: -2px;
         font-weight: $font-weight-semibold;
-        font-size: $projectName-font-size-lg;
-        line-height: $projectName-line-height;
+        font-size: $heading-font-size-lg;
+        line-height: $heading-line-height;
         letter-spacing: -0.03rem;
         word-spacing: 0.05rem;
     }
@@ -189,51 +187,18 @@ ul, ol {
         margin-bottom: $side-item-margin-bottom;
     }
 
-}
-
-
-// bigger
-@include media-breakpoint-up(md) {
-
-    .theme-page {
-
-        .page-section {
-            margin-top: $page-section-spacing-top;
-            margin-bottom: $page-section-spacing-bottom;
-
-            &+.page-subsection {
-                margin-top: -1rem;
-            }
-        }
-
-        .page-subsection {
-            padding-top: $page-subsection-spacing-top;
-            margin-bottom: $page-subsection-spacing-bottom;
-        }
-    }
-
-    #pageNav {
-        position: fixed;
-        border-bottom: none;  // turn off border bottom at larger sizes where the pageNav is in its own column
-    }
-}
-
-
-
-#pageNav {
-
     // FIRST-LEVEL NAV,
-    // the main sections (usually h2 headings in the page)
+    // the main sections (h2 headings in the page)
     @at-root nav#{&} {  // = nav#pageNav
         flex-direction: column;
 
         // SECOND-LEVEL NAV,
-        // the subsections (usually h3 headings in the page)
+        // the subsections (h3 headings in the page)
         nav {
             flex-direction: column;
 
             margin-top: .41rem;
-            margin-bottom: $side-item-margin-bottom;  // repeat the item margin bottom for additional visual spacing
+            margin-bottom: $side-item-margin-bottom;
             padding-left: 15px;
 
             // subsection text is slightly smaller than the main section
@@ -246,7 +211,6 @@ ul, ol {
             }
         }
     }
-
 
     .nav-link {
         padding: 0;
@@ -287,10 +251,38 @@ $pageNav-widths: (
 
 
 
+// bigger
+@include media-breakpoint-up(md) {
+
+    .theme-page {
+
+        .page-section {
+            margin-top: $page-section-spacing-top;
+            margin-bottom: $page-section-spacing-bottom;
+
+            &+.page-subsection {
+                margin-top: -1rem;
+            }
+        }
+
+        .page-subsection {
+            padding-top: $page-subsection-spacing-top;
+            margin-bottom: $page-subsection-spacing-bottom;
+        }
+    }
+
+    #pageNav {
+        position: fixed;
+        border-bottom: none;  // turn off border bottom at larger sizes where the pageNav is in its own column
+    }
+}
+
+
+
 .theme-page {
     .page-overview {
 
-        $overview-shift: -10px;
+        $overview-shift: -9px;
 
         position: relative;
         // small shift of entire block upwards for better visual alignment of the text with the sidebar rules
@@ -337,35 +329,4 @@ $pageNav-widths: (
 
 }
 
-.theme-page {
-    .theme-footer {
-        padding: 1rem 0 2.5rem 0;
-
-        border-top: 1px dotted #BBB;
-        color: $text-color-black-lighter3;
-        font-size: 1rem;
-        font-family: $font-family-secondary;
-    }
-}
-
-.project-sidebar {
-
-    .list-unstyled {
-        li {
-            @include sidebarText;
-        }
-    }
-
-    h4, .h4 {
-       margin: 0 0 .35rem 0;
-       font-size: 1.0em;
-       font-weight: $font-weight-semibold;
-       line-height: $side-item-heading-lineheight;
-    }
-
-    a {
-        font-family: $font-family-secondary;
-        font-size: #{$font-secondary-scale}em;
-    }
-}
 

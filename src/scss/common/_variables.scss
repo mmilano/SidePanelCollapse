@@ -18,8 +18,7 @@
 
 // where are the image assets in relation to the css
 $images-path:            "../images/";
-$images-path-background: $images-path + "background/";
-$images-path-portfolio:  $images-path + "portfolio/";
+$images-path-gallery:    $images-path + "gallery/";
 $images-path-general:    $images-path + "general/";
 
 
@@ -75,10 +74,7 @@ $text-color-white-darker4:      darken($core-white, 26.66667%);  // #BBBBBB
 // @debug $text-color-white-muted;
 
 
-// borrowed from bootstrap
-// Links
-//
-// --primary: #007BFF;
+
 $link-color-primary: #007BFF;
 
 $theme-link-color:                $link-color-primary;
@@ -112,20 +108,14 @@ $caption-text-color:    #85858A;
 $default-border-color: $color-white-darker5;
 
 
-// image widgets
-$imagewidget-inner-element-bgcolor:   #70A0B0;
-$imagewidget-inner-element-active-bgcolor: #575750;
-
-
 // content sections & components
-$page-footer-background-color: #FFF;
 
 
 
 // LAYOUT
 
-$homepage-primarynavbar-height:     60px;
-$page-primarynavbar-height:      40px;  // height of the primary nav bar in interior pages. < $homepage-primarynavbar-height
+
+$page-primarynavbar-height:     50px;  // height of the primary nav bar on the page
 
 $caption-margin-top: 0.4rem;
 
@@ -140,8 +130,6 @@ $sidenav-backdrop-zindex:   $sidenav-zindex - 100;
 // font families
 $font-family-primary:   "Helvetica Neue", Helvetica, Arial, sans-serif;
 $font-family-secondary: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-family-serif:     serif;
-$font-family-caption:   -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
 
 
 // scale factor for how much to reduce $font-secondary compared to font-primary,
@@ -158,16 +146,8 @@ $font-weight-semibold:  600;
 $font-weight-bold:      700;
 
 // font sizes
+$page-heading-size:      2.9rem;
 
-$homepage-intro-title-size-sm: 3.1rem;
-$homepage-intro-title-size-md: 5.1rem;
-$homepage-intro-title-size-lg: 5.7rem;
-$homepage-intro-title-size-xl: 6.9rem;
-
-$page-heading-size-sm:      2.9rem;
-$page-heading-size-md:      2.9rem;
-$page-heading-size-lg:      2.9rem;
-$page-heading-size-xl:      2.9rem;
 
 // primary text sizes
 $section-heading-primary-size-x-small:  2.9rem;
@@ -179,8 +159,8 @@ $section-heading-primary-size-x-large:  6.9rem;   // 6.9 * 14 = 96.6px
 
 // NAV transitions
 
-$nav-item-color-transition-duration:    0.3s;
-$nav-item-color-transition-duration-long:    0.8s;
+$nav-item-color-transition-duration:        0.3s;
+$nav-item-color-transition-duration-long:   0.8s;
 
 
 // MIXINS
@@ -210,12 +190,6 @@ $nav-item-color-transition-duration-long:    0.8s;
 
 @mixin cursor-grabbing {
     cursor: grabbing;
-}
-
-@mixin pill ($color-base: $default-border-color, $color-text: $default-text-color) {
-    background-color: rgba($color-base, 0.37);
-    border: 4px solid rgba($color-base, 0.36);
-    color: $color-text;
 }
 
 @mixin padding-sides-remove {

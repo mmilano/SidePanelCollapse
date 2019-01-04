@@ -1,4 +1,4 @@
-// ------- GALLERY -------*/
+// ------- GALLERY -------
 
 $gallery-image-max-height:              100px;
 
@@ -14,12 +14,10 @@ $gallery-item-inside-margin-bottom:     25px;
 
 $gallery-item-content-space-side:       20px;
 
-
 $card-background-color-default:         #DBDBD7;
 
 $card-background-color-light:           lighten($card-background-color-default, 11%);   // hovering
 $card-background-color-dark:            darken($card-background-color-default, 16.9%);     // not-hovering
-
 
 $card-border-radius:      4px;
 $card-image-border-radius:          $card-border-radius;

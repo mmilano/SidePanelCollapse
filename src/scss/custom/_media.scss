@@ -84,20 +84,6 @@ $pageName-font-size-sm: 2.5rem;
 }
 
 
-@include media-breakpoint-down(sm) {
-    .theme-page {
-
-        .page-header {
-
-            h1 {
-                font-size: $pageName-font-size-sm;
-            }
-        }
-    }
-}
-
-
-
 @include media-breakpoint-up(md) {
     .breakNobreak {
         display: inline;
