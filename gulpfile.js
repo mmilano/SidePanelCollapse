@@ -271,7 +271,7 @@ const pageBuildOptions = {
     layouts:    paths.siteBuildSource + "layouts/",
     pageLayouts: {
                 // "**/*/index.html":          "layout-page",
-                "index.html":            "layout-page",
+                "index.html":            "layout-index",
                 "pages/page/**/*":     "layout-page",
                 },
     helpers:    paths.siteBuildSource + "helpers/",       // Path to a folder containing Handlebars helpers
