@@ -1,5 +1,5 @@
-// PROJECTS
-// styles for individual projects
+// PAGES
+// styles for individual pages
 
 
 $page-primarynavbar-background-color: $site-primarynavbar-background-color;
@@ -35,11 +35,6 @@ $side-item-margin-bottom:               .5rem;
 $side-item-margin-bottom-adjustment:    .15rem;
 $side-item-heading-lineheight:          1.4rem;
 
-
-@mixin next-widget-button {
-    font-size: 1.5rem;
-    line-height: 1;
-}
 
 @mixin section-border-bar ($border-side: "border-top") {
     #{$border-side}: 1px dotted $page-section-border-bar-color;
@@ -79,19 +74,9 @@ ul, ol {
 
 }
 
-.blockquote {
-    // override boostrap styles
-    $spacer:   2rem;
-
-    padding: ($spacer / 4) 0 ($spacer / 2) 0;
-    font-size: 1.5rem;
-    font-style: italic;
-    border: none;
-}
 
 
-
-// layout with flexbox 3 column
+// layout with flexbox
 .theme-page {
 
     // ordering of the layout sections in project page.
@@ -126,7 +111,7 @@ ul, ol {
 }
 
 
-// header on general page layout
+// header on general page
 .page-header {
     margin-bottom: 3rem;
     padding-top: $page-primarynavbar-height + $page-header-space-top;
@@ -173,7 +158,7 @@ ul, ol {
         margin-top: 1rem;
     }
 
-    // adding extra space above the div when it comes right after a heading
+    // extra space above the div when it comes right after a heading
     h2 {
         & + div {
             padding-top: 1.5rem;
@@ -194,7 +179,6 @@ ul, ol {
     @include section-border-bar("border-bottom");
 
     font-family: $font-family-secondary;
-    font-size: #{$font-secondary-scale}em;   // default. TODO: work out font size for smaller screen widths, like the sidebar link text sizes
 
     .nav-item {
         @include sidebarText;
@@ -211,47 +195,26 @@ ul, ol {
 // bigger
 @include media-breakpoint-up(md) {
 
-.theme-page {
+    .theme-page {
 
+        .page-section {
+            margin-top: $page-section-spacing-top;
+            margin-bottom: $page-section-spacing-bottom;
 
-    // should only be applied to a <section>
-    .page-section {
-        margin-top: $page-section-spacing-top;
-        margin-bottom: $page-section-spacing-bottom;
+            &+.page-subsection {
+                margin-top: -1rem;
+            }
+        }
 
-        &+.page-subsection {
-            margin-top: -1rem;
+        .page-subsection {
+            padding-top: $page-subsection-spacing-top;
+            margin-bottom: $page-subsection-spacing-bottom;
         }
     }
-
-    .page-subsection {
-        padding-top: $page-subsection-spacing-top;
-        margin-bottom: $page-subsection-spacing-bottom;
-    }
-
-    // h2 follwed immediately by h3
-    h2 + h3 {
-        margin-top: 1.5rem;
-    }
-
-    // adding extra space above the div when it comes right after a heading
-    h2 {
-        & + div {
-            padding-top: 1.5rem;
-        }
-    }
-    h3, h4 {
-        & + div {
-            padding-top: 1rem;
-        }
-    }
-
-}
 
     #pageNav {
         position: fixed;
         border-bottom: none;  // turn off border bottom at larger sizes where the pageNav is in its own column
-        font-size: #{$font-secondary-scale}em;  // should be default font size for larger page sizes
     }
 }
 
@@ -299,15 +262,6 @@ ul, ol {
         }
     }
 
-
-//     .nav-link {
-//
-//         // NAV: SECOND LEVEL
-//         + nav {
-//             // display: block; // hide by default
-//         }
-//     }
-
 }
 
 // intended width of the pageNav section
@@ -334,7 +288,7 @@ $pageNav-widths: (
 
 
 .theme-page {
-    .project-overview {
+    .page-overview {
 
         $overview-shift: -10px;
 
@@ -364,7 +318,7 @@ $pageNav-widths: (
 @include media-breakpoint-up(xs) {
 
     .theme-page {
-        .project-overview {
+        .page-overview {
             margin-bottom: 2.5rem;
         }
     }
@@ -376,24 +330,21 @@ $pageNav-widths: (
 @include media-breakpoint-up(md) {
 
     .theme-page {
-        .project-overview {
+        .page-overview {
             margin-bottom: 4.5rem;
         }
     }
 
 }
 
-// fix for 100% images on ie.
-.img-width-100 {
-    width: 100%;
-}
-
-
 .theme-page {
     .theme-footer {
+        padding: 1rem 0 2.5rem 0;
+
         border-top: 1px dotted #BBB;
-        background-color: $page-footer-background-color;
         color: $text-color-black-lighter3;
+        font-size: 1rem;
+        font-family: $font-family-secondary;
     }
 }
 
