@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{> site-dochead}}
+</head>
+
+<body class="{{getProjectIdByPage page}}">
+<div class="theme-page">
+
+
+{{> page-header}}
+
+<main class="container" id="main">
+<div class="row no-gutters">
+
+    <div class="col-md-2 leftColumn">
+        <h4>default nav</h4>
+        <h2>generated nav</h2>
+
+
+{{{page-toc}}}
+
+    </div>
+
+    <div class="col-md-9 mainColumn">
+    <div class="mainContent">
+        {{> body}}
+    </div>
+    </div>
+
+</div>
+</main>
+
+
+{{> page-footer}}
+
+</div>
+
+
+{{> site-docbottom}}
+
+
+</body>
+</html>

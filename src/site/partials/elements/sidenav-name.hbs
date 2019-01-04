@@ -1,0 +1,20 @@
+{{!--
+**********
+
+item name in side nav
+
+--}}
+
+{{~#unless currentPage}}
+<a class="sidenav-item" href="{{> page-url}}">
+{{else}}
+<div class="sidenav-item disabled current">
+{{/unless}}
+
+    {{~{pagename}}}
+
+{{~#unless currentPage}}
+</a>
+{{else}}
+</div>
+{{/unless}}

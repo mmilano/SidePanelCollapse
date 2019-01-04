@@ -1,0 +1,17 @@
+{{!--
+**********
+page component
+page function
+establish some of the global values for the page, and call page specific function(s)
+
+@param {string} page: page id value
+
+**********
+--}}
+
+<script>
+{{#with (lookup . page)}}
+    var pageID = "{{id}}", siteroot = "{{@root.root}}";
+    document.addEventListener("DOMContentLoaded", site.pageMethods.pageMain(pageID), false);
+{{/with}}
+</script>
