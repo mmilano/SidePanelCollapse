@@ -1,18 +1,15 @@
 
-$sidenav-width:         260px;
-$sidenav-width-sm:      $sidenav-width - 25;
+$sidenav-width:                         260px;
+$sidenav-width-sm:                      $sidenav-width - 25;
 
-$sidenav-background-color:               #062B62;
-$sidenav-pagesection-background-color:   adjust_hue(desaturate(lighten($sidenav-background-color, 2.7), 2), -1.1);
+$sidenav-background-color:              #062B62;
+$sidenav-pagesection-background-color:  adjust_hue(desaturate(lighten($sidenav-background-color, 2.7), 2), -1.1);
 
-$sidenav-pagesection-background-color-top:       adjust_hue(desaturate(lighten($sidenav-background-color, 2.7), 2), -1.1);
-$sidenav-pagesection-background-color-bottom:    adjust_hue(desaturate(lighten($sidenav-background-color, 2.7), 2), -1.1);
+$sidenav-header-color:                  #001B4E;
+$sidenav-closeicon-color:               #DDD;
+$sidenav-closeicon-color-hover:         #FFF;
 
-$sidenav-header-color:              #001B4E;
-$sidenav-closeicon-color:           #DDD;
-$sidenav-closeicon-color-hover:     #FFF;
-
-$sidenav-closeButton-height:        36px;
+$sidenav-closeButton-height:            36px;
 
 $sidenav-list-space-left:        25px;
 $sidenav-list-space-left-sm:     15px;
@@ -23,30 +20,29 @@ $sidenav-item-border-color:         #AFAFAA;
 $sidenav-item-border-color:         desaturate(lighten($sidenav-background-color, 23%), 35%);
 
 $pagelist-link-hover-color:          $link-color-highlight;
-$pagelist-link-hover-bg:             #E8F0E5;
-$pagelist-link-hover-bg-disabled:    #E1E1E0;
 
 $pagelist-item-font-size-default:    0.81rem;
 $pagelist-item-font-size-sm:         decimal-round(($pagelist-item-font-size-default * 0.95), 3);
 
-$pagelist-group-font-color:        #476978;
-$pagelist-group-font-color-hover:  #3D88C9;
+$pagelist-group-font-color:         #476978;
+$pagelist-group-font-color-hover:   #3D88C9;
 
 
 // backdrop
-$sidenav-backdrop-bg-dark:      #000;
-$sidenav-backdrop-bg-light:     #FFF;
-$sidenav-backdrop-opacity:      .6;
+$sidenav-backdrop-opacity:          0.6;
+$sidenav-backdrop-bg-dark:          #000;
+$sidenav-backdrop-bg-light:         #FFF;
 
 
 // transitions
-$sidenav-show-duration:    0.57s;
-$sidenav-hide-duration:    0.33s;
+$sidenav-show-duration:             1.05s;
+$sidenav-hide-duration:             0.31s;
+$sidenav-hide-duration-fast:        0.10s;
 
-$backdrop-show-duration:    0.33s;
-$backdrop-hide-duration:    0.1s;
+$backdrop-show-duration:            0.33s;
+$backdrop-hide-duration:            0.1s;
 
-$group-color-transition-duration:         0.9s;
+$group-color-transition-duration:        0.9s;
 
 
 
@@ -66,35 +62,12 @@ $enable-hover-media-query:  false !default;
 }
 
 
-// overrides for display on the homepage
-.theme-homepage {
-    .sidenav {
-
-        .nav {
-            margin-left: $sidenav-list-space-left;  // left-side margin from the edge of sidenav
-        }
-
-        .sidenav-header {
-            height: $homepage-primarynavbar-height;
-        }
-
-        .sidenav-closeIcon {
-            // visually adjust the close icon to the right to match the position of the hamburger menu in the primary nav
-            height: $homepage-primarynavbar-height;
-        }
-
-        .sidenav-list {
-            margin-top: ($homepage-primarynavbar-height + 20);
-            font-size: 1rem;
-        }
-    }
-}
-
 .sidenav {
 
-    // store the duration values in the css so that the page javascript can reference them later
+    // store the duration values in the css so that the page's javascript can access/extract them later
     --sidenavDurationShow: #{$sidenav-show-duration};
     --sidenavDurationHide: #{$sidenav-hide-duration};
+    --sidenavDurationHideFast: #{$sidenav-hide-duration-fast};
 
     position: fixed;
     z-index: $sidenav-zindex;  // z-index of bootstrap default nav, plus 1
@@ -109,19 +82,11 @@ $enable-hover-media-query:  false !default;
 
     background-color: $sidenav-background-color;
 
-    // default on load to have no transition effect so that there is no slide-out animation shown when the page first loads in some cases
+    // default on load to have no transition effect so that there is no slide-out animation shown when the page first loads (in some cases)
     transition-property: width;
     transition-timing-function: ease-out;
 
-    // ".show" is applied when the sidenav is activated to display
-    // &.show {
-        // remove the transform that shifted it offscreen, so that it will display onscreen at default position
-        // transition effect to slide the sidenav. in effect for displaying the nav
-        // transition: transform $sidenav-show-duration cubic-bezier(0.19, 1, 0.22, 1);
-        // transition: width $sidenav-show-duration cubic-bezier(0.19, 1, 0.22, 1);
-        // width: $sidenav-width;
-    // }
-
+    // .collapsing is applied and removed by the Bootstrap collapse function during transitions
     &.collapsing {
         width: 0;
         transition-duration: $sidenav-show-duration;
@@ -179,7 +144,7 @@ $enable-hover-media-query:  false !default;
 
     // list of the pages
     .sidenav-list {
-        margin-top: ($page-primarynavbar-height + 5);
+        margin-top: ($page-primarynavbar-height + 12);
         padding: 0 0 3rem 0;
         font-family: $font-family-secondary;
         letter-spacing: 0.02rem;
@@ -199,7 +164,6 @@ $enable-hover-media-query:  false !default;
 
 
 .pagelist {
-    // bottom spacing can be shortened slightly when the flame-like image is displayed
     margin-bottom: 1.5rem;
     padding-bottom: .6rem;
 
@@ -217,8 +181,8 @@ $enable-hover-media-query:  false !default;
     }
 }
 
-// groups of items
-.pagelist-group {
+// title for groups of items
+.sidenav-group-heading {
     margin-bottom: 0;
     padding: .37rem 0;
 
@@ -229,8 +193,8 @@ $enable-hover-media-query:  false !default;
     transition: color $group-color-transition-duration;
 }
 
-// item = page name
-.pagelist-item {
+// item
+.sidenav-item {
     display: block;
     padding: .35rem 1rem .37rem 0rem;
 
@@ -246,7 +210,8 @@ $enable-hover-media-query:  false !default;
     }
 }
 
-
+// backdrop = the full-page background displayed when sidenav is displayed (open).
+// designed to screen the existing page content
 .backdrop {
     z-index: $sidenav-backdrop-zindex;
     display: none;
@@ -282,7 +247,7 @@ $enable-hover-media-query:  false !default;
     }
 }
 
-// animation: softly fadein the backdrop
+// animation: softly fadeIN the backdrop
 @keyframes backdropIn {
     0% {
         opacity: 0;
@@ -292,7 +257,7 @@ $enable-hover-media-query:  false !default;
     }
 }
 
-// animation: softly fadeout the backdrop
+// animation: softly fadeOUT the backdrop
 // this keyframes rule is the reverse of backdropIn;
 // this 'should' be possible to do by reversing backdropIn, but that doesnt appear tyo work as one might think
 @keyframes backdropOut {
@@ -304,6 +269,20 @@ $enable-hover-media-query:  false !default;
     }
 }
 
+
+// overrides for display on the homepage
+.theme-homepage {
+    .sidenav {
+
+        .nav {
+            margin-left: $sidenav-list-space-left;  // left-side margin from the edge of sidenav
+        }
+
+        .sidenav-list {
+            font-size: 1rem;
+        }
+    }
+}
 
 
 // for smaller screens
@@ -321,10 +300,10 @@ $enable-hover-media-query:  false !default;
 
         .nav-item {
             &.section {
-            // do all this brittle adjustments so that the section element can have a different background color than the sidenav itself
-            margin-left: -$sidenav-list-space-left-sm;
-            padding-left: $sidenav-list-space-left-sm;
-            padding-right: $sidenav-list-space-right-sm;
+                // do all this brittle adjustments so that the section element can have a different background color than the sidenav itself
+                margin-left: -$sidenav-list-space-left-sm;
+                padding-left: $sidenav-list-space-left-sm;
+                padding-right: $sidenav-list-space-right-sm;
             }
         }
 
