@@ -50,7 +50,7 @@ module.exports = function(globalContext, options) {
     // get page name from the page data
 
     function renderPageName(page) {
-        let pageURL = page.url;
+        let page_URL = page.url;
 
         // to get the title in the page data,
         // have to breakdown the page url because the page data is keyed to the page file name
@@ -59,7 +59,7 @@ module.exports = function(globalContext, options) {
         let name = pageData["page-title-short"];
 
         let context = {
-            "url": pageURL,
+            "url": page_URL,
             "pagename": name,
         };
 
