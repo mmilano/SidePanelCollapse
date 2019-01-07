@@ -9,6 +9,7 @@
 
 const basepath = process.cwd();
 const trimWhitespace = require(basepath + "/src/site/lib/trim");
+const titlecase = require("ap-style-title-case");
 
 module.exports = function(attr, options) {
     "use strict";
@@ -47,6 +48,7 @@ module.exports = function(attr, options) {
 
     out = open;
     let headingText = trimWhitespace(options.fn(this));
+    headingText = titlecase(headingText);
     out += headingText;
     out += closeTag;
     out += "\n";
