@@ -1,8 +1,8 @@
 // media queries
 
 // *****
-// breakpoints refer to the bootstrap4 breakpoint definitions
-// incorporated by inclusion of the bootstrap4 mixins/_breakpoints in the site build process
+// breakpoints refer to the Bootstrap4 breakpoint definitions
+// incorporated by inclusion of the Bootstrap44 mixins/_breakpoints in the site build process
 
 // $grid-breakpoints: (
 //   xs: 0,
@@ -15,7 +15,7 @@
 // @include _assert-starts-at-zero($grid-breakpoints);
 
 
-// key names to reference the bootstrap breakpoints
+// key names to reference the Bootstrap4 breakpoints
 // $key-sm: "sm";   //   sm: 576px
 // $key-md: "md";   //   md: 768px
 // $key-lg: "lg";   //   lg: 992px
@@ -67,7 +67,6 @@ $pageName-font-size-sm: 2.5rem;
             // special case of margin bottom because of the shift up
             font-size: $page-h3-font-size-md;   // TODO: fix this reference somehow
             line-height: 1.4;
-            letter-spacing: -0.01rem;
         }
     }
 
@@ -83,67 +82,3 @@ $pageName-font-size-sm: 2.5rem;
 
 }
 
-
-@include media-breakpoint-up(md) {
-    .breakNobreak {
-        display: inline;
-    }
-
-    .theme-section-title {
-        font-size: $section-heading-primary-size-medium;
-        word-spacing: 0.26rem;
-        line-height: 1.2;
-
-        @at-root h1#{&} {
-            letter-spacing: -0.115rem;
-        }
-        @at-root h2#{&} {
-            letter-spacing: -0.029rem;
-        }
-    }
-
-    .subtitle {
-        font-size: 2.5rem;
-        line-height: 1.4;
-    }
-
-}
-
-
-// Large. Above 62em (992px)
-@include media-breakpoint-up(lg) {
-
-    .theme-section-title {
-        font-size: $section-heading-primary-size-large;
-        word-spacing: 0.275rem;
-
-        @at-root h1#{&} {
-            letter-spacing: -0.115rem;
-        }
-        @at-root h2#{&} {
-            letter-spacing: -0.06rem;
-        }
-    }
-
-    .subtitle {
-        font-size: 3.5rem;
-        line-height: 1.4;
-    }
-}
-
-// Extra large. Above 75em (1200px)
-@include media-breakpoint-up(xl) {
-
-    .theme-section-title {
-        font-size: $section-heading-primary-size-x-large;
-        line-height: 1.15;
-
-        @at-root h1#{&} {
-            letter-spacing: -0.18rem
-        }
-
-        @at-root h2#{&} {
-            letter-spacing: -0.1rem;
-        }
-    }
-}
