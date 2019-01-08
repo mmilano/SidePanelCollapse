@@ -73,8 +73,6 @@ ul, ol {
 }
 
 
-
-// layout with flexbox
 .theme-page {
 
     // ordering of the layout sections in the interior pages.
@@ -225,7 +223,6 @@ ul, ol {
             transition: color $nav-item-color-transition-duration ease;
         }
     }
-
 }
 
 // intended width of the pageNav section
