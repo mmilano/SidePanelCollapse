@@ -147,12 +147,8 @@ var paths = {
     // panini/handlebars
     siteHBSFiles: siteBuildSource + "{layouts,helpers,partials}/**/*",
 
-    // MASTER FILE of the gallery data.
-    // stored in the site client-side files
-    siteGalleryDataFile: "site-gallery-data.js",
-    siteGalleryDataDestination: "./src/js/site/",
+    // MASTER FILE of the gallery data
     siteGalleryDataMASTER: "./src/js/site/gallery/site-gallery-canonical.js",
-
 
 };
 
@@ -565,8 +561,8 @@ gulp.task("watch:scss", watchSCSS);
 // **********
 // SITE DATA
 
-function touchSiteData(done) {
-    let file = paths.siteGalleryDataDestination + paths.siteGalleryDataFile;
+function touchGalleryData(done) {
+    let file = paths.siteGalleryDataMASTER;
     touch(file);
     done();
 }
@@ -577,7 +573,7 @@ function touchIndexPage(done) {
     done();
 }
 
-gulp.task("touch:site-gallery", touchSiteData);
+gulp.task("touch:site-gallery", touchGalleryData);
 gulp.task("touch:index", touchIndexPage);
 
 
