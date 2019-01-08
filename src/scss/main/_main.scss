@@ -61,13 +61,11 @@ a {
 }
 
 
-
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6,
 b, strong, dt {
     font-weight: $font-weight-semibold;
 }
-
 
 // SECTION TYPES
 
@@ -90,6 +88,13 @@ b, strong, dt {
     padding-bottom: 4rem;
 }
 
+.theme-section-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
 main {
 border: 1px solid #F00;
