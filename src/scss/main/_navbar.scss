@@ -1,34 +1,27 @@
-// NAVBAR //
-
-$top-navbar-transitiontime-in:  .9s;
-$top-navbar-transitiontime-out: .3s;
+// PRIMARY NAVBAR //
 
 .top-navbar {
-
     height: $page-primarynavbar-height;
     padding-top: 0;
     padding-bottom: 0;
 
     font-family: $font-family-secondary;
 
-    // transition rule for the on-scroll style change of the primarynav header bar
-    transition: background $top-navbar-transitiontime-out ease-in-out, border-color $top-navbar-transitiontime-out ease-in-out;
+    background-color: $site-primarynavbar-background-color;  // opaque
+    border-bottom: 1px solid desaturate(darken($site-primarynavbar-background-color, 7%), 9%);
 
-    background-color: transparent;
-    border-bottom: 1px solid transparent;  // put a border on the navbar in default state so that the 'scrolled' transition will look better
+    // style for when an item in the top navbar is given the 'active' class
+    .nav-link {
+        color: $text-color-nav-default;
 
-    // default style [above] has the translucent background-color
-    // script site-header.js will add class "scrolled" when scrolling down; so, style for rest of the page = opaque
-    &.scrolled {
-        transition-duration: $top-navbar-transitiontime-in;
-        background-color: $site-primarynavbar-background-color;  // opaque
-        border-bottom: 1px solid desaturate(darken($site-primarynavbar-background-color, 7%), 9%);
+        &.active {
+            color: $text-color-primarynav-active;
+        }
     }
+
 }
 
-
 .navbar-brand {
-
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
@@ -50,18 +43,28 @@ $top-navbar-transitiontime-out: .3s;
     }
 }
 
-// style for when an item in the top navbar is given the 'active' class
-// by scrollspy
-.top-navbar {
-
-        .nav-link {
-            color: $text-color-nav-default;
-
-            &.active {
-                color: $text-color-primarynav-active;
-            }
-        }
+.navbar-toggler {
+    border: unset;
+    border-radius: unset;
+    padding: 3px 1rem 3px 1rem;
 }
+
+// override the Bootstrap4 icon for navigation hamburger glyph
+.navbar-toggler-icon {
+    background: none;
+    width: auto;
+    height: auto;
+    color: $text-color-nav-default;
+    overflow: hidden;  // foundation for setting the icon width to 0 when expanding the sidenav. no effect on normal behavior.
+
+    &::after {
+        font-family: FontAwesome;
+        font-size: $navbar-toggler-icon-font-size;
+        text-decoration: none;
+        content: "\f0c9"; // fa-reorder
+    }
+}
+
 
 // when top-navbar is horizontal & expanded (i.e. above the navbar-expand-md class), spacing of items displyed in a row
 @include media-breakpoint-up(md) {
@@ -77,38 +80,7 @@ $top-navbar-transitiontime-out: .3s;
 }
 
 
-.navbar-toggler {
-    border: unset;
-    border-radius: unset;
-    padding: 3px 1rem 3px 1rem;
-}
-
-// override the bootstrap icon for navigation hamburger glyph
-.navbar-toggler-icon {
-
-    background: none;
-    width: auto;
-    height: auto;
-    color: $text-color-nav-default;
-    overflow: hidden;  // foundation for setting the icon width to 0 when expanding the sidenav. no effect on normal behavior.
-
-    &::after {
-        // position: relative;
-        font-family: FontAwesome;
-        font-size: $navbar-toggler-icon-font-size;
-        text-decoration: none;
-        content: "\f0c9"; // fa-reorder
-    }
-}
-
-
-
 @include media-breakpoint-down(xs) {
-
-    .navbar-brand {
-        margin-right: 0;
-        font-size: .9rem;
-    }
 
     .top-navbar {
         .navbar-toggler-right {

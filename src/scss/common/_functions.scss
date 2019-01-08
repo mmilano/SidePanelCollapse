@@ -20,11 +20,9 @@
 // if it already doesnt have a unit, just return the value
 
 @function getUnitless($n) {
-
   @if type-of($n) == "number" and not unitless($n) {
     @return $n / ($n * 0 + 1);
   }
-
   @return $number;
 }
 
@@ -114,6 +112,5 @@
     @return decimal-round($number, $digits, floor);
 }
 
-
-// Do not put any css rules into this file. This file is only for declaration of variables and mixins
+// Do not put any css rules into this file. This file is only for declaration of helper functions
 //
