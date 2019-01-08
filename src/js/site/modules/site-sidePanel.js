@@ -28,10 +28,10 @@ var sideNavCollapse = (function() {
     }
 
     function sidepanelShowManually() {
-        $sidepanel.collapse("show");    // Bootstrap function
+        $sidepanel.collapse("show");    // Bootstrap4 function
     }
     function sidepanelHideManually() {
-        $sidepanel.collapse("hide");    // Bootstrap function
+        $sidepanel.collapse("hide");    // Bootstrap4 function
     }
 
     // backdrop and methods for the sidepanel
@@ -73,7 +73,20 @@ var sideNavCollapse = (function() {
         }
     };
 
+    // function for when a link in the sidenav is clicked
+    // either:
+    // the link is an anchor (within the page), or
+    // the link is to another page
+
+    function linkClick(e) {
+
+        let target = e.target;
+
+    }
+
+
     // CLOSE the sidepanel, normal
+    // when link destination is an anchor within the current page
     function sidepanelClose(e) {
 
         // event function:
@@ -91,7 +104,7 @@ var sideNavCollapse = (function() {
 
         sidepanelBackdrop.hide();
 
-        // jquery event listener to run once on the BS4 "hidden" completion event
+        // jquery event listener to run once on the Bootstrap4 "hidden" completion event
         $sidepanel.one("hidden.bs.collapse", whenHideEnds);
 
         // remove the listener for key up
@@ -153,12 +166,14 @@ var sideNavCollapse = (function() {
 
         // if on page where sidenav links are anchor links, then links should just go to the anchor and close the sidebar.
         // if on page where sidenav links are to another page, then links should close the navbar and then go to the link destination
+        let pageID = "anchorLinkPage";
         let callback = pageID === "anchorLinkPage" ? sidepanelClose : sidepanelClosePage;
 
+        // apply a click event handler to each of the links in the sidebar
         let sidelinks = e.currentTarget.getElementsByTagName("a");
         let ln = sidelinks.length;
         for (var i = 0; i < ln; i++) {
-            sidelinks[i].addEventListener("click", callback, false);
+            sidelinks[i].addEventListener("click", linkClick, false);
         };
     }
 
@@ -177,6 +192,7 @@ var sideNavCollapse = (function() {
 
         // create and insert the backdrop element so it is ready to go
         sidepanelBackdrop.create();
+
     }
 
     // select and cache the sidepanel and close icon.
