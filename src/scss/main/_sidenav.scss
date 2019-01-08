@@ -70,7 +70,7 @@ $enable-hover-media-query:  false !default;
     --sidenavDurationHideFast: #{$sidenav-hide-duration-fast};
 
     position: fixed;
-    z-index: $sidenav-zindex;  // z-index of bootstrap default nav, plus 1
+    z-index: $sidenav-zindex;  // z-index of Bootstrap4 default nav, plus 1
 
     top: 0;
     right: 0;  // the default position;
@@ -86,7 +86,7 @@ $enable-hover-media-query:  false !default;
     transition-property: width;
     transition-timing-function: ease-out;
 
-    // .collapsing is applied and removed by the Bootstrap collapse function during transitions
+    // .collapsing is applied and removed by the Bootstrap4 collapse function during transitions
     &.collapsing {
         width: 0;
         transition-duration: $sidenav-show-duration;
@@ -99,12 +99,12 @@ $enable-hover-media-query:  false !default;
 
     // sidenav is structured to be one general "nav" element
     .nav {
-        display: block;  // override Bootstrap
+        display: block;  // override Bootstrap4
         margin-left: $sidenav-list-space-left;  // left-side margin from the edge of sidenav
     }
 
     .navbar-nav {
-        display: block;  // override Bootstrap
+        display: block;  // override Bootstrap4
     }
 
     .nav-item {
