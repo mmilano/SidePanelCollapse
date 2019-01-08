@@ -41,7 +41,7 @@
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-babel": "^8.0.0",
-    "gulp-cache": "^1.0.2",
+    "gulp-cache": "^1.1.0",
     "gulp-cached": "^1.1.1",
     "gulp-changed": "^3.2.0",
     "gulp-changed-in-place": "^2.3.0",
