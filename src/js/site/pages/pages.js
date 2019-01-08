@@ -10,13 +10,11 @@
 
 "use strict";
 
-const siteGalleryData = require("site-gallery-data.js");
-
 // set of internal utility methods
 var util = {
 
     checkWidth: function checkWidth() {
-        // bootstrap values are included as css variables in the bootstrap.css.
+        // Bootstrap values are included as css variables in the Bootstrap css.
         // get the value
         let breakpoint_md = parseInt(getComputedStyle(document.body).getPropertyValue("--breakpoint-md"));
         // get width of the current window
