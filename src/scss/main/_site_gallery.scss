@@ -16,20 +16,10 @@ $gallery-item-content-space-side:       20px;
 
 $card-background-color-default:         #DBDBD7;
 
-$card-background-color-light:           lighten($card-background-color-default, 11%);   // hovering
-$card-background-color-dark:            darken($card-background-color-default, 16.9%);     // not-hovering
-
 $card-border-radius:      4px;
 $card-image-border-radius:          $card-border-radius;
 
 $card-image-border-color:           #C1C1BF;
-
-$image-overlay-background-color-light:      $core-white;
-$image-overlay-background-color-dark:       $color-black-lighter1;
-$image-overlay-nothover-opacity:            .3;
-
-
-$card-hover-transition-function-default:            ease;
 
 $duration-fast:       0.25s;
 $duration-med:        0.4s;
@@ -37,15 +27,6 @@ $duration-slow:       0.8s;
 $duration-very-slow:  1.8s;
 
 $duration-long:       1.8s;
-
-$image-overlay-duration-default:    .15s;
-$image-overlay-duration-fadeIn:     .25s;
-$image-overlay-duration-fadeOut:    .25s;
-
-$card-overlay-light-duration-default:    .25s;
-
-$card-overlay-dark-duration-default:     .25s;
-
 
 
 #gallery-grid {
@@ -65,7 +46,7 @@ $card-overlay-dark-duration-default:     .25s;
     padding-right: $gallery-item-side-padding;
     padding-left: $gallery-item-side-padding;
 
-    // overrides of bootstrap .card
+    // overrides of Bootstrap4 .card
     .card {
 
         padding-bottom: $gallery-item-inside-margin-bottom;
@@ -77,29 +58,6 @@ $card-overlay-dark-duration-default:     .25s;
         // transition-property: background-color;
         // transition-duration: ($duration-fast / 2);  // cut in half because the color difference in background-color between normal and hovered is very small
         // transition-timing-function: $card-hover-default-transition-function;
-
-        // layer of pure color. an attempt to optimize animation
-        // using opacity of layers, instead of transforming the background-color.
-        // will change the apparent background-color of the card
-        .card-overlay {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100%;
-            opacity: 0;
-            visibility: hidden;
-
-            transition: opacity ($duration-fast / 2) $card-hover-transition-function-default;
-
-            border-radius: $card-border-radius;
-
-            &.light {
-                background-color: $card-background-color-light;
-            }
-            &.dark {
-                background-color: $card-background-color-dark;
-            }
-        }
 
 
         // link element is the primary container so that the entire card is clickable
@@ -128,7 +86,6 @@ $card-overlay-dark-duration-default:     .25s;
             border-radius: $card-image-border-radius $card-image-border-radius $card-image-border-radius/2 $card-image-border-radius/2;
 
             margin-bottom: 10px;
-
             background-color: #555;  // fpo
         }
 
@@ -168,25 +125,6 @@ $card-overlay-dark-duration-default:     .25s;
             margin: 2px 0 0 0;
             font-size: inherit;
             font-weight: $font-weight-semibold;
-        }
-    }
-
-        // image-overlay is a layer over the image to hack the fade-in effect
-    .image-overlay {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-        opacity: 0;
-
-        // duration applies when transitioning to default state (i.e. this rule. opacity: 0)
-        transition-duration: $image-overlay-duration-default;
-
-        &.light {
-            background-color: $image-overlay-background-color-light;
-        }
-        &.dark {
-            background-color: $image-overlay-background-color-dark;
         }
     }
 
