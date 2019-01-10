@@ -455,10 +455,6 @@ module.exports = function(attr, options) {
             this.ignoreSelector = (arg.ignoreSelector !== undefined) ? arg.ignoreSelector : defaults.ignoreSelector;
         };
 
-//         this.constructor.prototype.defaultvalues = function xxx() {
-//             console.log ("hey this did it");
-//         };
-
         initialize.call(this, options);
     };
 
@@ -485,7 +481,6 @@ module.exports = function(attr, options) {
     }
     // END: parsing the body content for the table of contents
     // ******************
-
 
     // ******************
     // now that the contents data is built,
