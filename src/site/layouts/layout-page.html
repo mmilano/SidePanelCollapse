@@ -10,28 +10,21 @@
 {{> page-primarynav}}
 
 <main class="container">
-<div class="row">
-
-    <div class="col-md-3 col-lg-2 leftColumn"></div>
-
-    <div class="col-md-9 col-lg-9 mainColumn">
-        {{> page-header}}
+    <div class="row">
+        <div class="col-md-3 col-lg-2 leftColumn"></div>
+        <div class="col-md-9 col-lg-9 mainColumn">
+            {{> page-header}}
+        </div>
     </div>
 
-</div>
-
-
-<div class="row">
-
-    <div class="col-md-3 col-lg-2 leftColumn">
-        {{{page-toc}}}
+    <div class="row">
+        <div class="col-md-3 col-lg-2 leftColumn">
+            {{{page-toc}}}
+        </div>
+        <div class="col-md-9 col-lg-9 mainColumn">
+            {{> body}}
+        </div>
     </div>
-
-    <div class="col-md-9 col-lg-9 mainColumn">
-        {{> body}}
-    </div>
-
-</div>
 </main>
 
 {{> page-footer}}
