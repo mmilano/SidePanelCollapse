@@ -1,23 +1,15 @@
 // main style file
 // GENERAL common, shared style definitions
 
-$page-h1-font-size-xl:      3.5rem;
-
-$page-h2-font-size-lg:   2.01rem;
-$page-h2-font-size-md:   1.92rem;
 
 $page-h3-font-size-lg:   1.64rem;
 $page-h3-font-size-md:   1.49rem;
-
-$page-h4-font-size-lg:   1.25rem;
-$page-h4-font-size-md:   1.15rem;
 
 $page-h2-margin-top-md:     3.25rem;
 $page-h2-margin-top-sm:     2.25rem;
 $page-h3-margin-top-md:     2.75rem;
 $page-h3-margin-top-sm:     1.75rem;
-$page-h4-margin-top-md:     1.35rem;
-$page-h4-margin-top-sm:     1rem;
+
 
 $navbar-toggler-icon-font-size: 2.1rem;
 
@@ -60,9 +52,7 @@ a {
     }
 }
 
-
 h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6,
 b, strong, dt {
     font-weight: $font-weight-semibold;
 }
@@ -96,10 +86,17 @@ b, strong, dt {
   text-align: center;
 }
 
+.theme-footer {
+    padding: 1rem 0 2rem 0;
+    border-top: 1px dotted #BBB;
+    font-family: $font-family-secondary;
+}
+
+
 main {
 border: 1px solid #F00;
 }
 
-div {
-border: 1px dotted #33F;
-}
+// div {
+// border: 1px dotted #33F;
+// }
