@@ -27,9 +27,12 @@ $images-path-general:    $images-path + "general/";
 // core colors
 
 $core-black:             #000000;
+$toasted-black:          #130A02;
 $core-charcoal:          #424242;
 $core-white:		     #FFFFFF;
 $core-blue:              #2C95DD;
+
+
 
 // color increments of 17/255
 $color-black-lighter1:   lighten($core-black, 6.66667%);   // #111111
@@ -50,7 +53,6 @@ $background-color-intro:        #618BFF;  // bluish-kin to core-blue. v2
 $background-color-about:        #618BFF;  // bluish-kin to core-blue. v2
 $background-color-second:       #0A5A4A;
 $background-color-footer:       #363739;
-
 
 
 // text colors
@@ -80,11 +82,7 @@ $theme-link-hover-decoration:     none;
 
 
 // navbar
-$site-primarynavbar-color-opacity:                0.67;
-$site-primarynavbar-background-color:             #EEEEED;
-$site-primarynavbar-background-color-translucent: rgba($site-primarynavbar-background-color, $site-primarynavbar-color-opacity);
-
-
+$site-primarynavbar-background-color:             #DDDDDA;
 
 $body-text-color-default:       $text-color-black-lighter1;
 $text-color-nav-default:        $color-black-lighter3;
@@ -94,13 +92,10 @@ $text-color-sidenav-active:     $color-white-darker1;
 
 $default-link-color:    $core-blue;
 $link-color-highlight:  #55AA11;
-$dropdown-link-disabled-color: #838C92;
-$caption-text-color:    #85858A;
 $default-border-color: $color-white-darker5;
 
 
 // content sections & components
-
 
 // LAYOUT
 $page-primarynavbar-height:     50px;  // height of the primary nav bar on the page
