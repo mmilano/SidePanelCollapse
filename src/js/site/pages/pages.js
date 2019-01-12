@@ -137,7 +137,7 @@ var pages = {
     },
 
     "default": function(pageID) {
-        util.scrollSpyCreate("#pageNav", scrollSpyActivateFlag);
+        util.scrollSpyCreate("#TOCnav", scrollSpyActivateFlag);
     },
 };
 

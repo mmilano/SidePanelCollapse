@@ -3,7 +3,6 @@
 
 
 $page-primarynavbar-background-color: $site-primarynavbar-background-color;
-$page-primarynavbar-background-color-initial: $site-primarynavbar-background-color;
 
 $page-header-background-color-scrolled:  lighten($page-primarynavbar-background-color, 3%);
 
@@ -23,8 +22,6 @@ $page-section-border-bar-color:             #AFAFAA;
 
 $nav-link-padding:                          0 0 1px 0;
 
-$page-sidesection-padding-top:           0;
-
 $list-padding:      10px;
 
 // $side-item is used for the individual items in the right sidebar (tags, roles, etc) and the left nav (table of contents)
@@ -33,6 +30,11 @@ $side-item-margin-bottom:               .5rem;
 $side-item-margin-bottom-adjustment:    .15rem;
 $side-item-heading-lineheight:          1.4rem;
 
+
+$overview-font-shift:       -6px;
+$overview-font-size:        1.65rem;
+$overview-font-lineheight:  1.45;
+$overview-font-spacing:     -0.01rem;
 
 @mixin section-border-bar ($border-side: "border-top") {
     #{$border-side}: 1px dotted $page-section-border-bar-color;
@@ -53,6 +55,16 @@ $side-item-heading-lineheight:          1.4rem;
 
 // **********
 
+ul, ol {
+
+    &.list-unstyled {
+        li {
+            padding-left: 0;
+        }
+    }
+
+}
+
 section {
 
     li {
@@ -60,49 +72,9 @@ section {
     }
 }
 
-
-ul, ol {
-
-    &.list-unstyled {
-        li {
-            padding-left: 0;
-        }
-
-    }
-
-}
-
-
-.theme-page {
-
-    // ordering of the layout sections in the interior pages.
-    // this order allows the sidebars to come first in the html content but not in the display
-    .leftColumn {
-        order: 1;
-    }
-
-    .mainColumn {
-        order: 2;
-    }
-}
-
-
-.mainColumn {
-    font-size: 15px;
-}
-
-
 @include media-breakpoint-up(md) {
     .mainColumn {
         font-size: 16px;
-    }
-
-    .theme-page {
-
-        .mainColumn {
-            // override default BS padding-right in order to pull the maincolumn closer to the right column
-            padding-right: 0;
-        }
     }
 }
 
@@ -129,12 +101,10 @@ ul, ol {
 
     .top-navbar {
         height: $page-primarynavbar-height;
-
-        background-color: $page-primarynavbar-background-color-initial;
-        border-bottom: 1px solid desaturate(darken($page-primarynavbar-background-color, 21%), 9%);
+        background-color: $page-primarynavbar-background-color;
     }
 
-    // should only be applied to a <section>
+    // only applied to a <section>
     .page-section {
         margin-top: $page-section-spacing-top;
         margin-bottom: $page-section-spacing-bottom;
@@ -160,16 +130,12 @@ ul, ol {
             padding-top: 1.5rem;
         }
     }
-    h3, h4 {
-        & + div {
-            padding-top: 1rem;
-        }
-    }
+
 }
 
 
-#pageNav {
-    padding: $page-sidesection-padding-top 0 1rem 0;
+#TOCnav {
+    padding: 0 0 1rem 0;
 
     @include section-border-bar;
     @include section-border-bar("border-bottom");
@@ -187,7 +153,7 @@ ul, ol {
 
     // FIRST-LEVEL NAV,
     // the main sections (h2 headings in the page)
-    @at-root nav#{&} {  // = nav#pageNav
+    @at-root nav#{&} {  // = nav#TOCNav
         flex-direction: column;
 
         // SECOND-LEVEL NAV,
@@ -225,27 +191,26 @@ ul, ol {
     }
 }
 
-// intended width of the pageNav section
+// intended width of the TOCnav section
 // this is basically recreating/hardcoding the eventual widths of the .leftColumn section in the layout
-// but done this way because pageNav is given position: fixed, so physical width needs to be hardcoded
+// but done this way because TOCnav is given position: fixed, so physical width needs to be hardcoded
 // - $size is keyed to the bootstrap breakpoints
 // - $width is measurement of how wide the column ends up being inside fixed width .container
 // smaller sizes not needed because the TOC is set to not display at those sizes
-$pageNav-widths: (
+$TOCnav-widths: (
     md:  150px,
     lg:  130px,
     xl:  160px,
 );
 
-@each $size, $width in ($pageNav-widths) {
+@each $size, $width in ($TOCnav-widths) {
 
     @include media-breakpoint-up($size) {
-        #pageNav {
+        #TOCnav {
             width: $width;
         }
     }
 }
-
 
 
 // bigger
@@ -268,9 +233,9 @@ $pageNav-widths: (
         }
     }
 
-    #pageNav {
+    #TOCnav {
         position: fixed;
-        border-bottom: none;  // turn off border bottom at larger sizes where the pageNav is in its own column
+        border-bottom: none;  // turn off border bottom at larger sizes where the TOCnav is in its own column
     }
 }
 
@@ -279,15 +244,14 @@ $pageNav-widths: (
 .theme-page {
     .page-overview {
 
-        $overview-shift: -9px;
-
         position: relative;
         // small shift of entire block upwards for better visual alignment of the text with the sidebar rules
-        margin-top: $overview-shift;
+        margin-top: $overview-font-shift;
+        margin-bottom: 2.5rem;
 
-        font-size: $page-h3-font-size-lg;  // TODO: fix this reference. better name?
-        line-height: 1.43;
-        letter-spacing: -0.02rem;
+        font-size: $overview-font-size;  // TODO: fix this reference. better name?
+        line-height: $overview-font-lineheight;
+        letter-spacing: $overview-font-spacing;
 
         p {
             margin-bottom: 1.5rem;
@@ -300,27 +264,12 @@ $pageNav-widths: (
     }
 }
 
-
-
-
-// smallest, and up
-@include media-breakpoint-up(xs) {
-
-    .theme-page {
-        .page-overview {
-            margin-bottom: 2.5rem;
-        }
-    }
-
-
-}
-
 // medium, and up
 @include media-breakpoint-up(md) {
 
     .theme-page {
         .page-overview {
-            margin-bottom: 4.5rem;
+            margin-bottom: 4.0rem;
         }
     }
 
