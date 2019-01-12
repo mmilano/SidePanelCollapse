@@ -1,9 +1,6 @@
 // ------- GALLERY -------
 
-$gallery-image-max-height:              100px;
 
-$gallery-item-text-color:               $core-black;
-$gutter: $grid-gutter-width;
 
 $gallery-item-side-padding:             10px;
 $gallery-item-topbottom-margin:         25px;
@@ -14,19 +11,21 @@ $gallery-item-inside-margin-bottom:     25px;
 
 $gallery-item-content-space-side:       20px;
 
+$gallery-item-text-color:               $core-black;
+$gallery-image-max-height:              100px;
+
 $card-background-color-default:         #DBDBD7;
 
-$card-border-radius:      4px;
-$card-image-border-radius:          $card-border-radius;
+$card-border-radius:                    4px;
+$card-image-border-radius:              $card-border-radius;
 
-$card-image-border-color:           #C1C1BF;
+$card-image-border-color:               #C1C1BF;
 
-$duration-fast:       0.25s;
-$duration-med:        0.4s;
-$duration-slow:       0.8s;
-$duration-very-slow:  1.8s;
+$duration-fast:         0.25s;
+$duration-med:          0.4s;
+$duration-slow:         0.8s;
+$duration-very-slow:    1.8s;
 
-$duration-long:       1.8s;
 
 
 #gallery-grid {
@@ -55,9 +54,9 @@ $duration-long:       1.8s;
         border: 0;
         border-radius: $card-border-radius;
 
-        // transition-property: background-color;
-        // transition-duration: ($duration-fast / 2);  // cut in half because the color difference in background-color between normal and hovered is very small
-        // transition-timing-function: $card-hover-default-transition-function;
+        transition-property: background-color;
+        transition-duration: ($duration-fast / 2);  // cut in half because the color difference in background-color between normal and hovered is very small
+        transition-timing-function: ease-in-out;
 
 
         // link element is the primary container so that the entire card is clickable
