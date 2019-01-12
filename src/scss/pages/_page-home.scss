@@ -2,22 +2,19 @@
 // site homepage
 //
 
-
-
+// =============
+// INTRO
 
 #introduction {
     background-color: $background-color-intro;
 }
 
-
 // =============
-// INTRO
-
+// second section
 
 #second {
     background-color: $background-color-second;
 }
-
 
 // =============
 // GALLERY
@@ -25,17 +22,4 @@
 #gallery {
     padding-top: 6rem;
     padding-bottom: 6rem;
-
-}
-
-
-// =============
-// FOOTER
-
-.theme-footer {
-    padding: 1rem 0 2rem 0;
-
-    border-top: 1px dotted #BBB;
-
-    font-family: $font-family-secondary;
 }
