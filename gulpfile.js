@@ -57,8 +57,7 @@ function touch(file) {
 }
 
 
-// glob ignore for osx ds_store file
-const DSStoreIgnore = "!**/.DS_Store";
+
 
 // **********
 // build globals
@@ -69,11 +68,12 @@ const siteBuildSource = "./src/site/";
 
 var paths = {
 
+    // ignore for osx ds_store file
+    DSStoreIgnore: "!**/.DS_Store",
+
     // build locations to clean out
     cleanGLOB : [
-        "./build/public/css/**/*",
-        "./build/public/images/**/*",
-        "./build/public/js/**/*",
+        "./build/public/**/*",
         "./build/pages/**/*",
         "./build/index.html",
     ],
@@ -111,9 +111,10 @@ var paths = {
     jsFile_site: "site.js",
     browserifyDestinationFile_site: "site.js",
 
-
     // panini and site building
     siteBuildSource: siteBuildSource,
+
+    siteData: "./src/site/data/site/**/*",
 
     pageBuildSourceRoot: siteBuildSource + "pages/",
 
@@ -132,9 +133,9 @@ var paths = {
 
     pagesBuiltGLOB: "./build/pages/**/*.html",
 
-
     sitePages: siteBuildSource + "pages/",
     sitePagesData: "./src/site/pages/data/**/*.js",
+
     get siteSourcePagesData() {
         return ([paths.sitePages + "data/**/*.js"]);
     },
@@ -142,7 +143,6 @@ var paths = {
     get siteSourcePagesContent() {
         return ([paths.sitePages + "page/**/*.html"]);
     },
-
 
     // panini/handlebars
     siteHBSFiles: siteBuildSource + "{layouts,helpers,partials}/**/*",
@@ -219,16 +219,16 @@ gulp.task("site:setup", gulp.series("site:clean", "site:copy"));
 
 
 let localDevFiles = [{
-    local: "site-css-local.hbs",
-    remote: "site-css-remote.hbs",
-    destination: "site-css.hbs",
-    path: "./src/site/partials/page/docHead/",
+        local: "site-css-local.hbs",
+        remote: "site-css-remote.hbs",
+        destination: "site-css.hbs",
+        path: "./src/site/partials/page/docHead/",
     },
     {
-    local: "site-js-local.hbs",
-    remote: "site-js-remote.hbs",
-    destination: "site-js.hbs",
-    path: "./src/site/partials/page/docBottom/",
+        local: "site-js-local.hbs",
+        remote: "site-js-remote.hbs",
+        destination: "site-js.hbs",
+        path: "./src/site/partials/page/docBottom/",
     }];
 
 function developmentFileSwitch(status) {
@@ -248,7 +248,6 @@ function developmentFileSwitch(status) {
         .pipe(debug({title: "file: "}))
         .on("error", err => glog("error: " + err.message))
     });
-
 }
 
 gulp.task("site:local", function(done) {
@@ -291,8 +290,6 @@ function buildPagesAll(done) {
 function buildPage(page, path) {
     panini.refresh();
 
-    glog ("page to build:", page);
-
     gulp
     .src(page)
     .pipe(debug({title: "building:"}))
@@ -300,7 +297,6 @@ function buildPage(page, path) {
     .pipe(gulp.dest(paths.pagesBuildDestinationRoot))
     .pipe(debug({title: "BUILT page:"}));
 }
-
 
 function buildIndexPage(done) {
     panini.refresh();
@@ -380,9 +376,9 @@ function constructPagePath(file) {
     const extension = ".html";
     const pathBase = paths.siteBuildSource;  // top portion location of the content pages
 
-    //const pagePathBase = paths.pageBuildSourceRoot;  // root location of the pages, both html and js
     const pagePathBase = "src/site/pages/";
 
+    let dataPagePathBase = "src/site/pages/data";
     let htmlPagePathBase = "src/site/pages/page";
 
     let parsedFile = node_path.parse(file);
@@ -397,7 +393,6 @@ function constructPagePath(file) {
 };
 
 
-
 // **************
 // **************
 
@@ -405,7 +400,6 @@ const changedInPlaceOptions = {
     firstPass: true,
     howToDetermineDifference: "modification-time"
 };
-
 
 function buildpagesCHANGED(done) {
     panini.refresh();
@@ -430,7 +424,7 @@ gulp.task("build:pages-changed", buildpagesCHANGED);
 
 function watchPages(done) {
     gulp
-    .watch(["./src/site/pages/page/**/*", DSStoreIgnore], gulp.series("build:pages-changed"))
+    .watch(["./src/site/pages/page/**/*", paths.DSStoreIgnore], gulp.series("build:pages-changed"))
 	.on("error", err => glog("watch error: " + err.message))
 	.on("change", path => glog("watch:pages >>> " + path))
 	done();
@@ -445,9 +439,6 @@ gulp.task("watch:pages", gulp.series(buildPageOnDataChange, watchPages));
 // also watch the site data, which also affects all the pages.
 
 function watchHandlebars(done) {
-
-    paths.siteData = "./src/site/data/site/**/*";
-
     gulp
     .watch([paths.siteHBSFiles, paths.siteData])
 	.on("error", err => glog("watch error: " + err.message))
@@ -577,7 +568,7 @@ gulp.task("touch:site-gallery", touchGalleryData);
 gulp.task("touch:index", touchIndexPage);
 
 
-function watchSiteData(done) {
+function watchGalleryData(done) {
     gulp
     .watch(paths.siteGalleryDataMASTER)
 	.on("error", err => glog("watch siteData error: " + err.message))
@@ -587,7 +578,7 @@ function watchSiteData(done) {
 }
 
 // watch the project gallery data
-gulp.task("watch:siteData", watchSiteData);
+gulp.task("watch:siteData", watchGalleryData);
 
 
 // **********
@@ -615,11 +606,9 @@ const babelOptions = {
 // main site.js script assembly
 function browserifyScript(file, standaloneFile) {
 
-    console.log("browserify arguments: ", arguments);  // TODO: dev
-
     if (!standaloneFile) {
         standaloneFile= "site";
-    };
+    }
 
     let bundleOptions = {
         entries: ["./src/js/site/" + file],   // starting file for the requires. relative to this gulpfile
@@ -664,7 +653,6 @@ function watchJS(done) {
 
 gulp.task("watch:js", watchJS);
 
-
 // watch all the things
 
 gulp.task("watch:full", gulp.parallel(
@@ -676,6 +664,7 @@ gulp.task("watch:full", gulp.parallel(
     "watch:pages",
     "watch:handlebars"
 ));
+
 
 gulp.task("default", gulp.series(
     "site:setup",
@@ -737,4 +726,3 @@ function productionPages(done) {
 exports.production = production;
 exports.productionIndexPage = productionIndexPage;
 exports.productionPages = productionPages;
-
