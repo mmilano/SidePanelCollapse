@@ -1,32 +1,25 @@
 // ------- GALLERY -------
 
 
-
 $gallery-item-side-padding:             10px;
 $gallery-item-topbottom-margin:         25px;
 
-$gallery-item-inside-margin-side:       30px;
-$gallery-item-inside-margin-top:        25px;
 $gallery-item-inside-margin-bottom:     25px;
 
 $gallery-item-content-space-side:       20px;
 
 $gallery-item-text-color:               $core-black;
 $gallery-image-max-height:              100px;
+$gallery-image-color:                   #555551;
 
 $card-background-color-default:         #DBDBD7;
-
+$card-hover-background-color:           #C9A956;
 $card-border-radius:                    4px;
 $card-image-border-radius:              $card-border-radius;
 
 $card-image-border-color:               #C1C1BF;
 
-$duration-fast:         0.25s;
-$duration-med:          0.4s;
-$duration-slow:         0.8s;
-$duration-very-slow:    1.8s;
-
-
+$duration-fast:                         0.25s;
 
 #gallery-grid {
     margin-left: -$gallery-item-side-padding;
@@ -35,19 +28,21 @@ $duration-very-slow:    1.8s;
 
 .gallery-item {
 
-    position: relative;  // TODO: not sure this is needed?
-
-    // padding and margins that affect the overall grid layout of the set of cards
+    // spacing that affects the overall grid layout of the cards
     margin: 0 0 $gallery-item-topbottom-margin 0;
 
     // override the default BS side padding (15px)
-    // this override also requires adjusting the containing row
+    // this override also requires adjusting the containing row (#gallery-grid) to equalize the overall margins
     padding-right: $gallery-item-side-padding;
     padding-left: $gallery-item-side-padding;
 
+    // link element is the primary container so that the entire card is clickable
+    a {
+        color: $gallery-item-text-color;
+    }
+
     // overrides of Bootstrap4 .card
     .card {
-
         padding-bottom: $gallery-item-inside-margin-bottom;
 
         background-color: $card-background-color-default;
@@ -55,66 +50,48 @@ $duration-very-slow:    1.8s;
         border-radius: $card-border-radius;
 
         transition-property: background-color;
-        transition-duration: ($duration-fast / 2);  // cut in half because the color difference in background-color between normal and hovered is very small
+        transition-duration: $duration-fast;
         transition-timing-function: ease-in-out;
 
-
-        // link element is the primary container so that the entire card is clickable
-        a {
-            padding: $gallery-item-inside-margin-top $gallery-item-inside-margin-side $gallery-item-inside-margin-bottom $gallery-item-inside-margin-side;
-        }
-
+        // visual interest
         &:hover {
-            .card-overlay {
-                &.light {
-                    visibility: visible;
-                    opacity: 1;  // turn on visibility when hovering
-                }
-                &.dark {
-                    visibility: hidden;  // turn off visibility when hovering in attempt to optimize. can't use display: none
-                }
-            }
+            background-color: $card-hover-background-color;
         }
 
         // container for the gallery image
+        // or, in this case, a placeholder
         .card-image {
-            position: relative;  // has position relative so that child elements (overview) can have correct position
             overflow: hidden;
             height: $gallery-image-max-height;
 
+            // match card's border on outside top corners, soften the rounding on the inside bottom corners
             border-radius: $card-image-border-radius $card-image-border-radius $card-image-border-radius/2 $card-image-border-radius/2;
 
             margin-bottom: 10px;
-            background-color: #555;  // fpo
+            background-color: $gallery-image-color; // FPO
         }
 
         // the page description text
         .card-overview {
             flex-grow: 2;
-            position: relative;
-
             margin: 0 $gallery-item-content-space-side 2rem $gallery-item-content-space-side;
 
             font-size: 14px;
             line-height: 1.4;
-
-            color: $gallery-item-text-color;
         }
 
         // the group and name
         .card-info {
-            position: relative;
-
             margin: 0 $gallery-item-content-space-side;
+
             font-size: 16px;
             line-height: 1.4;
-
-            color: $gallery-item-text-color;
         }
 
         // subtitle = group name
         .card-group {
             margin: 0;
+
             font-size: inherit;
             font-weight: $font-weight-normal;
         }
@@ -126,5 +103,4 @@ $duration-very-slow:    1.8s;
             font-weight: $font-weight-semibold;
         }
     }
-
 }
