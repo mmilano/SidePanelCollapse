@@ -23,14 +23,14 @@ var gallerySetup = (function() {
 
         "page-exampleB": {
             "id": "page-exampleB",
-            "url": "pageA.html",
-            "page": "pageA"
+            "url": "pageB.html",
+            "page": "pageB"
         },
 
         "page-exampleC": {
             "id": "page-exampleC",
-            "url": "pageA.html",
-            "page": "pageA"
+            "url": "pageC.html",
+            "page": "pageC"
         },
     };
 
