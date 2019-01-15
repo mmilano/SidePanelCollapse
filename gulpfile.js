@@ -505,7 +505,7 @@ gulp.task("validate:all", gulp.parallel("validate:pages", "validate:index"));
 const scssOptions = {
     errLogToConsole: true,
     outputStyle: "expanded",
-    sourceComments: false,
+    sourceComments: true,
     indentWidth: 4,
     precision: 4
 };
@@ -515,7 +515,6 @@ const autoprefixerOptions = {
 };
 
 function maketheCSS(done) {
-
     gulp
     .src(paths.scssSource)
     .pipe(sourcemaps.init())
