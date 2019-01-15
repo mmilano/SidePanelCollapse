@@ -8,7 +8,7 @@
 var sideNavCollapse = (function() {
    "use strict";
 
-    let $sidepanel, sidepanelCloseIcon;
+    let $sidepanel, sidepanelCloseButton;
 
     // in seconds, as css transition format
     const sidenavDurationShow = "1.05s";      // normal time for sidepanel to slide out & show
@@ -153,9 +153,9 @@ var sideNavCollapse = (function() {
         // jquery event listener to run once on the BS4 "shown" completion event
         $sidepanel.one("shown.bs.collapse", whenShowEnds);
 
-        sidepanelCloseIcon = document.querySelector("#sideNav .sidenav-closeIcon");
-        // set event on the closeIcon so that click will close the sidenav
-        sidepanelCloseIcon.addEventListener("click", sidepanelClose, false);
+        sidepanelCloseButton = document.querySelector("#sideNav .sidenav-close");
+        // set event on the close button so that click will close the sidenav
+        sidepanelCloseButton.addEventListener("click", sidepanelClose, false);
 
         // set keyup event handler to catch ESC key and close sidepanel if pressed
         document.addEventListener("keyup", sidepanelKeyHandle, false);

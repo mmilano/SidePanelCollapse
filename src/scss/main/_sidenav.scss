@@ -6,8 +6,6 @@ $sidenav-background-color:              #062B62;
 $sidenav-pagesection-background-color:  adjust_hue(desaturate(lighten($sidenav-background-color, 2.7), 2), -1.1);
 
 $sidenav-header-color:                  #001B4E;
-$sidenav-closeicon-color:               #DDD;
-$sidenav-closeicon-color-hover:         #FFF;
 
 $sidenav-closeButton-height:            36px;
 
@@ -35,14 +33,14 @@ $sidenav-backdrop-bg-light:         #FFF;
 
 
 // transitions
-$sidenav-show-duration:             1.05s;
-$sidenav-hide-duration:             0.31s;
-$sidenav-hide-duration-fast:        0.10s;
+$sidenav-duration-show:             1.05s;
+$sidenav-duration-hide:             0.31s;
+$sidenav-duration-hide-fast:        0.10s;
 
 $backdrop-show-duration:            0.33s;
 $backdrop-hide-duration:            0.1s;
 
-$group-color-transition-duration:        0.9s;
+$group-color-transition-duration:       0.9s;
 
 
 
@@ -64,17 +62,19 @@ $enable-hover-media-query:  false !default;
 
 .sidenav {
 
-    // store the duration values in the css so that the page's javascript can access/extract them later
-    --sidenavDurationShow: #{$sidenav-show-duration};
-    --sidenavDurationHide: #{$sidenav-hide-duration};
-    --sidenavDurationHideFast: #{$sidenav-hide-duration-fast};
+    // store the duration values as css variables so that they only have to be declared in one place, and
+    // the page's javascript can access/extract them later
+    --sidenavDurationShow: #{$sidenav-duration-show};
+    --sidenavDurationHide: #{$sidenav-duration-hide};
+    --sidenavDurationHideFast: #{$sidenav-duration-hide-fast};
 
-    position: fixed;
     z-index: $sidenav-zindex;  // z-index of Bootstrap4 default nav, plus 1
-
+    position: fixed;
+    // the default position
     top: 0;
-    right: 0;  // the default position;
+    right: 0;
 
+    // sidenav to extend the full height of the window
     height: 100vh;
 
     padding: 0;  // todo: technically, redundant
@@ -89,10 +89,12 @@ $enable-hover-media-query:  false !default;
     // .collapsing is applied and removed by the Bootstrap4 collapse function during transitions
     &.collapsing {
         width: 0;
-        transition-duration: $sidenav-show-duration;
+        transition-duration: $sidenav-duration-show;
         transition-property: width;
     }
 
+    // because the width of the top-level sidenav changes during the collapse,
+    // an interior element is used to maintain a fixed width of the content.
     .sidenav-content {
         width: $sidenav-width;
     }
@@ -122,7 +124,7 @@ $enable-hover-media-query:  false !default;
         padding-bottom: .5rem;
     }
 
-    // header bar at top of the sidenav. visually extends the horizontal primary nav bar,
+    // bar at top of the sidenav. visually extends the horizontal primary navbar,
     // and contains the "X" close icon
     .sidenav-header {
         position: absolute;
@@ -130,15 +132,16 @@ $enable-hover-media-query:  false !default;
         left: 0;
         right: 0;
 
+        // flex layout model to match the primary navbar
+        display: flex;
+        align-items: center;
+
         height: $page-primarynavbar-height;
         background-color: $sidenav-header-color;
     }
 
-    .sidenav-closeIcon {
-        // set same height as the header to make it vertically centered
-        height: $page-primarynavbar-height;
-
-        // visually adjust the close icon to the right to match the position of the hamburger menu in the primary nav
+    .sidenav-close {
+        // visually adjust the close button to the right to match the position of the hamburger menu button in the primary nav
         margin-left: 193px;
     }
 
@@ -147,7 +150,7 @@ $enable-hover-media-query:  false !default;
         margin-top: ($page-primarynavbar-height + 12);
         padding: 0 0 3rem 0;
         font-family: $font-family-secondary;
-        letter-spacing: 0.02rem;
+        letter-spacing: 0.02rem;  // typographic finesse
     }
 
 }
@@ -312,8 +315,7 @@ $enable-hover-media-query:  false !default;
             padding-bottom: .35rem;
         }
 
-        .sidenav-closeIcon {
-            // visually adjust the close icon to the right to match the position of the menu glyph in the primary nav
+        .sidenav-close {
             margin-left: 183px;
         }
 
