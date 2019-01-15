@@ -12,15 +12,13 @@ includes: generation of sidenav
 
 <div class="container-fluid">
     <nav class="navbar top-navbar fixed-top" id="primaryNav">
-
-        <a class="navbar-brand" href="{{#if @root.root}}{{@root.root}}{{else}}./{{/if}}">
+        <a class="navbar-brand" href="/index.html">
             <div class="dingbat"><span class="donut">🍩</span></div>
         </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sideNav" aria-controls="sideNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="menuIcon"><span></span></span>
         </button>
-
     </nav>
 </div>
 
@@ -33,10 +31,8 @@ includes: generation of sidenav
     </div>
     <div class="sidenav-list">
     <nav class="nav">
-
         <ul class="navbar-nav">
             <li class="nav-item"><a class="nav-link" id="pages-link" href="{{@root.root}}#gallery">Pages</a>
-
                  <div class="pagelist">
                     {{#sidenav this}}
                         {{!~~ iterate list of pages ~~}}
@@ -44,7 +40,6 @@ includes: generation of sidenav
                 </div>
             </li>
         </ul>
-
     </nav>
     </div>
 </div>
