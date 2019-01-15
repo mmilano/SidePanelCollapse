@@ -35,7 +35,7 @@ var util = {
 
         // widthFlag to check for window width and only activate scrollspy if true = in certain cases, wider window sizes
         // default to the computed active flag, whatever that is
-        var shouldSpy = (flag !== undefined) ? flag : scrollSpyActivateFlag;
+        var shouldSpy = (flag !== undefined) ? flag : scrollSpyShouldActivate;
 
         if (shouldSpy) {
             $(document.body).scrollspy ({
@@ -47,6 +47,15 @@ var util = {
 
     scrollSpyRefresh: function() {
         $(document.body).scrollspy("refresh");
+    },
+
+    scrollSpyDispose: function() {
+        $(document.body).scrollspy("dispose");
+    },
+
+    scrollSpyToggle: function(target) {
+        util.scrollSpyDispose();
+        util.scrollSpyCreate(target);
     },
 
     getIfDisplayed: function getDisplayStyle(el) {
@@ -61,7 +70,7 @@ var util = {
 
 // flag to only activate scrollspy if window is larger than breakpoint
 // this is dependent on the layout being in columns are md size, so that nav will be displayed
-var scrollSpyActivateFlag = util.checkWidth();
+let scrollSpyShouldActivate = util.checkWidth();
 
 // define page specific scripts, if any are needed.
 // if not, can use the defaultPage
@@ -76,23 +85,6 @@ var pages = {
         // define the 2 different nav elements for the page
         const navHorizontal = "#primaryNav";
         const navVertical = "#sideNav-nav";
-
-        // handle toggling the nav & scrollspy
-        function navDisplayed(b) {
-            if (b) {
-                // TRUE = now the horiz nav IS displayed
-                // so dispose of the existing scrollspy, and create a new one for the primarynav
-                util.scrollSpyToggle(navHorizontal);
-                // console.log ("toggle: now display " + navHorizontal);
-            } else {
-                // FALSE =now the horiz nav IS NOT displayed
-                // so dispose of the existing scrollspy, and create a new one for sidenav
-                util.scrollSpyToggle(navVertical);
-                // console.log ("toggle: now display " + navVertical);
-            };
-        }
-
-        // END: page specific functions
 
         // deal with the 2 possible primary navs on the page:
         // the horizontal, primarynav, displayed at wider sizes
@@ -113,31 +105,13 @@ var pages = {
         // create the first scrollSpy on the currently displayed nav, and pass true because it "should spy" now.
         util.scrollSpyCreate(targetNav, true);
 
-        // now,
-        // initialize boolean value for determining if the nav display toggled between display states,
-        // meaning the the nav changed from horiz to vertical
-        let previousNavWasHoriz = horizNavDisplayed();
-
-        // set up so that resize events will update the primaryNav behavior element
-        window.addEventListener("resize", function(e) {
-            // check the current style.display value
-
-            let hnavDisplayState = horizNavDisplayed();
-            if (hnavDisplayState && !previousNavWasHoriz) {  // if horiz nav IS displayed && toggled is false, then
-                previousNavWasHoriz = true;  // signal that horiz nav is true
-                navDisplayed(true);
-            } else if (!hnavDisplayState && previousNavWasHoriz) {   // else if horiz nav is NOT displayed and toggles is true
-                previousNavWasHoriz = false;  // signal that horiz nav is false
-                navDisplayed(false);
-            }
-        }, false);
-
         // end of page setup
         util.scrollSpyRefresh();
     },
 
+    // default page handler
     "default": function(pageID) {
-        util.scrollSpyCreate("#TOCnav", scrollSpyActivateFlag);
+        util.scrollSpyCreate("#TOCnav", scrollSpyShouldActivate);
     },
 };
 
