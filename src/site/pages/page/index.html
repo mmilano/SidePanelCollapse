@@ -1,0 +1,101 @@
+{{!-- HOME PAGE: START --}}
+
+<div class="container-fluid">
+    <nav class="navbar top-navbar fixed-top navbar-expand-md" id="primaryNav">
+
+        <a class="navbar-brand" href="{{#if @root.root}}{{@root.root}}{{else}}./{{/if}}">
+            <div class="dingbat"><span class="donut">🍩</span></div>
+        </a>
+
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#sideNav" aria-controls="sideNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="primaryNav-horiz">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="#introduction">Introduction</a></li>
+                <li class="nav-item"><a class="nav-link" href="#second">Second</a></li>
+                <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+            </ul>
+        </div>
+
+    </nav>
+</div>
+
+<div class="width sidenav collapse" id="sideNav">
+<div class="sidenav-content">
+    <div class="sidenav-header">
+        <button class="sidenav-close navbar-toggler" type="button" aria-expanded="true" aria-label="Close navigation">
+        <span class="closeIcon" aria-hidden="true"></span>
+        </button>
+    </div>
+    <div class="sidenav-list">
+    <nav class="nav" id="sidenav-nav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="{{@root.root}}#introduction">Introduction</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{@root.root}}#second">Second</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{@root.root}}#gallery">Gallery</a></li>
+            </ul>
+    </nav>
+    </div>
+</div>
+</div>
+
+<section class="theme-section theme-section-full theme-section-center" id="introduction">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+                <h1 class="theme-section-title">
+                    A Bootstrap4-based Collapsing Sidebar Example.
+                </h2>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="theme-section theme-section-full theme-section-center" id="second">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+                <h2 class="theme-section-title h1">
+                    Second section.
+                </h2>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="theme-section theme-section-full" id="gallery">
+
+    <div class="container">
+        <h2 class="theme-section-title h1">
+            A gallery sort of section.
+        </h2>
+
+        <div class="row flex-items-top justify-content-md-around" id="gallery-grid">
+
+        {{!-- generation of page gallery --}}
+        {{#gallery-items this}}
+            <div class="col-12 col-md-6 col-lg-4 gallery-item" id="{{id}}-item">
+                <a class="card gallery-card h-100" href="./{{{url}}}">
+                    <div class="card-image"></div>
+
+                    <div class="card-overview">
+                        {{getProjectPageKeyById id "overview-short"}}
+                    </div>
+
+                    <div class="card-info">
+                        <h4 class="card-group">{{getProjectPageKeyById id "group"}}</h4>
+                        <h5 class="card-name">{{{getPageTitleShortById id}}}</h5>
+                    </div>
+                </a>
+            </div>
+        {{/gallery-items}}
+        </div>
+    </div>
+</section>
