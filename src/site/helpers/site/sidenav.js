@@ -50,16 +50,16 @@ module.exports = function(globalContext, options) {
     // get page name from the page data
 
     function renderPageName(page) {
-        let page_URL = page.url;
+        let pageURL = page.url;
 
         // to get the title in the page data,
         // have to breakdown the page url because the page data is keyed to the page file name
-        let pageName = node_path.parse(page.url).name;
+        let pageName = node_path.parse(pageURL).name;
         let pageData = globalContext[pageName];
         let name = pageData["page-title-short"];
 
         let context = {
-            "url": page_URL,
+            "url": pageURL,
             "pagename": name,
         };
 
@@ -112,10 +112,6 @@ module.exports = function(globalContext, options) {
     let projects = globalContext && globalContext["site-portfolio"];  // TODO replace with one below
     siteGallery = globalContext && globalContext["site-gallery"];
 
-    console.log ("sidenav: ********** page: ", globalContext.page);
-    console.log ("sidenav: ********** gall: ", siteGallery);
-
-
     // create a parallel array of just the active page keys
     let pagesActive = getActivePages(siteGallery);
 
@@ -130,20 +126,17 @@ module.exports = function(globalContext, options) {
     currentPageID = getPageData(globalContext, currentPage, "id");
 
     pagesActive.forEach(function(k, index) {
-
-        let htmlelement = "";
+        let htmlFragment = "";
 
         let aPage = siteGallery[k];
         let pageID = aPage.id;
         let pageName = node_path.parse(aPage.url).name;
-
         let pageGroup = getPageData(globalContext, pageName, "group");
 
-        // if Group = group from previous page,
+        // if this group = group from previous page,
         // then just render the page name
-
         if (pageGroup === previousGroup) {
-            htmlelement = renderPageName(aPage);
+            htmlFragment = renderPageName(aPage);
         } else {
             // if group !== previous group, then render
             // 1. group closer and a divider to close the previous group,
@@ -154,17 +147,17 @@ module.exports = function(globalContext, options) {
                 htmlelement = renderGroupEnd();
                 htmlelement += renderDivider();
             };
-            htmlelement += renderGroupBegin();
-            htmlelement += renderGroupName(pageGroup);
-            htmlelement += renderPageName(aPage);
+            htmlFragment += renderGroupBegin();
+            htmlFragment += renderGroupName(pageGroup);
+            htmlFragment += renderPageName(aPage);
             previousGroup = pageGroup;
         }
         // check if this is the end of the list of pagess. if so, close out
         if (index === galleryPagesLength) {
-            htmlelement += renderGroupEnd();
+            htmlFragment += renderGroupEnd();
         }
 
-        out += htmlelement;
+        out += htmlFragment;
     });
 
     return out;
