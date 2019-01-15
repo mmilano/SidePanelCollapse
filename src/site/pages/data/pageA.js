@@ -3,7 +3,7 @@
 module.exports = {
     "id": "page-exampleA",
 
-    "group": "Group One",
+    "group": "Page Group",
     "page-title": "A Bootstrap-based Collapsing Sidebar",
     "page-title-short": "Example Page",
     "page-title-html": "Example Page",

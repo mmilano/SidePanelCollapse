@@ -3,7 +3,7 @@
 module.exports = {
     "id": "page-exampleB",
 
-    "group": "Group Two",
+    "group": "Page Group",
     "page-title": "Voluptate pariatur aliqua beef ribs sed",
     "page-title-short": "Example Page",
     "page-title-html": "Example Page",
