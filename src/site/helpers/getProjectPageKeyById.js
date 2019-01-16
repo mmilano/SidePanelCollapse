@@ -12,7 +12,7 @@
 //
 // @returns {string} the value of key from the page data
 
-var panini = require("panini");
+const panini = require("panini");
 
 module.exports = function(pageID, key, options) {
     "use strict";

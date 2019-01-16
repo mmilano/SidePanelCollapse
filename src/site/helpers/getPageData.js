@@ -16,11 +16,10 @@
 module.exports = function(globalContext, page, key) {
     "use strict";
 
-    let pageData
     let value = "";  // default value
 
     if (globalContext[page] !== undefined) {
-        pageData = globalContext[page];
+        let pageData = globalContext[page];
 
         if (pageData[key] !== undefined) {
             value = pageData[key];
