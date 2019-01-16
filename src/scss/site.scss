@@ -1,14 +1,21 @@
 // base file for site styles
 @import "vendor/_vendor";
 
-@import "common";
+// shared values and scss functions
+@import "common/_variables";
+@import "common/_functions";
 
+// styles for the general site
 @import "main/_main";
 @import "main/_navbar";
 @import "main/_sidenav";
 
-@import "pages";
+// styles specific to individual pages
+@import "pages/_page-home";
+@import "pages/_gallery";
+@import "pages/_pages";
 
+// styles for specific elements
 @import "custom/_dingbats";
 @import "custom/_icon_close";
 @import "custom/_icon_menu";
