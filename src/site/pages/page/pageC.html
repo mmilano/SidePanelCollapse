@@ -6,12 +6,43 @@
 <section class="page-section page-overview">
 {{#markdown}}
 
-Frankfurter do flank shoulder. Hamburger leberkas venison biltong. Buffalo et turkey ea cupim est kielbasa tail excepteur mollit adipisicing
-tenderloin cillum. Aute filet mignon pork belly swine anim. Pariatur tenderloin id kevin, spare ribs kielbasa rump consequat hamburger. Do meatball
-sed spare ribs esse porchetta.
+Bootstrap 4 can be used to made an element collapse horizontally.
 
-Voluptate venison kielbasa short loin commodo sint aliquip magna veniam buffalo cupim aliqua t-bone ham hock ut. Nostrud venison sirloin bresaola
-cupidatat, tri-tip tenderloin alcatra.
+{{/markdown}}
+</section>
+
+
+<section class="page-section" id="section-0">
+{{#heading-L2 id="Nonsense" data-title-short="Frankfurter" data-toc=true}}
+Pork loin ball tip flank corned beef capicola
+{{/heading-L2}}
+
+{{#markdown}}
+
+
+The Bootstrap Collapse component is typically used to show and hide content in vertical manner, collapsing upwards and downwards.
+
+
+https://getbootstrap.com/docs/4.2/components/collapse/
+
+
+I wanted to add a vertical full window navigation side bar to my site, and I was already using Bootstrap, so it seemed that
+I should be able to use the existing component to make the navigation bar open and close.
+
+
+It turns out that there is a hook for horizontal collapse.
+
+While height collapse is the default behavior, the bootstrap code will check if the collapsing element has a 'width' class.
+
+
+```javascript
+    _proto._getDimension = function _getDimension() {
+      var hasWidth = $(this._element).hasClass(Dimension.WIDTH);
+      return hasWidth ? Dimension.WIDTH : Dimension.HEIGHT;
+    };
+```
+
+If so, then the width, not height, collapses. I.E. is collapses horizontally.
 
 {{/markdown}}
 </section>
