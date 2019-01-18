@@ -9,36 +9,33 @@ $sidenav-header-color:                  #001B4E;
 
 $sidenav-closeButton-height:            36px;
 
-$sidenav-list-space-left:        25px;
-$sidenav-list-space-left-sm:     15px;
-$sidenav-list-space-right:       25px;
-$sidenav-list-space-right-sm:    15px;
+$sidenav-list-space-left:               25px;
+$sidenav-list-space-left-sm:            15px;
+$sidenav-list-space-right:              25px;
+$sidenav-list-space-right-sm:           15px;
 
-$sidenav-item-border-color:         #AFAFAA;
-$sidenav-item-border-color:         desaturate(lighten($sidenav-background-color, 23%), 35%);
+$pagelist-link-hover-color:             $link-color-highlight;
 
-$pagelist-link-hover-color:          $link-color-highlight;
+$pagelist-item-font-size-default:       0.81rem;
+$pagelist-item-font-size-sm:            decimal-round(($pagelist-item-font-size-default * 0.95), 3);
 
-$pagelist-item-font-size-default:    0.81rem;
-$pagelist-item-font-size-sm:         decimal-round(($pagelist-item-font-size-default * 0.95), 3);
-
-$pagelist-group-font-color:         #476978;
-$pagelist-group-font-color-hover:   #3D88C9;
+$pagelist-group-font-color:             #476978;
+$pagelist-group-font-color-hover:       #3D88C9;
 
 
 // backdrop
-$sidenav-backdrop-opacity:          0.6;
-$sidenav-backdrop-bg-dark:          #000;
-$sidenav-backdrop-bg-light:         #FFF;
+$sidenav-backdrop-opacity:              0.6;
+$sidenav-backdrop-bg-dark:              #000;
+$sidenav-backdrop-bg-light:             #FFF;
 
 
 // transitions
-$sidenav-duration-show:             1.05s;
-$sidenav-duration-hide:             0.31s;
-$sidenav-duration-hide-fast:        0.10s;
+$sidenav-duration-show:                 1.05s;
+$sidenav-duration-hide:                 0.31s;
+$sidenav-duration-hide-fast:            0.10s;
 
-$backdrop-show-duration:            0.33s;
-$backdrop-hide-duration:            0.1s;
+$backdrop-show-duration:                0.33s;
+$backdrop-hide-duration:                0.1s;
 
 $group-color-transition-duration:       0.9s;
 
@@ -62,8 +59,8 @@ $enable-hover-media-query:  false !default;
 
 .sidenav {
 
-    // store the duration values as css variables so that they only have to be declared in one place, and
-    // the page's javascript can access/extract them later
+    // list the duration values as css variables so that they only have to be declared in one place, and
+    // the page's javascript can access/extract them when needed
     --sidenavDurationShow: #{$sidenav-duration-show};
     --sidenavDurationHide: #{$sidenav-duration-hide};
     --sidenavDurationHideFast: #{$sidenav-duration-hide-fast};
@@ -276,7 +273,6 @@ $enable-hover-media-query:  false !default;
 // overrides for display on the homepage
 .theme-homepage {
     .sidenav {
-
         .nav {
             margin-left: $sidenav-list-space-left;  // left-side margin from the edge of sidenav
         }
