@@ -16,12 +16,6 @@
 
 // SITE values
 
-// where are the image assets in relation to the css
-$images-path:            "../images/";
-$images-path-gallery:    $images-path + "gallery/";
-$images-path-general:    $images-path + "general/";
-
-
 
 // COLORS
 // core colors
@@ -31,7 +25,6 @@ $toasted-black:          #130A02;
 $core-charcoal:          #424242;
 $core-white:		     #FFFFFF;
 $core-blue:              #2C95DD;
-
 
 
 // color increments of 17/255
@@ -49,11 +42,9 @@ $color-white-darker5:    darken($core-white, 33.33333%);   // #AAAAAA
 
 // background colors
 
-$background-color-intro:        #618BFF;  // bluish-kin to core-blue. v2
-$background-color-about:        #618BFF;  // bluish-kin to core-blue. v2
-// $background-color-second:       #0A5A4A;
+$background-color-intro:        #618BFF;
+$background-color-about:        #618BFF;
 $background-color-second:       #85A047;
-
 $background-color-footer:       #363739;
 
 
@@ -97,7 +88,6 @@ $link-color-highlight:  #55AA11;
 $default-border-color: $color-white-darker5;
 
 
-// content sections & components
 
 // LAYOUT
 $page-primarynavbar-height:     50px;  // height of the primary nav bar on the page
@@ -127,12 +117,6 @@ $font-weight-bold:      700;
 
 // font sizes
 $page-heading-size:      2.9rem;
-
-// primary text sizes
-$section-heading-primary-size-x-small:  2.9rem;
-$section-heading-primary-size-small:    3.1rem;
-$section-heading-primary-size-medium:   5.1rem;
-
 
 // NAV transitions
 $nav-item-color-transition-duration:        0.3s;
