@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-env": "^7.3.1",
     "ap-style-title-case": "^1.1.0",
     "browserify": "^16.2.3",
     "cheerio": "^1.0.0-rc.2",
@@ -41,7 +41,7 @@
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-babel": "^8.0.0",
-    "gulp-cache": "^1.1.0",
+    "gulp-cache": "^1.1.1",
     "gulp-cached": "^1.1.1",
     "gulp-changed": "^3.2.0",
     "gulp-changed-in-place": "^2.3.0",
