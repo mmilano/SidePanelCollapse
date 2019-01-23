@@ -1,6 +1,6 @@
 
 $sidenav-width:                         260px;
-$sidenav-width-sm:                      $sidenav-width - 25;
+$sidenav-width-md:                      $sidenav-width - 20;
 
 $sidenav-background-color:              #062B62;
 $sidenav-pagesection-background-color:  adjust_hue(desaturate(lighten($sidenav-background-color, 2.7), 2), -1.1);
@@ -10,14 +10,14 @@ $sidenav-header-color:                  #001B4E;
 $sidenav-closeButton-height:            36px;
 
 $sidenav-list-space-left:               25px;
-$sidenav-list-space-left-sm:            15px;
+$sidenav-list-space-left-md:            20px;
 $sidenav-list-space-right:              25px;
-$sidenav-list-space-right-sm:           15px;
+// $sidenav-list-space-right-sm:           15px;
 
 $pagelist-link-hover-color:             $link-color-highlight;
 
-$pagelist-item-font-size-default:       0.81rem;
-$pagelist-item-font-size-sm:            decimal-round(($pagelist-item-font-size-default * 0.95), 3);
+$pagelist-item-font-size-default:       0.83rem;
+$pagelist-item-font-size-md:            decimal-round(($pagelist-item-font-size-default * 0.96), 3);
 
 $pagelist-group-font-color:             #476978;
 $pagelist-group-font-color-hover:       #3D88C9;
@@ -171,10 +171,12 @@ $enable-hover-media-query:  false !default;
     line-height: 1.35;
 }
 
+
+// group = heading + list of items under that heading
 .pagelist-group {
     margin-bottom: .9rem;
 
-    @include hover-focus {
+    &:hover {
         .pagelist-group {
             color: $pagelist-group-font-color-hover;
         }
@@ -247,7 +249,7 @@ $enable-hover-media-query:  false !default;
     }
 }
 
-// animation: softly fadeIN the backdrop
+// animation: softly fade IN the backdrop
 @keyframes backdropIn {
     0% {
         opacity: 0;
@@ -257,7 +259,7 @@ $enable-hover-media-query:  false !default;
     }
 }
 
-// animation: softly fadeOUT the backdrop
+// animation: softly fade OUT the backdrop
 // this keyframes rule is the reverse of backdropIn;
 // this 'should' be possible to do by reversing backdropIn, but that doesnt appear tyo work as one might think
 @keyframes backdropOut {
@@ -290,21 +292,21 @@ $enable-hover-media-query:  false !default;
     .sidenav {
 
         .sidenav-content {
-            width: $sidenav-width-sm;
+            width: $sidenav-width-md;
         }
 
         .nav {
-            margin-left: $sidenav-list-space-left-sm;  // left-side margin from the edge of sidenav
+            margin-left: $sidenav-list-space-left-md;  // left-side margin from the edge of sidenav
         }
 
-        .nav-item {
-            &.section {
-                // do all this brittle adjustments so that the section element can have a different background color than the sidenav itself
-                margin-left: -$sidenav-list-space-left-sm;
-                padding-left: $sidenav-list-space-left-sm;
-                padding-right: $sidenav-list-space-right-sm;
-            }
-        }
+//         .nav-item {
+//             &.section {
+//                 // do all this brittle adjustments so that the section element can have a different background color than the sidenav itself
+//                 margin-left: -$sidenav-list-space-left-sm;
+//                 padding-left: $sidenav-list-space-left-sm;
+//                 padding-right: $sidenav-list-space-right-sm;
+//             }
+//         }
 
         .nav-link {
             margin-bottom: .25rem;
@@ -325,6 +327,6 @@ $enable-hover-media-query:  false !default;
 
     // pagelist is the section listing out the pages/links
     .pagelist {
-        font-size: $pagelist-item-font-size-sm;
+        font-size: $pagelist-item-font-size-md;
     }
 }
