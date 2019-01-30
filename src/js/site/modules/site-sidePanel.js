@@ -10,10 +10,9 @@ var sideNavCollapse = (function() {
 
     let $sidepanel, sidepanelCloseButton;
 
-    // in seconds, as css transition format
-    const sidenavDurationShow = "1.05s";      // normal time for sidepanel to slide out & show
-    const sidenavDurationHide = "0.31s";       // normal time for sidepanel to slide in & hide
-    const sidenavDurationHideFast = "0.10s";   // fast time for sidepanel to slide in & hide
+    let sidenavDurationShow,
+        sidenavDurationHide,
+        sidenavDurationHideFast;
 
     // local keypress handler
     // when the sidenav is displayed (open), ESC will close
@@ -153,11 +152,7 @@ var sideNavCollapse = (function() {
         // jquery event listener to run once on the BS4 "shown" completion event
         $sidepanel.one("shown.bs.collapse", whenShowEnds);
 
-        sidepanelCloseButton = document.querySelector("#sideNav .sidenav-close");
-        // set event on the close button so that click will close the sidenav
-        sidepanelCloseButton.addEventListener("click", sidepanelClose, false);
-
-        // set keyup event handler to catch ESC key and close sidepanel if pressed
+        // when sidepanel is open, set keyup event handler to catch ESC key and close sidepanel if pressed
         document.addEventListener("keyup", sidepanelKeyHandle, false);
 
         // add a style class to the document page.
@@ -178,21 +173,25 @@ var sideNavCollapse = (function() {
     }
 
     function init() {
-
         // extract the duration values from the css variables
-        // by doing this, the values only have to be in one place.
-        // const sidenavDurationShow = getComputedStyle(sidePanel[0]).getPropertyValue("--sidenavDurationShow");
-        // const sidenavDurationHide = getComputedStyle(sidePanel[0]).getPropertyValue("--sidenavDurationHide");
-        // const sidenavDurationHideFast = getComputedStyle(sidePanel[0]).getPropertyValue("--sidenavDurationHideFast");
+        // doing this so that the duration values do not have to be repeated in the javascript,
+        // and there is only one declaration to change.
+        sidenavDurationShow = getComputedStyle($sidepanel[0]).getPropertyValue("--sidenavDurationShow");
+        sidenavDurationHide = getComputedStyle($sidepanel[0]).getPropertyValue("--sidenavDurationHide");
+        sidenavDurationHideFast = getComputedStyle($sidepanel[0]).getPropertyValue("--sidenavDurationHideFast");
 
         // add event listener for collapse event
         // show.bs.collapse: This event fires immediately when the show instance method is called.
         // use jquery event because BS4 uses jquery-land events.
         $sidepanel.on("show.bs.collapse", sidepanelOpen);
 
+        // select the close button element, and add event so that sidepnel closes when clicked
+        sidepanelCloseButton = document.querySelector("#sideNav .sidenav-close");
+        // set event on the close button so that click will close the sidenav
+        sidepanelCloseButton.addEventListener("click", sidepanelClose, false);
+
         // create and insert the backdrop element so it is ready to go
         sidepanelBackdrop.create();
-
     }
 
     // select and cache the sidepanel and close icon.
