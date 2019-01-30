@@ -51,7 +51,7 @@ requireDir("./gulp/tasks/");
 
 
 // simply touch a file so that filesystem thinks the file changed
-function touch(file) {
+function touchNow(file) {
     let timenow = Date.now() / 1000;  // https://nodejs.org/docs/latest/api/fs.html#fs_fs_utimes_path_atime_mtime_callback
     fs_utimes(file, timenow, timenow, function(){return;});
 }
@@ -555,16 +555,20 @@ gulp.task("watch:scss", watchSCSS);
 // **********
 // SITE DATA
 
-function touchGalleryData(done) {
-    let file = paths.siteGalleryDataMASTER;
-    touch(file);
-    done();
+function touchGalleryData() {
+    return new Promise(function(resolve, reject) {
+        let file = paths.siteGalleryDataMASTER;
+        touchNow(file);
+        resolve();
+    });
 }
 
-function touchIndexPage(done) {
-    let file = paths.indexPageSRC;
-    touch(file);
-    done();
+function touchIndexPage() {
+    return new Promise(function(resolve, reject) {
+        let file = paths.indexPageSRC;
+        touchNow(file);
+        resolve();
+    });
 }
 
 gulp.task("touch:site-gallery", touchGalleryData);
