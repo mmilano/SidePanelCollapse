@@ -184,8 +184,11 @@ function copyImagesChanged(done) {
 }
 
 function watchImages(done) {
-    gulp
-    .watch(paths.imgSourceGLOBDIR, {delay: 600}, gulp.series("copy:images-changed"));
+    var watcherImages =  gulp.watch(paths.imgSourceGLOBDIR);
+    watcherImages.on("error", err => glog("watch images error: " + err));
+    watcherImages.on("change", path => glog("images changed >>> " + path));
+    watcherImages.on("change", gulp.series("copy:images-changed"));
+
     done();
 }
 
@@ -317,10 +320,11 @@ gulp.task("build:pages", buildPagesAll);
 // source of html files
 
 function watchindexPageSource(done) {
-    gulp
-    .watch(paths.indexPageSRC, gulp.series("build:index"))
-	.on("error", err => glog("watch error: " + err))
-    .on("change", path => glog("watch:index >>> " + path));
+    var watcherIndex =  gulp.watch(paths.indexPageSRC);
+    watcherIndex.on("error", err => glog("watch index error: " + err));
+    watcherIndex.on("change", path => glog("watch index >>> " + path));
+    watcherIndex.on("change", gulp.series("build:index"));
+
     done();
 }
 
@@ -364,18 +368,20 @@ function buildPageOnDataChange(done) {
 }
 
 
-function constructPageFilename(file) {
-    return file + ".html";
-};
+
 
 // constructProjectPath:
 // given a data file of /path/path/file.js,
 // break down the path and construct the path & name of the counterpart file.html
 // remove the src path from both files: src/site/pages/data  &  src/site/pages/page
 function constructPagePath(file) {
+
+    function constructHTMLFilename(file) {
+        return file + ".html";
+    };
+
     const extension = ".html";
     const pathBase = paths.siteBuildSource;  // top portion location of the content pages
-
     const pagePathBase = "src/site/pages/";
 
     let dataPagePathBase = "src/site/pages/data";
@@ -383,12 +389,12 @@ function constructPagePath(file) {
 
     let parsedFile = node_path.parse(file);
     let filePath = parsedFile.dir;
-    let htmlFilename = constructPageFilename(parsedFile.name);
+    let htmlFilename = constructHTMLFilename(parsedFile.name);
 
-    let counterpathPath = filePath.replace("src/site/pages/data", "src/site/pages/page");
+    let counterPath = filePath.replace("src/site/pages/data", "src/site/pages/page");
 
     // construct path to the html version...
-    let htmlFile = counterpathPath + node_path.sep + htmlFilename;
+    let htmlFile = counterPath + node_path.sep + htmlFilename;
     return htmlFile;
 };
 
@@ -438,14 +444,13 @@ gulp.task("watch:pages", gulp.series(buildPageOnDataChange, watchPages));
 // rebuild all because these items affect all pages.
 // also watch the site data, which also affects all the pages.
 
+
 function watchHandlebars(done) {
-    gulp
-    .watch([paths.siteHBSFiles, paths.siteData])
-	.on("error", err => glog("watch error: " + err.message))
-	.on("change", path => glog("watch:templates & helpers changed >>> " + path))
-	.on("change", path => gulp.series("build:pages")())
-    .on("unlink", path => glog("removed: " + path));
-	done();
+    var watcherHandlebars =  gulp.watch([paths.siteHBSFiles, paths.siteData]);
+    watcherHandlebars.on("error", err => glog("watch handlebars error: " + err));
+    watcherHandlebars.on("change", path => glog("watch:templates & helpers changed >>> " + path));
+    watcherHandlebars.on("change", gulp.series("build:pages"));
+    done();
 }
 
 gulp.task("watch:handlebars", watchHandlebars);
@@ -511,24 +516,24 @@ const scssOptions = {
 };
 
 const autoprefixerOptions = {
-    browsers: ["last 2 versions", "not opera < 49"],
+    browsers: ["last 2 versions"],
 };
 
 function maketheCSS(done) {
-    gulp
+    return gulp
     .src(paths.scssSource)
     .pipe(sourcemaps.init())
-    .pipe(sass(scssOptions).on("error", sass.logError))
+    .pipe(sass(scssOptions)
+    .on("error", sass.logError))
     .pipe(autoprefixer(autoprefixerOptions))
     .pipe(sourcemaps.write("./map"))
     .pipe(gulp.dest(paths.cssDestination))
-    .on("end", () => { glog("compile:sass complete"); })
+    .on("end", () => { glog("compile:sass completed"); })
     .pipe(notify({
         title: "SCSS",
         message: "task: compile:SCSS complete",
         onLast: true,
         icon: null }));
-    done();
 }
 
 gulp.task("compile:scss", maketheCSS);
@@ -536,11 +541,10 @@ gulp.task("compile:scss", maketheCSS);
 // watch the scss
 
 function watchSCSS(done) {
-    gulp
-    .watch(paths.scssSourceGLOB, gulp.series("compile:scss"))
-	.on("error",  err => glog("watch error: " + err.message))
-    .on("change", path => glog("watch:scss >>> " + path + " changed."))
-    .on("unlink", path => glog(path + " was deleted"));
+    var watcherSCSS =  gulp.watch(paths.scssSourceGLOB);
+    watcherSCSS.on("error", err => glog("watch handlebars error: " + err));
+    watcherSCSS.on("change", gulp.series("compile:scss"));
+    watcherSCSS.on("unlink", path => glog(path + " was deleted"));
     done();
 }
 
@@ -568,11 +572,10 @@ gulp.task("touch:index", touchIndexPage);
 
 
 function watchGalleryData(done) {
-    gulp
-    .watch(paths.siteGalleryDataMASTER)
-	.on("error", err => glog("watch siteData error: " + err.message))
-	.on("change", gulp.parallel("touch:site-gallery", "touch:index"))
-	.on("change", path => glog("watch:siteData >>> " + path));
+    var watcherGallery =  gulp.watch(paths.siteGalleryDataMASTER);
+    watcherGallery.on("error", err => glog("watch gallery data error: " + err));
+    watcherGallery.on("change", gulp.parallel("build:index"));
+
     done();
 }
 
@@ -586,13 +589,12 @@ gulp.task("watch:siteData", watchGalleryData);
 // lint, assemble, compile, and etc. for the javascript
 
 function lintJS(done) {
-    gulp
+    return gulp
     .src(paths.jsSourceSITEGLOB)
     // .pipe(debug())   // iterate out name of each file being checked
     .pipe(cached("jslintCacheName"))
     .pipe(jshint(paths.jshintConfiguration))
     .pipe(jshint.reporter("default"));
-    done();
 }
 
 gulp.task ("lint:js", lintJS);
@@ -642,13 +644,14 @@ gulp.task("browserify:site-js", function browserifySiteJS(done) {
 // watch the js
 
 function watchJS(done) {
-    gulp
-    .watch(paths.jsSourceSITEGLOB, {delay: 400})
-	.on("error", err => glog("watch js error: " + err.message))
-	.on("change", gulp.series("lint:js", "browserify:site-js"))
-	.on("change", path => glog("watch:js >>> " + path));
+    var watcherJS =  gulp.watch(paths.jsSourceGLOB);
+    watcherJS.on("error", err => glog("watch js error: " + err.message));
+    watcherJS.on("change", path => glog("watch:js >>> " + path));
+    watcherJS.on("change", gulp.series("lint:js", "browserify:site-js"));
+
 	done();
 }
+
 
 gulp.task("watch:js", watchJS);
 
@@ -656,12 +659,12 @@ gulp.task("watch:js", watchJS);
 
 gulp.task("watch:full", gulp.parallel(
     "watch:images",
+    "watch:handlebars",
     "watch:scss",
-    "watch:siteData",
     "watch:js",
+    "watch:siteData",
     "watch:index",
     "watch:pages",
-    "watch:handlebars"
 ));
 
 
@@ -680,7 +683,7 @@ gulp.task("default", gulp.series(
 gulp.task("dev", function taskDevBasic(done) {
     gulp.series(
         "webserver",
-        "site:local",
+        // "site:local",
         gulp.parallel(
             "compile:scss",
             "browserify:site-js",
@@ -698,7 +701,7 @@ function production(done) {
 
     gulp.series(
         "webserver",
-        "site:remote",
+        // "site:remote",
         gulp.parallel(
             "compile:scss",
             "browserify:site-js",
