@@ -148,7 +148,7 @@ var paths = {
     siteHBSFiles: siteBuildSource + "{layouts,helpers,partials}/**/*",
 
     // MASTER FILE of the gallery data
-    siteGalleryDataMASTER: "./src/js/site/gallery/site-gallery-canonical.js",
+    siteGalleryDataMASTER: "./src/js/site/gallery/site-gallery-data.js",
 
 };
 

@@ -9,6 +9,6 @@ const basepath = process.cwd();
 const requireNoCache = require(basepath + "/src/site/lib/invalidateRequireCacheForFile.js");
 
 // include the canonical gallery data file
-let galleryData = requireNoCache(basepath + "/src/js/site/gallery/site-gallery-canonical.js");
+let galleryData = requireNoCache(basepath + "/src/js/site/gallery/site-gallery-data.js");
 
 module.exports = galleryData;
