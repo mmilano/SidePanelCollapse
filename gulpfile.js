@@ -20,11 +20,10 @@ const buffer =          require("vinyl-buffer");
 const babel =           require('gulp-babel');
 const babelENV =        require("@babel/preset-env");
 
-// html tools
+// html
 const htmlvalidator =   require("gulp-html");
 
-
-// content template system
+// content/template system
 const panini =          require("panini");
 
 // tools
@@ -43,7 +42,6 @@ const fs_utimes =       require("fs").utimes;
 
 const requireDir =      require("require-dir");
 
-const gwatch =          require("gulp-watch");  // TODO REMOVE?
 
 
 // pull in all of the subtasks
@@ -56,7 +54,11 @@ function touchNow(file) {
     fs_utimes(file, timenow, timenow, function(){return;});
 }
 
-
+// tell panini to refresh all the files
+function refreshPanini(done) {
+    panini.refresh();
+    done();
+}
 
 
 // **********
@@ -112,9 +114,9 @@ var paths = {
     browserifyDestinationFile_site: "site.js",
 
     // panini and site building
-    siteBuildSource: siteBuildSource,
+    siteBuildSource: siteBuildSource,  // dupe for convenience
 
-    siteData: "./src/site/data/site/**/*",
+    siteDataGLOB: "./src/site/data/site/**/*",
 
     pageBuildSourceRoot: siteBuildSource + "pages/",
 
@@ -130,11 +132,12 @@ var paths = {
     },
 
     pagesBuildDestinationRoot: siteBuildDestinationRoot,
-
     pagesBuiltGLOB: "./build/pages/**/*.html",
 
     sitePages: siteBuildSource + "pages/",
     sitePagesData: "./src/site/pages/data/**/*.js",
+    sitePagesGLOB: "./src/site/pages/page/**/*",
+
 
     get siteSourcePagesData() {
         return ([paths.sitePages + "data/**/*.js"]);
@@ -153,11 +156,16 @@ var paths = {
 };
 
 
-
 // erases the directories, clean out the compiled stuff
-gulp.task("site:clean", function siteClean() {
-    return del(paths.cleanGLOB);
-});
+function siteClean(done) {
+    del(paths.cleanGLOB).then(paths => {
+        // console.log("deleted:");
+        // console.log(paths.join("\n"));  // display list of everything del'd
+        done();
+    });
+}
+
+gulp.task("site:clean", siteClean);
 
 
 // copy images
@@ -279,21 +287,20 @@ const pageBuildOptions = {
 };
 
 function buildPagesAll(done) {
-    panini.refresh();
+    refreshPanini(done);
 
-    gulp
+    return gulp
     .src(paths.siteSourcePagesContent)          // ./src/site/pages/page/**/*.html
     .pipe(panini(pageBuildOptions))
     .pipe(debug({title: "pages building:"}))
     .pipe(gulp.dest(paths.pagesBuildDestinationRoot))  // ./build/
     .pipe(debug({title: "BUILT page:"}));
-    done();
 }
 
 function buildPage(page, path) {
-    panini.refresh();
+    refreshPanini(done);
 
-    gulp
+    return gulp
     .src(page)
     .pipe(debug({title: "building:"}))
     .pipe(panini(pageBuildOptions))
@@ -302,14 +309,13 @@ function buildPage(page, path) {
 }
 
 function buildIndexPage(done) {
-    panini.refresh();
+    refreshPanini(done);
 
-    gulp
+    return gulp
     .src(paths.indexPageSRC)
     .pipe(panini(pageBuildOptions))
-    .pipe(debug({title: "BUILT homepage page."}))
+    .pipe(debug({title: "BUILT index page."}))
     .pipe(gulp.dest(paths.buildIndexPageDestination));
-    done();
 }
 
 gulp.task("build:index", buildIndexPage);
@@ -342,11 +348,10 @@ gulp.task("watch:index", watchindexPageSource);
 // - which in turn should kick off the rebuild of the page due to other tasks watching $.html pages
 function buildPageOnDataChange(done) {
 
-    gulp
-    .watch(paths.siteSourcePagesData)
-	.on("error", err => glog("watch error: " + err.message))
-	.on("change", function(dataFile) {
-        panini.refresh();
+    var watcherPageChange =  gulp.watch(paths.siteSourcePagesData);
+    watcherPageChange.on("error", err => glog("watch error: " + err));
+    watcherPageChange.on("change", function(dataFile) {
+        refreshPanini(done);
 
         // given the full path to the html file,
         // need to remove the common root part of the path that is the pages directory (-pageBuildSourceRoot)
@@ -355,18 +360,17 @@ function buildPageOnDataChange(done) {
         // ie get pagefile - pageBuildSourceRoot
         // src/site/pages/page/pageA.html - src/site/pages/
         let pageFile = constructPagePath(dataFile);
-        glog ("data:", dataFile);
-        glog ("page:", pageFile);
-        glog ("root destination:", paths.pagesBuildDestinationRoot);
+        glog("data:", dataFile);
+        glog("page:", pageFile);
+        glog("root destination:", paths.pagesBuildDestinationRoot);
 
         let pageSubPath = "/.";
 
         buildPage(pageFile, pageSubPath);
-	});
+    });
 
     done();
 }
-
 
 
 
@@ -389,9 +393,8 @@ function constructPagePath(file) {
 
     let parsedFile = node_path.parse(file);
     let filePath = parsedFile.dir;
+    let counterPath = filePath.replace(dataPagePathBase, htmlPagePathBase);
     let htmlFilename = constructHTMLFilename(parsedFile.name);
-
-    let counterPath = filePath.replace("src/site/pages/data", "src/site/pages/page");
 
     // construct path to the html version...
     let htmlFile = counterPath + node_path.sep + htmlFilename;
@@ -410,7 +413,7 @@ const changedInPlaceOptions = {
 function buildpagesCHANGED(done) {
     panini.refresh();
 
-    gulp
+    return gulp
     .on("error", function(err) {
         glog("page build error: " + err.message);
         this.emit("end");
@@ -421,7 +424,6 @@ function buildpagesCHANGED(done) {
     .pipe(debug({title: "building:"}))
     .pipe(gulp.dest(paths.pagesBuildDestinationRoot))
     .pipe(debug({title: "BUILT: "}))
-    done();
 }
 
 // watch just the project pages and only build the ones whose html pages changed
@@ -429,24 +431,22 @@ gulp.task("build:pages-changed", buildpagesCHANGED);
 
 
 function watchPages(done) {
-    gulp
-    .watch(["./src/site/pages/page/**/*", paths.DSStoreIgnore], gulp.series("build:pages-changed"))
-	.on("error", err => glog("watch error: " + err.message))
-	.on("change", path => glog("watch:pages >>> " + path))
+    var watcherPages =  gulp.watch([paths.sitePagesGLOB, paths.DSStoreIgnore]);
+    watcherPages.on("error", err => glog("watch error: " + err));
+    watcherPages.on("change", path => glog("watch:pages >>> " + path));
+    watcherPages.on("change", gulp.series("build:pages-changed"));
+
 	done();
 }
 
 gulp.task("watch:pages", gulp.series(buildPageOnDataChange, watchPages));
 
 
-
 // watch the handlebars elements and rebuild html pages if any of them change
 // rebuild all because these items affect all pages.
 // also watch the site data, which also affects all the pages.
-
-
 function watchHandlebars(done) {
-    var watcherHandlebars =  gulp.watch([paths.siteHBSFiles, paths.siteData]);
+    var watcherHandlebars =  gulp.watch([paths.siteHBSFiles, paths.siteDataGLOB]);
     watcherHandlebars.on("error", err => glog("watch handlebars error: " + err));
     watcherHandlebars.on("change", path => glog("watch:templates & helpers changed >>> " + path));
     watcherHandlebars.on("change", gulp.series("build:pages"));
@@ -466,39 +466,16 @@ const validatorOptions = {
     "errors-only": true
 };
 
-function validateAPage(page) {
+function validatepPagesBuilt() {
     return gulp
-    .src(page)
+    .src([paths.pagesBuiltGLOB, paths.indexPageBuilt])
     .pipe(htmlvalidator(validatorOptions))
-    .on("error", err => glog("page " + page + " validation error: " + err.message));
-    done();
+    .on("error", err => glog("PAGE validation error:\n" + err.message))
+	.on("change", path => glog("PAGE validated >>> " + path));
 }
 
-// html validation: index page
-gulp.task("validate:index", function validateIndexPage() {
-    return gulp
-    .src(paths.indexPageBuilt)
-    .pipe(htmlvalidator(validatorOptions))
-    .on("error", err => glog("index page validation error: " + err.message))
-});
-
-// html validation: a page
-gulp.task("validate:page", function validateAPage(page) {
-    validateAPage(page, done);
-    done();
-});
-
-// html validation: ALL pages
-gulp.task("validate:pages", function validatepPagesBuilt() {
-    return gulp
-    .src(paths.pagesBuiltGLOB)
-    .pipe(htmlvalidator(validatorOptions))
-    .on("error", err => glog("PAGE validation error: " + err.message))
-	.on("change", path => glog("PAGE validated >>> " + path));
-
-});
-
-gulp.task("validate:all", gulp.parallel("validate:pages", "validate:index"));
+gulp.task("validate:pages", validatepPagesBuilt);
+gulp.task("validate:all", gulp.parallel("validate:pages"));
 
 
 
@@ -538,13 +515,12 @@ function maketheCSS(done) {
 
 gulp.task("compile:scss", maketheCSS);
 
-// watch the scss
-
+// watch the scss sources
 function watchSCSS(done) {
     var watcherSCSS =  gulp.watch(paths.scssSourceGLOB);
     watcherSCSS.on("error", err => glog("watch handlebars error: " + err));
-    watcherSCSS.on("change", gulp.series("compile:scss"));
     watcherSCSS.on("unlink", path => glog(path + " was deleted"));
+    watcherSCSS.on("change", gulp.series("compile:scss"));
     done();
 }
 
@@ -574,12 +550,10 @@ function touchIndexPage() {
 gulp.task("touch:site-gallery", touchGalleryData);
 gulp.task("touch:index", touchIndexPage);
 
-
 function watchGalleryData(done) {
     var watcherGallery =  gulp.watch(paths.siteGalleryDataMASTER);
     watcherGallery.on("error", err => glog("watch gallery data error: " + err));
     watcherGallery.on("change", gulp.parallel("build:index"));
-
     done();
 }
 
@@ -608,7 +582,7 @@ const babelOptions = {
     presets: ["@babel/preset-env"]
 };
 
-// main site.js script assembly
+// main site script assembly
 function browserifyScript(file, standaloneFile) {
 
     if (!standaloneFile) {
@@ -645,14 +619,12 @@ gulp.task("browserify:site-js", function browserifySiteJS(done) {
     done();
 });
 
-// watch the js
-
+// watch the js sources
 function watchJS(done) {
     var watcherJS =  gulp.watch(paths.jsSourceGLOB);
     watcherJS.on("error", err => glog("watch js error: " + err.message));
     watcherJS.on("change", path => glog("watch:js >>> " + path));
     watcherJS.on("change", gulp.series("lint:js", "browserify:site-js"));
-
 	done();
 }
 
@@ -717,18 +689,9 @@ function production(done) {
     done();
 }
 
-function productionIndexPage(done) {
-    gulp.series(
-        "build:index",
-        "validate:index"
-        );
-    done();
-}
-
 function productionPages(done) {
     gulp.series("build:pages", "validate:pages");
 }
 
 exports.production = production;
-exports.productionIndexPage = productionIndexPage;
 exports.productionPages = productionPages;
