@@ -56,7 +56,6 @@
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.4",
-    "gulp-watch": "^5.0.1",
     "jshint": "^2.9.7",
     "panini": "^1.6.3",
     "require-dir": "^1.2.0",
