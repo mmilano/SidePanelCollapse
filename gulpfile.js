@@ -659,7 +659,7 @@ function browserifyScript(file, standaloneFile) {
         .on("end", () => glog("browserify SITE complete"));
 }
 
-// browserify the site.js code
+// browserify the site.js bundle
 gulp.task("browserify:site-js", function browserifySiteJS(done) {
     browserifyScript(paths.jsFile_site);
     done();
