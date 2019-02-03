@@ -45,12 +45,6 @@ const connect =         require("gulp-connect");
 const networkInterfaces = require("os").networkInterfaces();
 
 
-const requireDir =      require("require-dir");
-
-// pull in all of the subtasks
-// requireDir("./gulp/tasks/");
-
-
 // simply touch a file so that filesystem thinks the file changed
 function touchNow(file) {
     let timenow = Date.now() / 1000;  // https://nodejs.org/docs/latest/api/fs.html#fs_fs_utimes_path_atime_mtime_callback
