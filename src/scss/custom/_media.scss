@@ -26,24 +26,11 @@
 // $breakpoint-large:   map-get($grid-breakpoints, $key-lg);
 // $breakpoint-xlarge:  map-get($grid-breakpoints, $key-xl);
 
-
-
-// x Small
-@include media-breakpoint-down(xs) {
-
-    // fix for container width.
-    // particularly in the primarynav
-    // TODO: check if this is still necessary, not that nav uses container-fluid !!!
-    .container {
-        max-width: 100%;
-    }
-
-}
-
-
-
 $pageName-font-size-md: 2.7rem;
 $pageName-font-size-sm: 2.5rem;
+
+
+
 
 // Medium. 48em
 @include media-breakpoint-down(md) {
@@ -73,7 +60,7 @@ $pageName-font-size-sm: 2.5rem;
     .page-sidebar {
         font-size: .91rem;
 
-        h4, .h4 {
+        h4 {
            margin: 0 0 .3rem 0;
            font-size: .96rem;
            line-height: 1.35rem;
