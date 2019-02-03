@@ -12,7 +12,6 @@ $sidenav-closeButton-height:            36px;
 $sidenav-list-space-left:               25px;
 $sidenav-list-space-left-md:            20px;
 $sidenav-list-space-right:              25px;
-// $sidenav-list-space-right-sm:           15px;
 
 $pagelist-link-hover-color:             $link-color-highlight;
 
@@ -22,8 +21,11 @@ $pagelist-item-font-size-md:            decimal-round(($pagelist-item-font-size-
 $pagelist-group-font-color:             #476978;
 $pagelist-group-font-color-hover:       #3D88C9;
 
+$sidenav-zindex:                        $zindex-fixed + 1;  // z-index of Bootstrap4 default nav, plus 1, to put it above the nav
+
 
 // backdrop
+$sidenav-backdrop-zindex:               $sidenav-zindex - 100;
 $sidenav-backdrop-opacity:              0.6;
 $sidenav-backdrop-bg-dark:              #000;
 $sidenav-backdrop-bg-light:             #FFF;
@@ -40,23 +42,6 @@ $backdrop-hide-duration:                0.1s;
 $group-color-transition-duration:       0.9s;
 
 
-
-$enable-hover-media-query:  false !default;
-// from bs: _hover.scss
-@mixin hover-focus {
-    @if $enable-hover-media-query {
-        &:focus { @content }
-        @include hover { @content }
-    }
-    @else {
-        // &:focus,
-        &:hover {
-            @content
-        }
-    }
-}
-
-
 .sidenav {
 
     // list the duration values as css variables so that they only have to be declared in one place, and
@@ -65,7 +50,7 @@ $enable-hover-media-query:  false !default;
     --sidenavDurationHide: #{$sidenav-duration-hide};
     --sidenavDurationHideFast: #{$sidenav-duration-hide-fast};
 
-    z-index: $sidenav-zindex;  // z-index of Bootstrap4 default nav, plus 1
+    z-index: $sidenav-zindex;
     position: fixed;
     // the default position
     top: 0;
@@ -108,7 +93,7 @@ $enable-hover-media-query:  false !default;
 
     .nav-item {
         a {
-            @include hover-focus {
+            &:hover {
                 color: $pagelist-link-hover-color;
                 transition-duration: $nav-item-color-transition-duration;
             }
