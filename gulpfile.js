@@ -413,6 +413,7 @@ const changedInPlaceOptions = {
 function buildpagesCHANGED(done) {
     panini.refresh();
 
+    // uses "changed-in-place" to determine if the source file itself was modified
     return gulp
     .on("error", function(err) {
         glog("page build error: " + err.message);
