@@ -5,10 +5,6 @@
 // or functions that will be made available via the 'site." namespace, via the exports
 
 
-// legacy utilities for pages. mostly the scroll transition handler
-// modules/
-// require("site-utils.js");
-
 // incorporate the script for the sidenav
 require("site-sidePanel.js");
 
