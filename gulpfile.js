@@ -624,22 +624,22 @@ function lintJS(done) {
 gulp.task ("lint:js", lintJS);
 
 
-const babelOptions = {
-    presets: ["@babel/preset-env"]
-};
+
 
 // main site script assembly
-function browserifyScript(file, standaloneFile) {
+function browserifyScript(file) {
 
-    if (!standaloneFile) {
-        standaloneFile= "site";
-    }
+    const standaloneFile= "site";
 
-    let bundleOptions = {
+    const bundleOptions = {
         entries: ["./src/js/site/" + file],   // starting file for the requires. relative to this gulpfile
         paths: ["./src/js/site/", "./src/js/site/modules", "./src/js/site/pages", "./src/js/general/"],
-        standalone: standaloneFile,       // standalone output file
-        debug: true
+        standalone: standaloneFile,
+        debug: false
+    };
+
+    const babelOptions = {
+        presets: ["@babel/preset-env"]
     };
 
     return browserify(bundleOptions)
@@ -653,6 +653,7 @@ function browserifyScript(file, standaloneFile) {
         .pipe(sourcemaps.init({loadMaps: true}))
         // Add transformation tasks in the pipeline here
         .pipe(babel(babelOptions))
+        // .pipe(uglify())  // will minify the js if you want that
         // end transformations
         .pipe(sourcemaps.write('./map'))
         .pipe(gulp.dest(paths.jsDestination))
@@ -660,7 +661,7 @@ function browserifyScript(file, standaloneFile) {
 }
 
 // browserify the site.js bundle
-gulp.task("browserify:site-js", function browserifySiteJS(done) {
+gulp.task("browserify:site", function browserifySiteJS(done) {
     browserifyScript(paths.jsFile_site);
     done();
 });
@@ -670,7 +671,7 @@ function watchJS(done) {
     var watcherJS =  gulp.watch(paths.jsSourceGLOB);
     watcherJS.on("error", err => glog("watch js error: " + err.message));
     watcherJS.on("change", path => glog("watch:js >>> " + path));
-    watcherJS.on("change", gulp.series("lint:js", "browserify:site-js"));
+    watcherJS.on("change", gulp.series("lint:js", "browserify:site"));
 	done();
 }
 
@@ -695,9 +696,9 @@ gulp.task("default", gulp.series(
     gulp.parallel(
         "webserver",
         "compile:scss",
-        "browserify:site-js",
+        "browserify:site",
         "build:index",
-        "build:pages-changed"
+        "build:pages"
     ),
     "watch:full"
 ));
@@ -705,12 +706,11 @@ gulp.task("default", gulp.series(
 gulp.task("dev", function taskDevBasic(done) {
     gulp.series(
         "webserver",
-        // "site:local",
         gulp.parallel(
             "compile:scss",
-            "browserify:site-js",
+            "browserify:site",
             "build:index",
-            "build:pages-changed"
+            "build:pages"
         ),
         "watch:full")();
     done();
@@ -726,7 +726,7 @@ function production(done) {
         // "site:remote",
         gulp.parallel(
             "compile:scss",
-            "browserify:site-js",
+            "browserify:site",
             productionIndexPage,
             productionPages
         ),
