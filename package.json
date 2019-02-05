@@ -56,7 +56,7 @@
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.4",
-    "jshint": "^2.9.7",
+    "jshint": "^2.10.0",
     "panini": "^1.6.3",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
