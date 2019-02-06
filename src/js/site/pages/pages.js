@@ -111,7 +111,7 @@ var pages = {
 
     // default page handler
     "default": function(pageID) {
-        util.scrollSpyCreate("#TOCnav", scrollSpyShouldActivate);
+        util.scrollSpyCreate("#tableOfContents", scrollSpyShouldActivate);
     },
 };
 

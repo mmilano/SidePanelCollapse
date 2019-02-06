@@ -16,19 +16,19 @@ intended to be used as the generating helper
 
 {{#if contents}}
 
-<nav id="TOCnav" title="Table of Contents">
+<nav id="tableOfContents" title="Table of Contents">
 
     {{#each contents}}
     <div class="nav-item">
         <a class="nav-link {{~#if @first}} active{{/if}}" href="./#{{this.anchor}}" data-target="#{{this.anchor}}">{{{titleCase this.title}}}</a>
         {{#if subsections}}
-            <nav class="nav subnav">
+            <div class="subnav">
             {{#each subsections}}
                 <div class="nav-item">
                 <a class="nav-link" href="./#{{this.anchor}}" data-target="#{{this.anchor}}">{{{titleCase this.title}}}</a>
                 </div>
             {{/each}}
-            </nav>
+            </div>
         {{/if}}
     </div>
     {{/each}}
