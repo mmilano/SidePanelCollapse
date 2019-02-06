@@ -99,14 +99,14 @@ $page-primarynavbar-height:     50px;  // height of the primary nav bar on the p
 
 // font families
 $font-family-primary:   "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-family-secondary: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-secondary: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 // scale factor for how much to reduce $font-secondary compared to font-primary,
 // used when roboto appears within text with $primary;
 // roboto slab has a larger x-height than source sans.
 // this is to try to achieve better visual harmonry between the fonts,
 // and is pretty much entirely dependent on visual evaluation.
-$font-secondary-scale:  0.91;
+$font-secondlevel-scale:  0.95;
 
 // font weights
 $font-weight-light:     300;
