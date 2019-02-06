@@ -132,7 +132,7 @@ section {
 
     // SECOND-LEVEL NAV,
     // h3 headings in the page
-    .subnav {
+    nav {
         flex-direction: column;
 
         margin-top: .4rem;
@@ -177,6 +177,20 @@ $tableOfContents-widths: (
     }
 }
 
+
+// fix for scrolling to an in page heading
+// where the fixed page header will overlap/obscure the heading
+h2,
+h3 {
+    &:target {
+        &::before {
+            display: block;
+            height:  $page-primarynavbar-height + $page-header-space-top; // primarynav header height + space
+            margin: -($page-primarynavbar-height + $page-header-space-top) 0 0;
+            content: "";
+        }
+    }
+}
 
 // bigger
 @include media-breakpoint-up(md) {
