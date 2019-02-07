@@ -10,9 +10,10 @@ $menuicon-size:                    25px;
 $menuicon-thickness:               3.1px;                    // thickness of each slice
 $menuicon-layer-offset:            8px;                      // spacing between each slice or patty in the sandwich
 $menuicon-rounding:                1.8px;                    // the rounding value is the css corners of the rectangles, to soften them
-$menuicon-color:                   $toasted-black;              // color of the glyph in normal state
+$menuicon-color:                   $toasted-black;           // color of the glyph in normal state
 $menuicon-color-hover:             $color-black-lighter3;    // color of the glyph when hovered
 $menuicon-transition-duration:     .25s;                     // duration of color change on hover
+$menuicon-transition-function:     ease;                      // css transition timing function
 
 .menuIcon {
     display: block;
@@ -25,14 +26,14 @@ $menuicon-transition-duration:     .25s;                     // duration of colo
         &::before,
         &::after {
             position: absolute;
-            top: 47%; // visually adjust position upwards slightly from 50% for better vertical centering
-            left: 1rem; // same left offset as the enclosing button element
+            top: 48%;  // visually adjust position upwards slightly from 50% for better vertical centering
+            left: 1rem;  // same left offset as the enclosing button element
 
             width: $menuicon-size;
             height: $menuicon-thickness;
             background: $menuicon-color;
             border-radius: $menuicon-rounding;
-            transition: background $menuicon-transition-duration ease;
+            transition: background $menuicon-transition-duration $menuicon-transition-function;
             content: "";
         }
 
