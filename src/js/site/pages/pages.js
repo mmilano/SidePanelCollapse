@@ -83,9 +83,9 @@ var pages = {
         // start page setup
 
         // define the 2 different nav's for the page
-        // for scrollspy, these need to be css selectors for the actual nav element
+        // for scrollspy, these need to be css selectors for the <nav> element
         const navHorizontal = "#primaryNav";
-        const navVertical = "#sideNav-nav";
+        const navVertical = "#sidepanelNav";
 
         // deal with the 2 possible primary navs on the page:
         // the horizontal, primarynav, displayed at wider sizes
@@ -112,7 +112,6 @@ var pages = {
 
     // default page handler
     "default": function(pageID) {
-        console.log ("default page function", pageID);
         util.scrollSpyCreate("#tableOfContents", scrollSpyShouldActivate);
     },
 };
