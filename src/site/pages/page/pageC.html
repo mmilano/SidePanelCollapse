@@ -3,7 +3,7 @@
 <!-- **************      -->
 
 
-<section class="page-section page-overview">
+<section class="page-overview">
 {{#markdown}}
 
 Bootstrap 4 can be used to made an element collapse horizontally.
@@ -36,11 +36,15 @@ While height collapse is the default behavior, the bootstrap code will check if 
 
 
 ```javascript
-    _proto._getDimension = function _getDimension() {
-      var hasWidth = $(this._element).hasClass(Dimension.WIDTH);
-      return hasWidth ? Dimension.WIDTH : Dimension.HEIGHT;
-    };
+_proto._getDimension = function _getDimension() {
+  var hasWidth = $(this._element).hasClass(Dimension.WIDTH);
+  return hasWidth ? Dimension.WIDTH : Dimension.HEIGHT;
+};
 ```
+{{#caption}}
+From the Bootstrap 4 source code.
+{{/caption}}
+
 
 If so, then the width, not height, collapses. I.E. is collapses horizontally.
 
