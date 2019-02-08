@@ -24,16 +24,15 @@ module.exports = function(attr, options) {
         options = arguments[arguments.length-1];
     }
 
+    // if there are attributes, parse the attributes passed and construct the opening tag
+    // otherwise just use default
     if (options.hash && Object.keys(options.hash).length > 0) {
-        // if there are attributes, parse the attributes passed and construct the opening tag
-        // otherwise just use default
         let attributes = "";
-        var a;
 
         // if parameter passed in is "attribute=true", handle that as a special case
         // of a single name attribute
         // otherwise, express as: attribute="value"
-        for (a in (options.hash)) {
+        for (var a in (options.hash)) {
             if (options.hash[a] === true) {
                attributes = " " + a + attributes;
             } else {
