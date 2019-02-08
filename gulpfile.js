@@ -325,7 +325,7 @@ const pageBuildOptions = {
                 "index.html":            "layout-index",
                 "pages/page/**/*":     "layout-page",
                 },
-    helpers:    paths.siteBuildSource + "helpers/",       // Path to a folder containing Handlebars helpers
+    helpers:    paths.siteBuildSource + "helpers/",       // Path to a folder containing Panini helpers
     partials:   paths.siteBuildSource + "partials/",      // Path to a folder containing HTML partials
     data:       [paths.siteBuildSource + "data/", paths.siteBuildSource + "pages/data/"],  // Path to global data, which will be passed in to every page. relative to root.
     debug: 0
@@ -488,18 +488,18 @@ function watchPages(done) {
 gulp.task("watch:pages", gulp.series(buildPageOnDataChange, watchPages));
 
 
-// watch the handlebars elements and rebuild html pages if any of them change
+// watch the Panini sources and if any of them change, rebuild the html pages.
 // rebuild all because these items affect all pages.
 // also watch the site data, which also affects all the pages.
-function watchHandlebars(done) {
-    var watcherHandlebars =  gulp.watch([paths.siteHBSFiles, paths.siteDataGLOB]);
-    watcherHandlebars.on("error", err => glog("watch handlebars error: " + err));
-    watcherHandlebars.on("change", path => glog("watch:templates & helpers changed >>> " + path));
-    watcherHandlebars.on("change", gulp.series("build:pages"));
+function watchTemplateSources(done) {
+    var watchTemplateSources =  gulp.watch([paths.siteHBSFiles, paths.siteDataGLOB]);
+    watchTemplateSources.on("error", err => glog("watch templates & helpers error: " + err));
+    watchTemplateSources.on("change", path => glog("watch:templates & helpers changed >>> " + path));
+    watchTemplateSources.on("change", gulp.series("build:pages"));
     done();
 }
 
-gulp.task("watch:handlebars", watchHandlebars);
+gulp.task("watch:buildSources", watchTemplateSources);
 
 
 
@@ -596,6 +596,9 @@ function touchIndexPage() {
 gulp.task("touch:site-gallery", touchGalleryData);
 gulp.task("touch:index", touchIndexPage);
 
+
+// the gallery data is used to generate the set of page cards displayed on the index page,
+// and the inter-page navigation displayed in the sidepanel nav
 function watchGalleryData(done) {
     var watcherGallery =  gulp.watch(paths.siteGalleryDataMASTER);
     watcherGallery.on("error", err => glog("watch gallery data error: " + err));
@@ -604,7 +607,7 @@ function watchGalleryData(done) {
 }
 
 // watch the project gallery data
-gulp.task("watch:siteData", watchGalleryData);
+gulp.task("watch:siteGallery", watchGalleryData);
 
 
 // **********
@@ -682,10 +685,10 @@ gulp.task("watch:js", watchJS);
 
 gulp.task("watch:full", gulp.parallel(
     "watch:images",
-    "watch:handlebars",
+    "watch:buildSources",
     "watch:scss",
     "watch:js",
-    "watch:siteData",
+    "watch:siteGallery",
     "watch:index",
     "watch:pages",
 ));
@@ -693,8 +696,8 @@ gulp.task("watch:full", gulp.parallel(
 
 gulp.task("default", gulp.series(
     "site:setup",
+    "webserver",
     gulp.parallel(
-        "webserver",
         "compile:scss",
         "browserify:site",
         "build:index",
@@ -703,6 +706,7 @@ gulp.task("default", gulp.series(
     "watch:full"
 ));
 
+// dev task is basically the default, but without the initial setup (clean and copy) task
 gulp.task("dev", function taskDevBasic(done) {
     gulp.series(
         "webserver",
@@ -717,11 +721,13 @@ gulp.task("dev", function taskDevBasic(done) {
 });
 
 
-//build tasks
+// build for 'production'
+// includes minification of code and validation of the html
 
 function production(done) {
 
     gulp.series(
+        "site:setup",
         "webserver",
         // "site:remote",
         gulp.parallel(
