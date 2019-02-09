@@ -19,9 +19,7 @@ Pork loin ball tip flank corned beef capicola
 
 {{#markdown}}
 
-
 The Bootstrap Collapse component is typically used to show and hide content in vertical manner, collapsing upwards and downwards.
-
 
 https://getbootstrap.com/docs/4.2/components/collapse/
 
@@ -36,13 +34,14 @@ While height collapse is the default behavior, the bootstrap code will check if 
 
 
 ```javascript
-_proto._getDimension = function _getDimension() {
-  var hasWidth = $(this._element).hasClass(Dimension.WIDTH);
-  return hasWidth ? Dimension.WIDTH : Dimension.HEIGHT;
-};
+    _proto._getDimension = function _getDimension() {
+      var hasWidth = $(this._element).hasClass(Dimension.WIDTH);
+      return hasWidth ? Dimension.WIDTH : Dimension.HEIGHT;
+    };
 ```
 {{#caption}}
-From the Bootstrap 4 source code.
+Bootstrap.js
+https://github.com/twbs/bootstrap/blob/v4-dev/js/dist/collapse.js#L305
 {{/caption}}
 
 
@@ -52,32 +51,75 @@ If so, then the width, not height, collapses. I.E. is collapses horizontally.
 </section>
 
 
+what is all ths other stuff?
+
+This example has been extracted from a larger site I have developed,
+
+which includes static site generation using Panini/handlebars,
+creation of the page's table of contents at time of page generation
+a number of custom javascript components
+
+
+I have tried to distill
+
+The parent site is available at https://www.stochasticnotions.com
+
+
+
+
 <section class="page-section" id="section-a">
 {{#heading-L2 id="background" data-title-short="Pork loin flank" data-toc=true}}
-Pork loin ball tip flank corned beef capicola
+The sidepanel
 {{/heading-L2}}
 
 {{#markdown}}
 
-Non dolore excepteur sunt pariatur. Dolor alcatra beef ribs spare ribs landjaeger. Sed swine pancetta, frankfurter consectetur aute ut. Biltong
-excepteur pancetta corned beef incididunt ut pork loin ut adipisicing kielbasa ex bacon tail bresaola pig. Sausage buffalo reprehenderit, pig kielbasa
-deserunt consectetur bacon veniam prosciutto turkey dolore venison.
-
-Tenderloin strip steak sausage ut short loin quis anim bacon hamburger bresaola. Lorem sed ribeye turducken
-chicken cow anim t-bone ground round salami beef ribs. Veniam salami ut, hamburger ea pancetta adipisicing ground round.
 
 
-Velit voluptate porchetta fatback cillum eiusmod. Buffalo voluptate elit incididunt meatball tempor pig et prosciutto. Eiusmod lorem pork loin,
-officia picanha ut frankfurter aliqua consectetur biltong. Shankle porchetta ground round venison, beef labore laborum pancetta tongue picanha id
-ullamco t-bone. Ullamco non brisket ham ex dolore kielbasa lorem doner aliquip nostrud in laboris consectetur culpa. Pork belly pastrami qui commodo
-landjaeger meatball.
 
-Et ut biltong, ex incididunt meatball pork chop chicken tri-tip sint. Ad in consequat laboris biltong. In pancetta ex cow meatloaf laboris, strip
-steak aliquip turkey chicken in nulla hamburger. Id tenderloin adipisicing, ipsum ribeye cow dolor consectetur. Proident turkey pork chop meatball
-minim. Veniam occaecat quis laborum consequat.
 
 {{/markdown}}
 </section>
+
+<section class="page-section" id="section-how">
+{{#heading-L2 id="background" data-title-short="Pork loin flank" data-toc=true}}
+requirements
+{{/heading-L2}}
+
+{{#markdown}}
+
+* gulp 4
+* npm
+
+
+
+
+{{/markdown}}
+</section>
+
+
+<section class="page-section" id="section-how">
+{{#heading-L2 id="background" data-title-short="Pork loin flank" data-toc=true}}
+how to use
+{{/heading-L2}}
+
+{{#markdown}}
+
+open terminal
+
+
+npm install
+
+gulp
+
+
+
+
+
+{{/markdown}}
+</section>
+
+
 
 
 <!-- **************      -->
