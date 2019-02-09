@@ -6,19 +6,30 @@
  * by Michel Milano
  */
 
+/* jshint latedef: nofunc */
+
 var sidePanelToggle = (function() {
    "use strict";
 
+    // css selectors for the sidepanel DOM elements
+    var sidepanelElement = "#sidePanel";  // top-level of the sidepanel
+    var sidepanelCloseElement = ".sidepanel-close";  // the close button, containing the close icon, visible when the sidepanel is displayed
+
     let $sidepanel, sidepanelCloseButton;
 
-    let sidenavDurationShow,
-        sidenavDurationHide,
-        sidenavDurationHideFast;
+    let sidepanelDurationShow,
+        sidepanelDurationHide,
+        sidepanelDurationHideFast;
+
+    // default values for the sidepanel transition timings
+    const sidepanelDurationShow_default = "0.65s";  // leisurely opening
+    const sidepanelDurationHide_default = "0.31s";   // quick to close
+    const sidepanelDurationHideFast_default = "0.11s";  // very fast to close
 
     // keypress handler
     // when the sidenav is displayed (open), ESC will close
     function sidepanelKeyHandle(e) {
-        let keyID = (window.event) ? event.keyCode : e.keyCode;
+        const keyID = (window.event) ? event.keyCode : e.keyCode;
 
         switch(keyID) {
             case 27: // 'esc'
@@ -27,15 +38,7 @@ var sidePanelToggle = (function() {
         }
     }
 
-    function sidepanelShowManually() {
-        $sidepanel.collapse("show");  // invoke Bootstrap function
-    }
-
-    function sidepanelHideManually() {
-        $sidepanel.collapse("hide");  // invoke Bootstrap function
-    }
-
-    // backdrop and methods for the sidepanel
+    // sidepanel backdrop and its methods
     var sidepanelBackdrop = {
 
         // placeholder for the backdrop DOM element that will be created and assigned
@@ -46,7 +49,7 @@ var sidePanelToggle = (function() {
         create: function() {
             let _backdrop = document.createElement("div");
             _backdrop.className = "backdrop light";
-            _backdrop.addEventListener("click", sidepanelClose);
+            _backdrop.addEventListener("click", sidepanelClose, true);
             document.body.appendChild(_backdrop);
             this.backdrop = _backdrop;
         },
@@ -60,9 +63,8 @@ var sidePanelToggle = (function() {
         // hide the backdrop
         hide: function() {
 
-            // method to run when fadeout animation ends. receives event object.
+            // method to run when fadeout animation ends. receives event object, uses backdrop from that for simplicity
             function whenAnimationEnds(e) {
-                debugger;
                 let _backdrop = e.target;
                 _backdrop.classList.remove("show");
                 // cleanup by removing the listener
@@ -75,6 +77,16 @@ var sidePanelToggle = (function() {
             _backdrop.addEventListener("animationend", whenAnimationEnds, false);
         }
     };
+
+
+    function sidepanelShowManually() {
+        $sidepanel.collapse("show");  // invoke Bootstrap function
+    }
+
+    function sidepanelHideManually() {
+        $sidepanel.collapse("hide");  // invoke Bootstrap function
+    }
+
 
     // function for when a link in the sidenav is clicked
     // either:
@@ -129,7 +141,7 @@ var sidePanelToggle = (function() {
         e.preventDefault();
 
         // manually change close duration to fast speed. use native DOM element from jquery object
-        $sidepanel[0].style.transitionDuration = sidenavDurationHideFast;
+        $sidepanel[0].style.transitionDuration = sidepanelDurationHideFast;
 
         // jquery event listener to run once on the Bootstrap "hidden" completion event
         $sidepanel.one("hidden.bs.collapse", whenHideTransitionEnds(e.target.href));
@@ -146,7 +158,7 @@ var sidePanelToggle = (function() {
         // this is overriding the default Bootstrap behavior, where duration is set by the css .collapsing class.
         // presumes event is on the sidenav element.
         function whenShowEnds(e) {
-            e.target.style.transitionDuration = sidenavDurationHide;
+            e.target.style.transitionDuration = sidepanelDurationHide;
         }
 
         // initiate the showing
@@ -175,15 +187,16 @@ var sidePanelToggle = (function() {
         };
     }
 
+
     function init() {
 
         // extract the duration values from the css variables
         // doing this so that the duration values do not have to be repeated in the javascript,
         // and there is only one declaration to change.
         // if these are defined as js values instead, the durations need to be in seconds as css transition format
-        sidenavDurationShow = getComputedStyle($sidepanel[0]).getPropertyValue("--sidenavDurationShow");
-        sidenavDurationHide = getComputedStyle($sidepanel[0]).getPropertyValue("--sidenavDurationHide");
-        sidenavDurationHideFast = getComputedStyle($sidepanel[0]).getPropertyValue("--sidenavDurationHideFast");
+        sidepanelDurationShow = getComputedStyle($sidepanel[0]).getPropertyValue("--sidepanelDurationShow");
+        sidepanelDurationHide = getComputedStyle($sidepanel[0]).getPropertyValue("--sidepanelDurationHide");
+        sidepanelDurationHideFast = getComputedStyle($sidepanel[0]).getPropertyValue("--sidenpanelDurationHideFast");
 
         // add event listener for collapse event
         // show.bs.collapse: This event fires immediately when the show instance method is called.
@@ -191,7 +204,9 @@ var sidePanelToggle = (function() {
         $sidepanel.on("show.bs.collapse", sidepanelOpen);
 
         // select and cache the close button element
-        sidepanelCloseButton = document.querySelector("#sideNav .sidenav-close");
+        // sidepanelCloseButton = document.querySelector("#sideNav .sidenav-close");
+        sidepanelCloseButton = $sidepanel[0].querySelector(".sidepanel-close");
+
         // set event on the close button so that click will close the sidenav
         sidepanelCloseButton.addEventListener("click", sidepanelClose, false);
 
@@ -201,7 +216,7 @@ var sidePanelToggle = (function() {
 
     // select and cache the sidepanel element.
     // use jquery event because the events are in Bootstrap jquery-land
-    $sidepanel = $("#sideNav");
+    $sidepanel = $(sidepanelElement);
 
     // check if sidepanel exists on the page. if yes, then initialize
     if ($sidepanel.length) {
@@ -213,7 +228,11 @@ var sidePanelToggle = (function() {
 
 // to invoke...
 //
-// pass in the id value of the sidenav in the html
+// values to pass in:
+// css selector of the sidepanel in the html
+// css selector of the close button?
+
+//
 //
 // module.exports = function(options) {
 //   if (!panini) {
