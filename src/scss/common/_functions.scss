@@ -1,21 +1,7 @@
-// base file for site SCSS functions
-
-// !!!!!
-//
-// NON-RENDERING SASS
-// Do not put any "rendering" css rules into this file, or it will be needlessly duplicated
-// This file is only for declaration of variables and mixins
-// !!!!!
-//
-// explanation note:
-// rendering = sass that renders css in the final sass generation/compilation
-// non-rendering = variables, mixins, and other resources that are used by the rendering sass
-//
-// !!!!!
+// useful site SCSS functions
 
 
-// FUNCTIONS
-
+// getUnitless
 // given a value, just strip units off of it. eg.  4rem --> 4
 // if it already doesnt have a unit, just return the value
 
