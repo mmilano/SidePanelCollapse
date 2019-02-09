@@ -1,0 +1,129 @@
+/*! **********
+ * Horizontal Sliding Sidebar v1.1
+ * A Bootstrap 4-based sidebar using "collapse" component to collapse horizontally,
+ * and allow variable transition timing for the expand and the collapse transitions
+ *
+ * by Michel Milano
+ *
+ * Main SCSS for the sidepanel
+ */
+
+
+// sidepanel universal values
+$sidepanel-zindex:                       $zindex-fixed + 1;  // z-index of Bootstrap4 default nav, plus 1, to put it above the nav
+
+
+// backdrop
+$sidepanel-backdrop-zindex:               $sidepanel-zindex - 100;
+$sidepanel-backdrop-opacity:              0.6;
+$sidepanel-backdrop-dark:              #000;
+$sidepanel-backdrop-light:             #FFF;
+
+$sidepanel-backdrop-show-duration:        0.33s;
+$sidepanel-backdrop-hide-duration:        0.1s;
+
+
+// transitions
+$sidepanel-duration-show:                 1.05s;
+$sidepanel-duration-hide:                 0.31s;
+$sidepanel-duration-hide-fast:            0.10s;
+
+$sidepanel-transition-function:           ease-in-out;
+
+
+.sidepanel {
+
+    // list the duration values as css variables so that they only have to be declared in one place, and
+    // the page's javascript can access/extract them when needed
+    --sidepanelDurationShow: #{$sidepanel-duration-show};
+    --sidepanelDurationHide: #{$sidepanel-duration-hide};
+    --sidepanelDurationHideFast: #{$sidepanel-duration-hide-fast};
+
+    z-index: $sidepanel-zindex;
+    position: fixed;
+
+    top: 0;
+    // the default position = right side of window
+    right: 0;
+
+    // sidepanel extends the full height of the window
+    height: 100vh;
+
+    padding: 0;  // todo: technically, redundant
+    overflow-x: hidden;
+
+    // default on load to have no transition effect so that there is no slide-out animation shown when the page first loads (in some cases)
+    // Bootstrap collapse will change the width
+    transition-property: width;
+    transition-timing-function: $sidepanel-transition-function;
+
+    // .collapsing is applied and removed by the Bootstrap collapse function during transitions (open/close)
+    &.collapsing {
+        width: 0;
+        transition-duration: $sidepanel-duration-show;
+        transition-property: width;
+    }
+
+}
+
+
+// backdrop = the full-page background displayed when sidenav is displayed (open).
+// intended to screen the existing page content
+.backdrop {
+    z-index: $sidepanel-backdrop-zindex;
+    display: none;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    opacity: 0;  // default opacity. will be changed by the animation when backdrop displays
+
+    // in effect, fadeout is the default
+    animation: backdropFadeOut $sidepanel-backdrop-hide-duration linear normal;
+
+    // when the fadein class is applied, fadein animation will be in effect
+    &.fadein {
+        animation: backdropFadeIn $sidepanel-backdrop-show-duration linear forwards;
+        animation-fill-mode: forwards;
+    }
+
+    &.show {
+        display: block;
+    }
+
+    // light-coloured backdrop
+    &.light {
+        background-color: $sidepanel-backdrop-light;
+    }
+
+    // dark-coloured backdrop
+    &.dark {
+        background-color: $sidepanel-backdrop-dark;
+    }
+}
+
+// animation: softly fade IN the backdrop
+@keyframes backdropFadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: $sidepanel-backdrop-opacity;
+    }
+}
+
+// animation: softly fade OUT the backdrop
+// this keyframes rule is the reverse of backdropIn;
+// this 'should' be possible to do by reversing backdropIn, but that doesnt appear tyo work as one might think
+@keyframes backdropFadeOut {
+    0% {
+        opacity: $sidepanel-backdrop-opacity;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
