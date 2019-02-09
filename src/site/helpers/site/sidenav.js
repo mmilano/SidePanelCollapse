@@ -1,7 +1,7 @@
 // *****
 // panini/handlebars helper module
 //
-// generate the gallery page list in the pages - currently displayed as a slide-out sidenav
+// generate the gallery page list in the pages - currently displayed as the slide-out sidepanel
 //
 // @param {object} globalContext: the top level context for the pages
 
@@ -25,7 +25,7 @@ module.exports = function(globalContext, options) {
     // if so,just use that.
     // if not, compile it.
     // return the compiled partial
-    var getCompiled = function getCompiled(p) {
+    function getCompiled(p) {
         let partialCompiled;
 
         if (typeof p === "function") {
@@ -35,7 +35,7 @@ module.exports = function(globalContext, options) {
         }
 
         return partialCompiled;
-    };
+    }
 
     let template_compiled = {};
     template_compiled["name"] = getCompiled(hbs_partials["sidenav-name"]);
@@ -68,18 +68,18 @@ module.exports = function(globalContext, options) {
         }
 
         return template_compiled["name"](context, options);
-    };
+    }
 
     function renderGroupName(group) {
         let context = {
             "group": group,
         };
         return template_compiled["group"](context);
-    };
+    }
 
     function renderDivider() {
         return template_compiled["divider"]();
-    };
+    }
 
     function renderGroupBegin() {
         return "<div class=\"pagelist-group\">";
