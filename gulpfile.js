@@ -373,7 +373,7 @@ gulp.task("build:pages", buildPagesAll);
 function watchindexPageSource(done) {
     var watcherIndex =  gulp.watch(paths.indexPageSRC);
     watcherIndex.on("error", err => glog("watch index error: " + err));
-    watcherIndex.on("change", path => glog("watch index >>> " + path));
+    watcherIndex.on("change", path => glog("index changed >>> " + path));
     watcherIndex.on("change", gulp.series("build:index"));
 
     done();
@@ -479,7 +479,7 @@ gulp.task("build:pages-changed", buildpagesCHANGED);
 function watchPages(done) {
     var watcherPages =  gulp.watch([paths.sitePagesGLOB, paths.DSStoreIgnore]);
     watcherPages.on("error", err => glog("watch error: " + err));
-    watcherPages.on("change", path => glog("watch:pages >>> " + path));
+    watcherPages.on("change", path => glog("pages changed >>> " + path));
     watcherPages.on("change", gulp.series("build:pages-changed"));
 
 	done();
@@ -494,7 +494,7 @@ gulp.task("watch:pages", gulp.series(buildPageOnDataChange, watchPages));
 function watchTemplateSources(done) {
     var watchTemplateSources =  gulp.watch([paths.siteHBSFiles, paths.siteDataGLOB]);
     watchTemplateSources.on("error", err => glog("watch templates & helpers error: " + err));
-    watchTemplateSources.on("change", path => glog("watch:templates & helpers changed >>> " + path));
+    watchTemplateSources.on("change", path => glog("templates & helpers changed >>> " + path));
     watchTemplateSources.on("change", gulp.series("build:pages"));
     done();
 }
@@ -564,7 +564,7 @@ gulp.task("compile:scss", maketheCSS);
 // watch the scss sources
 function watchSCSS(done) {
     var watcherSCSS =  gulp.watch(paths.scssSourceGLOB);
-    watcherSCSS.on("error", err => glog("watch handlebars error: " + err));
+    watcherSCSS.on("error", err => glog("watch scss error: " + err));
     watcherSCSS.on("unlink", path => glog(path + " was deleted"));
     watcherSCSS.on("change", gulp.series("compile:scss"));
     done();
@@ -673,7 +673,7 @@ gulp.task("browserify:site", function browserifySiteJS(done) {
 function watchJS(done) {
     var watcherJS =  gulp.watch(paths.jsSourceGLOB);
     watcherJS.on("error", err => glog("watch js error: " + err.message));
-    watcherJS.on("change", path => glog("watch:js >>> " + path));
+    watcherJS.on("change", path => glog("js changed >>> " + path));
     watcherJS.on("change", gulp.series("lint:js", "browserify:site"));
 	done();
 }
