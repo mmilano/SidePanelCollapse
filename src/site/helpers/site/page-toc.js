@@ -33,7 +33,7 @@ module.exports = function(attr, options) {
     "use strict";
 
     const hbs = panini.Handlebars;
-    var hbs_partials = panini.Handlebars.partials;
+    const hbs_partials = panini.Handlebars.partials;
 
     // check if the passed-in partial is already compiled.
     // if so,just use that.
