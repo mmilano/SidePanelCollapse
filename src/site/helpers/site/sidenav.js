@@ -12,14 +12,13 @@ module.exports = function(globalContext, options) {
     "use strict";
 
     let out = ""; // output
-    let siteGallery;
 
     let currentPage;
     let currentPageID;
 
-    var hbs = panini.Handlebars;
-    var hbs_partials = panini.Handlebars.partials;
-    var hbs_helpers = panini.Handlebars.helpers;
+    const hbs = panini.Handlebars;
+    const hbs_partials = panini.Handlebars.partials;
+    const hbs_helpers = panini.Handlebars.helpers;
 
     // check if the passed-in partial is already compiled.
     // if so,just use that.
@@ -89,7 +88,7 @@ module.exports = function(globalContext, options) {
         return "\n</div>";
     }
 
-    // iterate the array of pages passed in and find just the non-disabled ones
+    // iterate the data array of pages passed in and find just the non-disabled ones
     function getActivePages(gallery) {
         let list = [];
         let keys = Object.keys(gallery);
@@ -109,8 +108,7 @@ module.exports = function(globalContext, options) {
     }
 
     // in lieu of passing in the {object} site-gallery, get it out of the global context that is passed in
-    let projects = globalContext && globalContext["site-portfolio"];  // TODO replace with one below
-    siteGallery = globalContext && globalContext["site-gallery"];
+    let siteGallery = globalContext && globalContext["site-gallery"];
 
     // create a parallel array of just the active page keys
     let pagesActive = getActivePages(siteGallery);
