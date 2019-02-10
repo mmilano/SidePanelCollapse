@@ -16,7 +16,7 @@
 module.exports = function(page, options) {
     "use strict";
 
-    let pageID = "";  // default
+    let pageID = "";  // default = empty
 
     // check that options === the handlebars options object.
     // allow for arbitrary number of attributes passed
@@ -25,10 +25,10 @@ module.exports = function(page, options) {
     }
 
     // in lieu of passing in the {object} site-gallery, get it out of the global context from the options object
-    let globalContext = options.data.root;
+    const globalContext = options.data.root;
 
     // in lieu of passing in the {object} site-gallery, get it out of the global context
-    let siteGallery = globalContext && globalContext["site-gallery"];
+    // let siteGallery = globalContext && globalContext["site-gallery"];
 
     if (globalContext[page] !== undefined) {
         // first get the page data object...

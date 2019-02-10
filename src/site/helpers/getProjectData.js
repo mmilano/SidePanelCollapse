@@ -17,10 +17,10 @@
 module.exports = function(globalContext, page, key) {
     "use strict";
 
-    let value = "";  // default
+    let value = "";  // default = empty
 
     // in lieu of passing in the {object} site-gallery, get it out of the global context that is passed in
-    let siteGallery = globalContext && globalContext["site-gallery"];
+    const siteGallery = globalContext && globalContext["site-gallery"];
 
     if (globalContext[page] !== undefined) {
         // first try to get the page data object...

@@ -26,7 +26,8 @@ module.exports = function(pageID, options) {
     }
 
     // in lieu of passing in the root context, get it out of the options object
-    let globalContext = options.data.root;
+    const globalContext = options.data.root;
+
     // in lieu of passing in the {object} site-gallery, get it out of the global context
     let siteGallery = globalContext && globalContext["site-gallery"];
 
