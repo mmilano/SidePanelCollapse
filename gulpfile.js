@@ -561,6 +561,7 @@ gulp.task("validate:all", gulp.parallel("validate:pages"));
 // compile the scss, etc
 
 const scssOptions = {
+    includePaths: ["/"],
     errLogToConsole: true,
     outputStyle: "expanded",
     sourceComments: true,
