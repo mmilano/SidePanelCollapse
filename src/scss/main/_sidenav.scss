@@ -5,32 +5,33 @@
 
 
 $sidenav-width:                         260px;
-$sidenav-width-md:                      $sidenav-width - 20;
+$sidenav-width-md:                      $sidenav-width - 20;  // adjustment for smaller window sizes
 
 $sidenav-background-color:              #062B62;
-
 $sidenav-header-color:                  #001B4E;
 
 $sidenav-closeButton-height:            36px;
 
+
+$sidenav-list-offset-top:               $page-primarynavbar-height + 12;  // visual margin from top of sidebar to account for the header bar
 $sidenav-list-space-left:               25px;
-$sidenav-list-space-left-md:            20px;
+$sidenav-list-space-left-md:            20px;  // adjustment for smaller window sizes
 $sidenav-list-space-right:              25px;
 
 $pagelist-link-hover-color:             $link-color-highlight;
 
 $pagelist-item-font-size-default:       0.83rem;
-$pagelist-item-font-size-md:            decimal-round(($pagelist-item-font-size-default * 0.96), 3);
+$pagelist-item-font-size-md:            decimal-round(($pagelist-item-font-size-default * 0.96), 3);  // adjustment for smaller window sizes
 
 $pagelist-group-font-color:             #476978;
 $pagelist-group-font-color-hover:       #3D88C9;
-
 
 $group-color-transition-duration:       0.9s;
 
 
 .sidenav {
 
+    padding: 0;
     background-color: $sidenav-background-color;
 
 
@@ -43,7 +44,7 @@ $group-color-transition-duration:       0.9s;
     // sidenav is structured to be one general "nav" element
     .nav {
         display: block;  // override Bootstrap
-        margin-left: $sidenav-list-space-left;  // left-side margin from the edge of sidenav
+        //margin-left: $sidenav-list-space-left;  // left-side margin from the edge of sidenav
     }
 
     .navbar-nav {
@@ -72,26 +73,25 @@ $group-color-transition-duration:       0.9s;
         top: 0;
         left: 0;
         right: 0;
+        height: $page-primarynavbar-height;
 
         // flex layout model to match the primary navbar
         display: flex;
         align-items: center;
 
-        height: $page-primarynavbar-height;
         background-color: $sidenav-header-color;
     }
 
     .sidenav-close {
-        // visually adjust the close button to the right to match the position of the hamburger menu button in the primary nav
+        // visually adjust the close button to match the position of the sandwich menu button in the primary nav
         margin-left: 193px;
     }
 
-    // list of the pages
+    // main content = list of the pages
     .sidenav-list {
-        margin-top: ($page-primarynavbar-height + 12);
-        padding: 0 0 3rem 0;
+        margin-top: $sidenav-list-offset-top;
+        padding: 0 0 3rem $sidenav-list-space-left;
         font-family: $font-family-secondary;
-        letter-spacing: 0.02rem;  // typographic finesse
     }
 
 }
@@ -150,8 +150,8 @@ $group-color-transition-duration:       0.9s;
     &:disabled {
         color: $core-white;
         font-weight: $font-weight-bold;
-        letter-spacing: 0.03rem;
-        word-spacing: 0.02rem;
+        letter-spacing: 0.03rem;  // typographic finess
+        word-spacing: 0.03rem;  // typographic finess
     }
 }
 
@@ -159,9 +159,9 @@ $group-color-transition-duration:       0.9s;
 // specific styles for display on the index page (aka homepage)
 .theme-homepage {
     .sidenav {
-        .nav {
-            margin-left: $sidenav-list-space-left;  // left-side margin from the edge of sidenav
-        }
+//         .nav {
+//             margin-left: $sidenav-list-space-left;  // left-side margin from the edge of sidenav
+//         }
 
         .sidenav-list {
             font-size: 1rem;
@@ -179,9 +179,9 @@ $group-color-transition-duration:       0.9s;
             width: $sidenav-width-md;
         }
 
-        .nav {
-            margin-left: $sidenav-list-space-left-md;  // left-side margin from the edge of sidenav
-        }
+//         .nav {
+//             margin-left: $sidenav-list-space-left-md;  // left-side margin from the edge of sidenav
+//         }
 
         .nav-link {
             margin-bottom: .25rem;
@@ -193,9 +193,8 @@ $group-color-transition-duration:       0.9s;
         }
 
         .sidenav-list {
-            padding: 0 0 3.5rem 0;
+            padding: 0 0 3rem $sidenav-list-space-left-md;
             font-size: .9rem;
-            letter-spacing: normal;
         }
     }
 
