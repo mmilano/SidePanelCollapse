@@ -16,25 +16,26 @@ $sidepanel-zindex:                       $zindex-fixed + 1;  // z-index of Boots
 // backdrop
 $sidepanel-backdrop-zindex:               $sidepanel-zindex - 100;
 $sidepanel-backdrop-opacity:              0.6;
-$sidepanel-backdrop-dark:              #000;
-$sidepanel-backdrop-light:             #FFF;
+$sidepanel-backdrop-dark:                 #000;
+$sidepanel-backdrop-light:                #FFF;
 
-$sidepanel-backdrop-show-duration:        0.33s;
-$sidepanel-backdrop-hide-duration:        0.1s;
+$sidepanel-backdrop-duration-show:        0.33s;
+$sidepanel-backdrop-duration-hide:        0.1s;
 
 
-// transitions
-$sidepanel-duration-show:                 1.05s;
-$sidepanel-duration-hide:                 0.31s;
-$sidepanel-duration-hide-fast:            0.10s;
+// sidepanel transitions
+$sidepanel-duration-show:                 1.05s;  // leisurely opening
+$sidepanel-duration-hide:                 0.31s;  // quick closing
+$sidepanel-duration-hide-fast:            0.10s;  // very fast closing
 
-$sidepanel-transition-function:           ease-in-out;
+$sidepanel-transition-function:           ease-out;
 
 
 .sidepanel {
 
-    // list the duration values as css variables so that they only have to be declared in one place, and
-    // the page's javascript can access/extract them when needed
+    // output the duration values as css variables so that they only have to be declared in one place, and
+    // the page's javascript can access/extract them when needed.
+    // see sidePanel.js for usage of the values
     --sidepanelDurationShow: #{$sidepanel-duration-show};
     --sidepanelDurationHide: #{$sidepanel-duration-hide};
     --sidepanelDurationHideFast: #{$sidepanel-duration-hide-fast};
@@ -43,37 +44,37 @@ $sidepanel-transition-function:           ease-in-out;
     position: fixed;
 
     top: 0;
-    // the default position = right side of window
-    right: 0;
+    right: 0;  // the default position = right side of window
 
-    // sidepanel extends the full height of the window
-    height: 100vh;
+    height: 100vh;  // sidepanel extends the full height of the window
 
-    padding: 0;  // todo: technically, redundant
     overflow-x: hidden;
 
-    // default on load to have no transition effect so that there is no slide-out animation shown when the page first loads (in some cases)
-    // Bootstrap collapse will change the width
+    // transition properties
+    // default on load to have no transition duration (therefore no effect) so that there is no slide-out animation shown when the page first loads (in some cases).
+    // Bootstrap collapse will change the width not height because .width is in the HTML
     transition-property: width;
     transition-timing-function: $sidepanel-transition-function;
 
-    // .collapsing is applied and removed by the Bootstrap collapse function during transitions (open/close)
+    // .collapsing is applied and removed by the Bootstrap collapse function during transitions, both open and close
     &.collapsing {
         width: 0;
-        transition-duration: $sidepanel-duration-show;
-        transition-property: width;
+        transition-duration: $sidepanel-duration-show;  // default duration. will be in effect for opening, but is overridden by javascript when closing
+        // transition-property: width;
     }
 
 }
 
 
 // backdrop = the full-page background displayed when sidenav is displayed (open).
-// intended to screen the existing page content
+// intended to screen the existing page content.
+// borrows somewhat from bootstrap .modal-backdrop
 .backdrop {
     z-index: $sidepanel-backdrop-zindex;
     display: none;
 
     position: fixed;
+    // covers the entire window
     top: 0;
     right: 0;
     bottom: 0;
@@ -82,11 +83,11 @@ $sidepanel-transition-function:           ease-in-out;
     opacity: 0;  // default opacity. will be changed by the animation when backdrop displays
 
     // in effect, fadeout is the default
-    animation: backdropFadeOut $sidepanel-backdrop-hide-duration linear normal;
+    animation: backdropFadeOut $sidepanel-backdrop-duration-hide linear normal;
 
     // when the fadein class is applied, fadein animation will be in effect
     &.fadein {
-        animation: backdropFadeIn $sidepanel-backdrop-show-duration linear forwards;
+        animation: backdropFadeIn $sidepanel-backdrop-duration-hide linear forwards;
         animation-fill-mode: forwards;
     }
 
@@ -117,7 +118,8 @@ $sidepanel-transition-function:           ease-in-out;
 
 // animation: softly fade OUT the backdrop
 // this keyframes rule is the reverse of backdropIn;
-// this 'should' be possible to do by reversing backdropIn, but that doesnt appear tyo work as one might think
+// this _should_ be possible to do by reversing backdropIn, but that doesnt appear to work as one might think,
+// hence another set of keyframes
 @keyframes backdropFadeOut {
     0% {
         opacity: $sidepanel-backdrop-opacity;
@@ -126,4 +128,3 @@ $sidepanel-transition-function:           ease-in-out;
         opacity: 0;
     }
 }
-
