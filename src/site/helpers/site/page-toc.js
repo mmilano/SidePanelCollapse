@@ -20,9 +20,7 @@
 //
 
 /* jshint esversion: 6 */  // allow es6 features
-/* jshint validthis: true */
-/* jshint undef:true */
-/* jshint -W069 */   // suppress the warning 'better written in dot notation'
+
 
 const panini = require("panini");
 const cheerio = require("cheerio");
@@ -30,6 +28,10 @@ const basepath = process.cwd();
 const trimWhitespace = require(basepath + "/src/site/lib/trim");
 
 module.exports = function(attr, options) {
+    /* jshint validthis: true */
+    /* jshint undef:true */
+    /* jshint -W069 */   // suppress the warning 'better written in dot notation'
+
     "use strict";
 
     const hbs = panini.Handlebars;
@@ -50,11 +52,10 @@ module.exports = function(attr, options) {
         }
 
         return partialCompiled;
-    };
+    }
 
     let template_compiled = [];
     template_compiled["pageTOC"] = getCompiled(hbs_partials["page-tableOfContents"]);
-
 
     // ******************
     // BEGIN
@@ -85,29 +86,26 @@ module.exports = function(attr, options) {
         // how many heading levels to go down when generating the toc. e.g. 3 -> stop at h3
         maxHeadingDepth: 3,
 
-        // when searching for headings, which level to start at. 1 = h1,  2 = h2, etc.
+        // when searching for headings, which level to start at. 1 = h1, 2 = h2, etc.
         topHeadingLevel: 1,
 
         // when generating unique ID values, start from this number (appended to the original id value)
         startingUniqueID: 1,
 
         // css selector for the <section>s that start sections
-        // from page-section-anchor-replace.js
-        // var contentSections = document.querySelectorAll("section.page-section[id]");
         sectionSelector: "section[id]",
 
         // selector of headings to ignore
         ignoreSelector: "[data-toc-ignore]",
     };
 
-    function TOC(options) {
+    function TableOfContents(options) {
 
         // forge bonds to the defaults and methods.
-        // TODO:  why does this require this, instead of being accessable?
         var myself = this;
         this.defaults = defaults;
 
-        // check if the element is a cheerio object (o.noteType = undefined) or  Node object (o.noteType = 1)?
+        // check if the element is a cheerio object (o.noteType = undefined) or Node object (o.noteType = 1)?
         this.checkForNode = function checkForNode(o) {
             if (o.nodeType === undefined) {
                 return false;
@@ -134,7 +132,6 @@ module.exports = function(attr, options) {
         // return all matching elements in the set, or their descendants
         // exclude items that have 'data-toc-ignore' attribute
         this.findAndFilter = function findAndFilter(selector, $scope) {
-
             if ($scope === undefined) {
                 console.warn ("findAndFilter: no scope passed");
                 return false;
@@ -148,18 +145,20 @@ module.exports = function(attr, options) {
         };
 
         // given a NODE DOM element,
-        // try to get it's title value, what should be used in the TOC
+        // try to get its title value, or what should be used in the TOC
         this.getTitle = function(el) {
             let title;
 
             if (el === undefined) {
                 console.warn ("get title: NO ELEMENT ARGUMENT GIVEN");
                 return 0;
-            };
+            }
 
+            console.log ("**** el1", el);
+            console.log ("**** el2", $(el));
             let $el = $(el);
 
-            // first try to get the data-title-short value
+            // first check if there is a data-title-short value
             if ($el.data("title-short")) {
                 title = $el.data("title-short");
             } else {
@@ -171,14 +170,14 @@ module.exports = function(attr, options) {
         };
 
         // given a NODE DOM element,
-        // try to get it's text content in order to make an ID value from that
+        // try to get its text content in order to make an ID value from that
         this.generateUniqueIdBase = function generateUniqueIdBase(el) {
             let anchor;
 
             if (el === undefined) {
                 console.warn ("generateUniqueIdBase: NO ELEMENT ARGUMENT GIVEN");
                 return 0;
-            };
+            }
 
             let elObject = $(el);
 
@@ -193,18 +192,18 @@ module.exports = function(attr, options) {
                 anchor = elObject.text();
             }
 
-            // replace invalid characters and spaces with '-'
+            // replace invalid characters and spaces with '-' to make valid css identifiers
             anchor = anchor.trim().toLowerCase().replace(/[^A-Za-z0-9]+/g, "-");
             return anchor || el.tagName.toLowerCase();
         };
 
-        // just check if an element is in the top scope
+        // check if an element is in the top scope
         this.checkIfExists = function(attr) {
             let exists = this.$scope(attr).length > 0;
             return exists ? true : false;
         };
 
-        // just check if an element is in the top scope
+        // check if an element with given ID exists
         this.checkIfIDExists = function(attr) {
             return (this.checkIfExists("#" + attr));
         };
@@ -212,7 +211,6 @@ module.exports = function(attr, options) {
         // given a NODE DOM element,
         // attempt to create an ID value for it that is unique in the page
         this.generateUniqueId = function generateUniqueId(el) {
-
             if (el === undefined) {
                 console.warn ("generateUniqueId: NO ELEMENT ARGUMENT GIVEN");
                 return false;
@@ -221,7 +219,6 @@ module.exports = function(attr, options) {
             let anchorID = this.generateUniqueIdBase(el);
 
             // first check to see if the id in already in the page
-
             let doesExist = this.checkIfIDExists(anchorID);
 
             while (doesExist) {
@@ -254,11 +251,8 @@ module.exports = function(attr, options) {
             return anchor;
         };
 
-        // getting
-
-        // Find the first heading level ('<h1>', then '<h2>', etc.) that has ONE OR MORE element. Defaults to value of topHeadingLevel (eg `<h2>`)
+        // Find the first heading level (<h1>, then <h2>, etc.) that has ONE OR MORE element. Defaults to value of topHeadingLevel (eg <h2>)
         // returns integer #, corresponding to h#
-        //this.getTopLevel = function getTopLevel($scope) {
         this.getTopLevel = function getTopLevel($scope) {
             // default the scope to the top
 
@@ -285,9 +279,8 @@ module.exports = function(attr, options) {
             $scope = ($scope !== undefined) ? $scope : this.$ROOT;
 
             let topSelector = "h" + startLevel;
-            // var secondaryLevel = startLevel + 1;
             let secondarySelector = "h" + (startLevel + 1);
-            var combinedSelector =  topSelector + "," + secondarySelector;
+            let combinedSelector = topSelector + "," + secondarySelector;
             return this.findAndFilter(combinedSelector, this.$ROOT);
         };
 
@@ -305,7 +298,6 @@ module.exports = function(attr, options) {
 
         this.generateContents = function() {
             let contents = {};
-            // console.log (" >>> generateContents MAIN...");
             // index counter for the top-level sections
             let contentsIndexTop = 1;
 
@@ -337,7 +329,7 @@ module.exports = function(attr, options) {
 
             // top-sections:
             // manually loop through all the relevant headings, one by one
-            // note: canot use for x in object because the stupid cheerio object has been given a bunch of its methods as properties, rather than as prototype or something
+            // note: cannot use for x in object because the cheerio object has been given a bunch of its methods as properties, rather than as prototype or something
             topSectionsLoop:
             for (var i = 0; i < allHeadingsLength; i++) {
 
@@ -354,12 +346,12 @@ module.exports = function(attr, options) {
 
                 contents[key_top] = entry;
 
-                // subsections:
+                // sub-sections:
                 // now look at each of the next headings.
                 // if they are same level as the current, then stop looping for subsections
                 // if they are level+1, then make a new subsection and add it in
 
-                var subsections = {};
+                let subsections = {};
                 // index counter for the subsections
                 let subsectionIndex = 1;
 
@@ -368,8 +360,6 @@ module.exports = function(attr, options) {
 
                     let nextHeading = $allReleventHeadings[j];
                     let nextLevel = piss.getLevel($(nextHeading));
-
-                    // console.log (" >>> generateContents D"+j+ "... level: " + nextLevel + "(" + topLevel + ")");
 
                     if (nextLevel > topLevel) {
                         // get the anchor and title
@@ -408,7 +398,7 @@ module.exports = function(attr, options) {
         };
 
         // creation of contents objects
-
+        //
         // create a new contents item object given the anchor (= the html ID attribute) & title value
         // and return it
         this.createContentsEntry = function(anchor, title) {
@@ -420,14 +410,13 @@ module.exports = function(attr, options) {
         };
 
         // create a new contents item object
-        // for the 'overview' that is the default first entry on the interior page
+        // for the 'overview' that is the default first section on the interior page
         // and return it
         this.createContentsEntry_overview = function() {
             const anchor =  "overview";
             const title =   "Overview";
             return this.createContentsEntry(anchor, title);
         };
-
 
         // parse any options passed in for the toc generation and set up values used within the methods
         //
@@ -453,33 +442,32 @@ module.exports = function(attr, options) {
 
             this.sectionSelector = (arg.sectionSelector !== undefined) ? arg.sectionSelector : defaults.sectionSelector;
             this.ignoreSelector = (arg.ignoreSelector !== undefined) ? arg.ignoreSelector : defaults.ignoreSelector;
-        };
+        }
 
         initialize.call(this, options);
     };
 
-
     // ******************
-    // BEGIN: parsing the body content for the table of contents
-
+    // BEGIN: parsing the body content to create the table of contents
+    //
     // load the whole page into cheerio
     const $ = cheerio.load(bodyRendered);
 
-    // options for toc.
+    // options for cheerio/table of contents parsing
     const _toc_options = {
         $scope: $,
         topHeadingLevel: 2,
     };
 
-    // initialize the toc
-    let _toc = new TOC(_toc_options);
+    // initialize the table of contents
+    let _toc = new TableOfContents(_toc_options);
     let currentTopLevel = _toc.getTopLevel();
 
     let contents = {};
     if (currentTopLevel > 0) {
         contents["contents"] = _toc.generateContents();
     }
-    // END: parsing the body content for the table of contents
+    // END: parsing the body content
     // ******************
 
     // ******************
