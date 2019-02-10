@@ -146,7 +146,8 @@ var paths = {
     },
 
     // panini/handlebars
-    siteHBSFiles: siteBuildSource + "{layouts,helpers,partials}/**/*",
+    siteHBSFilesGLOB: siteBuildSource + "{layouts,helpers,partials}/**/*",
+    siteHBSjsFilesGLOB: siteBuildSource + "{layouts,helpers,partials}/**/*.js",
 
     // MASTER FILE of the gallery data
     siteGalleryDataMASTER: "./src/js/site/gallery/site-gallery-data.js",
@@ -493,7 +494,7 @@ gulp.task("watch:pages", gulp.series(buildPageOnDataChange, watchPages));
 // rebuild all because these items affect all pages.
 // also watch the site data, which also affects all the pages.
 function watchTemplateSources(done) {
-    var watchTemplateSources =  gulp.watch([paths.siteHBSFiles, paths.siteDataGLOB]);
+    var watchTemplateSources =  gulp.watch([paths.siteHBSFilesGLOB, paths.siteDataGLOB]);
     watchTemplateSources.on("error", err => glog("watch templates & helpers error: " + err));
     watchTemplateSources.on("change", path => glog("templates & helpers changed >>> " + path));
     watchTemplateSources.on("change", gulp.series("build:pages"));
@@ -646,18 +647,27 @@ gulp.task("watch:siteGallery", watchGalleryData);
 //
 // lint, assemble, compile, and etc. for the javascript
 
-function lintJS(done) {
+function lintSiteJS() {
     return gulp
     .src(paths.jsSourceSITEGLOB)
     // .pipe(debug())   // iterate out name of each file being checked
-    .pipe(cached("jslintCacheName"))
+    .pipe(cached("jslintSite"))
     .pipe(jshint(paths.jshintConfiguration))
     .pipe(jshint.reporter("default"));
 }
 
-gulp.task ("lint:js", lintJS);
+// check the Panini JS files
+function lintPaniniJS() {
+    return gulp
+    .src(paths.siteHBSjsFilesGLOB)
+    .pipe(debug())   // iterate out name of each file being checked
+    .pipe(cached("jslintPanini"))
+    .pipe(jshint(paths.jshintConfiguration))
+    .pipe(jshint.reporter("default"));
+}
 
-
+gulp.task ("lint:Paninijs", lintPaniniJS);
+gulp.task ("lint:js", lintSiteJS);
 
 
 // main site script assembly
