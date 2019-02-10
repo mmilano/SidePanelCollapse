@@ -22,6 +22,7 @@ const babelENV =        require("@babel/preset-env");
 
 // html
 const htmlvalidator =   require("gulp-html");
+const htmlmin =         require("gulp-htmlmin");
 
 // content/template system
 const panini =          require("panini");
@@ -506,6 +507,35 @@ gulp.task("watch:buildSources", watchTemplateSources);
 // **********
 // HTML
 //
+
+
+// html minimization: all the pages
+function minifyPages() {
+    const htmlminOptions = {
+        caseSensitive: true,
+        collapseWhitespace: true,
+        removeComments: true,
+        keepClosingSlash: true,
+        minifyJS: true
+    };
+
+    // set up to use base & relative path for overwriting the original file with the minified file
+    const pathRelative = "./";
+
+    return gulp
+    .src("./build/**/*.html", {base: pathRelative})
+    .pipe(htmlmin(htmlminOptions))
+    .pipe(debug({title: "minifying: "}))
+    .pipe(gulp.dest(pathRelative))
+    .on("error", err => glog("HTML minification error: " + err))
+    .on("change", path => console.log("minification of page >>> " + path));
+}
+
+
+gulp.task("minify:pages", minifyPages);
+gulp.task("minify:site", gulp.series("minify:pages"));  // alias
+
+
 // validate the (built) html page
 
 const validatorOptions = {
