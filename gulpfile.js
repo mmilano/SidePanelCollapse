@@ -1,5 +1,4 @@
 /* jshint esversion: 6 */  // allow es6 features
-
 "use strict";
 
 const gulp =            require("gulp");
@@ -208,6 +207,7 @@ function webserver(done) {
     connect.server(serverOptions);
     let currentAddress = findAddress();
     console.log ("***** current IP address:", currentAddress);
+
     done();
 }
 
@@ -220,6 +220,7 @@ function copyIco(done) {
     gulp
     .src([paths.icoSource])
     .pipe(gulp.dest(paths.icoDestination));
+
     done();
 }
 
@@ -227,6 +228,7 @@ function copyImages(done) {
     gulp
     .src([paths.imgSourceGLOB])
     .pipe(gulp.dest(paths.imgDestination));
+
     done();
 }
 
@@ -235,6 +237,7 @@ function copyImagesChanged(done) {
     .src([paths.imgSourceGLOB])
     .pipe(changed(paths.imgDestination))
     .pipe(gulp.dest(paths.imgDestination));
+
     done();
 }
 
@@ -251,6 +254,7 @@ function copyCSSVendor(done) {
     gulp
     .src(paths.cssVendorGLOB)
     .pipe(gulp.dest(paths.cssVendorDestination));
+
     done();
 }
 
@@ -260,6 +264,7 @@ function copyJSVendor(done) {
     gulp
     .src(paths.jsVendorGLOB)
     .pipe(gulp.dest(paths.jsVendorDestination));
+
     done();
 }
 
@@ -276,47 +281,47 @@ gulp.task("site:copy", gulp.parallel("copy:images", "copy:js-vendor", "copy:css-
 gulp.task("site:setup", gulp.series("site:clean", "site:copy"));
 
 
-let localDevFiles = [{
-        local: "site-css-local.hbs",
-        remote: "site-css-remote.hbs",
-        destination: "site-css.hbs",
-        path: "./src/site/partials/page/docHead/",
-    },
-    {
-        local: "site-js-local.hbs",
-        remote: "site-js-remote.hbs",
-        destination: "site-js.hbs",
-        path: "./src/site/partials/page/docBottom/",
-    }];
-
-function developmentFileSwitch(status) {
-    let sourceFile;
-
-    if (status === "local") {
-        sourceFile = "local";
-    } else {
-        sourceFile = "remote";
-    }
-
-    localDevFiles.forEach(function(file, i) {
-        gulp
-        .src(file.path + file[sourceFile])
-        .pipe(rename(file.destination))
-        .pipe(gulp.dest(file.path))
-        .pipe(debug({title: "file: "}))
-        .on("error", err => glog("error: " + err.message))
-    });
-}
-
-gulp.task("site:local", function(done) {
-    developmentFileSwitch("local");
-    done();
-});
-
-gulp.task("site:remote", function(done) {
-    developmentFileSwitch("remote");
-    done();
-});
+// let localDevFiles = [{
+//         local: "site-css-local.hbs",
+//         remote: "site-css-remote.hbs",
+//         destination: "site-css.hbs",
+//         path: "./src/site/partials/page/docHead/",
+//     },
+//     {
+//         local: "site-js-local.hbs",
+//         remote: "site-js-remote.hbs",
+//         destination: "site-js.hbs",
+//         path: "./src/site/partials/page/docBottom/",
+//     }];
+//
+// function developmentFileSwitch(status) {
+//     let sourceFile;
+//
+//     if (status === "local") {
+//         sourceFile = "local";
+//     } else {
+//         sourceFile = "remote";
+//     }
+//
+//     localDevFiles.forEach(function(file, i) {
+//         gulp
+//         .src(file.path + file[sourceFile])
+//         .pipe(rename(file.destination))
+//         .pipe(gulp.dest(file.path))
+//         .pipe(debug({title: "file: "}))
+//         .on("error", err => glog("error: " + err.message))
+//     });
+// }
+//
+// gulp.task("site:local", function(done) {
+//     developmentFileSwitch("local");
+//     done();
+// });
+//
+// gulp.task("site:remote", function(done) {
+//     developmentFileSwitch("remote");
+//     done();
+// });
 
 
 const pageBuildOptions = {
@@ -394,7 +399,6 @@ gulp.task("watch:index", watchindexPageSource);
 // - and change the mtime on $.html so that it appears to have been changed
 // - which in turn should kick off the rebuild of the page due to other tasks watching $.html pages
 function buildPageOnDataChange(done) {
-
     var watcherPageChange =  gulp.watch(paths.siteSourcePagesData);
     watcherPageChange.on("error", err => glog("watch error: " + err));
     watcherPageChange.on("change", function(dataFile) {
@@ -458,7 +462,7 @@ const changedInPlaceOptions = {
 };
 
 function buildpagesCHANGED(done) {
-    panini.refresh();
+    panini.refresh(done);
 
     // uses "changed-in-place" to determine if the source file itself was modified
     return gulp
@@ -498,6 +502,7 @@ function watchTemplateSources(done) {
     watchTemplateSources.on("error", err => glog("watch templates & helpers error: " + err));
     watchTemplateSources.on("change", path => glog("templates & helpers changed >>> " + path));
     watchTemplateSources.on("change", gulp.series("build:pages"));
+
     done();
 }
 
@@ -574,7 +579,7 @@ const autoprefixerOptions = {
     browsers: ["last 2 versions"],
 };
 
-function maketheCSS(done) {
+function maketheCSS() {
     return gulp
     .src(paths.scssSource)
     .pipe(sourcemaps.init())
@@ -599,6 +604,7 @@ function watchSCSS(done) {
     watcherSCSS.on("error", err => glog("watch scss error: " + err));
     watcherSCSS.on("unlink", path => glog(path + " was deleted"));
     watcherSCSS.on("change", gulp.series("compile:scss"));
+
     done();
 }
 
@@ -635,6 +641,7 @@ function watchGalleryData(done) {
     var watcherGallery =  gulp.watch(paths.siteGalleryDataMASTER);
     watcherGallery.on("error", err => glog("watch gallery data error: " + err));
     watcherGallery.on("change", gulp.parallel("build:index"));
+
     done();
 }
 
@@ -656,7 +663,7 @@ function lintSiteJS() {
     .pipe(jshint.reporter("default"));
 }
 
-// check the Panini JS files
+// check the Panini files
 function lintPaniniJS() {
     return gulp
     .src(paths.siteHBSjsFilesGLOB)
@@ -707,6 +714,7 @@ function browserifyScript(file) {
 // browserify the site.js bundle
 gulp.task("browserify:site", function browserifySiteJS(done) {
     browserifyScript(paths.jsFile_site);
+
     done();
 });
 
@@ -716,9 +724,9 @@ function watchJS(done) {
     watcherJS.on("error", err => glog("watch js error: " + err.message));
     watcherJS.on("change", path => glog("js changed >>> " + path));
     watcherJS.on("change", gulp.series("lint:js", "browserify:site"));
+
 	done();
 }
-
 
 gulp.task("watch:js", watchJS);
 
