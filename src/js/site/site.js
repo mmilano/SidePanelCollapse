@@ -6,7 +6,7 @@
 
 
 // incorporate the script for the sidenav
-require("site-sidePanel.js");
+require("sidePanel.js");
 
 // collection of scripts and handlers specific to each page, keyed to page ID
 let pageMethods = require("pages.js");
