@@ -30,10 +30,18 @@ $group-color-transition-duration:       0.9s;
 
 
 .sidenav {
+    z-index: $sidepanel-zindex;
+    position: fixed;
+
+    top: 0;
+    right: 0;  // the default position = right side of window
+
+    height: 100vh;  // sidepanel extends the full height of the window
+
+    overflow-x: hidden;
 
     padding: 0;
     background-color: $sidenav-background-color;
-
 
     // because the width of the top-level sidepanel is changed during the collapse event by Bootstrap,
     // an interior element is used to maintain a fixed width for the content.

@@ -3,9 +3,10 @@
  * A Bootstrap 4-based sidebar using "collapse" component to collapse horizontally,
  * and allow variable transition timing for the expand and the collapse transitions
  *
- * by Michel Milano
+ * Main (universal) SCSS for the sidepanel
  *
- * Main SCSS for the sidepanel
+ * Michel Milano
+ * MIT License
  */
 
 
@@ -26,7 +27,7 @@ $sidepanel-backdrop-duration-hide:        0.1s;
 // sidepanel transitions
 $sidepanel-duration-show:                 1.05s;  // leisurely opening
 $sidepanel-duration-hide:                 0.31s;  // quick closing
-$sidepanel-duration-hide-fast:            0.10s;  // very fast closing
+$sidepanel-duration-hide-fast:            1.10s;  // very fast closing
 
 $sidepanel-transition-function:           ease-out;
 
@@ -40,16 +41,6 @@ $sidepanel-transition-function:           ease-out;
     --sidepanelDurationHide: #{$sidepanel-duration-hide};
     --sidepanelDurationHideFast: #{$sidepanel-duration-hide-fast};
 
-    z-index: $sidepanel-zindex;
-    position: fixed;
-
-    top: 0;
-    right: 0;  // the default position = right side of window
-
-    height: 100vh;  // sidepanel extends the full height of the window
-
-    overflow-x: hidden;
-
     // transition properties
     // default on load to have no transition duration (therefore no effect) so that there is no slide-out animation shown when the page first loads (in some cases).
     // Bootstrap collapse will change the width not height because .width is in the HTML
@@ -60,7 +51,6 @@ $sidepanel-transition-function:           ease-out;
     &.collapsing {
         width: 0;
         transition-duration: $sidepanel-duration-show;  // default duration. will be in effect for opening, but is overridden by javascript when closing
-        // transition-property: width;
     }
 
 }
