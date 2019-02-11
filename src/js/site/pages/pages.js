@@ -1,7 +1,7 @@
-// pages
+// pages.js
 // master array object of scripts specific to each individual page.
 // one for each page in the site.
-// keys = pageID
+// key = pageID
 //
 
 /* jshint sub:true */               // This option suppresses warnings about using [] notation when it can be expressed in dot notation
@@ -112,6 +112,10 @@ var pages = {
 
     // default page handler
     "default": function(pageID) {
+        // initialize the sidepanel
+        //
+        //
+
         util.scrollSpyCreate("#tableOfContents", scrollSpyShouldActivate);
     },
 };
