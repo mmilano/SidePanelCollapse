@@ -3,7 +3,8 @@
  * A Bootstrap 4-based sidebar using "collapse" component to collapse horizontally,
  * and allow variable transition timing for the expand and the collapse transitions
  *
- * by Michel Milano
+ * Michel Milano
+ * MIT License
  */
 
 /* jshint latedef: nofunc */
@@ -28,7 +29,7 @@ var sidePanelToggle = (function() {
 
     // keypress handler
     // when the sidenav is displayed (open), ESC will close
-    function sidepanelKeyHandle(e) {
+    function sidepanelHandleKey(e) {
         const keyID = (window.event) ? event.keyCode : e.keyCode;
 
         switch(keyID) {
@@ -69,7 +70,7 @@ var sidePanelToggle = (function() {
                 _backdrop.classList.remove("show");
                 // cleanup by removing the listener
                 _backdrop.removeEventListener("animationend", whenAnimationEnds, false);
-            };
+            }
 
             let _backdrop = this.backdrop;
             // removing "fadein" enables the default animation to fadeout
@@ -122,7 +123,7 @@ var sidePanelToggle = (function() {
         sidepanelBackdrop.hide();
 
         // cleanup: remove the listener for keyup
-        document.removeEventListener("keyup", sidepanelKeyHandle, false);
+        document.removeEventListener("keyup", sidepanelHandleKey, false);
 
         // remove class from the document
         $(document.body).removeClass("sidenav-open");
@@ -168,7 +169,7 @@ var sidePanelToggle = (function() {
         $sidepanel.one("shown.bs.collapse", whenShowEnds);
 
         // when sidepanel is open, set keyup event handler to catch ESC key (and close sidepanel if pressed)
-        document.addEventListener("keyup", sidepanelKeyHandle, false);
+        document.addEventListener("keyup", sidepanelHandleKey, false);
 
         // add a style class to the document page.
         // optional - for use in enabling any specific styles
@@ -221,7 +222,7 @@ var sidePanelToggle = (function() {
     // check if sidepanel exists on the page. if yes, then initialize
     if ($sidepanel.length) {
         document.addEventListener("DOMContentLoaded", init, false);
-    };
+    }
 
 })();
 
