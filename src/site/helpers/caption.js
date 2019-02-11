@@ -1,7 +1,7 @@
 // *****
 // handlebars block helper module
 //
-// caption element
+// generate a caption element
 
 
 const basepath = process.cwd();
