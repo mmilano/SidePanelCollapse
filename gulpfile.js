@@ -61,7 +61,7 @@ function refreshPanini(done) {
 // **********
 // build globals
 
-const siteBuildDestinationRoot = "build/";
+const siteBuildDestinationRoot = "demo/";
 const siteBuildSource = "./src/site/";
 
 
@@ -72,9 +72,9 @@ const paths = {
 
     // build locations to clean out
     cleanGLOB : [
-        "./build/public/**/*",
-        "./build/pages/**/*",
-        "./build/index.html",
+        siteBuildDestinationRoot + "public/**/*",
+        siteBuildDestinationRoot + "pages/**/*",
+        siteBuildDestinationRoot + "index.html",
     ],
 
     // images
@@ -124,7 +124,7 @@ const paths = {
     },
 
     pagesBuildDestinationRoot: siteBuildDestinationRoot,
-    pagesBuiltGLOB: "./build/pages/**/*.html",
+    pagesBuiltGLOB: siteBuildDestinationRoot + "pages/**/*.html",
 
     sitePages: siteBuildSource + "pages/",
     sitePagesData: "./src/site/pages/data/**/*.js",
