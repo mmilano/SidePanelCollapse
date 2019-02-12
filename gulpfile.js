@@ -77,10 +77,6 @@ const paths = {
         "./build/index.html",
     ],
 
-    // ico
-    icoSource: "./assets/ico/favicon.ico",
-    icoDestination: siteBuildDestinationRoot + "/.",
-
     // images
     imgSourceGLOBDIR: "./assets/images/**/*",
     imgSourceGLOB: "./assets/images/**/*.+(png|jpg|jpeg|gif|svg)",
@@ -214,14 +210,6 @@ gulp.task("webserver", webserver);
 
 
 // copy images
-function copyIco(done) {
-    gulp
-    .src([paths.icoSource])
-    .pipe(gulp.dest(paths.icoDestination));
-
-    done();
-}
-
 function copyImages(done) {
     gulp
     .src([paths.imgSourceGLOB])
@@ -266,7 +254,6 @@ function copyJSVendor(done) {
     done();
 }
 
-gulp.task("copy:ico", copyIco);
 gulp.task("copy:images", copyImages);
 gulp.task("copy:images-changed", copyImagesChanged);
 gulp.task("copy:js-vendor", copyJSVendor);
