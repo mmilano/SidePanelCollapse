@@ -19,8 +19,8 @@ module.exports = function(globalContext, pageID) {
 
     let data = "";  // default
 
-    // in lieu of passing in the {object} site-gallery, get it out of the global context that is passed in
-    let siteGallery = globalContext && globalContext["site-gallery"];
+    // get the {object} site-gallery data out of the global context
+    const siteGallery = globalContext && globalContext["site-gallery"];
 
     if (siteGallery[pageID] !== undefined) {
         data = siteGallery[pageID];

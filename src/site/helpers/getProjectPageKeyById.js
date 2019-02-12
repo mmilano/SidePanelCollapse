@@ -17,8 +17,6 @@ const panini = require("panini");
 module.exports = function(pageID, key, options) {
     "use strict";
 
-    let value = "";  // default
-
     // check that options === the handlebars options object.
     // allow for arbitrary number of attributes passed
     if (!options || !options.fn) {
@@ -29,7 +27,7 @@ module.exports = function(pageID, key, options) {
     const globalContext = options.data.root;
 
     // in lieu of passing in the {object} site-gallery, get it out of the global context
-    let siteGallery = globalContext && globalContext["site-gallery"];
+    const siteGallery = globalContext && globalContext["site-gallery"];
 
     // given the id,
     // first get the gallery data, then get the page name
@@ -39,7 +37,7 @@ module.exports = function(pageID, key, options) {
     // then, lookup the pagedata object
     // use the existing panini helper
     let getPageData = panini.Handlebars.helpers.getPageData;
-    value = getPageData(globalContext, page, key);
+    let value = getPageData(globalContext, page, key);
 
     return value;
 };

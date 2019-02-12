@@ -28,17 +28,16 @@ module.exports = function(pageID, options) {
     // in lieu of passing in the root context, get it out of the options object
     const globalContext = options.data.root;
 
-    // in lieu of passing in the {object} site-gallery, get it out of the global context
-    let siteGallery = globalContext && globalContext["site-gallery"];
-
-    let getPageData = panini.Handlebars.helpers.getPageData;
+    // get the {object} site-gallery data out of the global context
+    const siteGallery = globalContext && globalContext["site-gallery"];
 
     // given the id,
     // first have to get the name of the page
     let pageGalleryData = siteGallery[pageID];
     let page = pageGalleryData["page"];
 
-    // then, lookup the pagedata object
+    // then, lookup the pagedata object using the existing helper
+    let getPageData = panini.Handlebars.helpers.getPageData;
     let pageDataValue = getPageData(globalContext, page, key);
 
     return pageDataValue;
