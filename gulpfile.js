@@ -65,7 +65,7 @@ const siteBuildDestinationRoot = "build/";
 const siteBuildSource = "./src/site/";
 
 
-var paths = {
+const paths = {
 
     // ignore for osx ds_store file
     DSStoreIgnore: "!**/.DS_Store",
@@ -100,7 +100,8 @@ var paths = {
     // all the js files
     jsSourceGLOB: ["./src/js/**/*.js"],
 
-    // the site's js files
+    // the site's 3rd party js files.
+    // only here for the option to develop locally without network access
     jsVendorGLOB: "src/js/vendor/**/*.js",
     jsVendorDestination: siteBuildDestinationRoot + "/public/js",
 
@@ -111,10 +112,8 @@ var paths = {
     browserifyDestinationFile_site: "site.js",
 
     // panini and site building
-    siteBuildSource: siteBuildSource,  // dupe for convenience
-
+    siteBuildSource: siteBuildSource,  // dupe for convenience/consistency
     siteDataGLOB: "./src/site/data/site/**/*",
-
     pageBuildSourceRoot: siteBuildSource + "pages/",
 
     // pages
@@ -134,7 +133,6 @@ var paths = {
     sitePages: siteBuildSource + "pages/",
     sitePagesData: "./src/site/pages/data/**/*.js",
     sitePagesGLOB: "./src/site/pages/page/**/*",
-
 
     get siteSourcePagesData() {
         return ([paths.sitePages + "data/**/*.js"]);
@@ -390,7 +388,7 @@ gulp.task("watch:index", watchindexPageSource);
 
 
 
-// watch the data files...
+// site building: watch the data files
 // if data file for project page changes, then build the project page itself
 //
 // pages are paired: $$$.html & $$$.js.
@@ -425,7 +423,7 @@ function buildPageOnDataChange(done) {
 
 
 
-// constructProjectPath:
+// site building: construct Project Path
 // given a data file of /path/path/file.js,
 // break down the path and construct the path & name of the counterpart file.html
 // remove the src path from both files: src/site/pages/data  &  src/site/pages/page
@@ -494,7 +492,7 @@ function watchPages(done) {
 gulp.task("watch:pages", gulp.series(buildPageOnDataChange, watchPages));
 
 
-// watch the Panini sources and if any of them change, rebuild the html pages.
+// site building: watch the Panini sources and if any of them change, rebuild the html pages.
 // rebuild all because these items affect all pages.
 // also watch the site data, which also affects all the pages.
 function watchTemplateSources(done) {
@@ -542,8 +540,7 @@ gulp.task("minify:pages", minifyPages);
 gulp.task("minify:site", gulp.series("minify:pages"));  // alias
 
 
-// validate the (built) html page
-
+// validate the (built) html pages
 const validatorOptions = {
     "errors-only": true
 };
@@ -557,7 +554,7 @@ function validatepPagesBuilt() {
 }
 
 gulp.task("validate:pages", validatepPagesBuilt);
-gulp.task("validate:all", gulp.parallel("validate:pages"));
+gulp.task("validate:all", gulp.parallel("validate:pages"));  // alias
 
 
 
@@ -635,6 +632,7 @@ gulp.task("touch:site-gallery", touchGalleryData);
 gulp.task("touch:index", touchIndexPage);
 
 
+// site building: watch the gallery data
 // the gallery data is used to generate the set of page cards displayed on the index page,
 // and the inter-page navigation displayed in the sidepanel nav
 function watchGalleryData(done) {
@@ -652,7 +650,7 @@ gulp.task("watch:siteGallery", watchGalleryData);
 // **********
 // JAVASCRIPT
 //
-// lint, assemble, compile, and etc. for the javascript
+// lint, assemble, compile, and etc., for the javascript
 
 function lintSiteJS() {
     return gulp
@@ -677,7 +675,7 @@ gulp.task ("lint:Paninijs", lintPaniniJS);
 gulp.task ("lint:js", lintSiteJS);
 
 
-// main site script assembly
+// main site javascript assembly
 function browserifyScript(file) {
 
     const standaloneFile= "site";
@@ -702,7 +700,7 @@ function browserifyScript(file) {
         .pipe(source(paths.browserifyDestinationFile_site))
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
-        // Add transformation tasks in the pipeline here
+        // add transformation tasks in the pipeline here
         .pipe(babel(babelOptions))
         // .pipe(uglify())  // will minify the js if you want that
         // end transformations
@@ -731,7 +729,6 @@ function watchJS(done) {
 gulp.task("watch:js", watchJS);
 
 // watch all the things
-
 gulp.task("watch:full", gulp.parallel(
     "watch:images",
     "watch:buildSources",
@@ -741,6 +738,7 @@ gulp.task("watch:full", gulp.parallel(
     "watch:index",
     "watch:pages",
 ));
+
 
 
 gulp.task("default", gulp.series(
