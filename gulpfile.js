@@ -197,7 +197,6 @@ const serverOptions = {
 };
 
 function webserver(done) {
-
     connect.server(serverOptions);
     let currentAddress = findAddress();
     console.log ("***** current IP address:", currentAddress);
@@ -313,13 +312,12 @@ const pageBuildOptions = {
     root:       paths.siteBuildSource,             // Path to the root folder all the page build elements live in
     layouts:    paths.siteBuildSource + "layouts/",
     pageLayouts: {
-                // "**/*/index.html":          "layout-page",
-                "index.html":            "layout-index",
-                "pages/page/**/*":     "layout-page",
+                "index.html":           "layout-index",
+                "pages/page/**/*":      "layout-page",
                 },
     helpers:    paths.siteBuildSource + "helpers/",       // Path to a folder containing Panini helpers
     partials:   paths.siteBuildSource + "partials/",      // Path to a folder containing HTML partials
-    data:       [paths.siteBuildSource + "data/", paths.siteBuildSource + "pages/data/"],  // Path to global data, which will be passed in to every page. relative to root.
+    data:       [paths.siteBuildSource + "data/", paths.siteBuildSource + "pages/data/"],  // Path to global data, which will be passed in to every page; relative to root.
     debug: 0
 };
 
