@@ -1,5 +1,5 @@
 // js template
-// site gallery data for handlebars
+// site gallery data for panini/handlebars
 //
 /* jshint esversion: 6 */  // allow es6 features
 
