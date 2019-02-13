@@ -102,7 +102,7 @@ module.exports = function(globalContext, options) {
         return list;
     }
 
-    // allow for arbitrary number of attributes passed
+    // allow for arbitrary number of attributes passed as arguments
     if (!options || !options.fn) {
         options = arguments[arguments.length-1];
     }

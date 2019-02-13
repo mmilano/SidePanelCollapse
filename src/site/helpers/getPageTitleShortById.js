@@ -19,8 +19,8 @@ module.exports = function(pageID, options) {
     // which data value to get
     const key = "page-title-short";
 
-    // check that options === the handlebars options object.
-    // allow for arbitrary number of attributes passed
+    // check that options === the handlebars options object
+    // allow for arbitrary number of attributes passed as arguments
     if (!options || !options.fn) {
         options = arguments[arguments.length-1];
     }

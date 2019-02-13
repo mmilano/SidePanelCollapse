@@ -18,7 +18,7 @@ module.exports = function(pageID, key, options) {
     "use strict";
 
     // check that options === the handlebars options object.
-    // allow for arbitrary number of attributes passed
+    // allow for arbitrary number of attributes passed as arguments
     if (!options || !options.fn) {
         options = arguments[arguments.length-1];
     }

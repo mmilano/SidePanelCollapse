@@ -1,11 +1,13 @@
 // *****
 // handlebars block helper module
 //
-// heading element
-
+// generate <h3> heading element
+// automatically title case the heading text
+//
 // supports any of the following
-// <h3 id="sectionx" class="bitsy bopsy">context title</h3>
-// <h3>context title</h3>
+// <h3>simple title</h3>
+// <h3 id="subsection2" class="bitsy bopsy">less simple title</h3>
+
 
 const basepath = process.cwd();
 const trimWhitespace = require(basepath + "/src/site/lib/trim");
@@ -19,7 +21,7 @@ module.exports = function(attr, options) {
     const openTag =  "<h3>";
     const closeTag = "</h3>";
 
-    // allow for arbitrary number of attributes passed
+    // allow for arbitrary number of attributes passed as arguments
     if (!options || !options.fn) {
         options = arguments[arguments.length-1];
     }
@@ -29,8 +31,8 @@ module.exports = function(attr, options) {
     if (options.hash && Object.keys(options.hash).length > 0) {
         let attributes = "";
 
-        // if parameter passed in is "attribute=true", handle that as a special case
-        // of a single name attribute
+        // iterate through the options
+        // if parameter passed in is "attribute=true" format, handle that as a special case of a single name attribute
         // otherwise, express as: attribute="value"
         for (var a in (options.hash)) {
             if (options.hash[a] === true) {

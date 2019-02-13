@@ -15,7 +15,7 @@ module.exports = function(attr, options) {
     const openTag =  '<div class="caption">';
     const closeTag = "</div>";
 
-    // allow for arbitrary number of attributes passed
+    // allow for arbitrary number of attributes passed as arguments
     if (!options || !options.fn) {
         options = arguments[arguments.length-1];
     }
