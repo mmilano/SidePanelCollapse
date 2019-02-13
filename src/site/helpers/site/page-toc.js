@@ -61,18 +61,13 @@ module.exports = function(attr, options) {
     // BEGIN
     // STEP1: get the rendered page body content
 
-    // allow for arbitrary number of attributes passed
+    // allow for arbitrary number of attributes passed as arguments
     if (!options || !options.fn) {
         options = arguments[arguments.length-1];
     }
 
     // case:
-    // using as a block helper, so the function passed in is {{> body}}
-    // get the bodycontent of the page
-    // var bodyRendered = options.fn(this);
-
-    // case:
-    // rendered body content has been added to the pagedata value in panini, and is available in options.data.root.pageRendered
+    // rendered body content has been added to the pagedata value in panini, and is available via options.data.root.pageRendered
     let bodyRendered = options.data.root.pageRendered;
 
     // END: get the rendered page body content
@@ -102,7 +97,7 @@ module.exports = function(attr, options) {
     function TableOfContents(options) {
 
         // forge bonds to the defaults and methods.
-        var myself = this;
+        // var myself = this;
         this.defaults = defaults;
 
         // check if the element is a cheerio object (o.noteType = undefined) or Node object (o.noteType = 1)?
@@ -133,7 +128,7 @@ module.exports = function(attr, options) {
         // exclude items that have 'data-toc-ignore' attribute
         this.findAndFilter = function findAndFilter(selector, $scope) {
             if ($scope === undefined) {
-                console.warn ("findAndFilter: no scope passed");
+                console.warn ("findAndFilter: NO SCOPE GIVEN");
                 return false;
             }
 
@@ -150,12 +145,12 @@ module.exports = function(attr, options) {
             let title;
 
             if (el === undefined) {
-                console.warn ("get title: NO ELEMENT ARGUMENT GIVEN");
+                console.warn ("getTitle: NO ELEMENT ARGUMENT GIVEN");
                 return 0;
             }
 
-            console.log ("**** el1", el);
-            console.log ("**** el2", $(el));
+            // console.log ("**** el1", el);
+            // console.log ("**** el2", $(el));
             let $el = $(el);
 
             // first check if there is a data-title-short value
@@ -236,14 +231,14 @@ module.exports = function(attr, options) {
         // given a NODE DOM element,
         // either return its existing ID value,
         // or if there is none, create a new unique ID value
-        this.getAnchor = function getAnchor(el) {
+        this.getAnchor = function(el) {
             let anchor;
 
             // if there is an existing id value, get that
             if (el.attribs && el.attribs.id) {
                 anchor = el.attribs.id;
             } else {
-                //otherwise, need to create a new id
+                // otherwise, need to create a new id
                 anchor = this.generateUniqueId(el);
                 el.attribs.id = anchor;
             }
@@ -322,7 +317,7 @@ module.exports = function(attr, options) {
             // this should be a collection of all the headings that should appear in the table of contents
             let $allReleventHeadings = this.getHeadingsAndNext(topLevel, $PAGE);
 
-            var piss = this;
+            var thisContext = this;
 
             // how many relevant headings are there?
             let allHeadingsLength = $allReleventHeadings.length;
@@ -336,11 +331,11 @@ module.exports = function(attr, options) {
                 let heading = $allReleventHeadings[i];
 
                 // get the anchor and title of the heading
-                let anchor = piss.getAnchor(heading);
-                let title = piss.getTitle(heading);
+                let anchor = thisContext.getAnchor(heading);
+                let title = thisContext.getTitle(heading);
 
                 // create the {} entry...
-                let entry = piss.createContentsEntry(anchor, title);
+                let entry = thisContext.createContentsEntry(anchor, title);
                 // ...and add it to the toc data object being built...
                 let key_top = contentsKeyFirst(contentsIndexTop++);
 
@@ -359,15 +354,15 @@ module.exports = function(attr, options) {
                 for (var j = i + 1; j < allHeadingsLength; j++, i++) {
 
                     let nextHeading = $allReleventHeadings[j];
-                    let nextLevel = piss.getLevel($(nextHeading));
+                    let nextLevel = thisContext.getLevel($(nextHeading));
 
                     if (nextLevel > topLevel) {
                         // get the anchor and title
-                        let anchor_sub = piss.getAnchor(nextHeading);
-                        let title_sub = piss.getTitle(nextHeading);
+                        let anchor_sub = thisContext.getAnchor(nextHeading);
+                        let title_sub = thisContext.getTitle(nextHeading);
 
                         // create the {} entry...
-                        let entry_sub = piss.createContentsEntry(anchor_sub, title_sub);
+                        let entry_sub = thisContext.createContentsEntry(anchor_sub, title_sub);
                         // ...and add it to the toc data object being built...
                         let key_sub = contentsKeySecond(subsectionIndex++);
                         subsections[key_sub] = entry_sub;
