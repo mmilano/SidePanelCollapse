@@ -6,23 +6,13 @@
  * Main (universal) SCSS for the sidepanel
  *
  * Michel Milano
+ *
  * MIT License
  */
 
 
 // sidepanel universal values
-$sidepanel-zindex:                       $zindex-fixed + 1;  // z-index of Bootstrap4 default nav, plus 1, to put it above the nav
-
-
-// backdrop
-$sidepanel-backdrop-zindex:               $sidepanel-zindex - 100;
-$sidepanel-backdrop-opacity:              0.6;
-$sidepanel-backdrop-dark:                 #000;
-$sidepanel-backdrop-light:                #FFF;
-
-$sidepanel-backdrop-duration-show:        0.33s;
-$sidepanel-backdrop-duration-hide:        0.1s;
-
+$sidepanel-zindex:                        $zindex-fixed + 1;  // z-index of Bootstrap4 default nav, plus 1, to put .sidepanel above the nav
 
 // sidepanel transitions
 $sidepanel-duration-show:                 1.05s;  // leisurely opening
@@ -32,11 +22,25 @@ $sidepanel-duration-hide-fast:            1.10s;  // very fast closing
 $sidepanel-transition-function:           ease-out;
 
 
+// backdrop values
+$sidepanel-backdrop-zindex:               $sidepanel-zindex - 100;  // enough to be under .sidepanel, but over the main page content
+$sidepanel-backdrop-opacity:              0.6;
+$sidepanel-backdrop-dark:                 #000;
+$sidepanel-backdrop-light:                #FFF;
+
+// backdrop transition durations
+$sidepanel-backdrop-duration-show:        0.33s;
+$sidepanel-backdrop-duration-hide:        0.1s;
+
+
+
+
 .sidepanel {
 
     // output the duration values as css variables so that they only have to be declared in one place, and
     // the page's javascript can access/extract them when needed.
-    // see sidePanel.js for usage of the values
+    // see sidePanel.js for usage of the values.
+    // scoped locally to .sidepanel
     --sidepanelDurationShow: #{$sidepanel-duration-show};
     --sidepanelDurationHide: #{$sidepanel-duration-hide};
     --sidepanelDurationHideFast: #{$sidepanel-duration-hide-fast};
@@ -52,7 +56,6 @@ $sidepanel-transition-function:           ease-out;
         width: 0;
         transition-duration: $sidepanel-duration-show;  // default duration. will be in effect for opening, but is overridden by javascript when closing
     }
-
 }
 
 
@@ -77,7 +80,7 @@ $sidepanel-transition-function:           ease-out;
 
     // when the fadein class is applied, fadein animation will be in effect
     &.fadein {
-        animation: backdropFadeIn $sidepanel-backdrop-duration-hide linear forwards;
+        animation: backdropFadeIn $sidepanel-backdrop-duration-show linear forwards;
         animation-fill-mode: forwards;
     }
 
