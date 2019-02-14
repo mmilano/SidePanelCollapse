@@ -34,9 +34,7 @@ $sidepanel-backdrop-duration-hide:        0.1s;
 
 
 
-
-.sidepanel {
-
+:root {
     // output the duration values as css variables so that they only have to be declared in one place, and
     // the page's javascript can access/extract them when needed.
     // see sidePanel.js for usage of the values.
@@ -44,7 +42,10 @@ $sidepanel-backdrop-duration-hide:        0.1s;
     --sidepanelDurationShow: #{$sidepanel-duration-show};
     --sidepanelDurationHide: #{$sidepanel-duration-hide};
     --sidepanelDurationHideFast: #{$sidepanel-duration-hide-fast};
+}
 
+
+.sidepanel {
     // transition properties
     // default on load to have no transition duration (therefore no effect) so that there is no slide-out animation shown when the page first loads (in some cases).
     // Bootstrap collapse will change the width not height because .width is in the HTML
