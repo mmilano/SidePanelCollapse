@@ -1,7 +1,10 @@
 // panini/handlebars js module
 //
-// will trim out whitespace and linebreaks from the given text.
+// will trim out whitespace and linebreaks from the given text, and
 // reduces all multiple spaces down to single space.
+//
+// @param string
+// @returns string
 
 var trimSpace = function(text) {
     "use strict";
