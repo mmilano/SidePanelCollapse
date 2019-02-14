@@ -3,8 +3,7 @@
 //
 // debug info
 //
-// @param optionalValue: optional value passed to the helper to also display
-// @returns a template-generated collection of the icons as sprites
+// @param optionalValue1, optionalValue2: optional values passed to the helper to also display
 // *****
 
 module.exports = function(optionalValue1, optionalValue2) {
