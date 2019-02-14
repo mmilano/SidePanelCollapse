@@ -1,7 +1,7 @@
 {
   "name": "sidebar-slide",
   "version": "1.0.0",
-  "description": "An example of a horizontal sliding sidebar with Bootstrap 4 and the 'collapse' component, along with customized variable timing for the show and hide events.",
+  "description": "An example of a horizontal sliding sidebar with Bootstrap 4 and the 'collapse' component, along with different duration timing for both the show and hide events.",
   "keywords": [
     "bootstrap4",
     "horizontal",
@@ -16,7 +16,7 @@
     "email": "mmilano@users.noreply.github.com",
     "url": "https://www.stochasticnotions.com"
   },
-  "license": "ISC",
+  "license": "MIT",
   "main": "index.html",
   "homepage": "https://gitlab.com/mmilano/bootstrapHorizontalCollapse#readme",
   "repository": {
