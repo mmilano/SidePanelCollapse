@@ -65,13 +65,14 @@ $text-color-white-darker4:      darken($core-white, 26.66667%);  // #BBBBBB
 // @debug $text-color-white-muted;
 
 
-$link-color-primary: #007BFF;
+$link-color-primary:    #007BFF;
 
 $theme-link-color:                $link-color-primary;
 $theme-link-decoration:           none;
 $theme-link-hover-color:          darken($link-color-primary, 13%);
 $theme-link-hover-decoration:     none;
 
+$theme-link-active:               $color-white-darker1;
 
 
 // navbar
@@ -81,9 +82,7 @@ $body-text-color-default:       $text-color-black-lighter1;
 $text-color-nav-default:        $color-black-lighter3;
 $text-color-primarynav-active:  $text-color-black-lighter1;
 
-$text-color-sidenav-active:     $color-white-darker1;
 
-$default-link-color:    $core-blue;
 $link-color-highlight:  #55AA11;
 $default-border-color: $color-white-darker5;
 
@@ -91,7 +90,6 @@ $default-border-color: $color-white-darker5;
 
 // LAYOUT
 $page-primarynavbar-height:     50px;  // height of the primary nav bar on the page
-
 
 
 
