@@ -2,21 +2,22 @@
 // handlebars helper
 // generate a table of contents for a blob of html body contents
 //
+// takes the body content as input
+// assumes ONLY ONE per page
+//
 // adapted version of
 //  * Bootstrap Table of Contents (http://afeld.github.io/bootstrap-toc/)
 //  * Copyright 2015 Aidan Feldman
 //  * Licensed under MIT (https://github.com/afeld/bootstrap-toc/blob/gh-pages/LICENSE.md) */
 //
-//
-// takes the body content as input
-// assumes ONLY ONE per page
+// instead of using jquery to parse the page, uses cheerio.
 //
 //
-// data attribute identifiers
+// data attribute identifiers within the content:
 //
 // data-id="value"          id value for the element
 // data-toc-ignore=true     marks that this heading element should be ignored/skipped
-// data-title-short         alt value of the element's text to be used in the table of contents. allows writing a shorter version of the heading
+// data-title-short         alt value of the element's text to be used in the table of contents. allows a shorter version of the heading
 //
 
 /* jshint esversion: 6 */  // allow es6 features
@@ -37,8 +38,29 @@ module.exports = function(attr, options) {
     const hbs = panini.Handlebars;
     const hbs_partials = panini.Handlebars.partials;
 
+    // internal default values for the TOC
+    var defaults = {
+        // default scope is the whole page
+        $scope: null,
+
+        // how many heading levels to go down when generating the toc. e.g. 3 -> stop at h3
+        maxHeadingDepth: 3,
+
+        // when searching for headings, which level to start at. 1 = h1, 2 = h2, etc.
+        topHeadingLevel: 1,
+
+        // when generating unique ID values, start from this number (appended to the original id value)
+        startingUniqueID: 1,
+
+        // css selector for the <section>s that start sections
+        sectionSelector: "section[id]",
+
+        // selector of headings to ignore
+        ignoreSelector: "[data-toc-ignore]",
+    };
+
     // check if the passed-in partial is already compiled.
-    // if so,just use that.
+    // if so, just use that.
     // if not, compile it, and
     // return the compiled partial
 
@@ -66,33 +88,13 @@ module.exports = function(attr, options) {
         options = arguments[arguments.length-1];
     }
 
-    // case:
     // rendered body content has been added to the pagedata value in panini, and is available via options.data.root.pageRendered
     let bodyRendered = options.data.root.pageRendered;
 
     // END: get the rendered page body content
     // ******************
 
-    // internal default values for the TOC
-    var defaults = {
-        // default scope is the whole page
-        $scope: null,
 
-        // how many heading levels to go down when generating the toc. e.g. 3 -> stop at h3
-        maxHeadingDepth: 3,
-
-        // when searching for headings, which level to start at. 1 = h1, 2 = h2, etc.
-        topHeadingLevel: 1,
-
-        // when generating unique ID values, start from this number (appended to the original id value)
-        startingUniqueID: 1,
-
-        // css selector for the <section>s that start sections
-        sectionSelector: "section[id]",
-
-        // selector of headings to ignore
-        ignoreSelector: "[data-toc-ignore]",
-    };
 
     function TableOfContents(options) {
 
