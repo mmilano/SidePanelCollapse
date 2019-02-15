@@ -52,7 +52,6 @@ $group-color-transition-duration:       0.9s;
     // sidenav is structured to be one general "nav" element
     .nav {
         display: block;  // override Bootstrap
-        //margin-left: $sidenav-list-space-left;  // left-side margin from the edge of sidenav
     }
 
     .navbar-nav {
@@ -107,7 +106,7 @@ $group-color-transition-duration:       0.9s;
 #sideNav {
     .nav-link {
         &.active {
-            color: $text-color-sidenav-active;
+            color: $theme-link-active;
         }
     }
 }
@@ -127,7 +126,7 @@ $group-color-transition-duration:       0.9s;
     margin-bottom: .9rem;
 
     &:hover {
-        .pagelist-group {
+       .pagelist-group {
             color: $pagelist-group-font-color-hover;
         }
     }
@@ -166,10 +165,6 @@ $group-color-transition-duration:       0.9s;
 // specific styles for display on the index page (aka homepage)
 .theme-homepage {
     .sidenav {
-//         .nav {
-//             margin-left: $sidenav-list-space-left;  // left-side margin from the edge of sidenav
-//         }
-
         .sidenav-list {
             font-size: 1rem;
         }
@@ -185,10 +180,6 @@ $group-color-transition-duration:       0.9s;
         .sidenav-content {
             width: $sidenav-width-md;
         }
-
-//         .nav {
-//             margin-left: $sidenav-list-space-left-md;  // left-side margin from the edge of sidenav
-//         }
 
         .nav-link {
             margin-bottom: .25rem;
