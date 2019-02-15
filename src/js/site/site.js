@@ -17,7 +17,7 @@ var sidepanelOptions = {
     sidepanelCloseElement: ".sidepanel-close",
 
 //    durationShow: "1.1222s",
-    backdropEnabled: false,
+    backdropEnabled: true,
 
 };
 
