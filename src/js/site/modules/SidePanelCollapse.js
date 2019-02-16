@@ -42,7 +42,7 @@
 } (typeof self !== "undefined" ? self : this, function() {
     "use strict";
 
-    /* jshint validthis: true */
+
 
     // simple method for reconciling/extending objects
     function extend(a, b) {
@@ -53,7 +53,6 @@
         }
         return a;
     }
-
 
     var defaults = {
         // default css selectors for the sidepanel DOM elements
@@ -111,7 +110,7 @@
         this.$sidepanel.collapse("hide");  // invoke Bootstrap function
     };
 
-    function linksAddListener() {
+    function linksAddListener(_$sidepanel, handler) {
         // apply a 'click' event handler to each of the links in the sidepanel
         let sidelinks = e.currentTarget.getElementsByTagName("a");
         let ln = sidelinks.length;
@@ -120,8 +119,8 @@
         };
     }
 
-    function linksRemoveListener() {
-        // cleanup and listeners on the links in sidepanel
+    function linksRemoveListener(_$sidepanel, handler) {
+        // remove listeners on the each of the links in the sidepanel
         let sidelinks = e.currentTarget.getElementsByTagName("a");
         let ln = sidelinks.length;
         for (var i = 0; i < ln; i++) {
@@ -134,7 +133,6 @@
     // when link destination is an anchor within the current page.
     // presumes: called as event callback, with .bind(this) to give access the main sidepanel object
     SidePanelCollapse.prototype.sidepanelOpen = function(e) {
-        console.log ("opening sidepanel...");
 
         // local method.
         // return a function with closure to use as the event handler:
@@ -161,7 +159,7 @@
         // jquery event listener to run once on the Bootstrap "is shown" event
         _this.$sidepanel.one("shown.bs.collapse", whenTransitionEnds(_this.settings.durationHide));
 
-
+        // TODO
         // keyup should not try to close until the transition ends, otherwise if esc is pressed during transition, it will mess things up
         // when sidepanel is open, set keyup event handler - to catch ESC key and close sidepanel if pressed
         document.addEventListener("keyup", _this.handleKeyup.bind(_this), false);
@@ -173,22 +171,29 @@
         // manage links in the sidepanel:
         // if sidepanel links are anchor links, then clicking link should just go to the anchor and close the sidebar.
         // if sidepanel links are to another page, then clicking link should close the navbar (more quickly) and then go to the link destination
-//         let pageID = "anchorLinkPage";
-//         let callback = pageID === "anchorLinkPage" ? _this.sidepanelClose : _this.sidepanelCloseToPage;
-//
-//         // apply a 'click' event handler to each of the links in the sidebar
-//         let sidelinks = e.currentTarget.getElementsByTagName("a");
-//         let ln = sidelinks.length;
-//         for (var i = 0; i < ln; i++) {
-//             sidelinks[i].addEventListener("click", function() { alert();}, false);
-//         };
+
+        // TODO: how to determine if links are in-page vs to-another-page?
+        // options...
+
+    // go by page id?
+
+        let pageID = "anchorLinkPage";
+        let callback = pageID === "anchorLinkPage" ? _this.sidepanelClose : _this.sidepanelCloseToPage;
+        callback = callback.bind(_this);
+
+        // find all the anchor links in the sidepanel.
+        // convert the jauery node to HTML node
+        let sidelinks = _this.$sidepanel[0].getElementsByTagName("a");
+        let ln = sidelinks.length;
+        for (var i = 0; i < ln; i++) {
+            sidelinks[i].addEventListener("click", callback, false);
+        };
     };
 
     // CLOSE the sidepanel - case: normal.
     // when link destination is an anchor within the current page.
     // presumes: called as event callback, with .bind(this) to give access the main sidepanel object
     SidePanelCollapse.prototype.sidepanelClose = function(e) {
-        console.log ("closing sidepanel: NORMAL...");
 
         // local method.
         // a function to use as the event handler:
@@ -240,16 +245,16 @@
 
         e.preventDefault();
 
-        // manually change close duration to fast speed. use native DOM element from jquery object
-        _this.$sidepanel[0].style.transitionDuration = durationHideFast;
-        _this.hideManually();
-
-        // set a jquery event listener to run once on the Bootstrap "is hidden" event,
-        // then initiate the hiding
-        _this.$sidepanel.one("hidden.bs.collapse", whenTransitionEnds(e.target.href));
         if (_backdrop) {
             _backdrop.hide();
         }
+
+        // manually change close duration to fast speed. use native DOM element from jquery object
+        _this.$sidepanel[0].style.transitionDuration = _this.settings.durationHideFast;
+        // set a jquery event listener to run once on the Bootstrap "is hidden" event,
+        _this.$sidepanel.one("hidden.bs.collapse", whenTransitionEnds(e.target.href));
+        // then initiate the hiding
+        _this.hideManually();
 
         // cleanup: remove the keypress listener
         document.removeEventListener("keyup", _this.handleKeyup, false);
