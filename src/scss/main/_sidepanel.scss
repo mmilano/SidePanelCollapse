@@ -16,8 +16,8 @@ $sidepanel-zindex:                        $zindex-fixed + 1;  // z-index of Boot
 
 // sidepanel transitions
 $sidepanel-duration-show:                 1.05s;  // leisurely opening
-$sidepanel-duration-hide:                 0.31s;  // quick closing
-$sidepanel-duration-hide-fast:            1.10s;  // very fast closing
+$sidepanel-duration-hide:                 0.33s;  // quick closing
+$sidepanel-duration-hide-fast:            0.11s;  // very fast closing
 
 $sidepanel-transition-function:           ease-out;
 
@@ -30,7 +30,7 @@ $sidepanel-backdrop-light:                #FFF;
 
 // backdrop transition durations
 $sidepanel-backdrop-duration-show:        0.33s;
-$sidepanel-backdrop-duration-hide:        0.1s;
+$sidepanel-backdrop-duration-hide:        0.11s;
 
 
 .sidepanel {
