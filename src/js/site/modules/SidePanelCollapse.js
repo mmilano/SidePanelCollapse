@@ -16,11 +16,7 @@
 // close button: css selector of the close button?
 // backdrop color:  light or dark
 
-// durations
-// options = {
-//     sidepanel: "#sidePanel",
-//     close: ".sidepanel-close",
-//     }
+
 
 
 
@@ -43,6 +39,10 @@
     "use strict";
 
 
+    // module globals
+    var $sidepanel, sidepanelCloseButton;
+    var settings = {};
+
 
     // simple method for reconciling/extending objects
     function extend(a, b) {
@@ -54,7 +54,20 @@
         return a;
     }
 
+    // module default values
+    // includes the access of the css variable values as module is evaluated, for slightly more optimal performance
+
+    // extract and update the css transition values
+    // doing this so that the duration values do not have to be repeated in the javascript,
+    // and there is only one declaration (e.g. if the defaults are changed).
+    // if these are defined as js values instead, the durations need to be in seconds (css transition format)
+    let styles = getComputedStyle(document.querySelector(".sidepanel"));
+    let _durationShow = styles.getPropertyValue("--sidepanelDurationShow");
+    let _durationHide = styles.getPropertyValue("--sidepanelDurationHide");
+    let _durationHideFast = styles.getPropertyValue("--sidepanelDurationHideFast");
+
     var defaults = {
+
         // default css selectors for the sidepanel DOM elements
         sidepanelElement: "#sidePanel",  // top-level of the sidepanel
         sidepanelCloseElement: ".sidepanel-close",  // the close button, containing the close icon, visible when the sidepanel is displayed
@@ -65,28 +78,20 @@
         //         durationHide: "0.31s",   // quick to close
         //         durationHideFast: "0.11s",  // very fast to close
 
-        get durationShow() {
-            return getComputedStyle(document.querySelector(".sidepanel")).getPropertyValue("--sidepanelDurationShow");
-        },
-        get durationHide() {
-            return getComputedStyle(document.querySelector(".sidepanel")).getPropertyValue("--sidepanelDurationHide");
-        },
-        get durationHideFast() {
-            return getComputedStyle(document.querySelector(".sidepanel")).getPropertyValue("--sidepanelDurationHideFast");
-        },
+        durationShow: _durationShow,
+        durationHide: _durationHide,
+        durationHideFast: _durationHideFast,
 
         // boolean: whether or not a backdrop, or overlay, should display behind the sidepanel
         backdropEnabled: true,
 
         // which style of backdrop to use: "dark", or "light", corresponding the css style
         backdropStyle: "light",
+
         // class that is added to the document <body> when sidepanel shows, removed when it hides.
         // optional - for use in enabling any specific styles that should apply when sidepanel is open.
         sidePanelIsOpenClass: "sidepanel-shown",
     };
-
-    // module globals
-    var $sidepanel, sidepanelCloseButton;
 
 
     // keypress handler
@@ -127,7 +132,6 @@
             sidelinks[i].removeEventListener("click", linkClick, false);
         };
     }
-
 
     // CLOSE the sidepanel - case: normal.
     // when link destination is an anchor within the current page.
@@ -192,7 +196,7 @@
 
     // CLOSE the sidepanel - case: normal.
     // when link destination is an anchor within the current page.
-    // presumes: called as event callback, with .bind(this) to give access the main sidepanel object
+    // presumes: invoked as event callback, with .bind() to give access the main sidepanel object
     SidePanelCollapse.prototype.sidepanelClose = function(e) {
 
         // local method.
@@ -204,10 +208,10 @@
             e.target.style.transitionDuration = null;
         }
 
+        //e.preventDefault();
+
         let _this = this;  // convenience shorthand
         let _backdrop = this.backdrop;  // convenience shorthand
-
-        e.preventDefault();
 
         if (_this.$sidepanel.hasClass("show")) {
             _this.hideManually();
@@ -231,7 +235,7 @@
     // when page is changing because sidepanel link leads to a new page,
     // close the sidenav with fast transition duration,
     // then go to link destination.
-    // presumes: called as event callback, with .bind(this) to give access the main sidepanel object
+    // presumes: invoked as event callback, with .bind() to give access the main sidepanel object
     SidePanelCollapse.prototype.sidepanelCloseToPage = function(e) {
 
         // event method:
@@ -240,10 +244,10 @@
             window.location = destination;
         }
 
+        e.preventDefault();
+
         let _this = this;  // convenience shorthand
         let _backdrop = this.backdrop;  // convenience shorthand
-
-        e.preventDefault();
 
         if (_backdrop) {
             _backdrop.hide();
@@ -324,31 +328,22 @@
         insert(this.backdrop);
     };
 
-    SidePanelCollapse.prototype.settings = {};
 
-    // method
     // make one single set of settings from defaults and any options passed in on construction
-    function configureSettings(defaults, options) {
+    function defineSettings(defaults, options) {
 
-        // first: make an object of the settings starting with the defaults
+        // first: start settings{} with the defaults
         let _settings = extend({}, defaults);
 
-        // next: extract and update the css transition values
-        // doing this so that the duration values do not have to be repeated in the javascript,
-        // and there is only one declaration to change.
-        // if these are defined as js values instead, the durations need to be in seconds (css transition format)
-
-        let styles = getComputedStyle(document.querySelector(".sidepanel"));
-        let _durationShow = styles.getPropertyValue("--sidepanelDurationShow");
-        let _durationHide = styles.getPropertyValue("--sidepanelDurationHide");
-        let _durationHideFast = styles.getPropertyValue("--sidepanelDurationHideFast");
-
-        _settings.durationShow = _durationShow;
-        _settings.durationHide = _durationHide;
-        _settings.durationHideFast = _durationHideFast;
-
-        // last: reconcile with any provided options that will supercede defaults
+        // reconcile with any provided options that will supercede/overwrite defaults
         _settings = extend(_settings, options);
+
+        // special flag for the normal durationShow because durationShow is a special case:
+        // see constructor.
+        if (options.durationShow !== undefined) {
+            _settings.durationShowCustom = true;
+        }
+
         return _settings;
     }
 
@@ -356,7 +351,13 @@
     // constructor
     function SidePanelCollapse(options) {
 
-        let _settings = this.settings = configureSettings(defaults, options);  // convenience shorthand
+        let _settings = this.settings = defineSettings(defaults, options);  // convenience shorthand
+
+        // durationShow is a special case, because it is the one collapse duration value that is initially in the css rule
+        // so if the configuration options have a custom value, the css variable needs to be updated.
+        if (_settings.durationShowCustom) {
+            document.querySelector(".sidepanel").style.setProperty("--sidepanelDurationShow", _settings.durationShow);
+        }
 
         // initialization of sidepanel
         // try to select and cache the sidepanel element
@@ -381,6 +382,7 @@
             // if enabled, create and insert the backdrop element so it is ready to go
             this.backdrop = _settings.backdropEnabled ? new Backdrop(this) : false;
         } else {
+            // no sidepanel ;(
             console.warn("No sidepanel element could be found with selector \"", settings.sidepanelElement, "\.");
             console.warn("Sidepanel was not created.");
         };
@@ -390,4 +392,3 @@
     return SidePanelCollapse;
 
 }));
-
