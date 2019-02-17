@@ -158,3 +158,18 @@ Therefore, many of the methods and behaviours are written on that assumption, an
 It could be adapted; maybe the next time I need something to amuse myself.
 
 
+# Options
+
+| name | possible values | default | description |
+| ---- | --------------- | ------- | ----------- |
+| sidepanelElement      | css class name | #sidePanel | css selector for the top-level of the sidepanel |
+| sidepanelCloseElement | css class name | .sidepanel-close | css selector for the close button, containing the close icon, visible when the sidepanel is displayed |
+| backdropEnabled       | boolean | true | whether or not a backdrop (i.e. overlay) should display behind the sidepanel |
+| backdropStyle         | "light", "dark" | "light" |  which style of backdrop to use, corresponding the css style |
+| durationShow          | css transition-duration time |
+| durationShow          | css transition-duration time |
+| durationShow          | css transition-duration time |
+| sidePanelIsOpenClass  | css class name | "sidepanel-shown" | class that is added to the document <body> when sidepanel shows, removed when it hides. for use in enabling any specific styles that should apply when sidepanel is open. |
+
+    
+        
