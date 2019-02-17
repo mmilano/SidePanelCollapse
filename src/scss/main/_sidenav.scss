@@ -20,8 +20,7 @@ $sidenav-list-space-right:              25px;
 
 $pagelist-link-hover-color:             $link-color-highlight;
 
-$pagelist-item-font-size-default:       0.83rem;
-$pagelist-item-font-size-md:            decimal-round(($pagelist-item-font-size-default * 0.96), 3);  // adjustment for smaller window sizes
+$pagelist-item-font-size:               0.83rem;
 
 $pagelist-group-font-color:             #476978;
 $pagelist-group-font-color-hover:       #3D88C9;
@@ -116,7 +115,7 @@ $group-color-transition-duration:       0.9s;
     margin-bottom: 1.5rem;
     padding-bottom: .6rem;
 
-    font-size: $pagelist-item-font-size-default;
+    font-size: $pagelist-item-font-size;
     line-height: 1.35;
 }
 
@@ -196,7 +195,4 @@ $group-color-transition-duration:       0.9s;
         }
     }
 
-    .pagelist {
-        font-size: $pagelist-item-font-size-md;
-    }
 }
