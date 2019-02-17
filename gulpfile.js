@@ -165,16 +165,18 @@ gulp.task("site:clean", siteClean);
 // along with simple utility function to show current IP address
 
 function findAddress() {
-    let ip_main, ip, address;
+    let ip_main, ip, address = undefined;
     if (typeof networkInterfaces["en4"] !== "undefined") {
         ip_main = networkInterfaces["en4"];  // ethernet cableconsole.log ("ip_eth: ", ip_eth);
         ip = ip_main.find(netInterface => netInterface.family === "IPv4");
-        address = ip.address;
     } else if (typeof networkInterfaces["en0"] !== "undefined") {
         ip_main = networkInterfaces["en0"];  // wifi
         ip = ip_main.find(netInterface => netInterface.family === "IPv4");
-        address = ip.address;
     };
+    if (typeof ip !== "undefined") {
+        address = ip.address;
+    }
+
     return address;
 }
 
