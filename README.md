@@ -22,7 +22,6 @@ _proto._getDimension = function _getDimension() {
     var hasWidth = $(this._element).hasClass(Dimension.WIDTH);
     return hasWidth ? Dimension.WIDTH : Dimension.HEIGHT;
 };
-
 ```
 [from Bootstrap.js/collapse code](https://github.com/twbs/bootstrap/blob/v4-dev/js/dist/collapse.js#L305)
 
@@ -73,11 +72,12 @@ Requirements
 * jquery. Bootstrap itself requires jquery, so this library should already be there.
 
 
-## Installation :
+## Installation
 
-The following available options are possible:
+The following options are available:
 
-1 - Clone the repository locally, and attach the sidepanel files to your HTML document
+### HTML links
+Clone the repository locally, copy the SCSS and javascript files, and link the  files to your HTML document.
 
  ```html
  
@@ -89,7 +89,8 @@ The following available options are possible:
 ```
 
 
-2- Install it via npm, and add the SCSS and javascript to your build process
+### NPM and a build process
+Install it via npm, and add the SCSS and javascript files to your build process
 
  ```bash
 $ npm install sidepanelslide
@@ -102,13 +103,12 @@ $ npm install sidepanelslide
 
 
 
-# How to use
-open terminal
+# Building the demo
+Open terminal to the root of the project directory.
 
+`npm install`
 
-npm install
-
-gulp
+`gulp demo`
 
 
 # Sidepanel Collapse Durations
@@ -116,7 +116,7 @@ gulp
 
 ### Opening
 Sidepanel is configured to open using the duration
-`sidepanelDurationShow`.
+`durationShow`.
 
 
 
@@ -126,12 +126,12 @@ Intra-page links – Anchor Links
 For a link that goes to a location within the current page,
 
 the sidepanel is configured to close using the duration
-`sidepanelDurationHide`
+`durationHide`
 
 Inter-page links – Page Links
 For a link that goes to another page, 
 the sidepanel is configured to close using the duration
-`sidepanelDurationHideFast`.
+`durationHideFast`.
 By default this is set to be much faster than `sidepanelDurationHide`.
 
 
@@ -162,14 +162,14 @@ It could be adapted; maybe the next time I need something to amuse myself.
 
 | name | possible values | default | description |
 | ---- | --------------- | ------- | ----------- |
-| sidepanelElement      | css class name | #sidePanel | css selector for the top-level of the sidepanel |
-| sidepanelCloseElement | css class name | .sidepanel-close | css selector for the close button, containing the close icon, visible when the sidepanel is displayed |
-| backdropEnabled       | boolean | true | whether or not a backdrop (i.e. overlay) should display behind the sidepanel |
-| backdropStyle         | "light", "dark" | "light" |  which style of backdrop to use, corresponding the css style |
-| durationShow          | css transition-duration time |
-| durationShow          | css transition-duration time |
-| durationShow          | css transition-duration time |
-| sidePanelIsOpenClass  | css class name | "sidepanel-shown" | class that is added to the document <body> when sidepanel shows, removed when it hides. for use in enabling any specific styles that should apply when sidepanel is open. |
+| sidepanelElement      | css class name | `#sidePanel` | css selector for the top-level of the sidepanel |
+| sidepanelCloseElement | css class name | `.sidepanel-close` | css selector for the close button, containing the close icon, visible when the sidepanel is displayed |
+| durationShow          | css transition-duration | 1.0s | Duration for sidepanel opening transition
+| durationHide          | css transition-duration | 0.33s | Duration for sidepanel closing transition
+| durationHideFast          | css transition-duration | 0.11s | Duration for sidepanel closing transition
+| backdropEnabled       | boolean | `true` | Whether or not a backdrop (i.e. overlay) should display behind the open sidepanel |
+| backdropStyle         | "light", "dark" | "light" |  Which style of backdrop to use, corresponding the css styles |
+| sidePanelIsOpenClass  | css class name | sidepanel-shown | css class that is added to the document `<body>` when sidepanel shows, removed when it hides. For use in enabling any specific styles that should apply when sidepanel is open. |
 
     
         
