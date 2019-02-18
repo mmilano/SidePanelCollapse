@@ -27,9 +27,4 @@ _site
 # destination folders for builds
 public
 build
-
-
-#bootstrap scss files
-assets/scss/
-
-#explicit project ignoring
+demo
