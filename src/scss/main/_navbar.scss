@@ -4,9 +4,7 @@
     height: $page-primarynavbar-height;
     padding-top: 0;
     padding-bottom: 0;
-
     font-family: $font-family-secondary;
-
     background-color: $site-primarynavbar-background-color;
 
     // style for when an item in the top navbar is given the 'active' class
@@ -21,7 +19,6 @@
 
 .navbar-brand {
     margin: 0 2rem 0 1rem;
-
     font-size: 1rem;
     padding: 0;
     color: $text-color-nav-default;
@@ -30,14 +27,13 @@
 
 .navbar-toggler {
     position: relative;
-
     border: unset;
     border-radius: unset;
     padding: 3px 1rem 3px 1rem;
 }
 
-// when top-navbar is horizontal & expanded (i.e. above the navbar-expand-md class), entries are displyed in a row
-@include media-breakpoint-up(md) {
+// when top-navbar is horizontal & expanded (i.e. above the navbar-expand-lg class coded into index.html), entries are displyed in a row
+@include media-breakpoint-up(lg) {
     .top-navbar {
         .nav-item {
             margin-right: .9rem;
@@ -48,7 +44,6 @@
         }
     }
 }
-
 
 // Medium. 48em
 @include media-breakpoint-down(md) {
