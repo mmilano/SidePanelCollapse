@@ -14,6 +14,6 @@ establish some of the global values for the page, and call page specific functio
     var pageGlobal = {
         pageID: "{{id}}",
     };
-    document.addEventListener("DOMContentLoaded", site.pageMethods.pageMain(pageGlobal.pageID), false);
+    document.addEventListener("DOMContentLoaded", site.pageMethods.pageRouter(pageGlobal.pageID), false);
 {{/with}}
 </script>

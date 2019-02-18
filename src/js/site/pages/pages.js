@@ -4,13 +4,13 @@
 // key = pageID
 //
 
-/* jshint sub:true */               // This option suppresses warnings about using [] notation when it can be expressed in dot notation
-/* globals ImagesLoaded, site */    // global variables that are not formally defined in the source code
-/* jshint latedef: false */         // This option prohibits the use of a variable before it was defined
+/* jshint sub:true */               // suppress warnings about using [] notation when it can be expressed in dot notation
+/* globals site */                  // global variables that are not formally defined in the source code
+/* jshint latedef: false */         // prohibits the use of a variable before it was defined
 
 "use strict";
 
-// set of internal utility methods
+// utility methods
 var util = {
 
     checkWidth: function() {
@@ -80,8 +80,6 @@ var pages = {
     // pages script for homepage = index.html
     "index": function indexPage(pageID) {
 
-        // start page setup
-
         // define the 2 different nav's for the page
         // for scrollspy, these need to be css selectors for the <nav> element
         const navHorizontal = "#primaryNav";
@@ -105,9 +103,6 @@ var pages = {
         let targetNav = horizontalNavDisplayed() ? navHorizontal : navVertical;
         // create the first scrollSpy on the currently displayed nav, and pass true because it "should spy" now.
         util.scrollSpyCreate(targetNav, true);
-
-        // end of page setup
-        // util.scrollSpyRefresh();
     },
 
     // default page handler
@@ -126,7 +121,7 @@ var pages = {
 //
 // establish some of the global values for the page, and call page specific function(s)
 
-var pageMain = function(pageID) {
+var pageRouter = function(pageID) {
 
     console.log ("page: ", pageID);
     // if there is page function defined, invoke that
@@ -139,7 +134,7 @@ var pageMain = function(pageID) {
 };
 
 
-// attach/expose specific util methods for use elsewhere
-pages.pageMain = pageMain;
+// attach/expose specific methods
+pages.pageRouter = pageRouter;
 
 module.exports = pages;
