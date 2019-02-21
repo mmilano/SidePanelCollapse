@@ -10,6 +10,7 @@ const debug =           require("gulp-debug");
 // css sass/scss
 const sass =            require("gulp-sass");
 const autoprefixer =    require("gulp-autoprefixer");
+const cssnano =         require("gulp-cssnano")
 
 // javascript
 const jshint =          require("gulp-jshint");
@@ -27,6 +28,7 @@ const htmlmin =         require("gulp-htmlmin");
 const panini =          require("panini");
 
 // tools
+const noop =            require("gulp-noop");
 const glob =            require("glob");
 const sourcemaps =      require("gulp-sourcemaps");
 const rename =          require("gulp-rename");
@@ -78,8 +80,8 @@ const paths = {
     ],
 
     // images
-    imgSourceGLOBDIR: "./assets/images/**/*",
-    imgSourceGLOB: "./assets/images/**/*.+(png|jpg|jpeg|gif|svg)",
+    imgSourceGLOBDIR: "./src/images/**/*",
+    imgSourceGLOB: "./src/images/**/*.+(png|jpg|jpeg|gif|svg)",
     imgDestination: siteBuildDestinationRoot + "./public/images/",
 
     // css
@@ -315,6 +317,7 @@ const pageBuildOptions = {
     layouts:    paths.siteBuildSource + "layouts/",
     pageLayouts: {
                 "index.html":           "layout-index",
+                "index-2.html":         "layout-index-2",
                 "pages/page/**/*":      "layout-page",
                 },
     helpers:    paths.siteBuildSource + "helpers/",       // Path to a folder containing Panini helpers
@@ -550,26 +553,46 @@ gulp.task("validate:all", gulp.parallel("validate:pages"));  // alias
 //
 // compile the scss, etc
 
-const scssOptions = {
-    includePaths: ["/"],
-    errLogToConsole: true,
-    outputStyle: "expanded",
-    sourceComments: true,
-    indentWidth: 4,
-    precision: 4
-};
+function maketheCSS(buildMode) {
 
-const autoprefixerOptions = {
-    browsers: ["last 2 versions"],
-};
+    const scssOptions = {
+        includePaths: ["/"],
+        errLogToConsole: true,
+        outputStyle: "expanded",
+        sourceComments: true,
+        indentWidth: 4,
+        precision: 4
+    };
 
-function maketheCSS() {
+    const scssOptions_production = {
+        includePaths: ["/"],
+        errLogToConsole: true,
+        outputStyle: "compact",
+        sourceComments: false,
+        indentWidth: 2,
+        precision: 4
+    };
+
+    const autoprefixerOptions = {
+        browsers: ["last 2 versions"],
+    };
+
+    const cssnanoOptions = {
+        zindex: false
+    };
+
+    let options = scssOptions;
+    if (buildMode === "production") {
+       options = scssOptions_production;
+    };
+
     return gulp
     .src(paths.scssSource)
     .pipe(sourcemaps.init())
-    .pipe(sass(scssOptions)
+    .pipe(sass(options)
     .on("error", sass.logError))
     .pipe(autoprefixer(autoprefixerOptions))
+    .pipe(buildMode === "production" ? cssnano(cssnanoOptions) : noop())
     .pipe(sourcemaps.write("./map"))
     .pipe(gulp.dest(paths.cssDestination))
     .on("end", () => { glog("compile:sass completed"); })
@@ -581,6 +604,10 @@ function maketheCSS() {
 }
 
 gulp.task("compile:scss", maketheCSS);
+gulp.task("compile:scss_production", function(done) {
+    maketheCSS("production");
+    done();
+    });
 
 // watch the scss sources
 function watchSCSS(done) {
@@ -724,6 +751,17 @@ gulp.task("watch:full", gulp.parallel(
     "watch:siteGallery",
     "watch:index",
     "watch:pages",
+));
+
+gulp.task("build:demo", gulp.series(
+    "webserver",
+    "site:setup",
+    gulp.parallel(
+        "compile:scss",
+        "browserify:site",
+        "build:index",
+        "build:pages"
+    ),
 ));
 
 
