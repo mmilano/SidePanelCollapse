@@ -1,6 +1,6 @@
 /*! **********
- * Horizontal Sliding Sidebar v1.2
- * A Bootstrap 4-based sidebar using the "collapse" component to collapse horizontally 9instead of the default vertical),
+ * Horizontal Sliding Sidebar v1.1
+ * A Bootstrap 4-based sidebar using the "collapse" component to collapse horizontally instead of the default vertical),
  * and allow different transition timing between the expand and the collapse transitions.
  *
  * Michel Milano
@@ -14,35 +14,29 @@
 // values to pass in:
 // sidepanel: css selector of the sidepanel in the html
 // close button: css selector of the close button?
-// backdrop color:  light or dark
-
-
-
+// backdrop color: light or dark
 
 
 // UMD (from the UMD template)
-(function (root, factory) {
-
+(function (window, SidePanelCollapse) {
     if (typeof define === "function" && define.amd) {
-        // AMD. Register as an anonymous module.
-        define([], factory);
+        // AMD
+        define([], SidePanelCollapse);
     } else if (typeof module === "object" && module.exports) {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
         // like Node.
-        module.exports = factory();
+        module.exports = SidePanelCollapse();
     } else {
         // Browser global (root is window)
-        root.returnExports = factory();
+        window.SidePanelCollapse = SidePanelCollapse();
     }
 } (typeof self !== "undefined" ? self : this, function() {
     "use strict";
 
-
     // module globals
     var $sidepanel, sidepanelCloseButton;
     var settings = {};
-
 
     // simple method for reconciling/extending objects
     function extend(a, b) {
@@ -93,6 +87,23 @@
         sidePanelIsOpenClass: "sidepanel-shown",
     };
 
+    // make one single set of settings from defaults and any options passed in on construction
+    function defineSettings(defaults, options) {
+
+        // first: start settings{} with the defaults
+        let _settings = extend({}, defaults);
+
+        // reconcile with any provided options that will supercede/overwrite defaults
+        _settings = extend(_settings, options);
+
+        // special flag for the normal durationShow because durationShow is a special case:
+        // see constructor.
+        if (options.durationShow !== undefined) {
+            _settings.durationShowCustom = true;
+        }
+
+        return _settings;
+    }
 
     // keypress handler
     // when the sidenav is displayed (open), ESC will close
@@ -268,6 +279,10 @@
     };
 
 
+    // *****
+    // Backdrop
+    // creates and handles the backdrop/overlay that is displayed when the sidepanel is open
+    //
     // @param: provide backdrop with access to the parent sidepanel object that is created...
     function Backdrop(_SidePanel) {
 
@@ -289,31 +304,6 @@
             document.body.appendChild(el);
         }
 
-        // show the backdrop element (that was already created and stored in the object)
-        Backdrop.prototype.show = function() {
-            let _backdrop = this.backdrop;
-            _backdrop.classList.add("show", "fadein");
-        };
-
-        // hide the backdrop element
-        Backdrop.prototype.hide = function() {
-
-            // method to run when fadeout animation ends - cleans up, and hides the backdrop.
-            // because event is on backdrop, event.target is the backdrop. uses backdrop from there for simplicity
-            function whenAnimationEnds(e) {
-                let _backdrop = e.target;
-                _backdrop.classList.remove("show");
-                // note: if eventlistener {once: true} is not available (browser support), then eventListener can be removed manually, e.g.:
-                // _backdrop.removeEventListener("animationend", whenAnimationEnds, false);
-            }
-
-            let _backdrop = this.backdrop;
-            // when the backdrop's animationend event fires, call method. only once, since the listener is added again when it displays again.
-            _backdrop.addEventListener("animationend", whenAnimationEnds, {once: true}, false);
-            // removing "fadein" enables and activates the default animation to fadeout
-            _backdrop.classList.remove("fadein");
-        };
-
         // construction:
         // create the backdrop DOM element, cache it in the backdrop property,
         // add event to close when clicked,
@@ -328,24 +318,31 @@
         insert(this.backdrop);
     };
 
+    // show the backdrop element (that was already created and stored in the object)
+    Backdrop.prototype.show = function() {
+        let _backdrop = this.backdrop;
+        _backdrop.classList.add("show", "fadein");
+    };
 
-    // make one single set of settings from defaults and any options passed in on construction
-    function defineSettings(defaults, options) {
+    // hide the backdrop element
+    Backdrop.prototype.hide = function() {
 
-        // first: start settings{} with the defaults
-        let _settings = extend({}, defaults);
-
-        // reconcile with any provided options that will supercede/overwrite defaults
-        _settings = extend(_settings, options);
-
-        // special flag for the normal durationShow because durationShow is a special case:
-        // see constructor.
-        if (options.durationShow !== undefined) {
-            _settings.durationShowCustom = true;
+        // method to run when fadeout animation ends - cleans up, and hides the backdrop.
+        // because event is on backdrop, event.target is the backdrop. uses backdrop from there for simplicity
+        function whenAnimationEnds(e) {
+            let _backdrop = e.target;
+            _backdrop.classList.remove("show");
+            // note: if eventlistener {once: true} is not available (browser support), then eventListener can be removed manually, e.g.:
+            // _backdrop.removeEventListener("animationend", whenAnimationEnds, false);
         }
 
-        return _settings;
-    }
+        let _backdrop = this.backdrop;
+        // when the backdrop's animationend event fires, call method. only once, since the listener is added again when it displays again.
+        _backdrop.addEventListener("animationend", whenAnimationEnds, {once: true}, false);
+        // removing "fadein" enables and activates the default animation to fadeout
+        _backdrop.classList.remove("fadein");
+    };
+
 
 
     // constructor
@@ -367,7 +364,6 @@
         if (_$sidepanel.length) {
 
             // sidepanel exists!
-
             // add event listener for Boostrap collapse "show" event
             // show.bs.collapse: This event fires immediately when the show instance method is called.
             // use jquery event (and not regular javascript) because Bootstrap uses jquery-land events.
@@ -390,5 +386,4 @@
     };
 
     return SidePanelCollapse;
-
 }));
