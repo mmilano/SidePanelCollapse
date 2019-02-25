@@ -3,21 +3,12 @@
 //
 
 /* globals SidePanelCollapse */    // jshint: global values
-"use strict"
+"use strict";
 
-// declare as global
-var sidepanel;
-
-var pageMain = function(pageID) {
-
-    // sidepanel options
-    var sidepanelOptions = {
-        sidepanelElement: "#sidePanel",
-        sidepanelCloseElement: ".sidepanel-close",
-    };
-    // initialize and instantiate a new sidepanel for the page
-    sidepanel = new SidePanelCollapse(sidepanelOptions);
-
+var sidepanelOptions = {
+    sidepanelElement: "#sidePanel",
+    sidepanelCloseElement: ".sidepanel-close",
 };
+// initialize and instantiate a new sidepanel for the page
+var sidepanel = new SidePanelCollapse();
 
-document.addEventListener("DOMContentLoaded", pageMain("index-simple"), false);
