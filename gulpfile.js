@@ -36,6 +36,7 @@ const rename =          require("gulp-rename");
 const notify =          require("gulp-notify");
 const notify_node =     require("node-notifier");  // existing dependency of gulp-notify
 const filter =          require("gulp-filter");
+const through =         require("through2");
 
 const cached =          require('gulp-cached');
 const changed =         require("gulp-changed");
@@ -50,25 +51,11 @@ const connect =         require("gulp-connect");
 const networkInterfaces = require("os").networkInterfaces();
 
 
-// simply touch a file so that filesystem thinks the file changed
-function touchNow(file) {
-    let timenow = Date.now() / 1000;  // https://nodejs.org/docs/latest/api/fs.html#fs_fs_utimes_path_atime_mtime_callback
-    fs_utimes(file, timenow, timenow, function(){return;});
-}
-
-// tell panini to refresh all the files
-function refreshPanini(done) {
-    panini.refresh();
-    done();
-}
-
-
 // **********
-// build globals
+// globals: paths and files of sources, etc.
 
-const siteBuildDestinationRoot = "demo/";
+const siteBuildDestinationRoot = "./demo/";
 const siteBuildSource = "./src/site/";
-
 
 const paths = {
 
@@ -85,15 +72,15 @@ const paths = {
     // images
     imgSourceGLOBDIR: "./src/images/**/*",
     imgSourceGLOB: "./src/images/**/*.+(png|jpg|jpeg|gif|svg)",
-    imgDestination: siteBuildDestinationRoot + "./public/images/",
+    imgDestination: siteBuildDestinationRoot + "public/images/",
 
     // css
     scssSource: ["./src/scss/site.scss", "./src/scss/site-simple.scss"],
     scssSourceGLOB: "./src/scss/**/*.scss",
-    cssDestination: siteBuildDestinationRoot + "/public/css",
+    cssDestination: siteBuildDestinationRoot + "public/css",
 
-    cssVendorGLOB: "src/css/vendor/**/*",
-    cssVendorDestination: siteBuildDestinationRoot + "/public/css",
+    cssVendorGLOB: "./src/css/vendor/**/*",
+    cssVendorDestination: siteBuildDestinationRoot + "public/css",
 
     // js
     jsDestination: siteBuildDestinationRoot + "public/js/",
@@ -104,44 +91,39 @@ const paths = {
     // the site's 3rd party js files.
     // only here for the option to develop locally without network access
     jsVendorGLOB: "src/js/vendor/**/*.js",
-    jsVendorDestination: siteBuildDestinationRoot + "/public/js",
+    jsVendorDestination: siteBuildDestinationRoot + "public/js",
 
     // the site's js files
     jsSourceSITEGLOB: ["./src/js/site/**/*.js"],
-
     jsFile_site: "site.js",
     browserifyDestinationFile_site: "site.js",
-
     browserifyDestinationFile_SidePanel: "SidePanelCollapse.js",
 
     // panini and site building
     siteBuildSource: siteBuildSource,  // dupe for convenience/consistency
-    siteDataGLOB: "./src/site/data/site/**/*",
     pageBuildSourceRoot: siteBuildSource + "pages/",
+    siteDataGLOB: "./src/site/data/site/**/*",
+    // MASTER FILE of the gallery data
+    siteGalleryData: "./src/js/site/gallery/site-gallery-data.js",
 
-    // pages
+    // html pages
     indexPage: "index.html",
     get indexPageSRC() {
         return paths.siteBuildSource + "pages/page/" + paths.indexPage;
     },
-    buildIndexPageDestination: siteBuildDestinationRoot,
     indexPageBuildDestination: siteBuildDestinationRoot,
     get indexPageBuilt() {
-        return paths.buildIndexPageDestination + paths.indexPage;
+        return paths.indexPageBuildDestination + paths.indexPage;
     },
-
-    pagesBuildDestinationRoot: siteBuildDestinationRoot,
-    pagesBuiltGLOB: siteBuildDestinationRoot + "pages/**/*.html",
-
+    pagesBuildDestinationRoot: siteBuildDestinationRoot,  // alias
+    pagesBuiltGLOB: siteBuildDestinationRoot + "**/*.html",
     sitePages: siteBuildSource + "pages/",
     sitePagesData: "./src/site/pages/data/**/*.js",
     sitePagesGLOB: "./src/site/pages/page/**/*",
-
-    get siteSourcePagesData() {
+    get siteSourcePagesDataGLOB() {
         return ([paths.sitePages + "data/**/*.js"]);
     },
-
-    get siteSourcePagesContent() {
+    get siteSourcePagesContentGLOB() {
         return ([paths.sitePages + "page/**/*.html"]);
     },
 
@@ -149,10 +131,29 @@ const paths = {
     siteHBSFilesGLOB: siteBuildSource + "{layouts,helpers,partials}/**/*",
     siteHBSjsFilesGLOB: siteBuildSource + "{layouts,helpers,partials}/**/*.js",
 
-    // MASTER FILE of the gallery data
-    siteGalleryDataMASTER: "./src/js/site/gallery/site-gallery-data.js",
-
 };
+
+
+// simply touch a file so that filesystem thinks the file changed
+function touchNow(file) {
+    let timenow = Date.now() / 1000;  // https://nodejs.org/docs/latest/api/fs.html#fs_fs_utimes_path_atime_mtime_callback
+    fs_utimes(file, timenow, timenow, function(){return;});
+}
+
+// tell panini to refresh all the files
+function refreshPanini(done) {
+    panini.refresh();
+    done();
+}
+
+// utility function for displaying individual file names within a gulp stream
+function logFile(title) {
+    function logger (file, enc, callback) {
+        glog (title, ":", file.path);
+        callback( null, file);
+    }
+    return through.obj(logger)
+}
 
 
 // erases the directories, clean out the compiled stuff
@@ -209,12 +210,10 @@ function webserver(done) {
     connect.server(serverOptions);
     let currentAddress = findAddress();
     console.log ("***** current IP address:", currentAddress);
-
     done();
 }
 
 gulp.task("webserver", webserver);
-
 
 
 // copy images
@@ -231,7 +230,6 @@ function copyImagesChanged(done) {
     .src([paths.imgSourceGLOB])
     .pipe(changed(paths.imgDestination))
     .pipe(gulp.dest(paths.imgDestination));
-
     done();
 }
 
@@ -240,7 +238,6 @@ function watchImages(done) {
     watcherImages.on("error", err => glog("watch images error: " + err));
     watcherImages.on("change", path => glog("images changed >>> " + path));
     watcherImages.on("change", gulp.series("copy:images-changed"));
-
     done();
 }
 
@@ -248,7 +245,6 @@ function copyCSSVendor(done) {
     gulp
     .src(paths.cssVendorGLOB)
     .pipe(gulp.dest(paths.cssVendorDestination));
-
     done();
 }
 
@@ -258,7 +254,6 @@ function copyJSVendor(done) {
     gulp
     .src(paths.jsVendorGLOB)
     .pipe(gulp.dest(paths.jsVendorDestination));
-
     done();
 }
 
@@ -322,7 +317,7 @@ const pageBuildOptions = {
     layouts:    paths.siteBuildSource + "layouts/",
     pageLayouts: {
                 "index.html":           "layout-index",
-                "index-simple.html":         "layout-index-simple",
+                "index-simple.html":    "layout-index-simple",
                 "pages/page/**/*":      "layout-page",
                 },
     helpers:    paths.siteBuildSource + "helpers/",       // Path to a folder containing Panini helpers
@@ -335,7 +330,7 @@ function buildPagesAll(done) {
     refreshPanini(done);
 
     return gulp
-    .src(paths.siteSourcePagesContent)          // ./src/site/pages/page/**/*.html
+    .src(paths.siteSourcePagesContentGLOB)
     .pipe(panini(pageBuildOptions))
     .pipe(debug({title: "pages building:"}))
     .pipe(gulp.dest(paths.pagesBuildDestinationRoot))  // ./build/
@@ -360,7 +355,7 @@ function buildIndexPage(done) {
     .src(paths.indexPageSRC)
     .pipe(panini(pageBuildOptions))
     .pipe(debug({title: "BUILT index page."}))
-    .pipe(gulp.dest(paths.buildIndexPageDestination));
+    .pipe(gulp.dest(paths.indexPageBuildDestination));
 }
 
 gulp.task("build:index", buildIndexPage);
@@ -375,65 +370,26 @@ function watchindexPageSource(done) {
     watcherIndex.on("error", err => glog("watch index error: " + err));
     watcherIndex.on("change", path => glog("index changed >>> " + path));
     watcherIndex.on("change", gulp.series("build:index"));
-
     done();
 }
 
 gulp.task("watch:index", watchindexPageSource);
 
 
-
-// site building: watch the data files
-// if data file for project page changes, then build the project page itself
-//
-// pages are paired: $$$.html & $$$.js.
-// so if $$$.js changes,
-// - construct the name of the paired $$$.html file,
-// - and change the mtime on $.html so that it appears to have been changed
-// - which in turn should kick off the rebuild of the page due to other tasks watching $.html pages
-function buildPageOnDataChange(done) {
-    var watcherPageChange =  gulp.watch(paths.siteSourcePagesData);
-    watcherPageChange.on("error", err => glog("watch error: " + err));
-    watcherPageChange.on("change", function(dataFile) {
-        refreshPanini(done);
-
-        // given the full path to the html file,
-        // need to remove the common root part of the path that is the pages directory (-pageBuildSourceRoot)
-        // to get the page's own subdirectory
-
-        // ie get pagefile - pageBuildSourceRoot
-        // src/site/pages/page/pageA.html - src/site/pages/
-        let pageFile = constructPagePath(dataFile);
-        glog("data:", dataFile);
-        glog("page:", pageFile);
-        glog("root destination:", paths.pagesBuildDestinationRoot);
-
-        let pageSubPath = "/.";
-
-        buildPage(pageFile, pageSubPath);
-    });
-
-    done();
-}
-
-
-
-// site building: construct Project Path
+// site building: construct page path
 // given a data file of /path/path/file.js,
 // break down the path and construct the path & name of the counterpart file.html
-// remove the src path from both files: src/site/pages/data  &  src/site/pages/page
+// remove the src path from both files: src/site/pages/data & src/site/pages/page
 function constructPagePath(file) {
 
     function constructHTMLFilename(file) {
         return file + ".html";
     };
 
-    const extension = ".html";
     const pathBase = paths.siteBuildSource;  // top portion location of the content pages
     const pagePathBase = "src/site/pages/";
-
-    let dataPagePathBase = "src/site/pages/data";
-    let htmlPagePathBase = "src/site/pages/page";
+    const dataPagePathBase = "src/site/pages/data";
+    const htmlPagePathBase = "src/site/pages/page";
 
     let parsedFile = node_path.parse(file);
     let filePath = parsedFile.dir;
@@ -444,6 +400,35 @@ function constructPagePath(file) {
     let htmlFile = counterPath + node_path.sep + htmlFilename;
     return htmlFile;
 };
+
+// site building: watch the data files
+// if data file for project page changes, then build the project page itself
+//
+// page sources are paired: page.html & page.js.
+// so if page.js changes,
+// - get the name of the paired page.html file,
+// - and change the mtime on page.html so that it appears to have been changed
+// - which in turn should kick off the rebuild of the page due to other task watching page.html pages
+function buildPageOnDataChange(done) {
+    var watcherPageChange =  gulp.watch(paths.siteSourcePagesDataGLOB);
+    watcherPageChange.on("error", err => glog("watch error: " + err));
+    watcherPageChange.on("change", function(dataFile) {
+        refreshPanini(done);
+
+        // given the full path to the html file,
+        // need to remove the common root part of the path that is the pages directory (-pageBuildSourceRoot)
+        // to get the page's own subdirectory
+
+        let pageFile = constructPagePath(dataFile);
+        glog("data:", dataFile);
+        glog("page:", pageFile);
+        glog("root destination:", paths.pagesBuildDestinationRoot);
+
+        let pageSubPath = "/.";
+        buildPage(pageFile, pageSubPath);
+    });
+    done();
+}
 
 
 // **************
@@ -459,21 +444,20 @@ function buildpagesCHANGED(done) {
 
     // uses "changed-in-place" to determine if the source file itself was modified
     return gulp
+    .src(paths.siteSourcePagesContentGLOB)
+    .pipe(changedInPlace(changedInPlaceOptions))
+    .pipe(panini(pageBuildOptions))
     .on("error", function(err) {
         glog("page build error: " + err.message);
         this.emit("end");
-        })
-    .src(paths.siteSourcePagesContent)
-    .pipe(changedInPlace(changedInPlaceOptions))
-    .pipe(panini(pageBuildOptions))
+    })
     .pipe(debug({title: "building:"}))
     .pipe(gulp.dest(paths.pagesBuildDestinationRoot))
-    .pipe(debug({title: "BUILT: "}))
+    //.pipe(debug({title: "BUILT: "}))
 }
 
 // watch just the project pages and only build the ones whose html pages changed
 gulp.task("build:pages-changed", buildpagesCHANGED);
-
 
 function watchPages(done) {
     var watcherPages =  gulp.watch([paths.sitePagesGLOB, paths.DSStoreIgnore]);
@@ -500,13 +484,11 @@ function watchTemplateSources(done) {
 gulp.task("watch:buildSources", watchTemplateSources);
 
 
-
 // **********
 // HTML
 //
-
-
 // html minimization: all the pages
+// orverwrite the original file with the minified version
 function minifyPages() {
     const htmlminOptions = {
         caseSensitive: true,
@@ -517,44 +499,47 @@ function minifyPages() {
     };
 
     // set up to use base & relative path for overwriting the original file with the minified file
-    const pathRelative = "./";
+    let pathRelative = "./";
+
+    console.log ("build val: ", paths.pagesBuiltGLOB);
 
     return gulp
-    .src("./build/**/*.html", {base: pathRelative})
+    .src(paths.pagesBuiltGLOB, {base: pathRelative})
     .pipe(htmlmin(htmlminOptions))
-    .pipe(debug({title: "minifying: "}))
+    .pipe(debug({title: "minifying page: "}))
     .pipe(gulp.dest(pathRelative))
     .on("error", err => glog("HTML minification error: " + err))
     .on("change", path => console.log("minification of page >>> " + path));
 }
 
-
 gulp.task("minify:pages", minifyPages);
 gulp.task("minify:site", gulp.series("minify:pages"));  // alias
 
 
-// validate the (built) html pages
+// config options for the html validator
 const validatorOptions = {
-    "errors-only": true
+    "errors-only": false,
+    "format": "text",
 };
 
+// validate the (built) html pages
 function validatepPagesBuilt() {
     return gulp
     .src([paths.pagesBuiltGLOB, paths.indexPageBuilt])
     .pipe(htmlvalidator(validatorOptions))
+    .pipe(debug({title: "validating:"}))
     .on("error", err => glog("PAGE validation error:\n" + err.message))
-	.on("change", path => glog("PAGE validated >>> " + path));
+    .on("end", () => glog("PAGES validated"));
 }
 
 gulp.task("validate:pages", validatepPagesBuilt);
 gulp.task("validate:all", gulp.parallel("validate:pages"));  // alias
 
 
-
 // **********
 // SCSS/SASS
 //
-// compile the scss, etc
+// compile the scss, minify it, etc.
 
 const autoprefixerOptions = {
     browsers: ["last 2 versions"],
@@ -565,7 +550,6 @@ const cssnanoOptions = {
 };
 
 function buildcss(src, dest, outputfile, options, mode) {
-
     return new Promise(function(resolve, reject) {
         gulp
         .src(src)
@@ -574,14 +558,13 @@ function buildcss(src, dest, outputfile, options, mode) {
         .on("error", sass.logError)
         .on("error", () => reject("scss error in" + src))
         .pipe(autoprefixer(autoprefixerOptions))
+        .pipe(debug({title: "compile scss " + "(" + mode + ")" + ":"}))
         //.pipe(rename({basename: outputfile}))
         .pipe(mode === "production" ? rename({suffix: ".min"}) : noop())
         .pipe(mode === "production" ? cssnano(cssnanoOptions) : noop())
         .pipe(sourcemaps.write("./map"))
         .pipe(gulp.dest(dest))
-        // .on("end", () => { glog("compile scss:" + outputfile + " completed (" + mode + ")"); })
-        .on("end", () => resolve("compile scss:" + src + " completed (" + mode + ")"));
-
+        .on("end", () => resolve("compile scss completed (" + mode + ")"));
     });
 }
 
@@ -589,7 +572,7 @@ function buildcss(src, dest, outputfile, options, mode) {
 // and output the css files
 function maketheCSS_sidepanel(done) {
 
-    let scss_sidepanel_source = "./src/scss/sidepanel-standalone.scss";
+    let scss_sidepanel_source = "./src/scss/sidepanel.scss";
     let scss_sidepanel_destination = "./dist/css/";
     let scss_sidepanel_destination_filename = "sidepanel";
 
@@ -626,7 +609,7 @@ function maketheCSS_sidepanel(done) {
 
 gulp.task("compile:scss-sidepanel", maketheCSS_sidepanel);
 
-function maketheCSS(buildMode, done) {
+function maketheCSS_demo(buildMode, done) {
 
     const scssOptions = {
         includePaths: ["/"],
@@ -644,11 +627,12 @@ function maketheCSS(buildMode, done) {
 }
 
 gulp.task("compile:scss", function(done) {
-    maketheCSS("normal", done);
+    maketheCSS_demo("normal", done);
     done();
 });
+
 gulp.task("compile:scss_production", function(done) {
-    maketheCSS("production", done);
+    maketheCSS_demo("production", done);
     done();
 });
 
@@ -664,13 +648,12 @@ function watchSCSS(done) {
 gulp.task("watch:scss", watchSCSS);
 
 
-
 // **********
 // SITE DATA
 
 function touchGalleryData() {
     return new Promise(function(resolve, reject) {
-        let file = paths.siteGalleryDataMASTER;
+        let file = paths.siteGalleryData;
         touchNow(file);
         resolve();
     });
@@ -692,7 +675,7 @@ gulp.task("touch:index", touchIndexPage);
 // the gallery data is used to generate the set of page cards displayed on the index page,
 // and the inter-page navigation displayed in the sidepanel nav
 function watchGalleryData(done) {
-    var watcherGallery =  gulp.watch(paths.siteGalleryDataMASTER);
+    var watcherGallery =  gulp.watch(paths.siteGalleryData);
     watcherGallery.on("error", err => glog("watch gallery data error: " + err));
     watcherGallery.on("change", gulp.parallel("build:index"));
     done();
@@ -707,31 +690,43 @@ gulp.task("watch:siteGallery", watchGalleryData);
 //
 // lint, assemble, compile, and etc., for the javascript
 
-function lintSiteJS() {
-    let src = paths.jsSourceSITEGLOB;
-
-    return gulp
-    .src(src)
-    // .pipe(debug())   // iterate out name of each file being checked
-    .pipe(cached("jslintSite"))
-    .pipe(jshint(paths.jshintConfiguration))
-    .pipe(jshint.reporter("default"));
-}
 
 // check the Panini files
-function lintPaniniJS() {
+function lintJSPanini() {
     let src = paths.siteHBSjsFilesGLOB;
 
     return gulp
     .src(src)
-    .pipe(debug())   // iterate out name of each file being checked
     .pipe(cached("jslintPanini"))
+    .pipe(debug({title: "js lint check:"}))   // iterate out name of each file being checked
     .pipe(jshint(paths.jshintConfiguration))
     .pipe(jshint.reporter("default"));
 }
 
-gulp.task ("lint:Paninijs", lintPaniniJS);
-gulp.task ("lint:js", lintSiteJS);
+function lintJSSite() {
+    let src = paths.jsSourceSITEGLOB;
+
+    return gulp
+    .src(src)
+    .pipe(cached("jslintSite"))
+    .pipe(debug({title: "js lint check:"}))   // iterate out name of each file being checked
+    .pipe(jshint(paths.jshintConfiguration))
+    .pipe(jshint.reporter("default"));
+}
+
+function lintJSSidePanel() {
+    let src = paths.jsSourceSITEGLOB;
+
+    return gulp
+    .src(src)
+    .pipe(debug({title: "js lint check:"}))   // iterate out name of each file being checked
+    .pipe(jshint(paths.jshintConfiguration))
+    .pipe(jshint.reporter("default"));
+}
+
+
+gulp.task ("lint:Paninijs", lintJSPanini);
+gulp.task ("lint:js", lintJSSite);
 
 
 // javascript building: global options
@@ -744,7 +739,7 @@ const babelOptions = {
                 "browsers": ["> 1%"]
             },
             "exclude": [
-                "transform-typeof-symbol"
+                "transform-typeof-symbol"  // don't add polyfill for typeof
             ],
             "modules": false,
             // "debug": true
@@ -874,8 +869,6 @@ gulp.task("build:demo", gulp.series(
     ),
 ));
 
-
-
 gulp.task("default", gulp.series(
     "site:setup",
     "webserver",
@@ -940,18 +933,29 @@ function productionPages(done) {
 }
 
 
-// sidepanel dist
-// js:
-
-// 1. copy the main js file to dist/js
-// 2. browserify the copy into min version, same dest
-// 3. lint both js files
+// sidepanel dist/production process
 //
-// css
-// 1. compile the single scss file, normal, dest = dist/css
-// 2. compile the single scss file, minified, dest = dist/css
+// js:
+// * lint js
+// * copy the main js file to dist/js
+// * browserify the copy into min version, same dest
+//
+// css:
+// * compile the standalone scss file, normal, dest = dist/css
+// * compile the standalone scss file, minify, dest = dist/css
 
+function dist_sidepanel(done) {
+    gulp.series(
+        "lint:js",
+        gulp.parallel(
+            "javascript:sidepanel",
+            "compile:scss-sidepanel"
+        ))();
+    done();
+}
 
+exports.dist_sidepanel = dist_sidepanel;
+exports.production_sidepanel = dist_sidepanel;  // alias
 
 exports.production = production;
 exports.productionPages = productionPages;
