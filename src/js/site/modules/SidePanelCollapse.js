@@ -190,18 +190,16 @@
         // TODO: how to determine if links are in-page vs to-another-page?
         // options...
 
-    // go by page id?
+        // go by page id?
 
-        let pageID = "anchorLinkPage";
-        let callback = pageID === "anchorLinkPage" ? _this.sidepanelClose : _this.sidepanelCloseToPage;
-        callback = callback.bind(_this);
+        let linkClickCallback =  _this.sidepanelCloseToLink.bind(_this);
 
         // find all the anchor links in the sidepanel.
         // convert the jauery node to HTML node
         let sidelinks = _this.$sidepanel[0].getElementsByTagName("a");
         let ln = sidelinks.length;
         for (var i = 0; i < ln; i++) {
-            sidelinks[i].addEventListener("click", callback, false);
+            sidelinks[i].addEventListener("click", linkClickCallback, false);
         };
     };
 
@@ -247,12 +245,14 @@
     // close the sidenav with fast transition duration,
     // then go to link destination.
     // presumes: invoked as event callback, with .bind() to give access the main sidepanel object
-    SidePanelCollapse.prototype.sidepanelCloseToPage = function(e) {
+    SidePanelCollapse.prototype.sidepanelCloseToLink = function(e) {
 
+        console.log ("sidepanelCloseToLink");
         // event method:
         // send page to link destination
         function whenTransitionEnds(destination) {
-            window.location = destination;
+            console.log ("ended");
+            // window.location = destination;
         }
 
         e.preventDefault();
@@ -267,7 +267,7 @@
         // manually change close duration to fast speed. use native DOM element from jquery object
         _this.$sidepanel[0].style.transitionDuration = _this.settings.durationHideFast;
         // set a jquery event listener to run once on the Bootstrap "is hidden" event,
-        _this.$sidepanel.one("hidden.bs.collapse", whenTransitionEnds(e.target.href));
+        _this.$sidepanel.on("hidden.bs.collapse", whenTransitionEnds(e.target.href));
         // then initiate the hiding
         _this.hideManually();
 
@@ -378,7 +378,7 @@
             this.backdrop = _settings.backdropEnabled ? new Backdrop(this) : false;
         } else {
             // no sidepanel ;(
-            console.warn("No sidepanel element could be found with selector \"", settings.sidepanelElement, "\.");
+            console.error("No sidepanel element could be found with selector \""+ _settings.sidepanelElement + "\"\.");
             console.warn("Sidepanel was not created.");
         };
 
