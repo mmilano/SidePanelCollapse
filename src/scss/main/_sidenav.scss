@@ -4,22 +4,22 @@
 // can also override .sidepanel styles here
 
 
-$sidenav-width:                         260px;
-$sidenav-width-md:                      $sidenav-width - 20;  // adjustment for smaller window sizes
+$sidenav-width-big:                     260px;
+$sidenav-width-small:                   $sidenav-width-big - 20;  // adjustment for smaller window sizes
 
 $sidenav-background-color:              #062B62;
 $sidenav-header-color:                  #001B4E;
-
 $sidenav-closeButton-height:            36px;
 
+$sidenav-close-position-small:          193px;
+$sidenav-close-position-large:          183px;
 
 $sidenav-list-offset-top:               $page-primarynavbar-height + 12;  // visual margin from top of sidebar to account for the header bar
-$sidenav-list-space-left:               25px;
-$sidenav-list-space-left-md:            20px;  // adjustment for smaller window sizes
+$sidenav-list-space-left-large:         25px;
+$sidenav-list-space-left-small:         20px;  // adjustment for smaller window sizes
 $sidenav-list-space-right:              25px;
 
 $pagelist-link-hover-color:             $link-color-highlight;
-
 $pagelist-item-font-size:               0.83rem;
 
 $pagelist-group-font-color:             #476978;
@@ -31,21 +31,17 @@ $group-color-transition-duration:       0.9s;
 .sidenav {
     z-index: $sidepanel-zindex;
     position: fixed;
-
     top: 0;
     right: 0;  // the default position = right side of window
-
     height: 100vh;  // sidepanel extends the full height of the window
-
     overflow-x: hidden;
-
     padding: 0;
     background-color: $sidenav-background-color;
 
     // because the width of the top-level sidepanel is changed during the collapse event by Bootstrap,
     // an interior element is used to maintain a fixed width for the content.
     .sidenav-content {
-        width: $sidenav-width;
+        width: $sidenav-width-small;
     }
 
     // sidenav is structured to be one general "nav" element
@@ -68,8 +64,8 @@ $group-color-transition-duration:       0.9s;
     }
 
     .nav-link {
-        margin-bottom: .5rem;
-        padding-bottom: .5rem;
+        margin-bottom: .25rem;
+        padding-bottom: .35rem;
     }
 
     // bar at top of the sidenav. visually extends the horizontal primary navbar,
@@ -89,16 +85,16 @@ $group-color-transition-duration:       0.9s;
     }
 
     .sidenav-close {
-        margin-left: 193px;  // visually adjust the close button to match the position of the sandwich menu button in the primary nav
+        margin-left: $sidenav-close-position-small; // visually adjust the close button to match the position of the sandwich menu button in the primary nav
     }
 
     // main content = list of the pages
     .sidenav-list {
         margin-top: $sidenav-list-offset-top;
-        padding: 0 0 3rem $sidenav-list-space-left;
+        padding: 0 0 3rem $sidenav-list-space-left-small;
         font-family: $font-family-secondary;
+        font-size: .9rem;
     }
-
 }
 
 // style for when an item in the sidebar is given the 'active' class by scrollspy
@@ -171,28 +167,26 @@ $group-color-transition-duration:       0.9s;
 }
 
 
-// for smaller screens
-@include media-breakpoint-down(md) {
+// for larger windows
+@include media-breakpoint-up(md) {
 
     .sidenav {
-
         .sidenav-content {
-            width: $sidenav-width-md;
+            width: $sidenav-width-big;
         }
 
         .nav-link {
-            margin-bottom: .25rem;
-            padding-bottom: .35rem;
+            margin-bottom: .5rem;
+            padding-bottom: .5rem;
         }
 
         .sidenav-close {
-            margin-left: 183px;
+            margin-left: $sidenav-close-position-large;
         }
 
         .sidenav-list {
-            padding: 0 0 3rem $sidenav-list-space-left-md;
-            font-size: .9rem;
+            padding: 0 0 3rem $sidenav-list-space-left-large;
+            font-size: 1rem;
         }
     }
-
 }
