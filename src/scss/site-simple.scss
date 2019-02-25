@@ -1,0 +1,21 @@
+/*
+ * css for the simple demo site
+ *
+*/
+
+// base files for site styles
+@import "vendor/_vendor";
+
+// shared values and scss functions
+@import "common/_variables";
+
+// styles for the general site
+@import "main/_sidepanel";
+@import "main/_sidenav-simple";
+
+// styles specific to individual pages
+@import "pages/_page-index-simple";
+
+// styles for specific elements
+@import "custom/_dingbats";
+@import "custom/_icon_close";
