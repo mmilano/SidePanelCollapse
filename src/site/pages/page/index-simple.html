@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <link rel="preconnect" href="https://code.jquery.com" crossorigin>
+    <link rel="dns-prefetch" href="https://stackpath.bootstrapcdn.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="Bootstrap 4, collapse, vertical sidebar, example, demonstration, website">
+    <meta name="description" content="An example project to demo using the Bootstrap v4 &#x27;collapse&#x27; component to make a vertical sidebar slide horizontally">
+
+    <meta name="author" content="Michel Milano">
+    <meta name="revised" content="{{timestamp}}">
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" rel="stylesheet">
+    <link href="../../public/css/site-simple.css" rel="stylesheet">
+
+    <title>Bootstrap 4: Horizontal Sliding Sidebar Example - Simple</title>
+</head>
+
+<body class="index-simple">
+
+<div class="container-fluid">
+    <nav class="navbar navbar-dark bg-dark top-navbar fixed-top" id="primaryNav">
+        <a class="navbar-brand" href="/index-simple.html">
+            <div class="dingbat"><span class="donut">☕</span></div>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidePanel" aria-controls="sidePanel" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+</div>
+
+<div class="sidepanel sidenav-simple width collapse" id="sidePanel">
+<div class="sidenav-content">
+    <div class="sidenav-header">
+        <button class="sidepanel-close sidenav-close navbar-toggler" type="button" aria-expanded="true" aria-label="Close navigation">
+            <span class="closeIcon" aria-hidden="true"></span>
+        </button>
+    </div>
+
+    <nav class="nav">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="./index-simple.html">Introduction</a></li>
+            <li class="nav-item"><a class="nav-link" href="./index-simple.html">Overview</a></li>
+            <li class="nav-item"><a class="nav-link" href="./index-simple.html">Overview</a></li>
+            <li class="nav-item"><a class="nav-link" href="./index-simple.html">Overview</a></li>
+            <li class="nav-item"><a class="nav-link" href="./index-simple.html">Overview</a></li>
+        </ul>
+    </nav>
+
+</div>
+</div>
+
+<section class="theme-section theme-section-full theme-section-center" id="introduction">
+    <div class="container">
+
+        <h1>
+            A Bootstrap v4-based Collapsing Sidebar
+        </h1>
+
+
+        <h2>
+            A Simple Example.
+        </h2>
+
+    </div>
+</section>
+
+{{> page-footer}}
+
+{{> site-js-simple}}
+
+
+</body>
+</html>

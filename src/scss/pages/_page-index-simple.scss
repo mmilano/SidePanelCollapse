@@ -1,0 +1,83 @@
+// main style file
+// GENERAL common, shared style definitions
+
+
+body {
+    position: relative;
+    font-family: $font-family-primary;
+}
+
+// defaults for ALL nav-links
+.nav-link {
+
+    // default transition for nav-link. will apply when un-hovering a link
+    transition: color $nav-item-color-transition-duration-long ease;
+
+    &.active {
+        font-weight: $font-weight-semibold;
+        color: $text-color-nav-default;
+    }
+    &:not(.active):hover {
+        color: $link-color-highlight;
+        transition: color $nav-item-color-transition-duration ease;
+    }
+}
+
+
+// PRIMARY NAVBAR //
+
+.top-navbar {
+    height: $page-primarynavbar-height;
+    padding-top: 0;
+    padding-bottom: 0;
+    font-family: $font-family-secondary;
+    background-color: $site-primarynavbar-background-color;
+}
+
+.navbar-brand {
+    margin: 0 2rem 0 1rem;
+    font-size: 1rem;
+    padding: 0;
+    color: $text-color-nav-default;
+    font-weight: $font-weight-semibold;
+}
+
+
+// SECTION TYPES //
+
+.theme-section {
+    position: relative;
+    padding-top: 9rem;
+    padding-bottom: 9rem;
+}
+
+.theme-section-full {
+    display: table;
+    width: 100%;
+    height: 100vh;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.theme-section-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+footer {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+}
+
+
+// index page //
+
+#introduction {
+    background-color: $background-color-intro;
+}
+
