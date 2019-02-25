@@ -96,9 +96,9 @@
         // reconcile with any provided options that will supercede/overwrite defaults
         _settings = extend(_settings, options);
 
-        // special flag for the normal durationShow because durationShow is a special case:
+        // special flag for the durationShow setting because durationShow is a special case.
         // see constructor.
-        if (options.durationShow !== undefined) {
+        if (options !== undefined && options.durationShow !== undefined) {
             _settings.durationShowCustom = true;
         }
 
@@ -342,7 +342,6 @@
         // removing "fadein" enables and activates the default animation to fadeout
         _backdrop.classList.remove("fadein");
     };
-
 
 
     // constructor
