@@ -88,7 +88,7 @@ const paths = {
     imgDestination: siteBuildDestinationRoot + "./public/images/",
 
     // css
-    scssSource: "./src/scss/site.scss",
+    scssSource: ["./src/scss/site.scss", "./src/scss/site-simple.scss"],
     scssSourceGLOB: "./src/scss/**/*.scss",
     cssDestination: siteBuildDestinationRoot + "/public/css",
 
@@ -322,7 +322,7 @@ const pageBuildOptions = {
     layouts:    paths.siteBuildSource + "layouts/",
     pageLayouts: {
                 "index.html":           "layout-index",
-                "index-2.html":         "layout-index-2",
+                "index-simple.html":         "layout-index-simple",
                 "pages/page/**/*":      "layout-page",
                 },
     helpers:    paths.siteBuildSource + "helpers/",       // Path to a folder containing Panini helpers
@@ -565,21 +565,23 @@ const cssnanoOptions = {
 };
 
 function buildcss(src, dest, outputfile, options, mode) {
+
     return new Promise(function(resolve, reject) {
         gulp
         .src(src)
         .pipe(sourcemaps.init())
-        .pipe(sass.sync(options))
+        .pipe(sass(options))
         .on("error", sass.logError)
         .on("error", () => reject("scss error in" + src))
         .pipe(autoprefixer(autoprefixerOptions))
-        .pipe(rename({basename: outputfile}))
+        //.pipe(rename({basename: outputfile}))
         .pipe(mode === "production" ? rename({suffix: ".min"}) : noop())
         .pipe(mode === "production" ? cssnano(cssnanoOptions) : noop())
         .pipe(sourcemaps.write("./map"))
         .pipe(gulp.dest(dest))
         // .on("end", () => { glog("compile scss:" + outputfile + " completed (" + mode + ")"); })
-        .on("end", () => resolve("compile scss:" + outputfile + " completed (" + mode + ")"));
+        .on("end", () => resolve("compile scss:" + src + " completed (" + mode + ")"));
+
     });
 }
 
@@ -635,7 +637,7 @@ function maketheCSS(buildMode, done) {
         precision: 4
     };
 
-    buildcss(paths.scssSource, paths.cssDestination, "site", scssOptions, buildMode)
+    buildcss(paths.scssSource, paths.cssDestination, "demo site", scssOptions, buildMode)
     .then(msg => {glog(msg)})
     .catch(err => {glog(err)});
     done();
@@ -886,9 +888,22 @@ gulp.task("default", gulp.series(
     "watch:full"
 ));
 
-// dev task is basically the default, but without the initial setup (clean and copy) task
+gulp.task("demo", gulp.series(
+    "webserver",
+    gulp.parallel(
+        "compile:scss",
+        "browserify:site",
+        "build:index",
+        "build:pages"
+    ),
+))
+
+
+
+// dev task is basically the default
 gulp.task("dev", function taskDevBasic(done) {
     gulp.series(
+//         "site:setup",
         "webserver",
         gulp.parallel(
             "compile:scss",
