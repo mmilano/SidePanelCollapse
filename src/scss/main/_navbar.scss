@@ -32,20 +32,22 @@
     padding: 3px 1rem 3px 1rem;
 }
 
-// when top-navbar is horizontal & expanded (i.e. above the navbar-expand-lg class coded into index.html), entries are displyed in a row
+// for larger windows
 @include media-breakpoint-up(lg) {
+
+    // when top-navbar is horizontal & expanded (i.e. above the navbar-expand-* class in the page), entries are displyed in a row
     .top-navbar {
         .nav-item {
             margin-right: .9rem;
-
             &:last-child {
                 margin-right: .5rem;  // match and subtract the internal padding on the nav item so that rightmost is better symmetrically aligned on the right margin
             }
         }
     }
+
 }
 
-// Medium. 48em
+// for smaller windows
 @include media-breakpoint-down(md) {
 
     .navbar.top-navbar {
@@ -54,3 +56,4 @@
     }
 
 }
+
