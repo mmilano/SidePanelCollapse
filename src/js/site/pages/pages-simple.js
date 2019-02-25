@@ -5,7 +5,7 @@
 //
 
 /* jshint sub:true */               // suppress warnings about using [] notation when it can be expressed in dot notation
-/* globals site */                  // global variables that are not formally defined in the source code
+/* globals SidePanelCollapse, site */                  // global variables that are not formally defined in the source code
 /* jshint latedef: false */         // prohibits the use of a variable before it was defined
 
 "use strict";

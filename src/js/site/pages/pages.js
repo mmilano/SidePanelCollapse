@@ -4,9 +4,9 @@
 // key = pageID
 //
 
-/* jshint sub:true */               // suppress warnings about using [] notation when it can be expressed in dot notation
-/* globals site */                  // global variables that are not formally defined in the source code
-/* jshint latedef: false */         // prohibits the use of a variable before it was defined
+/* jshint sub:true */                    // suppress warnings about using [] notation when it can be expressed in dot notation
+/* globals SidePanelCollapse, site */    // tell jshint about global variables that are not formally defined in the particular file
+/* jshint latedef: false */              // prohibits the use of a variable before it was defined
 
 "use strict";
 
@@ -108,8 +108,19 @@ var pages = {
     // default page handler
     "default": function(pageID) {
         // initialize the sidepanel
-        //
-        //
+
+        // instantiate a new sidepanel for the page
+        // sidepanel options for this site
+        var sidepanelOptions = {
+            sidepanelElement: "#sidePanel",
+            sidepanelCloseElement: ".sidepanel-close",
+
+            durationHide: "4s",
+            durationHideFast: "9s",
+            backdropStyle: "dark",
+        };
+
+        var sidepanel = new SidePanelCollapse(sidepanelOptions);
 
         util.scrollSpyCreate("#tableOfContents", scrollSpyShouldActivate);
     },
