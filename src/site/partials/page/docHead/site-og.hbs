@@ -16,6 +16,7 @@ generate the opengraph meta data
 {{~else~}}
     <meta property="og:description" content="{{site.og.description}}">
 {{/if~}}
+
 {{#if (getPageData this page "og")~}}
     {{#with (getPageData this page "og")~}}
     {{#with image~}}
