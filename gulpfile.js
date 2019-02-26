@@ -10,14 +10,14 @@ const debug =           require("gulp-debug");
 // css sass/scss
 const sass =            require("gulp-sass");
 const autoprefixer =    require("gulp-autoprefixer");
-const cssnano =         require("gulp-cssnano")
+const cssnano =         require("gulp-cssnano");
 
 // javascript
 const jshint =          require("gulp-jshint");
 const browserify =      require("browserify");
 const source =          require("vinyl-source-stream");
 const buffer =          require("vinyl-buffer");
-const babel =           require('gulp-babel');
+const babel =           require("gulp-babel");
 const babelENV =        require("@babel/preset-env");
 const uglify =          require("gulp-uglify");
 
@@ -38,7 +38,7 @@ const notify_node =     require("node-notifier");  // existing dependency of gul
 const filter =          require("gulp-filter");
 const through =         require("through2");
 
-const cached =          require('gulp-cached');
+const cached =          require("gulp-cached");
 const changed =         require("gulp-changed");
 const changedInPlace =  require("gulp-changed-in-place");
 
@@ -65,8 +65,7 @@ const paths = {
     // build locations to clean out
     cleanGLOB : [
         siteBuildDestinationRoot + "public/**/*",
-        siteBuildDestinationRoot + "pages/**/*",
-        siteBuildDestinationRoot + "index.html",
+        siteBuildDestinationRoot + "/**/*.html",
     ],
 
     // images
@@ -93,27 +92,28 @@ const paths = {
     jsVendorGLOB: "src/js/vendor/**/*.js",
     jsVendorDestination: siteBuildDestinationRoot + "public/js",
 
-    // the site's js files
+    // the demo site's js files
     jsSourceSITEGLOB: ["./src/js/site/**/*.js"],
     jsFile_site: "site.js",
     browserifyDestinationFile_site: "site.js",
     browserifyDestinationFile_SidePanel: "SidePanelCollapse.js",
 
-    // panini and site building
+    // demo site building files
     siteBuildSource: siteBuildSource,  // dupe for convenience/consistency
     pageBuildSourceRoot: siteBuildSource + "pages/",
     siteDataGLOB: "./src/site/data/site/**/*",
+
     // MASTER FILE of the gallery data
     siteGalleryData: "./src/js/site/gallery/site-gallery-data.js",
 
-    // html pages
+    // demo html pages
     indexPage: "index.html",
     get indexPageSRC() {
-        return paths.siteBuildSource + "pages/page/" + paths.indexPage;
+        return this.siteBuildSource + "pages/page/" + this.indexPage;
     },
     indexPageBuildDestination: siteBuildDestinationRoot,
     get indexPageBuilt() {
-        return paths.indexPageBuildDestination + paths.indexPage;
+        return this.indexPageBuildDestination + this.indexPage;
     },
     pagesBuildDestinationRoot: siteBuildDestinationRoot,  // alias
     pagesBuiltGLOB: siteBuildDestinationRoot + "**/*.html",
@@ -121,15 +121,18 @@ const paths = {
     sitePagesData: "./src/site/pages/data/**/*.js",
     sitePagesGLOB: "./src/site/pages/page/**/*",
     get siteSourcePagesDataGLOB() {
-        return ([paths.sitePages + "data/**/*.js"]);
+        return (this.sitePages + "data/**/*.js");
     },
     get siteSourcePagesContentGLOB() {
-        return ([paths.sitePages + "page/**/*.html"]);
+        return (this.sitePages + "page/**/*.html");
     },
 
-    // panini/handlebars
+    // panini/handlebars files
     siteHBSFilesGLOB: siteBuildSource + "{layouts,helpers,partials}/**/*",
-    siteHBSjsFilesGLOB: siteBuildSource + "{layouts,helpers,partials}/**/*.js",
+
+    get siteHBSjsFilesGLOB() {
+        return this.siteHBSFilesGLOB + ".js";
+    },
 
 };
 
@@ -152,7 +155,7 @@ function logFile(title) {
         glog (title, ":", file.path);
         callback( null, file);
     }
-    return through.obj(logger)
+    return through.obj(logger);
 }
 
 
@@ -173,7 +176,8 @@ gulp.task("site:clean", siteClean);
 // along with simple utility function to show current IP address
 
 function findAddress() {
-    let ip_main, ip, address = undefined;
+    let ip_main, ip, address;
+
     if (typeof networkInterfaces["en4"] !== "undefined") {
         ip_main = networkInterfaces["en4"];  // ethernet cableconsole.log ("ip_eth: ", ip_eth);
         ip = ip_main.find(netInterface => netInterface.family === "IPv4");
@@ -241,31 +245,31 @@ function watchImages(done) {
     done();
 }
 
-function copyCSSVendor(done) {
-    gulp
-    .src(paths.cssVendorGLOB)
-    .pipe(gulp.dest(paths.cssVendorDestination));
-    done();
-}
+// function copyCSSVendor(done) {
+//     gulp
+//     .src(paths.cssVendorGLOB)
+//     .pipe(gulp.dest(paths.cssVendorDestination));
+//     done();
+// }
+//
+// function copyJSVendor(done) {
+//     gulp
+//     .src(paths.jsVendorGLOB)
+//     .pipe(gulp.dest(paths.jsVendorDestination));
+//     done();
+// }
 
-gulp.task("copy:css-vendor", copyCSSVendor);
-
-function copyJSVendor(done) {
-    gulp
-    .src(paths.jsVendorGLOB)
-    .pipe(gulp.dest(paths.jsVendorDestination));
-    done();
-}
-
+// gulp.task("copy:css-vendor", copyCSSVendor);
 gulp.task("copy:images", copyImages);
 gulp.task("copy:images-changed", copyImagesChanged);
-gulp.task("copy:js-vendor", copyJSVendor);
+// gulp.task("copy:js-vendor", copyJSVendor);
 
 gulp.task("watch:images", watchImages);
 
 
 // move and copy things that need to be moved and copied
-gulp.task("site:copy", gulp.parallel("copy:images", "copy:js-vendor", "copy:css-vendor"));
+// gulp.task("site:copy", gulp.parallel("copy:images", "copy:js-vendor", "copy:css-vendor"));
+gulp.task("site:copy", gulp.parallel("copy:images"));
 gulp.task("site:setup", gulp.series("site:clean", "site:copy"));
 
 
@@ -452,8 +456,8 @@ function buildpagesCHANGED(done) {
         this.emit("end");
     })
     .pipe(debug({title: "building:"}))
-    .pipe(gulp.dest(paths.pagesBuildDestinationRoot))
-    //.pipe(debug({title: "BUILT: "}))
+    .pipe(gulp.dest(paths.pagesBuildDestinationRoot));
+
 }
 
 // watch just the project pages and only build the ones whose html pages changed
@@ -596,13 +600,13 @@ function maketheCSS_sidepanel(done) {
 
     let buildoptions = scssOptions_normal;
     buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, buildoptions, "normal")
-    .then(msg => {glog(msg)})
-    .catch(err => {glog(err)});
+    .then(msg => {glog(msg);})
+    .catch(err => {glog(err);});
 
     buildoptions = scssOptions_production;
     buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, buildoptions, "production")
-    .then(msg => {glog(msg)})
-    .catch(err => {glog(err)});
+    .then(msg => {glog(msg);})
+    .catch(err => {glog(err);});
 
     done();
 }
@@ -621,8 +625,8 @@ function maketheCSS_demo(buildMode, done) {
     };
 
     buildcss(paths.scssSource, paths.cssDestination, "demo site", scssOptions, buildMode)
-    .then(msg => {glog(msg)})
-    .catch(err => {glog(err)});
+    .then(msg => {glog(msg);})
+    .catch(err => {glog(err);});
     done();
 }
 
@@ -714,23 +718,22 @@ function lintJSSite() {
     .pipe(jshint.reporter("default"));
 }
 
-function lintJSSidePanel() {
-    let src = paths.jsSourceSITEGLOB;
-
-    return gulp
-    .src(src)
-    .pipe(debug({title: "js lint check:"}))   // iterate out name of each file being checked
-    .pipe(jshint(paths.jshintConfiguration))
-    .pipe(jshint.reporter("default"));
-}
-
+// function lintJSSidePanel() {
+//     let src = paths.jsSourceSITEGLOB;
+//
+//     return gulp
+//     .src(src)
+//     .pipe(debug({title: "js lint check:"}))   // iterate out name of each file being checked
+//     .pipe(jshint(paths.jshintConfiguration))
+//     .pipe(jshint.reporter("default"));
+// }
 
 gulp.task ("lint:Paninijs", lintJSPanini);
 gulp.task ("lint:js", lintJSSite);
 
 
 // javascript building: global options
-
+// babel options to transpile javascript to browser-compatible level
 const babelOptions = {
   "presets": [
     [ "@babel/preset-env",
@@ -746,25 +749,23 @@ const babelOptions = {
         }
     ]
   ],
-}
+};
 
 const uglifyOptions = {
     output: {
-        comments: "/^!/"
+        comments: "/^!/"  // retain comments that match this pattern
     }
 };
 
 
-
-// main site.sj javascript assembly
+// main site.js javascript assembly for demo
 function browserifyScript(file) {
 
-    const standaloneFile = "site";
-
+    const standalone_file = "site";
     const bundleOptions = {
-        entries: "./src/js/site/" + file,   // starting file for the processing. relative to this gulpfile
+        entries: "./src/js/site/" + file,  // starting file for the processing. relative to this gulpfile
         paths: ["./src/js/site/", "./src/js/site/modules", "./src/js/site/pages", "./src/js/general/"],
-        standalone: standaloneFile,
+        standalone: standalone_file,
         debug: false
     };
 
@@ -779,9 +780,9 @@ function browserifyScript(file) {
         .pipe(sourcemaps.init({loadMaps: true}))
         // add transformation tasks in the pipeline here
         .pipe(babel(babelOptions))
-        // .pipe(uglify())  // enable if you want to minify the demo site js
+        // .pipe(uglify())  // enable if you want to minify the demo site.js
         // end transformations
-        .pipe(sourcemaps.write('./map'))
+        .pipe(sourcemaps.write("./map"))
         .pipe(gulp.dest(paths.jsDestination))
         .on("end", () => glog("browserify:SITE complete"));
 }
@@ -793,47 +794,75 @@ gulp.task("browserify:site", function browserifySiteJS(done) {
 });
 
 
-// main SidePanelCollapse.js javascript assembly
-function javascriptSidePanel(file) {
+// SidePanelCollapse.js javascript processing
+// create (conditionally) two files: normal version and minified version
+function javascriptSidePanel(options) {
 
-    let standaloneFile = "SidePanelCollapse";
+    let source = options.source_path + options.source_file;
+    let destination_path = options.destination_path;
+    let destination_filename = options.standalone_file;
 
-    let js_sidepanel_source = "./src/scss/sidepanel-standalone.scss";
-    let source_path = "./src/js/site/sidepanelcollapse/";
-    let js_sidepanel_destination = "./dist/js/";
-    let js_sidepanel_destination_filename = "sidePanelCollapse";
+    let create_normal = options.normal;
+    let create_minified = options.minified;
 
-    const bundleOptions = {
-        entries: file,   // starting file for the processing. relative to this gulpfile.
-        basedir: "./src/js/site/modules",
-        debug: true
-    };
-
-    gulp.src(source_path+file)
+    // start the stream
+    let stream = gulp.src(source)
     .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(babel(babelOptions))
+    .pipe(babel(babelOptions));
+
     // output the non-minified version
-    .pipe(sourcemaps.write('./map'))
-    .pipe(gulp.dest(js_sidepanel_destination))
-    .pipe(filter("**/*.js")) // filter out non .js; i.e. the .map
+    if (create_normal) {
+        stream = stream
+        .pipe(sourcemaps.write("./map"))
+        .pipe(gulp.dest(destination_path));
+    }
+
     // now do the minified version
-    .pipe(uglify(uglifyOptions))
-     .on("error", function(err) {
-        glog("error: " + err);
-        this.emit("end");
-    })
-   .pipe(rename({suffix: ".min"}))
-   .pipe(sourcemaps.write('./map'))
-   .pipe(gulp.dest(js_sidepanel_destination));
+    if (create_minified) {
+        stream = stream
+        // filter out non .js (i.e. the .map file) before uglification step
+        .pipe(filter("**/*.js"))
+        .pipe(uglify(uglifyOptions))
+         .on("error", function(err) {
+            glog("error: " + err);
+            this.emit("end");
+        })
+       .pipe(rename({suffix: ".min"}))
+       .pipe(sourcemaps.write("./map"))
+       .pipe(gulp.dest(destination_path));
+    }
+
+    return stream;
 }
 
-// browserify the site.js bundle
-gulp.task("javascript:sidepanel", function(done) {
-    let file = "SidePanelCollapse.js";
-    javascriptSidePanel(file);
+// process sidepanelcollapse.js for standalone dist/production
+gulp.task("scriptify:sidepanel", function(done) {
+    let options = {
+        "normal": true,
+        "minified": true,
+        "source_path": "./src/js/site/modules/",
+        "source_file": "SidePanelCollapse.js",
+        "destination_path": "./dist/js/",
+    };
+
+    javascriptSidePanel(options);
     done();
 });
 
+// process sidepanelcollapse.js for the demo
+gulp.task("demoify:sidepanel", function(done) {
+
+    let options = {
+        "normal": true,
+        "minified": false,
+        "source_path": "./src/js/site/modules/",
+        "source_file": "SidePanelCollapse.js",
+        "destination_path": "./demo/public/js/sidePanelCollapse/",
+    };
+
+    javascriptSidePanel(options);
+    done();
+});
 
 
 // watch the js sources
@@ -841,7 +870,16 @@ function watchJS(done) {
     var watcherJS =  gulp.watch(paths.jsSourceGLOB);
     watcherJS.on("error", err => glog("watch js error: " + err.message));
     watcherJS.on("change", path => glog("js changed >>> " + path));
-    watcherJS.on("change", gulp.series("lint:js", "browserify:site"));
+    watcherJS.on("change", gulp.series("lint:js", "browserify:site", "demoify:sidepanel"));
+	done();
+}
+
+// watch the sidepanelcollapse js
+function watchJS(done) {
+    var watcherJS =  gulp.watch(paths.jsSourceGLOB);
+    watcherJS.on("error", err => glog("watch js error: " + err.message));
+    watcherJS.on("change", path => glog("js changed >>> " + path));
+    watcherJS.on("change", gulp.series("lint:js", "demoify:sidepanel"));
 	done();
 }
 
@@ -855,7 +893,7 @@ gulp.task("watch:full", gulp.parallel(
     "watch:js",
     "watch:siteGallery",
     "watch:index",
-    "watch:pages",
+    "watch:pages"
 ));
 
 gulp.task("build:demo", gulp.series(
@@ -866,7 +904,7 @@ gulp.task("build:demo", gulp.series(
         "browserify:site",
         "build:index",
         "build:pages"
-    ),
+    )
 ));
 
 gulp.task("default", gulp.series(
@@ -888,8 +926,8 @@ gulp.task("demo", gulp.series(
         "browserify:site",
         "build:index",
         "build:pages"
-    ),
-))
+    )
+));
 
 
 
@@ -908,6 +946,10 @@ gulp.task("dev", function taskDevBasic(done) {
     done();
 });
 
+
+function productionPages(done) {
+    gulp.series("build:pages", "validate:pages");
+}
 
 // build for 'production'
 // includes minification of code and validation of the html
@@ -928,10 +970,6 @@ function production(done) {
     done();
 }
 
-function productionPages(done) {
-    gulp.series("build:pages", "validate:pages");
-}
-
 
 // sidepanel dist/production process
 //
@@ -948,7 +986,7 @@ function dist_sidepanel(done) {
     gulp.series(
         "lint:js",
         gulp.parallel(
-            "javascript:sidepanel",
+            "scriptify:sidepanel",
             "compile:scss-sidepanel"
         ))();
     done();
