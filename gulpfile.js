@@ -600,13 +600,13 @@ function maketheCSS_sidepanel(done) {
 
     let buildoptions = scssOptions_normal;
     buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, buildoptions, "normal")
-    .then(msg => {glog(msg);})
-    .catch(err => {glog(err);});
+    .then(msg => {glog(msg)})
+    .catch(err => {glog(err)});
 
     buildoptions = scssOptions_production;
     buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, buildoptions, "production")
-    .then(msg => {glog(msg);})
-    .catch(err => {glog(err);});
+    .then(msg => {glog(msg)})
+    .catch(err => {glog(err)});
 
     done();
 }
@@ -625,8 +625,8 @@ function maketheCSS_demo(buildMode, done) {
     };
 
     buildcss(paths.scssSource, paths.cssDestination, "demo site", scssOptions, buildMode)
-    .then(msg => {glog(msg);})
-    .catch(err => {glog(err);});
+    .then(msg => {glog(msg)})
+    .catch(err => {glog(err)});
     done();
 }
 

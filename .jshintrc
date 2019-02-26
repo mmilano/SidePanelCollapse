@@ -3,14 +3,13 @@
     "browserify":   true,
     "jquery":       true,
     "node":         true,
-    "eqeqeq":       true,    // Require triple equals i.e. '==='
-    "latedef":      true,    // Prohibit variable use before definition.
-    "loopfunc":     true,    // Allow functions to be defined within loops
-
-    "debug":        true,    // Allow debugger statements e.g. browser breakpoints
-    "devel":        false,    // Allow development statements e.g. 'console.log();'
-
-    "-W032":        true,    // disable 'unnecessary-semicolon' error
-    "esversion":    6,       // allow esversion 6
-    "sub":          true     // turn off error flagging for '[x] is better written in dot notation'
+    "eqeqeq":       true,   // Require triple equals i.e. '==='
+    "latedef":      true,   // Prohibit variable use before definition.
+    "loopfunc":     true,   // Allow functions to be defined within loops
+    "debug":        true,   // Allow debugger statements e.g. browser breakpoints
+    "devel":        false,  // Allow development statements e.g. 'console.log();'
+    "-W032":        true,   // disable 'unnecessary-semicolon' error
+    "esversion":    6,      // allow esversion 6
+    "sub":          true,   // turn off error flagging for '[x] is better written in dot notation'
+    "lastsemic":    true    // suppresses warnings about missing semicolons, only when the semicolon is omitted on the last statement in a one-line block
 }
