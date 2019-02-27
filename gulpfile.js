@@ -70,8 +70,8 @@ const paths = {
     ],
 
     // images
-    imgSourceGLOBDIR: "./src/images/**/*",
-    imgSourceGLOB: "./src/images/**/*.+(png|jpg|jpeg|gif|svg)",
+    imgSourceGLOBall: siteSourceRoot + "images/**/*",
+    imgSourceGLOB: siteSourceRoot + "images/**/*.+(png|jpg|jpeg|gif|svg)",
     imgDestination: siteBuildDestinationRoot + "public/images/",
 
     // css
@@ -94,7 +94,7 @@ const paths = {
     jsVendorDestination: siteBuildDestinationRoot + "public/js",
 
     // the demo site's js files
-    jsSourceSITEGLOB: ["./src/js/site/**/*.js"],
+    jsSourceSITEGLOB: [siteSourceRoot + "js/site/**/*.js"],
     jsFile_site: "site.js",
     browserifyDestinationFile_site: "site.js",
     jsFile_site_simple: "site-simple.js",
@@ -106,13 +106,13 @@ const paths = {
     pageBuildSourceRoot: siteBuildSource + "pages/",
     siteDataGLOB: "./src/site/data/site/**/*",
 
-    // MASTER FILE of the gallery data
-    siteGalleryData: "./src/js/site/gallery/site-gallery-data.js",
+    // MASTER FILE of the subpage/gallery data
+    siteGalleryData: siteSourceRoot + "js/site/gallery/site-gallery-data.js",
 
     // demo html pages
     indexPage: "index.html",
     get indexPageSRC() {
-        return this.siteBuildSource + "pages/page/" + this.indexPage;
+        return siteBuildSource + "pages/page/" + this.indexPage;
     },
     indexPageBuildDestination: siteBuildDestinationRoot,
     get indexPageBuilt() {
@@ -227,7 +227,6 @@ function copyImages(done) {
     gulp
     .src([paths.imgSourceGLOB])
     .pipe(gulp.dest(paths.imgDestination));
-
     done();
 }
 
@@ -240,9 +239,9 @@ function copyImagesChanged(done) {
 }
 
 function watchImages(done) {
-    var watcherImages =  gulp.watch(paths.imgSourceGLOBDIR);
+    var watcherImages =  gulp.watch(paths.imgSourceGLOBall);
     watcherImages.on("error", err => glog("watch images error: " + err));
-    watcherImages.on("change", path => glog("images changed >>> " + path));
+    watcherImages.on("change", path => glog("image changed >>> " + path));
     watcherImages.on("change", gulp.series("copy:images-changed"));
     done();
 }
@@ -868,22 +867,42 @@ function demoifySidepanel(done) {
 
 gulp.task("demoify:sidepanel", demoifySidepanel);
 
+// copy site-simple
+function copyJsSimple(done) {
+    gulp
+    .src( siteSourceRoot + "js/site/" + paths.jsFile_site_simple)
+    .pipe(gulp.dest(paths.jsDestination));
+    done();
+}
+
+gulp.task("copy:jsSimple", copyJsSimple);
+
+
 
 // watch the js sources
 function watchJS(done) {
     var watcherJS =  gulp.watch(paths.jsSourceGLOB);
     watcherJS.on("error", err => glog("watch js error: " + err.message));
     watcherJS.on("change", path => glog("js changed >>> " + path));
-    watcherJS.on("change", gulp.series("lint:js", "browserify:site", "demoify:sidepanel"));
+    watcherJS.on("change", gulp.series("lint:js", "browserify:site"));
+	done();
+}
+
+// watch the site-simple.js source
+function watchJSsimple(done) {
+    var watcherJSsimple =  gulp.watch(paths.jsFile_site_simple);
+    watcherJSsimple.on("error", err => glog("watch js error: " + err.message));
+    watcherJSsimple.on("change", path => glog("js changed >>> " + path));
+    watcherJSsimple.on("change", gulp.series("lint:js", "copy:jsSimple"));
 	done();
 }
 
 // watch the sidepanelcollapse js
 function watchJSSidePanel(done) {
-    var watcherJS =  gulp.watch(paths.jsSourceGLOB);
-    watcherJS.on("error", err => glog("watch js error: " + err.message));
-    watcherJS.on("change", path => glog("js changed >>> " + path));
-    watcherJS.on("change", gulp.series("lint:js", "demoify:sidepanel"));
+    var watcherJSsidepanel =  gulp.watch(paths.jsSourceGLOB);
+    watcherJSsidepanel.on("error", err => glog("watch js error: " + err.message));
+    watcherJSsidepanel.on("change", path => glog("js changed >>> " + path));
+    watcherJSsidepanel.on("change", gulp.series("lint:js", "demoify:sidepanel"));
 	done();
 }
 
