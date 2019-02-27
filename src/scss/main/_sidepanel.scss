@@ -24,7 +24,7 @@ $sidepanel-duration-hide-fast:            0.11s;  // very fast closing
 
 // backdrop values
 $sidepanel-backdrop-zindex:               $sidepanel-zindex - 100;  // enough to be under .sidepanel, but over the main page content
-$sidepanel-backdrop-opacity:              0.6;
+$sidepanel-backdrop-opacity-max:          0.6;
 $sidepanel-backdrop-dark:                 #000;
 $sidepanel-backdrop-light:                #FFF;
 
@@ -62,7 +62,7 @@ $sidepanel-backdrop-duration-hide:        0.11s;
 
 // backdrop = the full-page background displayed when sidenav is displayed (open).
 // intended to screen the existing page content.
-// borrows somewhat from bootstrap .modal-backdrop
+// borrows inspiration from bootstrap .modal-backdrop
 .backdrop {
     z-index: $sidepanel-backdrop-zindex;
     display: none;
@@ -77,24 +77,23 @@ $sidepanel-backdrop-duration-hide:        0.11s;
     opacity: 0;  // default opacity. will be changed by the animation when backdrop displays
 
     // in effect, fadeout is the default
-    animation: backdropFadeOut $sidepanel-backdrop-duration-hide linear normal;
+    animation: backdropFadeOut $sidepanel-backdrop-duration-hide linear;
 
     // when the fadein class is applied, fadein animation will be in effect
     &.fadein {
         animation: backdropFadeIn $sidepanel-backdrop-duration-show linear forwards;
-        animation-fill-mode: forwards;
     }
 
     &.show {
         display: block;
     }
 
-    // light-coloured backdrop
+    // light-coloured
     &.light {
         background-color: $sidepanel-backdrop-light;
     }
 
-    // dark-coloured backdrop
+    // dark-coloured
     &.dark {
         background-color: $sidepanel-backdrop-dark;
     }
@@ -106,7 +105,7 @@ $sidepanel-backdrop-duration-hide:        0.11s;
         opacity: 0;
     }
     100% {
-        opacity: $sidepanel-backdrop-opacity;
+        opacity: $sidepanel-backdrop-opacity-max;
     }
 }
 
@@ -116,7 +115,7 @@ $sidepanel-backdrop-duration-hide:        0.11s;
 // hence another set of keyframes
 @keyframes backdropFadeOut {
     0% {
-        opacity: $sidepanel-backdrop-opacity;
+        opacity: $sidepanel-backdrop-opacity-max;
     }
     100% {
         opacity: 0;

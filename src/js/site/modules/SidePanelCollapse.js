@@ -56,9 +56,6 @@
     // and there is only one declaration (e.g. if the defaults are changed).
     // if these are defined as js values instead, the durations need to be in seconds (css transition format)
     let styles = getComputedStyle(document.querySelector(".sidepanel"));
-    let _durationShow = styles.getPropertyValue("--sidepanelDurationShow");
-    let _durationHide = styles.getPropertyValue("--sidepanelDurationHide");
-    let _durationHideFast = styles.getPropertyValue("--sidepanelDurationHideFast");
 
     var defaults = {
 
@@ -68,13 +65,13 @@
 
         // default values for the sidepanel transition timings
         // in css transition-duration format
-        //         durationShow: "0.65s",  // leisurely opening
-        //         durationHide: "0.31s",   // quick to close
-        //         durationHideFast: "0.11s",  // very fast to close
+        //     durationShow: "0.65s",  // leisurely opening
+        //     durationHide: "0.31s",   // quick to close
+        //     durationHideFast: "0.11s",  // very quick to close
 
-        durationShow: _durationShow,
-        durationHide: _durationHide,
-        durationHideFast: _durationHideFast,
+        durationShow: styles.getPropertyValue("--sidepanelDurationShow"),
+        durationHide: styles.getPropertyValue("--sidepanelDurationHide"),
+        durationHideFast: styles.getPropertyValue("--sidepanelDurationHideFast"),
 
         // boolean: whether or not a backdrop, or overlay, should display behind the sidepanel
         backdropEnabled: true,
@@ -83,7 +80,7 @@
         backdropStyle: "light",
 
         // class that is added to the document <body> when sidepanel shows, removed when it hides.
-        // optional - for use in enabling any specific styles that should apply when sidepanel is open.
+        // this is a convenience - for use in enabling any specific styles that should apply when sidepanel is open.
         sidePanelIsOpenClass: "sidepanel-shown",
     };
 
@@ -273,7 +270,6 @@
 
         // cleanup: remove the keypress listener
         document.removeEventListener("keyup", _this.handleKeyup, false);
-
         // cleanup: remove class from the document
         document.body.classList.remove(_this.settings.sidePanelIsOpenClass);
     };
@@ -347,10 +343,10 @@
     // constructor
     function SidePanelCollapse(options) {
 
-        let _settings = this.settings = defineSettings(defaults, options);  // convenience shorthand
+        let _settings = this.settings = defineSettings(defaults, options);
 
-        // durationShow is a special case, because it is the one collapse duration value that is initially in the css rule
-        // so if the configuration options have a custom value, the css variable needs to be updated.
+        // durationShow is a special case, because it is the one duration value that is initially in the css rule
+        // so if the configuration options have a custom value, the css variable needs to be updated
         if (_settings.durationShowCustom) {
             document.querySelector(".sidepanel").style.setProperty("--sidepanelDurationShow", _settings.durationShow);
         }
