@@ -7,8 +7,8 @@ module.exports = {
 
     "group": null,
     "page-title": "Example Site",
-    "page-title-short": "Example Index Page",
-    "page-title-html": "Example Index Page",
+    "page-title-short": "Demo Example",
+    "page-title-html": "Demo Example",
     "page-meta-description": "Spare ribs tenderloin officia est sint pork loin sirloin beef ribs nulla ea.",
     "overview-short": "Spare ribs tenderloin officia est sint pork loin sirloin beef ribs nulla ea, doner ground round jowl meatball.",
 
