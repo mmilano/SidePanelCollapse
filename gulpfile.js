@@ -54,8 +54,9 @@ const networkInterfaces = require("os").networkInterfaces();
 // **********
 // globals: paths and files of sources, etc.
 
+const siteSourceRoot = "./src/";
+const siteBuildSource = siteSourceRoot + "site/";
 const siteBuildDestinationRoot = "./demo/";
-const siteBuildSource = "./src/site/";
 
 const paths = {
 
@@ -65,7 +66,7 @@ const paths = {
     // build locations to clean out
     cleanGLOB : [
         siteBuildDestinationRoot + "public/**/*",
-        siteBuildDestinationRoot + "/**/*.html",
+        siteBuildDestinationRoot + "**/*.html",
     ],
 
     // images
@@ -96,6 +97,8 @@ const paths = {
     jsSourceSITEGLOB: ["./src/js/site/**/*.js"],
     jsFile_site: "site.js",
     browserifyDestinationFile_site: "site.js",
+    jsFile_site_simple: "site-simple.js",
+
     browserifyDestinationFile_SidePanel: "SidePanelCollapse.js",
 
     // demo site building files
@@ -218,7 +221,6 @@ function webserver(done) {
 }
 
 gulp.task("webserver", webserver);
-
 
 // copy images
 function copyImages(done) {
@@ -365,7 +367,6 @@ function buildIndexPage(done) {
 gulp.task("build:index", buildIndexPage);
 gulp.task("build:homepage", gulp.series("build:index"));  // alias
 gulp.task("build:pages", buildPagesAll);
-
 
 // source of html files
 
@@ -745,7 +746,7 @@ const babelOptions = {
                 "transform-typeof-symbol"  // don't add polyfill for typeof
             ],
             "modules": false,
-            // "debug": true
+            "debug": true
         }
     ]
   ],
@@ -764,7 +765,7 @@ function browserifyScript(file) {
     const standalone_file = "site";
     const bundleOptions = {
         entries: "./src/js/site/" + file,  // starting file for the processing. relative to this gulpfile
-        paths: ["./src/js/site/", "./src/js/site/modules", "./src/js/site/pages", "./src/js/general/"],
+        paths: ["./src/js/site/", "./src/js/site/modules/", "./src/js/site/pages/"],
         standalone: standalone_file,
         debug: false
     };
@@ -787,11 +788,13 @@ function browserifyScript(file) {
         .on("end", () => glog("browserify:SITE complete"));
 }
 
-// browserify the site.js bundle
-gulp.task("browserify:site", function browserifySiteJS(done) {
+// browserify the site.js code
+function browserifySiteJS(done) {
     browserifyScript(paths.jsFile_site);
     done();
-});
+}
+
+gulp.task("browserify:site", browserifySiteJS);
 
 
 // SidePanelCollapse.js javascript processing
@@ -836,7 +839,7 @@ function javascriptSidePanel(options) {
 }
 
 // process sidepanelcollapse.js for standalone dist/production
-gulp.task("scriptify:sidepanel", function(done) {
+function scriptifySidepanel(done) {
     let options = {
         "normal": true,
         "minified": true,
@@ -844,25 +847,26 @@ gulp.task("scriptify:sidepanel", function(done) {
         "source_file": "SidePanelCollapse.js",
         "destination_path": "./dist/js/",
     };
-
     javascriptSidePanel(options);
     done();
-});
+}
+
+gulp.task("scriptify:sidepanel", scriptifySidepanel);
 
 // process sidepanelcollapse.js for the demo
-gulp.task("demoify:sidepanel", function(done) {
-
+function demoifySidepanel(done) {
     let options = {
         "normal": true,
-        "minified": false,
+        "minified": true,
         "source_path": "./src/js/site/modules/",
         "source_file": "SidePanelCollapse.js",
         "destination_path": "./demo/public/js/sidePanelCollapse/",
     };
-
     javascriptSidePanel(options);
     done();
-});
+}
+
+gulp.task("demoify:sidepanel", demoifySidepanel);
 
 
 // watch the js sources
@@ -875,7 +879,7 @@ function watchJS(done) {
 }
 
 // watch the sidepanelcollapse js
-function watchJS(done) {
+function watchJSSidePanel(done) {
     var watcherJS =  gulp.watch(paths.jsSourceGLOB);
     watcherJS.on("error", err => glog("watch js error: " + err.message));
     watcherJS.on("change", path => glog("js changed >>> " + path));
@@ -902,6 +906,7 @@ gulp.task("build:demo", gulp.series(
     gulp.parallel(
         "compile:scss",
         "browserify:site",
+        "demoify:sidepanel",
         "build:index",
         "build:pages"
     )
@@ -939,6 +944,7 @@ gulp.task("dev", function taskDevBasic(done) {
         gulp.parallel(
             "compile:scss",
             "browserify:site",
+            "demoify:sidepanel",
             "build:index",
             "build:pages"
         ),
