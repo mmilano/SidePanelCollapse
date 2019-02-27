@@ -363,19 +363,31 @@
         if (_$sidepanel.length) {
 
             // sidepanel exists!
-            // add event listener for Boostrap collapse "show" event
+            // add event listener for Bootstrap collapse "show" event
             // show.bs.collapse: This event fires immediately when the show instance method is called.
             // use jquery event (and not regular javascript) because Bootstrap uses jquery-land events.
             _$sidepanel.on("show.bs.collapse", this.sidepanelOpen.bind(this));
 
-            // select and cache the close button element
-            // note: assumes there is only one .sidepanel and only one close button
-            this.sidepanelCloseButton = _$sidepanel[0].querySelector(_settings.sidepanelCloseElement);
-            // set event on the close button so that click will close the sidenav
-            this.sidepanelCloseButton.addEventListener("click", this.sidepanelClose.bind(this), false);
+            // (try to) select and cache the close button element.
+            // note: assumes there is only one .sidepanel and only one close button that is within the sidepanel structure
+            try {
+                this.sidepanelCloseButton = _$sidepanel[0].querySelector(_settings.sidepanelCloseElement);
+                this.sidepanelCloseButton.addEventListener("click", this.sidepanelClose.bind(this), false);
+            } catch (e) {
+                console.warn("No close button could be found.", e);
+
+            }
+
+//             this.sidepanelCloseButton = _$sidepanel[0].querySelector(_settings.sidepanelCloseElement);
+//
+//             if (this.sidepanelCloseButton) {
+//                 // set event on the close button so that click will close the sidenav
+//                 this.sidepanelCloseButton.addEventListener("click", this.sidepanelClose.bind(this), false);
+//             }
 
             // if enabled, create and insert the backdrop element so it is ready to go
             this.backdrop = _settings.backdropEnabled ? new Backdrop(this) : false;
+
         } else {
             // no sidepanel ;(
             console.error("No sidepanel element could be found with selector \""+ _settings.sidepanelElement + "\"\.");
