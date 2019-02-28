@@ -13,11 +13,17 @@
 // styles for the general site
 @import "main/_main";
 @import "main/_navbar";
-@import "main/_sidepanel";
+
+// sidepanelCollapse: incorporate the scss into the build
+// 'includePaths" setting allows this to reference /src/sidePanelCollapse.
+// include it before site's sidenav styles to allow overriding in the second file
+@import "sidePanelCollapse";
+//
+
 @import "main/_sidenav";
 
 // styles specific to individual pages
-@import "pages/_page-home";
+@import "pages/_page-index";
 @import "pages/_gallery";
 @import "pages/_pages";
 

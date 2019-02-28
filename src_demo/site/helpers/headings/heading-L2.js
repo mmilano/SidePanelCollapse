@@ -9,8 +9,7 @@
 // <h2 id="section2" class="fomoco">less simple title</h2>
 
 
-const basepath = process.cwd();
-const trimWhitespace = require(basepath + "/src/site/lib/trim");
+const trimWhitespace = require("normalize-html-whitespace");
 const titlecase = require("ap-style-title-case");
 
 module.exports = function(attr, options) {

@@ -21,7 +21,6 @@ $sidepanel-duration-show:                 1.05s;  // leisurely opening
 $sidepanel-duration-hide:                 0.33s;  // quick closing
 $sidepanel-duration-hide-fast:            0.11s;  // very fast closing
 
-
 // backdrop values
 $sidepanel-backdrop-zindex:               $sidepanel-zindex - 100;  // enough to be under .sidepanel, but over the main page content
 $sidepanel-backdrop-opacity-max:          0.6;
