@@ -49,8 +49,8 @@
     }
 
     // module default values
-    // includes the access of the css variable values as module is evaluated, for slightly more optimal performance
-
+    // includes the access of the css variable values as module is evaluated (for slightly more optimal performance)
+    //
     // extract and update the css transition values
     // doing this so that the duration values do not have to be repeated in the javascript,
     // and there is only one declaration (e.g. if the defaults are changed).
@@ -59,13 +59,15 @@
 
     var defaults = {
 
-        // default css selectors for the sidepanel DOM elements
+        // css selectors:
+        // default selectors for the sidepanel DOM elements
         sidepanelElement: "#sidePanel",  // top-level of the sidepanel
         sidepanelCloseElement: ".sidepanel-close",  // the close button, containing the close icon, visible when the sidepanel is displayed
 
+        // css transition-durations:
         // default values for the sidepanel transition timings
-        // in css transition-duration format
-        //     durationShow: "0.65s",  // leisurely opening
+        // in css transition-duration format. e.g.:
+        //     durationShow: "1.65s",  // leisurely opening
         //     durationHide: "0.31s",   // quick to close
         //     durationHideFast: "0.11s",  // very quick to close
 
@@ -76,13 +78,46 @@
         // boolean: whether or not a backdrop, or overlay, should display behind the sidepanel
         backdropEnabled: true,
 
-        // which style of backdrop to use: "dark", or "light", corresponding the css style
+        // HTML class attribute:
+        // which color style of backdrop to use: "dark", or "light".
+        // corresponds to the css styles (e.g. "light" -> ".light")
         backdropStyle: "light",
 
-        // class that is added to the document <body> when sidepanel shows, removed when it hides.
+        // HTML class attribute:
+        // class that is added to the document's <body> element when sidepanel shows, removed when it hides.
         // this is a convenience - for use in enabling any specific styles that should apply when sidepanel is open.
         sidePanelIsOpenClass: "sidepanel-shown",
     };
+
+    // validate the configuration settings at once.
+    // only validating the key selectors required for initialization of the sidepanel
+    function validateSettings(_settings) {
+
+        let isValid = true;  // presume true until proven otherwise
+
+        // sidepanel
+        // check if sidepanel exists in the page. (check length because this is a jquery selector/object).
+        let _$sidepanel = $(_settings.sidepanelElement);  // convenience shorthand
+        if (!_$sidepanel.length) {
+            // no sidepanel ;(
+            console.error("No sidepanel element could be found with the selector \""+ _settings.sidepanelElement + "\"\.");
+            isValid = false;
+        }
+
+        // sidepanel close button
+        // (try to) find the close button element.
+        // note: assumes there is only one .sidepanel and only one close button that is within the sidepanel structure
+        let _closeButton = _$sidepanel[0].querySelector(_settings.sidepanelCloseElement);
+        if (!_closeButton) {
+            // no close button found ;(
+            console.error("No close button could be found with the selector \""+ _settings.sidepanelCloseElement + "\"\.");
+            console.warn("This probably isn't what is intended‽");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
 
     // make one single set of settings from defaults and any options passed in on construction
     function defineSettings(defaults, options) {
@@ -141,17 +176,15 @@
         };
     }
 
-    // CLOSE the sidepanel - case: normal.
-    // when link destination is an anchor within the current page.
-    // presumes: called as event callback, with .bind(this) to give access the main sidepanel object
+    // OPEN the sidepanel
     SidePanelCollapse.prototype.sidepanelOpen = function(e) {
 
-        // local method.
-        // return a function with closure to use as the event handler:
+        // event method:
+        // return a function with closure as the event handler.
         // when the sidebar opening is completed, manually change the duration of transition
         // so that closing uses a custom duration.
         // this is overriding the default Bootstrap behavior, where duration is set by the css .collapsing class.
-        // presumes event is on the sidenav DOM element itself.
+        // requires that event is on the sidenav DOM element itself.
         function whenTransitionEnds(duration) {
             let eventEnds = function (e) {
                 e.target.style.transitionDuration = duration;
@@ -163,7 +196,7 @@
         let _this = this;  // convenience shorthand
         let _backdrop = this.backdrop;  // convenience shorthand
 
-        // initiate the showing
+        // initiate the showing if setting is truthy
         if (_backdrop) {
             _backdrop.show();
         }
@@ -205,27 +238,29 @@
     // presumes: invoked as event callback, with .bind() to give access the main sidepanel object
     SidePanelCollapse.prototype.sidepanelClose = function(e) {
 
-        // local method.
-        // a function to use as the event handler:
+        console.log ("close normal:", e);
+        debugger;
+
+        // event method:
         // when hiding/closing is complete, remove the transition duration override so that
         // the fallback, css-defined duration, will apply when the sidebar is shown/opened again.
         // presumes event is on the sidenav DOM element itself.
         function whenTransitionEnds(e) {
+            console.log ("close normal: ended\n");
             e.target.style.transitionDuration = null;
         }
 
-        //e.preventDefault();
+        e.preventDefault();
 
         let _this = this;  // convenience shorthand
         let _backdrop = this.backdrop;  // convenience shorthand
 
-        if (_this.$sidepanel.hasClass("show")) {
-            _this.hideManually();
-        }
-
         // set a jquery event listener to run once on the Bootstrap "is hidden" event,
         // then initiate the hiding
         _this.$sidepanel.one("hidden.bs.collapse", whenTransitionEnds);
+        if (_this.$sidepanel.hasClass("show")) {
+            _this.hideManually();
+        }
         if (_backdrop) {
             _backdrop.hide();
         }
@@ -248,7 +283,7 @@
         // event method:
         // send page to link destination
         function whenTransitionEnds(destination) {
-            console.log ("ended");
+            console.log ("close to link: ended");
             // window.location = destination;
         }
 
@@ -355,7 +390,7 @@
         // try to select and cache the sidepanel element
         let _$sidepanel = this.$sidepanel = $(_settings.sidepanelElement);  // convenience shorthand
 
-        // check if sidepanel exists on the page. if yes, then initialize
+        // check if sidepanel exists on the page. (check length because this is a jquery selector/object). if yes, then initialize
         if (_$sidepanel.length) {
 
             // sidepanel exists!
@@ -366,27 +401,21 @@
 
             // (try to) select and cache the close button element.
             // note: assumes there is only one .sidepanel and only one close button that is within the sidepanel structure
-            try {
-                this.sidepanelCloseButton = _$sidepanel[0].querySelector(_settings.sidepanelCloseElement);
+            this.sidepanelCloseButton = _$sidepanel[0].querySelector(_settings.sidepanelCloseElement);
+            if (this.sidepanelCloseButton) {
                 this.sidepanelCloseButton.addEventListener("click", this.sidepanelClose.bind(this), false);
-            } catch (e) {
-                console.warn("No close button could be found.", e);
-
+            } else {
+                // no close button found ;(
+                console.error("No close button could be found with the selector \""+ _settings.sidepanelCloseElement + "\"\.");
+                console.warn("This probably isn't what is intended‽");
             }
-
-//             this.sidepanelCloseButton = _$sidepanel[0].querySelector(_settings.sidepanelCloseElement);
-//
-//             if (this.sidepanelCloseButton) {
-//                 // set event on the close button so that click will close the sidenav
-//                 this.sidepanelCloseButton.addEventListener("click", this.sidepanelClose.bind(this), false);
-//             }
 
             // if enabled, create and insert the backdrop element so it is ready to go
             this.backdrop = _settings.backdropEnabled ? new Backdrop(this) : false;
 
         } else {
             // no sidepanel ;(
-            console.error("No sidepanel element could be found with selector \""+ _settings.sidepanelElement + "\"\.");
+            console.error("No sidepanel element could be found with the selector \""+ _settings.sidepanelElement + "\"\.");
             console.warn("Sidepanel was not created.");
         };
 
