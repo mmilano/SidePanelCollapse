@@ -89,36 +89,6 @@
         sidePanelIsOpenClass: "sidepanel-shown",
     };
 
-    // validate the configuration settings at once.
-    // only validating the key selectors required for initialization of the sidepanel
-    function validateSettings(_settings) {
-
-        let isValid = true;  // presume true until proven otherwise
-
-        // sidepanel
-        // check if sidepanel exists in the page. (check length because this is a jquery selector/object).
-        let _$sidepanel = $(_settings.sidepanelElement);  // convenience shorthand
-        if (!_$sidepanel.length) {
-            // no sidepanel ;(
-            console.error("No sidepanel element could be found with the selector \""+ _settings.sidepanelElement + "\"\.");
-            isValid = false;
-        }
-
-        // sidepanel close button
-        // (try to) find the close button element.
-        // note: assumes there is only one .sidepanel and only one close button that is within the sidepanel structure
-        let _closeButton = _$sidepanel[0].querySelector(_settings.sidepanelCloseElement);
-        if (!_closeButton) {
-            // no close button found ;(
-            console.error("No close button could be found with the selector \""+ _settings.sidepanelCloseElement + "\"\.");
-            console.warn("This probably isn't what is intended‽");
-            isValid = false;
-        }
-
-        return isValid;
-    }
-
-
     // make one single set of settings from defaults and any options passed in on construction
     function defineSettings(defaults, options) {
 
@@ -378,7 +348,7 @@
     // constructor
     function SidePanelCollapse(options) {
 
-        let _settings = this.settings = defineSettings(defaults, options);
+        let _settings = this.settings = defineSettings(defaults, options);  // convenience shorthand
 
         // durationShow is a special case, because it is the one duration value that is initially in the css rule
         // so if the configuration options have a custom value, the css variable needs to be updated
@@ -390,14 +360,16 @@
         // try to select and cache the sidepanel element
         let _$sidepanel = this.$sidepanel = $(_settings.sidepanelElement);  // convenience shorthand
 
-        // check if sidepanel exists on the page. (check length because this is a jquery selector/object). if yes, then initialize
-        if (_$sidepanel.length) {
+        // check if sidepanel exists on the page.
+        // check length because this is a jquery selector/object.
+        // if yes, then initialize
+        if (this.$sidepanel.length) {
 
             // sidepanel exists!
             // add event listener for Bootstrap collapse "show" event
             // show.bs.collapse: This event fires immediately when the show instance method is called.
             // use jquery event (and not regular javascript) because Bootstrap uses jquery-land events.
-            _$sidepanel.on("show.bs.collapse", this.sidepanelOpen.bind(this));
+            this.$sidepanel.on("show.bs.collapse", this.sidepanelOpen.bind(this));
 
             // (try to) select and cache the close button element.
             // note: assumes there is only one .sidepanel and only one close button that is within the sidepanel structure
@@ -406,6 +378,7 @@
                 this.sidepanelCloseButton.addEventListener("click", this.sidepanelClose.bind(this), false);
             } else {
                 // no close button found ;(
+                // the sidepanel will be initialized, but it won't close.
                 console.error("No close button could be found with the selector \""+ _settings.sidepanelCloseElement + "\"\.");
                 console.warn("This probably isn't what is intended‽");
             }
@@ -414,11 +387,11 @@
             this.backdrop = _settings.backdropEnabled ? new Backdrop(this) : false;
 
         } else {
-            // no sidepanel ;(
-            console.error("No sidepanel element could be found with the selector \""+ _settings.sidepanelElement + "\"\.");
+            // no sidepanel :(
+            this.$sidepanel = false;
+            console.error("No Sidepanel element could be found with the selector \""+ _settings.sidepanelElement + "\"\.");
             console.warn("Sidepanel was not created.");
         };
-
     };
 
     return SidePanelCollapse;
