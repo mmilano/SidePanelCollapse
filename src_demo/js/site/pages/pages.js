@@ -128,8 +128,8 @@ var pages = {
             sidepanelElement: "#sidePanel",
             sidepanelCloseElement: ".sidepanel-close",
 
-            durationHide: "4s",
-            durationHideFast: "5s",
+            durationHide: "2s",
+            durationHideFast: "1s",
             backdropStyle: "dark",
         };
 
