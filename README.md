@@ -172,4 +172,8 @@ It could be adapted; maybe the next time I need something to amuse myself.
 | sidePanelIsOpenClass  | css class name | sidepanel-shown | css class that is added to the document `<body>` when sidepanel shows, removed when it hides. For use in enabling any specific styles that should apply when sidepanel is open. |
 
     
-        
+
+
+
+The css and javascript has been compiled or transpiled (respectively) to a browser target of ` ["> 0.5%"].`
+If you need a broader target range, adjust these values in the gulpfile and rebuild the files.
