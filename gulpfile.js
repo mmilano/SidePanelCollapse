@@ -947,7 +947,7 @@ function watchJSSidePanel(done) {
     var watcherJSsidepanel =  gulp.watch(paths_sidepanel.js_sourceGLOB);
     watcherJSsidepanel.on("error", err => glog("watch js error: " + err.message));
     watcherJSsidepanel.on("change", path => glog("js changed >>> " + path));
-    watcherJSsidepanel.on("change", gulp.series("lint:js-sidepanel", "demoify:sidepanel", "scriptify:sidepanel"));
+    watcherJSsidepanel.on("change", gulp.series("lint:js-sidepanel", "browserify:site", "demoify:sidepanel", "scriptify:sidepanel"));
 	done();
 }
 
