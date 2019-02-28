@@ -4,11 +4,13 @@
 // can also override .sidepanel styles here
 
 
-$sidenav-width-big:                     260px;
-$sidenav-width-small:                   $sidenav-width-big - 20;  // adjustment for smaller window sizes
+$sidenav-width-large:                   260px;
+$sidenav-width-small:                   $sidenav-width-large - 20;  // adjustment for smaller window sizes
 
 $sidenav-background-color:              #062B62;
 $sidenav-header-color:                  #001B4E;
+$sidenav-border-color:                  desaturate(lighten($sidenav-background-color, 13.33333%), 33.33333%);
+
 $sidenav-closeButton-height:            36px;
 
 $sidenav-close-position-small:          193px;
@@ -37,6 +39,7 @@ $group-color-transition-duration:       0.9s;
     overflow-x: hidden;
     padding: 0;
     background-color: $sidenav-background-color;
+    border-left: 1px solid $sidenav-border-color;
 
     // because the width of the top-level sidepanel is changed during the collapse event by Bootstrap,
     // an interior element is used to maintain a fixed width for the content.
@@ -172,7 +175,7 @@ $group-color-transition-duration:       0.9s;
 
     .sidenav {
         .sidenav-content {
-            width: $sidenav-width-big;
+            width: $sidenav-width-large;
         }
 
         .nav-link {
