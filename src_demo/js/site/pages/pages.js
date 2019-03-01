@@ -126,9 +126,9 @@ var pages = {
         // sidepanel options for this site
         var sidepanelOptions = {
             sidepanelElement: "#sidePanel",
-            sidepanelCloseElement: ".sidepanel-close",
-
-            durationHide: "2s",
+            sidepanelCloseElement: ".sidePanel-close",
+             durationShow: "5s",
+            durationHide: "5s",
             durationHideFast: "1s",
             backdropStyle: "dark",
         };

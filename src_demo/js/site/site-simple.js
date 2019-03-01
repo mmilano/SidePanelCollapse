@@ -7,7 +7,7 @@
 
 var sidepanelOptions = {
     sidepanelElement: "#sidePanel",
-    sidepanelCloseElement: ".sidepanel-close",
+    sidepanelCloseElement: ".sidePanel-close",
 };
 // initialize and instantiate a new sidepanel for the page
 var sidepanel = new SidePanelCollapse();
