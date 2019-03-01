@@ -8,9 +8,9 @@ var siteHome = "/site/";
 
 var siteData = {
 
-    "site_name": "Bootstrap 4 Sidebar",
-    "title": "Bootstrap 4: Horizontal Sliding Sidebar Example",
-    "description": "An example project to demo using the Bootstrap 4 'collapse' component to make a vertical sidebar slide horizontally, with variable timing.",
+    "site_name": "Bootstrap v4 Sidebar",
+    "title": "Horizontal Sliding Sidebar Example",
+    "description": "An example project to demo using the Bootstrap v4 'collapse' component to make a vertical sidebar slide horizontally, with variable timing.",
     "project-url": "http://www.stochasticnotions.com/",
 
     // site meta keywords
