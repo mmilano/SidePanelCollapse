@@ -3,6 +3,8 @@
 // .sidenav styles add .sidepanel styles
 // can also override .sidepanel styles here
 
+// sidepanel universal values
+$sidenav-zindex:                        $zindex-fixed + 1;  // z-index of Bootstrap4 default nav, plus 1, to put .sidepanel above the nav
 
 $sidenav-width-large:                   260px;
 $sidenav-width-small:                   $sidenav-width-large - 20;  // adjustment for smaller window sizes
@@ -31,7 +33,7 @@ $group-color-transition-duration:       0.9s;
 
 
 .sidenav {
-    z-index: $sidepanel-zindex;
+    z-index: $sidenav-zindex;
     position: fixed;
     top: 0;
     right: 0;  // the default position = right side of window
