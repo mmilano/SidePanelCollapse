@@ -7,6 +7,10 @@ body {
     font-family: $font-family-primary;
 }
 
+h1, h2, b, strong{
+    font-weight: $font-weight-semibold;
+}
+
 // defaults for ALL nav-links
 .nav-link {
 
@@ -22,7 +26,6 @@ body {
         transition: color $nav-item-color-transition-duration ease;
     }
 }
-
 
 // PRIMARY NAVBAR //
 
@@ -41,7 +44,6 @@ body {
     color: $text-color-nav-default;
     font-weight: $font-weight-semibold;
 }
-
 
 // SECTION TYPES //
 
@@ -73,9 +75,6 @@ footer {
     left: 0;
     right: 0;
 }
-
-
-// index page //
 
 #introduction {
     background-color: $background-color-intro;
