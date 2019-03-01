@@ -15,8 +15,9 @@
 $sidepanel-zindex:                        $zindex-fixed + 1;  // z-index of Bootstrap4 default nav, plus 1, to put .sidepanel above the nav
 
 // sidepanel transitions
-$sidepanel-transition-function:           ease;
+$sidepanel-transition-function:           ease-in;
 
+// default durations
 $sidepanel-duration-show:                 1.05s;  // leisurely opening
 $sidepanel-duration-hide:                 0.33s;  // quick closing
 $sidepanel-duration-hide-fast:            0.11s;  // very fast closing
@@ -37,9 +38,9 @@ $sidepanel-backdrop-duration-hide:        0.11s;
     // the page's javascript can access/extract them when needed.
     // see sidePanel.js for usage of the values.
     // scoped locally to .sidepanel
-    --sidepanelDurationShow: #{$sidepanel-duration-show};
-    --sidepanelDurationHide: #{$sidepanel-duration-hide};
-    --sidepanelDurationHideFast: #{$sidepanel-duration-hide-fast};
+    --durationShow: #{$sidepanel-duration-show};
+    --durationHide: #{$sidepanel-duration-hide};
+    --durationHideFast: #{$sidepanel-duration-hide-fast};
 
     // transition properties
     // default on load to have no transition duration (therefore no effect) so that there is no slide-out animation shown when the page first loads (in some cases).
@@ -54,7 +55,7 @@ $sidepanel-backdrop-duration-hide:        0.11s;
         // duration value defined to use the css variable rather than scss variable so that the duration can be customized at runtime.
         // if this is never going to happen, this could be simplified as just
         // transition-duration: $sidepanel-duration-show;
-        transition-duration: var(--sidepanelDurationShow);  // default duration. will be in effect for opening the sidepanel, but is overridden by javascript when closing
+        transition-duration: var(--durationShow);  // default duration. will be in effect for opening the sidepanel, but is overridden by javascript when closing
     }
 }
 
