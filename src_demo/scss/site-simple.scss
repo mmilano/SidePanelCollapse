@@ -9,16 +9,9 @@
 // shared values and scss functions
 @import "common/_variables";
 
-// styles for the general site
-// sidepanelCollapse: incorporate the scss into the build
-// 'includePaths' option (in gulpfile) allows this to find /src/sidePanelCollapse/
-// include it before site's sidenav styles to allow overriding in the second file
-@import "sidePanelCollapse";
-//
-
 @import "main/_sidenav-simple";
 
-// styles specific to individual pages
+// styles specific to individual page
 @import "pages/_page-index-simple";
 
 // styles for specific elements
