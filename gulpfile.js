@@ -678,7 +678,7 @@ function watchSCSS_sidepanel(done) {
     var watcherSCSS =  gulp.watch(paths_sidepanel.scss_sourceGLOB);
     watcherSCSS.on("error", err => glog("watch scss error: " + err));
     watcherSCSS.on("unlink", path => glog(path + " was deleted"));
-    watcherSCSS.on("change", gulp.series("compile:scss-sidepanel"));
+    watcherSCSS.on("change", gulp.parallel("compile:scss-sidepanel", "compile:scss"));
     done();
 }
 
