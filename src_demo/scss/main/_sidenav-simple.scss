@@ -49,7 +49,6 @@ $sidenav-list-space-left:               25px;
         display: block;  // override Bootstrap
     }
 
-
     // bar at top of the sidenav. visually extends the horizontal primary navbar,
     // and contains the "X" close icon
     .sidenav-header {
@@ -70,7 +69,6 @@ $sidenav-list-space-left:               25px;
         margin-left: 177px; // visually adjust the close button to match the position of the sandwich menu button in the primary nav
     }
 }
-
 
 // for larger windows
 @include media-breakpoint-up(md) {
