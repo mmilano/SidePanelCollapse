@@ -163,7 +163,7 @@ It could be adapted; maybe the next time I need something to amuse myself.
 | name | possible values | default | description |
 | ---- | --------------- | ------- | ----------- |
 | sidepanelElement      | css class name | `#sidePanel` | css selector for the top-level of the sidepanel |
-| sidepanelCloseElement | css class name | `.sidepanel-close` | css selector for the close button, containing the close icon, visible when the sidepanel is displayed |
+| sidepanelCloseElement | css class name | `.sidePanel-close` | css selector for the close button, containing the close icon, visible when the sidepanel is displayed |
 | durationShow          | css transition-duration | 1.0s | Duration for sidepanel opening transition
 | durationHide          | css transition-duration | 0.33s | Duration for sidepanel closing transition
 | durationHideFast          | css transition-duration | 0.11s | Duration for sidepanel closing transition
@@ -177,3 +177,20 @@ It could be adapted; maybe the next time I need something to amuse myself.
 
 The css and javascript has been compiled or transpiled (respectively) to a browser target of ` ["> 0.5%"].`
 If you need a broader target range, adjust these values in the gulpfile and rebuild the files.
+
+
+
+
+## Closing the Sidepanel
+
+SidePanelCollapse is designed on the assumption that there is a "close' `<button>` element within the sidepanel.
+In the example demos, this is the "x" glyph in the sidepanel header bar that overlaps and covers the opening menu glyph.
+
+The "sidepanelCloseElement" option can be provided with a css selector to specify a custom closing element
+that adheres to the regular Bootstrap collapse `.navbar-toggler` behavior.
+        
+
+the sidepanel will also close if the backdrop is "clicked" (i.e. anywhere in the page window other than the sidepanel iteself), 
+the ESCAPE key is pressed,
+or if any of the links in the sidepanel are clicked.
+
