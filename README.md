@@ -194,3 +194,36 @@ the sidepanel will also close if the backdrop is "clicked" (i.e. anywhere in the
 the ESCAPE key is pressed,
 or if any of the links in the sidepanel are clicked.
 
+
+
+
+
+
+
+
+#Demo examples
+
+# Simple
+This is a single page demo with the 
+
+
+sidepanel library is included in the page as a linked files
+`<script src="/demo/public/js/sidePanelCollapse/sidePanelCollapse.min.js"></script>`
+`<link href="/demo/public/css/sidePanelCollapse/sidePanelCollapse.min.css" rel="stylesheet">`
+
+
+the sidepanel menu displays at all window sizes
+uses the default SidePanel settings for configuration
+
+
+# Multi-page
+
+This is a more complex 
+
+The sidepanel scss and javascript source are incorporated into the build process,
+and are part of the resulting .css and .js files respectively.
+
+
+
+On the initial index page, the sidepanel menu displays only at large window sizes or smaller; at extra-large, the primary navigation displays in a row.
+On the sub-pages, the sidepanel menu displays at all window sizes.
