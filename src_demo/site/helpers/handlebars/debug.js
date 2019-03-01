@@ -3,25 +3,51 @@
 //
 // debug info
 //
-// @param optionalValue1, optionalValue2: optional values passed to the helper to also display
+// @param argument1, argument2: optional values passed to the helper to also display
+//
+// usage: {{debug argument1, argument2}}
 // *****
 
-module.exports = function(optionalValue1, optionalValue2) {
+module.exports = function(argument1, argument2) {
+    let v;
 
-    console.log("====================");
+    console.log("DEBUG ====================");
     console.log("Current Context");
     console.log(this);
+    console.log("====================");
 
-    if (optionalValue1) {
-        console.log("Value 1:");
-        console.log("===========");
-        console.log(optionalValue1);
+
+    val = (typeof argument1 === "undefined") ? false : argument1;
+    if (val) {
+
+        console.log ("ARGUMENT 1:");
+        if (typeof val === "object") {
+
+           for (var i in val) {
+                var k = val[i];
+                console.log(i + ":" + k);
+            };
+
+        } else {
+            console.log("value:", val);
+
+        }
     }
 
-    if (optionalValue2) {
-        console.log("Value 2:");
-        console.log("===========");
-        console.log(optionalValue2);
+    val = (typeof argument2 === "undefined") ? false : argument2;
+    if (val) {
+        console.log ("ARGUMENT 2:");
+        if (typeof val === "object") {
+
+           for (var i in val) {
+                var k = val[i];
+                console.log(i + ":" + k);
+            };
+
+        } else {
+            console.log("value:", val);
+
+        }
     }
 
     console.log("end debug ====================");
