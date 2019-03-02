@@ -18,11 +18,11 @@
 // 'includePaths' option (in gulpfile) allows this to find /src/sidePanelCollapse/
 // include it before site's sidenav styles to allow overriding in the second file
 @import "sidePanelCollapse";
-//
 
+// styles for sidenav
 @import "main/_sidenav";
 
-// styles specific to individual pages
+// styles specific to individual page
 @import "pages/_page-index";
 @import "pages/_gallery";
 @import "pages/_pages";
