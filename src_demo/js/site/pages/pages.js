@@ -88,7 +88,7 @@ var pages = {
         //
         // for scrollspy, these need to be css selectors for the <nav> element
         const navHorizontal = "#primaryNav";
-        const navVertical = "#sidepanelNav";
+        const navVertical = "#sidePanelNav";
 
         // deal with the 2 possible primary navs on the page:
         // start by checking
