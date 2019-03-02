@@ -12,6 +12,10 @@ module.exports = function(argument1, argument2) {
     let v;
 
     console.log("DEBUG ====================");
+    console.log("Current Context");
+    console.log(this);
+    console.log("====================");
+
 
     val = (typeof argument1 === "undefined") ? false : argument1;
     if (val) {
