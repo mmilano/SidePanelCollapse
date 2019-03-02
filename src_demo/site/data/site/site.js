@@ -1,13 +1,13 @@
 // BUILD DATA
-// define sitewide values and data
-
+// used in panini page generation
+//
+// define sitewide values and data,
 // PRIMARY site metadata and meta details
 
-var siteBase = "./site/";
-var siteHome = "/site/";
+var siteBase = "./";
+var siteHome = "/";
 
 var siteData = {
-
     "site_name": "Bootstrap v4 Sidebar",
     "title": "Horizontal Sliding Sidebar Example",
     "description": "An example project to demo using the Bootstrap v4 'collapse' component to make a vertical sidebar slide horizontally, with variable timing.",
@@ -47,10 +47,10 @@ var siteData = {
         },
     },
 
-    "site-version":       "1.0",
-    "site-root":          siteBase,
-    "site-home":          siteHome,
-    "path-pages":      "./",
+    "site-version":     "1.0",
+    "site-root":        siteBase,
+    "site-home":        siteHome,
+    "path-pages":       "./",
 };
 
 module.exports = siteData;
