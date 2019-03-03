@@ -15,19 +15,19 @@ $sidenav-border-color:                  desaturate(lighten($sidenav-background-c
 
 $sidenav-closeButton-height:            36px;
 
-$sidenav-close-position-small:          193px;
-$sidenav-close-position-large:          183px;
+$sidenav-close-xposition-small:         193px;
+$sidenav-close-xposition-large:         183px;
 
-$sidenav-list-offset-top:               $page-primarynavbar-height + 12;  // visual margin from top of sidebar to account for the header bar
-$sidenav-list-space-left-large:         25px;
-$sidenav-list-space-left-small:         20px;  // adjustment for smaller window sizes
-$sidenav-list-space-right:              25px;
+$sidenav-nav-offset-top:                $page-primarynavbar-height + 12;  // visual margin from top of sidebar to account for the header bar
+$sidenav-nav-margin-left-large:         25px;
+$sidenav-nav-margin-left-small:         20px;  // adjustment for smaller window sizes
+$sidenav-nav-margin-right:              25px;
 
 $pagelist-link-hover-color:             $link-color-highlight;
-$pagelist-item-font-size:               0.83rem;
+$nav-item-font-size:                    0.83rem;
 
-$pagelist-group-font-color:             #476978;
-$pagelist-group-font-color-hover:       #3D88C9;
+$nav-group-font-color:             #476978;
+$nav-group-font-color-hover:       #3D88C9;
 
 $group-color-transition-duration:       0.9s;
 
@@ -90,13 +90,13 @@ $group-color-transition-duration:       0.9s;
     }
 
     .sidenav-close {
-        margin-left: $sidenav-close-position-small; // visually adjust the close button to match the position of the sandwich menu button in the primary nav
+        margin-left: $sidenav-close-xposition-small; // visually adjust the close button to match the x-position of the sandwich menu button in the primary nav
     }
 
     // main content = list of the pages
-    .sidenav-list {
-        margin-top: $sidenav-list-offset-top;
-        padding: 0 0 3rem $sidenav-list-space-left-small;
+    .sidenav-nav {
+        margin-top: $sidenav-nav-offset-top;
+        padding: 0 0 3rem $sidenav-nav-margin-left-small;
         font-family: $font-family-secondary;
         font-size: .9rem;
     }
@@ -116,7 +116,7 @@ $group-color-transition-duration:       0.9s;
     margin-bottom: 1.5rem;
     padding-bottom: .6rem;
 
-    font-size: $pagelist-item-font-size;
+    font-size: $nav-item-font-size;
     line-height: 1.35;
 }
 
@@ -127,7 +127,7 @@ $group-color-transition-duration:       0.9s;
 
     &:hover {
        .pagelist-group {
-            color: $pagelist-group-font-color-hover;
+            color: $nav-group-font-color-hover;
         }
     }
 }
@@ -140,14 +140,14 @@ $group-color-transition-duration:       0.9s;
     font-weight: $font-weight-bold;
     letter-spacing: 0.03rem;
 
-    color: $pagelist-group-font-color;
+    color: $nav-group-font-color;
     transition: color $group-color-transition-duration;
 }
 
 // item
 .sidenav-item {
     display: block;
-    padding: .35rem 1rem .37rem 0rem;
+    padding: .35rem 1rem .37rem 0;
 
     font-weight: $font-weight-normal;
 
@@ -165,7 +165,7 @@ $group-color-transition-duration:       0.9s;
 // specific styles for display on the index page (aka homepage)
 .theme-homepage {
     .sidenav {
-        .sidenav-list {
+        .sidenav-nav {
             font-size: 1rem;
         }
     }
@@ -186,11 +186,11 @@ $group-color-transition-duration:       0.9s;
         }
 
         .sidenav-close {
-            margin-left: $sidenav-close-position-large;
+            margin-left: $sidenav-close-xposition-large;
         }
 
-        .sidenav-list {
-            padding: 0 0 3rem $sidenav-list-space-left-large;
+        .sidenav-nav {
+            padding: 0 0 3rem $sidenav-nav-margin-left-large;
             font-size: 1rem;
         }
     }
