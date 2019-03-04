@@ -2,18 +2,19 @@
 "use strict";
 
 const gulp =            require("gulp");
-var HubRegistry =       require("gulp-hub");
+// const HubRegistry =       require("gulp-hub");
 
 // gulp debuggin'
 const glog =            require("fancy-log");
 const debug =           require("gulp-debug");
 
-// css sass/scss
+// css, sass/scss
 const sass =            require("gulp-sass");
 const autoprefixer =    require("gulp-autoprefixer");
 const cssnano =         require("gulp-cssnano");
+const csslint =         require("gulp-csslint");
 
-// javascript
+// js
 const jshint =          require("gulp-jshint");
 const browserify =      require("browserify");
 const source =          require("vinyl-source-stream");
@@ -26,10 +27,10 @@ const uglify =          require("gulp-uglify");
 const htmlvalidator =   require("gulp-html");
 const htmlmin =         require("gulp-htmlmin");
 
-// content/template system
+// content/template tool
 const panini =          require("panini");
 
-// tools
+// gulp tools
 const noop =            require("gulp-noop");
 const glob =            require("glob");
 const sourcemaps =      require("gulp-sourcemaps");
@@ -37,17 +38,15 @@ const rename =          require("gulp-rename");
 const notify =          require("gulp-notify");
 const notify_node =     require("node-notifier");  // existing dependency of gulp-notify
 const filter =          require("gulp-filter");
-const through =         require("through2");
-
+// const through =         require("through2");
 const cached =          require("gulp-cached");
 const changed =         require("gulp-changed");
 const changedInPlace =  require("gulp-changed-in-place");
-
 const del =             require("del");
 const node_path =       require("path");
 const fs_utimes =       require("fs").utimes;
 
-// dev webserver
+// dev/demo webserver
 const connect =         require("gulp-connect");
 const networkInterfaces = require("os").networkInterfaces();
 
@@ -82,12 +81,13 @@ const paths = {
     icoDestination: siteBuildDestinationRoot,
 
     // css
-    scssSource: [ siteSourceRoot + "scss/site.scss", siteSourceRoot + "scss/site-simple.scss"],
+    scssSource: [siteSourceRoot + "scss/site.scss", siteSourceRoot + "scss/site-simple.scss"],
     scssSourceGLOB: siteSourceRoot + "scss/**/*.scss",
     cssDestination: siteBuildDestinationRoot + "public/css",
+    cssDestinationGLOB: siteBuildDestinationRoot + "public/css/**/*.css",
 
-    cssVendorGLOB: siteSourceRoot + "css/vendor/**/*",
-    cssVendorDestination: siteBuildDestinationRoot + "public/css",
+    // cssVendorGLOB: siteSourceRoot + "css/vendor/**/*",
+    // cssVendorDestination: siteBuildDestinationRoot + "public/css",
 
     // js
     jsDestination: siteBuildDestinationRoot + "public/js/",
@@ -156,6 +156,7 @@ const paths_sidepanel = {
 
     scss_source: [sidepanelSourceRoot + "scss/sidePanelCollapse.scss"],
     scss_sourceGLOB: [sidepanelSourceRoot + "scss/**/*"],
+    css_built: "./dist/css",
 
     js_source: [sidepanelSourceRoot + "js/**/SidePanelCollapse.js"],
     js_sourceGLOB: [sidepanelSourceRoot + "js/**/*"],
@@ -176,13 +177,13 @@ function refreshPanini() {
 }
 
 // utility function for displaying individual file names within a gulp stream
-function logFile(title) {
-    function logger (file, enc, callback) {
-        glog (title, ":", file.path);
-        callback( null, file);
-    }
-    return through.obj(logger);
-}
+// function logFile(title) {
+//     function logger (file, enc, callback) {
+//         glog (title, ":", file.path);
+//         callback( null, file);
+//     }
+//     return through.obj(logger);
+// }
 
 
 // webserver
@@ -350,16 +351,16 @@ const options_changedInPlace = {
 };
 
 const options_pageBuild = {
-    root:       paths.siteBuildSource,             // Path to the root folder all the page build elements live in
+    root:       paths.siteBuildSource,             // path to the root folder all the page build stuff lives in
     layouts:    paths.siteBuildSource + "layouts/",
     pageLayouts: {
                 "index.html":           "layout-index",
                 "index-simple.html":    "layout-index-simple",
                 "pages/page/**/*":      "layout-page",
                 },
-    helpers:    paths.siteBuildSource + "helpers/",       // path to a folder containing Panini helpers
+    helpers:    paths.siteBuildSource + "helpers/",       // path to a folder containing panini & handlebars helpers
     partials:   paths.siteBuildSource + "partials/",      // path to a folder containing HTML partials
-    data:       [paths.siteBuildSource + "data/", paths.siteBuildSource + "pages/data/"],  // path to all data, which (the data) will be passed in to every page; relative to root.
+    data:       [paths.siteBuildSource + "data/", paths.siteBuildSource + "pages/data/"],  // path to all data, which (the data) will be passed in and available to to every page
     debug: 0
 };
 
@@ -469,7 +470,6 @@ function buildPageOnDataChange(done) {
 
 // **************
 // **************
-
 
 
 function buildpagesCHANGED(done) {
@@ -603,8 +603,8 @@ function buildcss(src, dest, outputfile, options, mode) {
     });
 }
 
-// compile the sidepanel.scss independently of the full demo site scss for standalone,
-// and output the css files
+// compile the sidepanel.scss for standalone,
+// and output the css files, both normal and minified
 function maketheCSS_sidepanel(done) {
 
     let scss_sidepanel_source = "./src/scss/sidePanelCollapse.scss";
@@ -629,20 +629,33 @@ function maketheCSS_sidepanel(done) {
         precision: 4
     };
 
-    let options_build = options_scss_normal;
-    buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, options_build, "normal")
+    buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, options_scss_normal, "normal")
     .then(msg => {glog(msg)})
     .catch(err => {glog(err)});
 
-    options_build = options_scss_production;
-    buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, options_build, "production")
+    buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, options_scss_production, "production")
     .then(msg => {glog(msg)})
     .catch(err => {glog(err)});
 
     done();
 }
 
+// process sidepanel.css for demo
+// in this case, just copy the /dist files to /demo
+function copyCSS_sidepanel(done) {
+
+    let css_sidepanel_dist = "./dist/css/**/*";
+    let css_sidepanel_destination = "./demo/public/css/sidePanelCollapse";
+
+    gulp
+    .src(css_sidepanel_dist)
+    .pipe(gulp.dest(css_sidepanel_destination));
+    done();
+}
+
+
 gulp.task("compile:scss-sidepanel", maketheCSS_sidepanel);
+gulp.task("copy:css-sidepanel", copyCSS_sidepanel);
 
 function maketheCSS_demo(buildMode, done) {
 
@@ -673,12 +686,32 @@ gulp.task("compile:scss_production", function(done) {
 });
 
 
+const options_css_lint = {
+    "order-alphabetical": false,
+};
+
+
+function lintCSS_demo() {
+    let src = paths.cssDestinationGLOB;
+
+    return gulp
+    .src(src)
+    .pipe(debug({title: "css check:"}))
+    .pipe(csslint(options_css_lint))
+    .pipe(csslint.formatter());
+}
+
+gulp.task("lint:css-demo", lintCSS_demo);
+
+
+
 // watch the sidepanel scss sources
 function watchSCSS_sidepanel(done) {
     var watcherSCSS =  gulp.watch(paths_sidepanel.scss_sourceGLOB);
     watcherSCSS.on("error", err => glog("watch scss error: " + err));
     watcherSCSS.on("unlink", path => glog(path + " was deleted"));
-    watcherSCSS.on("change", gulp.parallel("compile:scss-sidepanel", "compile:scss"));
+    watcherSCSS.on("change", path => glog("scss changed: "+ path));
+    watcherSCSS.on("change", gulp.series("compile:scss-sidepanel", "copy:css-sidepanel", "compile:scss"));
     done();
 }
 
@@ -693,6 +726,7 @@ function watchSCSS(done) {
 
 gulp.task("watch:scss-sidepanel", watchSCSS_sidepanel);
 gulp.task("watch:scss", watchSCSS);
+
 
 
 // **********
