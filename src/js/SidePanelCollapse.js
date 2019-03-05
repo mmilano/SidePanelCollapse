@@ -36,9 +36,6 @@
 
     var _proto = SidePanelCollapse.prototype;  // convenience shorthand
 
-    // module globals
-    var $sidepanel, sidepanelCloseButton, settings = {};
-
     // funciton to reconcile/extend two objects
     function extend(a, b) {
         for (var p in b) {
