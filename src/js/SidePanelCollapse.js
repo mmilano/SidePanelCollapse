@@ -118,7 +118,7 @@
     // utility function
     // can't close yet, so queue the collapse.
     _proto.queueCollapse = function() {
-        let closeHandler = this.close;
+        let closeHandler = this.closeFast;
         this.$sidepanel.one("shown.bs.collapse", function(e) {
             console.log ("cued up closing");
             // manually change the duration of transition so that closing uses a custom duration.
@@ -180,10 +180,6 @@
     // manually activate the 'hide' action
     _proto.hide = function() {
         console.log(">>> call: hide manually");
-
-        let _sidepanel = this.$sidepanel[0];
-
-        let isCollapsing = _sidepanel.classList.contains("collapsing");
 
         // if collapsing transition is happening, then
         // need to wait until the transition has completed
