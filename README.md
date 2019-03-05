@@ -196,12 +196,34 @@ or if any of the links in the sidepanel are clicked.
 
 
 
+# The Irrevocable Opening
+
+The sidepanel uses the Bootstrap collapse functionality to open the panel.
+Therefore, the boostrap.js functions handle the 
+
+Unfortunately, this means that once the open transition has been started, 
+it cannot be stopped. it is irrevocable.
+
+And any attempt to interrupt the transition and 
+
+this means that if the user wants to close the sidepanel while it is opening, 
+
+it cannot be closed until it has finished opening.
+
+This ia an existing bootstrap ~~condition~~ limitation.
+
+
+In order to work with this 
+SidePanelCollapse makes the design decision to queue up the closing action, and when the open transition is completed, the sidepanel will be immediately closed.
 
 
 
 
 
-#Demo examples
+
+
+
+# Demo examples
 
 # Simple
 This is a single page demo with the 
@@ -227,3 +249,18 @@ and are part of the resulting .css and .js files respectively.
 
 On the initial index page, the sidepanel menu displays only at large window sizes or smaller; at extra-large, the primary navigation displays in a row.
 On the sub-pages, the sidepanel menu displays at all window sizes.
+
+
+
+
+
+
+## future work
+
+- configure the open and close methods so that they can be called on their own and will function 
+    right now, the opening is activated on the click of the menu, but doesnt initiate the opening action
+- allow the opening menu to also be the close, and no separate close element
+- the sidepanel can be on the right OR the left side of the window
+- function to dispose of the sidepanel
+
+- do i need to check for the sidepanel scss values in setting defaults?
