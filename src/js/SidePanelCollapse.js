@@ -316,7 +316,7 @@
         // the fallback, css-defined duration, will apply when the sidebar is shown/opened again.
         // presumes event is on the sidenav DOM element itself.
         function whenTransitionEnds(e) {
-            console.log ("close normal: ended");
+            console.log ("close: ended");
             e.target.style.transitionDuration = null;
         }
 
@@ -463,7 +463,7 @@
 
             // sidepanel exists!
 
-            // the open and close actions will be called (mostly) as eventlisteners, and all of them need to access the correct 'this,'
+            // the open and close methods will be called as event listeners, and all of them need to access the correct 'this,'
             // which is troublesome with event listeners.
             // so, pre-bind them all up for convenience and sanity as the default
             this.open = this.open.bind(this);
