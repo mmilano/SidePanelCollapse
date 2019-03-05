@@ -396,8 +396,8 @@
     //
     // show the backdrop
     Backdrop.prototype.show = function() {
-        let _backdrop = this.backdrop;
-        _backdrop.classList.add("show", "fadein");
+        let _element = this.element;
+        _element.classList.add("show", "fadein");
     };
 
     // hide the backdrop
@@ -405,24 +405,23 @@
         console.log ("call: backdrop hide");
 
         // method to run when fadeout animation ends - cleans up, and hides the backdrop.
-        // because event is on backdrop, event.target is the backdrop. uses backdrop from there for simplicity
+        // because event is on backdrop, event.target is the backdrop - uses backdrop from there for simplicity
         function whenAnimationEnds(e) {
-            let _backdrop = e.target;
-            _backdrop.classList.remove("show");
+            e.target.classList.remove("show");
             // note: if eventlistener {once: true} is not available (browser support), then eventListener can be removed manually, e.g.:
             // _backdrop.removeEventListener("animationend", whenAnimationEnds, true);
         }
 
-        let _backdrop = this.backdrop;
+        let _element = this.element;
         // when the backdrop's animationend event fires, call method. only once, since the listener is added again when it displays again.
-        _backdrop.addEventListener("animationend", whenAnimationEnds, {once: true, passive: true, capture: true});
+        _element.addEventListener("animationend", whenAnimationEnds, {once: true, passive: true, capture: true});
         // remove ".fadein" to activate the default animation (fadeout)
-        _backdrop.classList.remove("fadein");
+        _element.classList.remove("fadein");
     };
 
-    // Backdrop constructor
+    // Backdrop object constructor
     // @param: provide backdrop with access to the parent sidepanel object that is created...
-    function Backdrop(_SidePanel) {
+    function Backdrop(_sidepanel) {
 
         // create the backdrop HTML element
         function create(style) {
@@ -437,16 +436,13 @@
         }
 
         // construction
-        this.SidePanel = _SidePanel;  // store reference to the SidePanel 'parent'
+        // this.SidePanel = _sidepanel;  // store reference to the SidePanel 'parent'
 
         // create the backdrop DOM element and store it
-        this.backdrop = create(_SidePanel.settings.backdropStyle);
-
-        // add event listener for action on the backdrop;
-        this.backdrop.addEventListener("click", _SidePanel.close, true);
+        this.element = create(_sidepanel.settings.backdropStyle);
 
         // add backdrop to the page DOM
-        insert(this.backdrop);
+        insert(this.element);
     };
 
     // end Backdrop
@@ -496,21 +492,20 @@
             } else {
                 // no close button found :(
                 // the sidepanel will be initialized, but it won't close.
-                console.error("SidePanel: no close button could be found with the selector \""+ _settings.sidepanelCloseElement + "\"\.");
+                console.warn("SidePanel: no close button could be found with the selector \""+ _settings.sidepanelCloseElement + "\".");
             }
 
-            // if enabled, create the backdrop element
-            this.backdrop = _settings.backdropEnabled ? new Backdrop(this) : false;
+            // if enabled, create the backdrop element and add event listener
             if (_settings.backdropEnabled) {
-
+                this.backdrop = new Backdrop(this);
+                this.backdrop.element.addEventListener("click", this.close, true);
             }
-
 
             console.log ("sidepanel initialization: end");
         } else {
             // no sidepanel :(
             this.$sidepanel = false;
-            console.error("No SidePanel element could be found with the selector \""+ _settings.sidepanelElement + "\"\.");
+            console.error("No SidePanel element could be found with the selector \""+ _settings.sidepanelElement + "\".");
             console.warn("SidePanel was not created.");
         };
     };
