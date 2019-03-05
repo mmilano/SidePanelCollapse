@@ -55,11 +55,12 @@
         // reconcile with any provided options that will supercede/overwrite defaults
         _settings = extend(_settings, options);
 
-        // special flag for the durationShow setting because durationShow is a special case.
-        // see constructor.
-        if (options !== undefined && options.durationShow !== undefined) {
-            _settings.durationShowCustom = true;
-        }
+        // if backdropEnabled is anything other than "true", it is false
+        _settings.backdropEnabled = (_settings.backdropEnabled === true) ? true : false;
+
+        // create a flag for the durationShow setting because durationShow is a special case.
+        // see SidePanelCollapse constructor.
+        _settings.durationShowCustom = (options !== undefined && options.durationShow !== undefined) ? true : false;
 
         return _settings;
     }
@@ -228,21 +229,20 @@
 
         console.log ("open: start:", e);
 
-        // return a function as the event handler.
+        // return a function as the event listener.
         // when the sidebar opening is completed,
         // manually change the duration of transition so that closing uses a custom duration.
-        // this is overriding the default Bootstrap behavior, where duration is set by the css .collapsing class rule.
+        // this is overriding the default Bootstrap behavior, where duration is set by the css .collapsing class rule, and the same
+        // duration is used for both opening and closing.
         // requires: event is on the sidepanel DOM element itself.
         function whenTransitionEnds(_this) {
-            let listener = function(e) {
-                console.log ("TransitionEnds...", this);
+            // var duration = _this.settings.durationHide;
+            var listener = function(e) {
+                console.log ("transition end", this);
                 // when sidepanel is open, set keyup event handler - to catch ESC key and close sidepanel if pressed
-                // document.addEventListener("keyup", this.keyHandleBound);
-
-                e.target.style.transitionDuration = this.settings.durationHide;
+                // e.target.style.transitionDuration = duration;
             };
-
-            return listener.bind(_this);
+            return listener;
         }
 
         // if open is invoked via default bootstrap behavior, then event will exist (e.g. click), and .collapse("show") will have been
@@ -252,19 +252,16 @@
             this.show();
         }
 
-        let _backdrop = this.backdrop;  // convenience shorthand
         // initiate the showing of backdrop if backdrop is truthy
-        if (_backdrop) {
-            _backdrop.show();
+        if (this.backdrop) {
+            this.backdrop.show();
         }
+
         // set keyup event handler - to catch ESC key and close sidepanel if pressed
         document.addEventListener("keyup", this.handleKey);
 
-
         // jquery event listener to run ONCE on the Bootstrap "is shown" event
         this.$sidepanel.one("shown.bs.collapse", whenTransitionEnds(this));
-
-        // console.log ("open: on shown event set");
 
         // add a class to the document's <body>.
         // for convenience - use to enable any styles to apply only when sidepanel is open
@@ -286,23 +283,13 @@
         // convert the jauery node to HTML node
 
         function callback(e) {
-            // debugger;
             if (e.target && e.target.nodeName === "A") {
                 console.log("item ", e.target.textContent, "was clicked");
                 console.log("currenttarget: ", e.currentTarget);
             }
-            // e.preventDefault();
+            e.preventDefault();
         }
 
-
-
-        // let sidenavLinks = _this.$sidepanel[0].getElementsByClassName("nav")[0];
-//         sidenavLinks.addEventListener("click", function(e) {
-//             if (e.target && e.target.nodeName === "a") {
-//                 console.log("item ", e.target.textContent, " was clicked");
-//                 console.log("currenttarget: ", e.currentTarget);
-//             }
-//         });
         let sidenavLinks = this.$sidepanel[0].getElementsByTagName("a");
         let ln = sidenavLinks.length;
         for (var i = 0; i < ln; i++) {
@@ -317,12 +304,13 @@
         document.body.classList.remove(_this.settings.sidePanelIsOpenClass);
     }
 
+
     // CLOSE the sidepanel - case: normal.
     // when link destination is an anchor within the current page.
     // expects: invoked as event callback, with .bind(this) to give access to the main sidepanel object
     _proto.close = function(e) {
         console.log ("close: start:", e);
-        console.log ("close: this:", this);
+
         // event listener:
         // when hiding/closing is complete, remove the transition duration override so that
         // the fallback, css-defined duration, will apply when the sidebar is shown/opened again.
@@ -332,25 +320,20 @@
             e.target.style.transitionDuration = null;
         }
 
-        if (this.isCollapsing()) {
-
-
-        }
-
-
-
         // if open is invoked via event (e.g. click the button), then event will exist.
-        // if called independently, e will not exist
+        // if called independently, event will not exist.
         if (e !== undefined) {
             e.preventDefault();
         }
 
         // set a jquery event listener to run ONCE on the Bootstrap "is hidden" event,
-        // then initiate the hiding
         this.$sidepanel.one("hidden.bs.collapse", whenTransitionEnds);
-        this.hide();
 
-        console.log ("close: hide manually");
+        // because this is close 'normal', change close duration to normal speed. use native DOM element within jquery object
+        this.$sidepanel[0].style.transitionDuration = this.settings.durationHide;
+
+        // initiate the hiding
+        this.hide();
 
         // initiate the hiding of backdrop if backdrop is truthy
         if (this.backdrop) {
@@ -360,7 +343,7 @@
         // cleanup
         closeCleanup(this);
 
-        console.log ("close:done.");
+        console.log ("close: done.");
     };
 
     // CLOSE the sidepanel - case: extra-fast!!
@@ -371,15 +354,13 @@
     _proto.closeFast = function(e) {
 
         console.log ("closeFast: start:", e);
-        console.log ("closeFast: this:", this);
         // event listener:
         // send page to link destination
         function whenTransitionEnds(e) {
             console.log ("close Fast: ended");
-            // e.target.style.transitionDuration = null;
+            e.target.style.transitionDuration = null;
             // window.location = e.target.href;
         }
-
 
         // if open is invoked via event (e.g. click link), then event will exist.
         // if called independently, e will not exist
@@ -387,22 +368,25 @@
             e.preventDefault();
         }
 
+        // set a jquery event listener to run once on the Bootstrap "is hidden" event,
+        this.$sidepanel.on("hidden.bs.collapse", whenTransitionEnds(e));
+
+        // because this is close 'fast', change close duration to fast speed. use native DOM element within jquery object
+        this.$sidepanel[0].style.transitionDuration = this.settings.durationHideFast;
+
+        // initiate the closing
+        this.hide();
+
         // initiate the hiding of backdrop if backdrop is truthy
         if (this.backdrop) {
             this.backdrop.hide();
         }
 
-        // because this is close fast, change close duration to fast speed. use native DOM element from jquery object
-        this.$sidepanel[0].style.transitionDuration = this.settings.durationHideFast;
-        // set a jquery event listener to run once on the Bootstrap "is hidden" event,
-        this.$sidepanel.on("hidden.bs.collapse", whenTransitionEnds(e));
-
-        // initiate the closing
-        this.hide();
-
         // cleanup
         // not really needed if link is going to a new page/page render, but, why not
         closeCleanup(this);
+
+        console.log ("closeFAST: done.");
     };
 
 
@@ -419,12 +403,10 @@
     // hide the backdrop
     Backdrop.prototype.hide = function() {
         console.log ("call: backdrop hide");
+
         // method to run when fadeout animation ends - cleans up, and hides the backdrop.
         // because event is on backdrop, event.target is the backdrop. uses backdrop from there for simplicity
         function whenAnimationEnds(e) {
-            console.log("   backdrop hide - animation end");
-            console.log("   target     :" + e.target);
-            console.log("   curr target:" + e.currentTarget);
             let _backdrop = e.target;
             _backdrop.classList.remove("show");
             // note: if eventlistener {once: true} is not available (browser support), then eventListener can be removed manually, e.g.:
@@ -434,21 +416,13 @@
         let _backdrop = this.backdrop;
         // when the backdrop's animationend event fires, call method. only once, since the listener is added again when it displays again.
         _backdrop.addEventListener("animationend", whenAnimationEnds, {once: true, passive: true, capture: true});
-        // _backdrop.addEventListener("animationend", whenAnimationEnds, true);
-        // removing "fadein" enables and activates the default animation to fadeout
+        // remove ".fadein" to activate the default animation (fadeout)
         _backdrop.classList.remove("fadein");
     };
 
-    // *****
     // Backdrop constructor
     // @param: provide backdrop with access to the parent sidepanel object that is created...
     function Backdrop(_SidePanel) {
-
-        // placeholder for the parent SidePanel object
-        var SidePanel = null;
-
-        // placeholder for the backdrop DOM element that will be created and assigned
-        var backdrop = null;
 
         // create the backdrop HTML element
         function create(style) {
@@ -457,28 +431,19 @@
             return el;
         }
 
-        // insert the backdrop HTML element into the document DOM (at bottom)
+        // insert the element into the document DOM (at bottom)
         function insert(el) {
             document.body.appendChild(el);
         }
 
-        // construction:
-        this.SidePanel = _SidePanel;  // store reference to the sidepanel 'parent'
+        // construction
+        this.SidePanel = _SidePanel;  // store reference to the SidePanel 'parent'
 
-        // create the backdrop element and store it
+        // create the backdrop DOM element and store it
         this.backdrop = create(_SidePanel.settings.backdropStyle);
 
         // add event listener for action on the backdrop;
-        // bind the event function to the parent SidePanel object
-        // let closeBound = this.SidePanel.close.bind(_SidePanel);
-         let closer = _SidePanel.close;
-        var testfunction = function(e) {
-            console.log ("----- clicked backdrop -----");
-            closer(e);
-        };
-
-//         this.backdrop.addEventListener("click", closeBound, true);
-        this.backdrop.addEventListener("click", testfunction, true);
+        this.backdrop.addEventListener("click", _SidePanel.close, true);
 
         // add backdrop to the page DOM
         insert(this.backdrop);
@@ -501,11 +466,10 @@
         if (this.$sidepanel.length) {
 
             // sidepanel exists!
-            console.log ("sidepanel initialization: start");
 
             // the open and close actions will be called (mostly) as eventlisteners, and all of them need to access the correct 'this,'
             // which is troublesome with event listeners.
-            // so, bind them all up for convenience and sanity as the default
+            // so, pre-bind them all up for convenience and sanity as the default
             this.open = this.open.bind(this);
             this.close = this.close.bind(this);
             this.closeFast = this.closeFast.bind(this);
@@ -519,9 +483,8 @@
 
             // add event listener for Bootstrap collapse "show" event
             // - docs: https://getbootstrap.com/docs/4.3/components/collapse/#events
-            // - "show.bs.collapse: This event fires immediately when the show instance method is called."
+            // - show.bs.collapse: This event fires immediately when the show instance method is called.
             // uses jquery event (and not regular javascript) because Bootstrap uses jquery-land events.
-            // this.$sidepanel.on("show.bs.collapse", this.open.bind(this));
             this.$sidepanel.on("show.bs.collapse", this.open);
 
             // (try to) select and cache the close button element.
@@ -536,11 +499,12 @@
                 console.error("SidePanel: no close button could be found with the selector \""+ _settings.sidepanelCloseElement + "\"\.");
             }
 
-            // if enabled, create the backdrop element so it is ready to go
+            // if enabled, create the backdrop element
             this.backdrop = _settings.backdropEnabled ? new Backdrop(this) : false;
+            if (_settings.backdropEnabled) {
 
-            // define and cache a callback that will set the transition-duration value for closing the sidepanel (normal mode)
-            // this.whenOpenEnds = whenTransitionEnds_open(_settings.durationHide);
+            }
+
 
             console.log ("sidepanel initialization: end");
         } else {
