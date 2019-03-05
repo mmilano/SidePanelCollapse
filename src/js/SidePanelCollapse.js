@@ -108,8 +108,8 @@
     };
 
 
-//     figure out if the sidepanel is currently transitioning or not
-//     '.collapsing' is applied to the element by Bootstrap during the transition, removed when finished
+    // determine if the sidepanel is currently transitioning or not
+    // '.collapsing' is applied to the element by Bootstrap during the transition, removed when finished
     _proto.isCollapsing = function() {
         let _sidepanel = this.$sidepanel[0];
         return _sidepanel.classList.contains("collapsing");
@@ -118,13 +118,14 @@
 
     // utility function
     // can't close yet, so queue the close/collapse
-    _proto.queueClose = function() {
-        let closeHandler = this.closeFast;
-        this.$sidepanel.one("shown.bs.collapse", function(e) {
-            console.log ("> cued up closing:", e.target.style.transitionDuration);
-            closeHandler(e);
-        });
-    };
+//     _proto.queueClose = function() {
+//         let closeHandler = this.closeFast;
+//         this.closeBehavior = "fast";
+//         this.$sidepanel.one("shown.bs.collapse", function(e) {
+//             console.log ("> cued up closing:", e.target.style.transitionDuration);
+//             closeHandler(e);
+//         });
+//     };
 
 
     // keypress handler
@@ -137,17 +138,7 @@
 
         switch(key) {
             case 27: // 'esc'
-                // console.log(">>> ESC key <<<");
-
-                //  if esc is pressed during transition, it will mess things up. so do not try to close until the transition ends.
-                // check to see if collapsing is still in progress.
-                // if so, add event so that when the transition is finished, it will then go and close immediately
                 this.close(e);
-//                 if (this.isCollapsing()) {
-//                     this.queueClose();
-//                 } else {
-//                     this.close(e);
-//                 }
                 break;
         }
     };
@@ -180,45 +171,7 @@
     // manually activate the 'hide' action
     _proto.hide = function() {
         console.log(">>> call: hide manually");
-
-        // if collapsing transition is happening, then
-        // need to wait until the transition has completed
-        // first need to 'end' the existing transition.
-        // * get current width
-        // * set width to be current width
-        // * then go on to hide
-        // if (isCollapsing) {
-        if (this.isCollapsing()) {
-            // let cur_width = _sidepanel.getBoundingClientRect().width;  // result doe not include units
-            let cur_width = getComputedStyle(_sidepanel).width;  // result includes units
-            console.warn("****** STOP MIDWAY");
-            console.warn("****** STATE: " + isCollapsing);
-            console.warn("****** WIDTH: " + cur_width);
-            // console.warn("****CS WIDTH: " + getComputedStyle(_sidepanel).width);
-            _sidepanel.classList.remove("collapsing");
-            _sidepanel.classList.add("show", "collapse");
-            _sidepanel.classList.toggle("freeze");
-
-            _sidepanel.style.width = cur_width;
-            cur_width = getComputedStyle(_sidepanel).width;  // another invocation. trying to force repaint
-                   // this.$sidepanel.collapse("setTransitioning"); // interrupt ???
-            // _sidepanel.style.transitionDuration = "0s";
-
-
-            // since transition is in effect,
-            // wait till end, clean up, and then immediately close
-            var _this = this;
-            this.$sidepanel.one("shown.bs.collapse", function(e) {
-                console.log (" ****************** close ASAP");
-                _this.hide();  // invoke Bootstrap function
-
-            });
-
-
-        } else {
-            this.$sidepanel.collapse("hide");  // invoke Bootstrap function
-        };
-
+        this.$sidepanel.collapse("hide");  // invoke Bootstrap function
     };
 
 
@@ -246,7 +199,7 @@
 
         // if open is invoked via default bootstrap behavior, then event will exist (e.g. click), and .collapse("show") will have been
         // invoked by bootstrap already.
-        // if called independently, e will not exist, and "show" will have to be called manually
+        // if called independently, e will not exist, and "show" will need to be called manually.
         if (e === undefined) {
             this.show();
         }
@@ -298,19 +251,34 @@
 
 
     // cleanup actions to do when the panel closes
-    function closeCleanup(_this) {
-        document.removeEventListener("keyup", _this.handleKey);
-        document.body.classList.remove(_this.settings.sidePanelIsOpenClass);
-    }
+//     function closeCleanup(_this) {
+//         document.removeEventListener("keyup", _this.handleKey);
+//         document.body.classList.remove(_this.settings.sidePanelIsOpenClass);
+//     }
+
+//     funcion closeCommon() {
+//
+//         // initiate the hiding
+//         this.hide();
+//
+//         // initiate the hiding of backdrop if backdrop is truthy
+//         if (this.backdrop) {
+//             this.backdrop.hide();
+//         }
+//
+//         // cleanup
+//         closeCleanup(this);
+//
+//     }
+
 
 
     // CLOSE the sidepanel - case: normal.
-    // when link destination is an anchor within the current page.
     // expects: invoked as event callback, with .bind(this) to give access to the main sidepanel object
     _proto.close = function(e) {
-        console.log ("close: start:", e);
+        console.log ("close: start:", this.closeBehavior);
 
-        // event listener:
+        // event handler:
         // when hiding/closing is complete, remove the transition duration override so that
         // the fallback, css-defined duration, will apply when the sidebar is shown/opened again.
         // presumes event is on the sidenav DOM element itself.
@@ -324,7 +292,14 @@
         // so that when the transition is finished, it will then go and close immediately
         if (this.isCollapsing()) {
             console.log (" >>> close: queuing the close");
-            this.queueClose();
+
+            let closeHandler = this.close;
+            this.closeBehavior = "fast";
+            this.$sidepanel.one("shown.bs.collapse", function(e) {
+                console.log ("> cued up closing");
+                closeHandler(e);
+            });
+
             return;
         }
 
@@ -338,8 +313,17 @@
         // set a jquery event listener to run ONCE on the Bootstrap "is hidden" event,
         this.$sidepanel.one("hidden.bs.collapse", transitionEnds);
 
-        // because this is close 'normal', change close duration to normal speed. use native DOM element within jquery object
-        this.$sidepanel[0].style.transitionDuration = this.settings.durationHide;
+        let duration;
+        switch(this.closeBehavior) {
+            case "fast":
+                duration = this.settings.durationHideFast;
+                this.closeBehavior = "normal";  // reset
+                break;
+            default:
+                duration = this.settings.durationHide;
+        }
+        // set duration for closing transition. use native DOM element within jquery object.
+        this.$sidepanel[0].style.transitionDuration = duration;
 
         // initiate the hiding
         this.hide();
@@ -350,55 +334,54 @@
         }
 
         // cleanup
-        closeCleanup(this);
+        document.removeEventListener("keyup", this.handleKey);
+        document.body.classList.remove(this.settings.sidePanelIsOpenClass);
 
         console.log ("close: done.");
     };
 
     // CLOSE the sidepanel - case: extra-fast!!
-    // when page is changing because sidepanel link leads to a new page,
-    // close the sidenav with fast transition duration,
-    // then go to link destination.
+    // close the sidenav with fast transition duration.
     // expects: invoked as event callback, with .bind(this) to give access to the main sidepanel object
-    _proto.closeFast = function(e) {
-
-        console.log ("closeFast: start:", e);
-        // event listener:
-        // send page to link destination
-        function transitionEnds(e) {
-            console.warn ("close Fast: ****** call transition ended ***********", e);
-            e.target.style.transitionDuration = null;
-            // window.location = e.target.href;
-        }
-
-        // if open is invoked via event (e.g. click link), then event will exist.
-        // if called independently, e will not exist
-        if (e !== undefined) {
-            e.preventDefault();
-        }
-
-        // set a jquery event listener to run once on the Bootstrap "is hidden" event,
-        this.$sidepanel.one("hidden.bs.collapse", transitionEnds);
-
-        console.warn ("close Fast (1): duration:", e.target.style.transitionDuration);
-
-        // because this is close 'fast', change close duration to fast speed. use native DOM element within jquery object
-        this.$sidepanel[0].style.transitionDuration = this.settings.durationHideFast;
-
-        // initiate the closing
-        this.hide();
-
-        // initiate the hiding of backdrop if backdrop is truthy
-        if (this.backdrop) {
-            this.backdrop.hide();
-        }
-
-        // cleanup
-        // not really needed if link is going to a new page/page render, but, why not
-        closeCleanup(this);
-
-        console.log ("closeFAST: done.");
-    };
+//     _proto.closeFast = function(e) {
+//
+//         console.log ("closeFast: start:", e);
+//
+//         // event handler:
+//         // when hiding/closing is complete, remove the transition duration override
+//         // send page to link destination
+//         function transitionEnds(e) {
+//             console.log ("close Fast transition ended *****", e);
+//             e.target.style.transitionDuration = null;
+//             // window.location = e.target.href;
+//         }
+//
+//         // if open is invoked via event (e.g. click link), then event will exist.
+//         // if called independently, e will not exist
+//         if (e !== undefined) {
+//             e.preventDefault();
+//         }
+//
+//         // set a jquery event listener to run once on the Bootstrap "is hidden" event,
+//         this.$sidepanel.one("hidden.bs.collapse", transitionEnds);
+//
+//         // because this is close 'fast', change close duration to fast speed. use native DOM element within jquery object
+//         this.$sidepanel[0].style.transitionDuration = this.settings.durationHideFast;
+//
+//         // initiate the closing
+//         this.hide();
+//
+//         // initiate the hiding of backdrop if backdrop is truthy
+//         if (this.backdrop) {
+//             this.backdrop.hide();
+//         }
+//
+//         // cleanup
+//         // not really needed if link is going to a new page/page render, but, why not
+//         closeCleanup(this);
+//
+//         console.log ("closeFAST: done.");
+//     };
 
 
     // *****
@@ -479,7 +462,7 @@
             // so, pre-bind them all up for convenience and sanity as the default
             this.open = this.open.bind(this);
             this.close = this.close.bind(this);
-            this.closeFast = this.closeFast.bind(this);
+            // this.closeFast = this.closeFast.bind(this);
             this.handleKey = this.handleKey.bind(this);
 
             // durationShow is a special case, because it is the one duration value that is set initially in the css.
@@ -511,6 +494,8 @@
                 this.backdrop = new Backdrop(this);
                 this.backdrop.element.addEventListener("click", this.close, true);
             }
+
+            this.closeBehavior = "normal";  // default behavior when closing the sidepanel
 
             console.log ("sidepanel initialization: end");
         } else {
