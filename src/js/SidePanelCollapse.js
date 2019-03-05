@@ -117,13 +117,11 @@
 
 
     // utility function
-    // can't close yet, so queue the collapse.
-    _proto.queueCollapse = function() {
+    // can't close yet, so queue the close/collapse
+    _proto.queueClose = function() {
         let closeHandler = this.closeFast;
         this.$sidepanel.one("shown.bs.collapse", function(e) {
-            console.log ("cued up closing");
-            // manually change the duration of transition so that closing uses a custom duration.
-            let transitionDuration = e.target.style.transitionDuration;
+            console.log ("> cued up closing:", e.target.style.transitionDuration);
             closeHandler(e);
         });
     };
@@ -135,7 +133,7 @@
     _proto.handleKey = function(e) {
         let key = e.keyCode;
 
-        console.log ("key handler");
+        console.log ("key handler:", key);
 
         switch(key) {
             case 27: // 'esc'
@@ -144,11 +142,12 @@
                 //  if esc is pressed during transition, it will mess things up. so do not try to close until the transition ends.
                 // check to see if collapsing is still in progress.
                 // if so, add event so that when the transition is finished, it will then go and close immediately
-                if (this.isCollapsing()) {
-                    this.queueCollapse();
-                } else {
-                    this.close(e);
-                }
+                this.close(e);
+//                 if (this.isCollapsing()) {
+//                     this.queueClose();
+//                 } else {
+//                     this.close(e);
+//                 }
                 break;
         }
     };
@@ -315,11 +314,21 @@
         // when hiding/closing is complete, remove the transition duration override so that
         // the fallback, css-defined duration, will apply when the sidebar is shown/opened again.
         // presumes event is on the sidenav DOM element itself.
-        function whenTransitionEnds(e) {
-            console.log ("close: ended");
+        function transitionEnds(e) {
+            console.log ("close transition: ended", e);
             e.target.style.transitionDuration = null;
         }
 
+        // check to see if collapsing is still in progress.
+        // if so, stop the normal close process, and reroute via event
+        // so that when the transition is finished, it will then go and close immediately
+        if (this.isCollapsing()) {
+            console.log (" >>> close: queuing the close");
+            this.queueClose();
+            return;
+        }
+
+        console.warn ("*** close runs ***");
         // if open is invoked via event (e.g. click the button), then event will exist.
         // if called independently, event will not exist.
         if (e !== undefined) {
@@ -327,7 +336,7 @@
         }
 
         // set a jquery event listener to run ONCE on the Bootstrap "is hidden" event,
-        this.$sidepanel.one("hidden.bs.collapse", whenTransitionEnds);
+        this.$sidepanel.one("hidden.bs.collapse", transitionEnds);
 
         // because this is close 'normal', change close duration to normal speed. use native DOM element within jquery object
         this.$sidepanel[0].style.transitionDuration = this.settings.durationHide;
@@ -356,8 +365,8 @@
         console.log ("closeFast: start:", e);
         // event listener:
         // send page to link destination
-        function whenTransitionEnds(e) {
-            console.log ("close Fast: ended");
+        function transitionEnds(e) {
+            console.warn ("close Fast: ****** call transition ended ***********", e);
             e.target.style.transitionDuration = null;
             // window.location = e.target.href;
         }
@@ -369,7 +378,9 @@
         }
 
         // set a jquery event listener to run once on the Bootstrap "is hidden" event,
-        this.$sidepanel.on("hidden.bs.collapse", whenTransitionEnds(e));
+        this.$sidepanel.one("hidden.bs.collapse", transitionEnds);
+
+        console.warn ("close Fast (1): duration:", e.target.style.transitionDuration);
 
         // because this is close 'fast', change close duration to fast speed. use native DOM element within jquery object
         this.$sidepanel[0].style.transitionDuration = this.settings.durationHideFast;
