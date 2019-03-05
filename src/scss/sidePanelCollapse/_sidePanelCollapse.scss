@@ -57,7 +57,14 @@ $sidepanel-backdrop-duration-hide:        0.11s;
         // transition-duration: $sidepanel-duration-show;
         transition-duration: var(--durationShow);  // default duration. will be in effect for opening the sidepanel, but is overridden by javascript when closing
     }
+
+    &.freeze {
+        transition: none !important;
+        background-color: #F00 !important;
+        transform: translateZ(0);
+    }
 }
+
 
 // backdrop = the full-page background displayed when sidenav is displayed (open).
 // intended to screen the existing page content.
