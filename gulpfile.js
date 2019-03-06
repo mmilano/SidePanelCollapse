@@ -398,12 +398,12 @@ function buildPagesAll(done) {
 
 
 // build the index.html page(s)
-function buildIndexPage(done) {
+function buildIndex(done) {
     let stream = buildPage(paths.indexPageSRC, paths.indexPageBuildDestination);
     return stream;
 }
 
-gulp.task("build:index", buildIndexPage);
+gulp.task("build:index", buildIndex);
 gulp.task("build:pages", buildPagesAll);
 
 
