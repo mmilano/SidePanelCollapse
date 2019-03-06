@@ -369,32 +369,33 @@ const options_pageBuild = {
     debug: 0
 };
 
-// build all the known pages,
-// including the index page(s)
-function buildPagesAll(done) {
-    refreshPanini();
-
-    return gulp
-    .src(paths.siteSourcePagesContentGLOB)
-    .pipe(panini(options_pageBuild))
-    .pipe(debug({title: "pages building:"}))
-    .pipe(gulp.dest(paths.pagesBuildDestinationRoot))  // ./build/
-    .pipe(debug({title: "BUILT page:"}));
-}
 
 // build a single page or glob of pages
-function buildPage(page, destination) {
+// will build page(s) with no condition checks
+function buildPage(pages, destination) {
     refreshPanini();
 
     return gulp
-    .src(page)
-    .pipe(changedInPlace(options_changedInPlace))
-    .pipe(debug({title: "building:"}))
+    .src(pages)
+    // .pipe(debug({title: "building:"}))
     .pipe(panini(options_pageBuild))
-    // .pipe(gulp.dest(paths.pagesBuildDestinationRoot))
     .pipe(gulp.dest(destination))
     .pipe(debug({title: "BUILT page:"}));
 }
+
+
+// build all the known pages,
+// including the index page(s)
+function buildPagesAll(done) {
+
+    let src = paths.siteSourcePagesContentGLOB;
+    let dest = paths.pagesBuildDestinationRoot;
+
+    buildPage(src, dest);
+    glog("BUILDING ALL PAGES");
+    done();
+}
+
 
 // build the index.html page(s)
 function buildIndexPage(done) {
@@ -453,34 +454,50 @@ function constructPagePath(file) {
 // - get the name of the paired page.html file,
 // - and change the mtime on page.html so that it appears to have been changed
 // - which in turn should kick off the rebuild of the page due to other task watching page.html pages
+
+
+function buildPageOnDataChange(dataFile, done) {
+    refreshPanini();
+
+    // given the full path to the html file,
+    // need to remove the common root part of the path that is the pages directory (-pageBuildSourceRoot)
+    // to get the page's own subdirectory
+    let pageFile = constructPagePath(dataFile);
+    glog("data:", dataFile);
+    glog("page:", pageFile);
+
+    buildPage(pageFile, paths.pagesBuildDestinationRoot);
+    done();
+}
+
+
 function watchPageData(done) {
-    var watcherPageData =  gulp.watch(paths.siteSourcePagesDataGLOB);
+    var watcherPageData = gulp.watch(paths.siteSourcePagesDataGLOB);
     watcherPageData.on("error", err => glog("watch error: " + err));
     watcherPageData.on("change", path => glog("data changed >>> " + path));
-
+    watcherPageData.on("change", path => buildPageOnDataChange(path, done));
     done();
 }
 
 
-function buildPageOnDataChange(done) {
-    var watcherPageChange =  gulp.watch(paths.siteSourcePagesDataGLOB);
-    watcherPageChange.on("error", err => glog("watch error: " + err));
-    watcherPageChange.on("change", function(dataFile) {
-        refreshPanini();
-
-        // given the full path to the html file,
-        // need to remove the common root part of the path that is the pages directory (-pageBuildSourceRoot)
-        // to get the page's own subdirectory
-
-        let pageFile = constructPagePath(dataFile);
-        glog("data:", dataFile);
-        glog("page:", pageFile);
-        glog("root destination:", paths.pagesBuildDestinationRoot);
-
-        buildPage(pageFile, paths.pagesBuildDestinationRoot);
-    });
-    done();
-}
+// function buildPageOnDataChange(done) {
+//     var watcherPageChange =  gulp.watch(paths.siteSourcePagesDataGLOB);
+//     watcherPageChange.on("error", err => glog("watch error: " + err));
+//     watcherPageChange.on("change", function(dataFile) {
+//         refreshPanini();
+//
+//         // given the full path to the html file,
+//         // need to remove the common root part of the path that is the pages directory (-pageBuildSourceRoot)
+//         // to get the page's own subdirectory
+//
+//         let pageFile = constructPagePath(dataFile);
+//         // glog("data:", dataFile);
+//         // glog("page:", pageFile);
+//
+//         buildPage(pageFile, paths.pagesBuildDestinationRoot);
+//     });
+//     done();
+// }
 
 
 // **************
@@ -501,7 +518,6 @@ function buildpagesCHANGED(done) {
     })
     .pipe(debug({title: "building:"}))
     .pipe(gulp.dest(paths.pagesBuildDestinationRoot));
-
 }
 
 // watch just the project pages and only build the ones whose html pages changed
@@ -515,7 +531,7 @@ function watchPages(done) {
 	done();
 }
 
-gulp.task("watch:pages", gulp.series(buildPageOnDataChange, watchPageData, watchPages));
+gulp.task("watch:pages", gulp.series(watchPageData, watchPages));
 
 
 // site building: watch the Panini sources and if any of them change, rebuild all the html pages.
