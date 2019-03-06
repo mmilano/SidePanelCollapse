@@ -163,13 +163,17 @@ const paths_sidepanel = {
 };
 
 
-
-
 // simply touch a file so that filesystem thinks the file changed
-function touchNow(file) {
+function touchNow(src) {
     let timenow = Date.now() / 1000;  // https://nodejs.org/docs/latest/api/fs.html#fs_fs_utimes_path_atime_mtime_callback
-    fs_utimes(file, timenow, timenow, function(){return;});
+    if (!Array.isArray(src)) {
+        src = src.split();
+    }
+    src.forEach( function(file) {
+        fs_utimes(file, timenow, timenow, function(){return;});
+    });
 }
+
 
 // tell panini to refresh all the files
 function refreshPanini() {
