@@ -81,7 +81,7 @@ module.exports = function(globalContext, options) {
     }
 
     function renderGroupBegin() {
-        return "<div class=\"pagelist-group\">";
+        return "<div class=\"sidenav-group\">";
     }
 
     function renderGroupEnd() {
