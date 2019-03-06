@@ -690,7 +690,6 @@ const options_css_lint = {
     "order-alphabetical": false,
 };
 
-
 function lintCSS_demo() {
     let src = paths.cssDestinationGLOB;
 
@@ -731,17 +730,6 @@ gulp.task("watch:scss", watchSCSS);
 
 // **********
 // SITE DATA
-
-function touchIndexPage() {
-    return new Promise(function(resolve, reject) {
-        let file = paths.indexPageSRC;
-        touchNow(file);
-        resolve();
-    });
-}
-
-gulp.task("touch:index", touchIndexPage);
-
 
 // site building: watch the gallery data
 // the gallery data is used to generate the set of page cards displayed on the index page,
