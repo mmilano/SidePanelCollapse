@@ -116,7 +116,6 @@ module.exports = function(globalContext, options) {
     // convert 'human-friendly' length to be compatible with the machine-friendly index
     let galleryPagesLength = pagesActive.length < 2 ? 1 : pagesActive.length - 1;
 
-    // generate the menu list element for each active page
     let previousGroup = "";
 
     // currentPage = page where list is being generated
@@ -150,7 +149,7 @@ module.exports = function(globalContext, options) {
             htmlFragment += renderPageName(aPage);
             previousGroup = pageGroup;
         }
-        // check if this is the end of the list of pagess. if so, close out
+        // check if this is the end of the list. if so, close out
         if (index === galleryPagesLength) {
             htmlFragment += renderGroupEnd();
         }
