@@ -5,7 +5,7 @@ module.exports = {
 
     "group": "Page Group",
     "page-title": "A Bootstrap-based Collapsing Sidebar",
-    "page-title-short": "Example Page",
+    "page-title-short": "Example Page title that is much longer than the others",
     "page-title-html": "Example Page",
     "page-meta-description": "Spare ribs tenderloin officia est sint pork loin sirloin beef ribs nulla ea.",
     "overview-short": "Spare ribs tenderloin officia est sint pork loin sirloin beef ribs nulla ea, doner ground round jowl meatball.",
@@ -19,6 +19,4 @@ module.exports = {
         },
         "description": "Spare ribs tenderloin officia est sint pork loin sirloin beef ribs nulla ea.",
     },
-
 };
-

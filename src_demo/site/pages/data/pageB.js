@@ -5,7 +5,7 @@ module.exports = {
 
     "group": "Page Group",
     "page-title": "Voluptate pariatur aliqua beef ribs sed",
-    "page-title-short": "Example Page",
+    "page-title-short": "Example Page B",
     "page-title-html": "Example Page",
     "page-meta-description": "Voluptate pariatur aliqua, beef ribs sed biltong frankfurter.",
     "overview-short": "Voluptate pariatur aliqua, beef ribs sed biltong frankfurter.",
@@ -18,7 +18,5 @@ module.exports = {
             alt: "Voluptate pariatur aliqua, beef ribs sed biltong frankfurter.",
         },
         "description": "Voluptate pariatur aliqua, beef ribs sed biltong frankfurter.",
-
     },
-
 };

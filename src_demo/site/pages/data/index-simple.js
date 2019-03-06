@@ -1,5 +1,5 @@
 // page data js
-// homepage = index page = index.html
+// page = index-simple.html
 
 
 module.exports = {
@@ -9,7 +9,6 @@ module.exports = {
     "page-title": "Example Site",
     "page-title-short": "Example Index Page",
     "page-title-html": "Example Index Page",
-    "page-meta-description": "Spare ribs tenderloin officia est sint pork loin sirloin beef ribs nulla ea.",
+    "page-meta-description": "Spare ribs tenderloin officia est sint pork loin sirloin beef ribs.",
     "overview-short": "Spare ribs tenderloin officia est sint pork loin sirloin beef ribs nulla ea, doner ground round jowl meatball.",
-
 };

@@ -18,7 +18,5 @@ module.exports = {
             alt: "Voluptate pariatur aliqua, beef ribs sed biltong frankfurter.",
         },
         "description": "Voluptate pariatur aliqua, beef ribs sed biltong frankfurter.",
-
     },
-
 };
