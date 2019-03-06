@@ -350,6 +350,9 @@ gulp.task("site:setup", gulp.series("site:clean", "site:copy"));
 //     done();
 // });
 
+
+
+// options for the changed-in-place module
 const options_changedInPlace = {
     firstPass: true,
     howToDetermineDifference: "modification-time"
@@ -470,7 +473,6 @@ function buildPageOnDataChange(dataFile, done) {
     done();
 }
 
-
 function watchPageData(done) {
     var watcherPageData = gulp.watch(paths.siteSourcePagesDataGLOB);
     watcherPageData.on("error", err => glog("watch error: " + err));
@@ -479,27 +481,6 @@ function watchPageData(done) {
     done();
 }
 
-
-// function buildPageOnDataChange(done) {
-//     var watcherPageChange =  gulp.watch(paths.siteSourcePagesDataGLOB);
-//     watcherPageChange.on("error", err => glog("watch error: " + err));
-//     watcherPageChange.on("change", function(dataFile) {
-//         refreshPanini();
-//
-//         // given the full path to the html file,
-//         // need to remove the common root part of the path that is the pages directory (-pageBuildSourceRoot)
-//         // to get the page's own subdirectory
-//
-//         let pageFile = constructPagePath(dataFile);
-//         // glog("data:", dataFile);
-//         // glog("page:", pageFile);
-//
-//         buildPage(pageFile, paths.pagesBuildDestinationRoot);
-//     });
-//     done();
-// }
-
-
 // **************
 // **************
 
@@ -507,7 +488,9 @@ function watchPageData(done) {
 function buildpagesCHANGED(done) {
     panini.refresh(done);
 
-    // uses "changed-in-place" to determine if the source file itself was modified
+    // uses "changed-in-place" to determine if the source file itself was modified.
+    // note: the changed-in-place options of firstpass = true will have the effect of making it build ALL files on first run of build.
+    // as a result, first page change will trigger ALL pages to build; subsequent changes will build just the individual changed pages
     return gulp
     .src(paths.siteSourcePagesContentGLOB)
     .pipe(changedInPlace(options_changedInPlace))
