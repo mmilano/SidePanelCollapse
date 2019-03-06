@@ -4,7 +4,8 @@
 // generate a caption element
 
 
-const trimWhitespace = require("normalize-html-whitespace");
+const basepath = process.cwd();
+const trimWhitespace = require( basepath + "/src_demo/site/lib/trim");
 
 module.exports = function(attr, options) {
     "use strict";

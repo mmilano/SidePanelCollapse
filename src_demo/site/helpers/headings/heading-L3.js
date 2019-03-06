@@ -9,7 +9,8 @@
 // <h3 id="subsection2" class="bitsy bopsy">less simple title</h3>
 
 
-const trimWhitespace = require("normalize-html-whitespace");
+const basepath = process.cwd();
+const trimWhitespace = require( basepath + "/src_demo/site/lib/trim");
 const titlecase = require("ap-style-title-case");
 
 module.exports = function(attr, options) {

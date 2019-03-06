@@ -25,7 +25,8 @@
 
 const panini = require("panini");
 const cheerio = require("cheerio");
-const trimWhitespace = require("normalize-html-whitespace");
+const basepath = process.cwd();
+const trimWhitespace = require( basepath + "/src_demo/site/lib/trim");
 
 module.exports = function(attr, options) {
     /* jshint validthis: true */

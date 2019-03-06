@@ -70,7 +70,6 @@
     "jquery": "^3.3.1",
     "jshint": "^2.10.1",
     "mocha": "^6.0.2",
-    "normalize-html-whitespace": "^1.0.0",
     "panini": "github:mmilano/panini#master",
     "popper.js": "^1.14.7",
     "through2": "^3.0.1",
