@@ -396,7 +396,7 @@ function buildPage(page, destination) {
     .pipe(debug({title: "BUILT page:"}));
 }
 
-// build the index.html page
+// build the index.html page(s)
 function buildIndexPage(done) {
     let stream = buildPage(paths.indexPageSRC, paths.indexPageBuildDestination);
     return stream;
@@ -405,7 +405,6 @@ function buildIndexPage(done) {
 gulp.task("build:index", buildIndexPage);
 gulp.task("build:pages", buildPagesAll);
 
-// source of html files
 
 function watchindexPageSource(done) {
     var watcherIndex = gulp.watch(paths.indexPageSRC);
@@ -424,22 +423,25 @@ gulp.task("watch:index", watchindexPageSource);
 // remove the src path from both files: src/site/pages/data & src/site/pages/page
 function constructPagePath(file) {
 
-    function constructHTMLFilename(file) {
+    function makeHTMLFilename(file) {
         return file + ".html";
     };
 
-    const pathBase = paths.siteBuildSource;  // top portion location of the content pages
-    const pagePathBase = "src/site/pages/";
-    const dataPagePathBase = "src/site/pages/data";
-    const htmlPagePathBase = "src/site/pages/page";
+    const sitePathBase = paths.siteBuildSource;
+
+    const dataPagePathBase = "pages/data";
+    const htmlPagePathBase = "pages/page";
 
     let parsedFile = node_path.parse(file);
-    let filePath = parsedFile.dir;
-    let counterPath = filePath.replace(dataPagePathBase, htmlPagePathBase);
-    let htmlFilename = constructHTMLFilename(parsedFile.name);
+    let htmlFilename = makeHTMLFilename(parsedFile.name);
 
-    // construct path to the html version...
+    let filePath = parsedFile.dir;
+    // replace portion of the path to data (.js) file with path to the html (.html) file
+    let counterPath = filePath.replace(dataPagePathBase, htmlPagePathBase);
+
+    // construct full path to the html version...
     let htmlFile = counterPath + node_path.sep + htmlFilename;
+
     return htmlFile;
 };
 
@@ -451,6 +453,15 @@ function constructPagePath(file) {
 // - get the name of the paired page.html file,
 // - and change the mtime on page.html so that it appears to have been changed
 // - which in turn should kick off the rebuild of the page due to other task watching page.html pages
+function watchPageData(done) {
+    var watcherPageData =  gulp.watch(paths.siteSourcePagesDataGLOB);
+    watcherPageData.on("error", err => glog("watch error: " + err));
+    watcherPageData.on("change", path => glog("data changed >>> " + path));
+
+    done();
+}
+
+
 function buildPageOnDataChange(done) {
     var watcherPageChange =  gulp.watch(paths.siteSourcePagesDataGLOB);
     watcherPageChange.on("error", err => glog("watch error: " + err));
@@ -466,7 +477,6 @@ function buildPageOnDataChange(done) {
         glog("page:", pageFile);
         glog("root destination:", paths.pagesBuildDestinationRoot);
 
-        // let pageSubPath = "/.";
         buildPage(pageFile, paths.pagesBuildDestinationRoot);
     });
     done();
@@ -505,7 +515,7 @@ function watchPages(done) {
 	done();
 }
 
-gulp.task("watch:pages", gulp.series(buildPageOnDataChange, watchPages));
+gulp.task("watch:pages", gulp.series(buildPageOnDataChange, watchPageData, watchPages));
 
 
 // site building: watch the Panini sources and if any of them change, rebuild all the html pages.
