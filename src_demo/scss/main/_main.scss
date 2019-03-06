@@ -41,7 +41,7 @@ a {
 }
 
 h1, h2, h3, h4, h5, h6,
-b, strong, dt {
+b, strong {
     font-weight: $font-weight-semibold;
 }
 
@@ -74,8 +74,3 @@ footer {
     border-top: 1px dotted #BBB;
     font-family: $font-family-secondary;
 }
-
-
-// div {
-// border: 1px dotted #33F;
-// }
