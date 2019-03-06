@@ -276,6 +276,7 @@ function watchImages(done) {
     done();
 }
 
+// copy ico file for demo. pretty much just to avoid the console error that ico file cannot be found
 function copyIco(done) {
     gulp
     .src(paths.icoSource)
