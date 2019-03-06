@@ -72,13 +72,13 @@ $overview-shift:                        -8px;
         margin-bottom: $page-section-spacing-bottom;
     }
 
-    // h2 follwed immediately by h3
-    h2 + h3 {
-        margin-top: 1rem;
-    }
-
-    // extra space above the div when it comes right after a heading
     h2 {
+        // h2 follwed immediately by h3
+        & + h3 {
+            margin-top: 1rem;
+        }
+
+        // extra space above the div when it comes right after a heading
         & + div {
             padding-top: 1.5rem;
         }
