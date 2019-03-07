@@ -11,7 +11,6 @@
 
 const basepath = process.cwd();
 const trimWhitespace = require( basepath + "/src_demo/site/lib/trim");
-
 const titlecase = require("ap-style-title-case");
 
 module.exports = function(attr, options) {
