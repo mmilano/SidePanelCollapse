@@ -100,7 +100,7 @@
         // HTML class attribute:
         // class that is added to the document's <body> element when sidepanel shows, removed when it hides.
         // this is a convenience - for use in enabling any specific styles that should apply when sidepanel is open.
-        sidePanelIsOpenClass: "sidepanel-shown",
+        sidePanelIsOpenClass: "sidepanel-open",
 
         // which side of the window is the sidepanel on.
         // currently the only choice is "right"
@@ -164,20 +164,18 @@
     // expects to be called with this = the sidepanel object (e.g. via bind(), which is set as the default)
     _proto.open = function(e) {
 
-        // return a function as the event listener.
-        // when the sidebar opening is completed,
-        // manually change the duration of transition so that closing uses a custom duration.
-        // this is overriding the default Bootstrap behavior, where duration is set by the css .collapsing class rule, and the same
-        // duration is used for both opening and closing.
-        // requires: event is on the sidepanel DOM element itself.
+        // return a function as the event handler
+        // of things to do when when the sidebar opening is completed.
+        // presumes: event is on the sidepanel DOM element itself.
         function whenTransitionEnds(_this) {
-            // var duration = _this.settings.durationHide;
-            var listener = function(e) {
-                // console.log ("transition end", this);
-                // when sidepanel is open, set keyup event handler - to catch ESC key and close sidepanel if pressed
-                // e.target.style.transitionDuration = duration;
+            let bodyClass = _this.settings.sidePanelIsOpenClass;
+            var handler = function(e) {
+
+                // add a class to the document's <body>.
+                // for convenience - use to enable any styles to apply only when sidepanel is open
+                document.body.classList.add(bodyClass);
             };
-            return listener;
+            return handler;
         }
 
         // if open is invoked via default bootstrap behavior, then event will exist (e.g. click), and .collapse("show") will have been
@@ -198,11 +196,7 @@
         // jquery event listener to run ONCE on the Bootstrap "is shown" event
         this.$sidepanel.one("shown.bs.collapse", whenTransitionEnds(this));
 
-        // add a class to the document's <body>.
-        // for convenience - use to enable any styles to apply only when sidepanel is open
-        document.body.classList.add(this.settings.sidePanelIsOpenClass);
-
-        // manage links in the sidepanel:
+        // links in the sidepanel:
         // if sidepanel links are anchor links, then clicking link should just go to the anchor and close the sidebar.
         // if sidepanel links are to another page, then clicking link should close the navbar (more quickly) and then go to the link destination
 
@@ -278,7 +272,9 @@
         // set a jquery event listener to run ONCE on the Bootstrap "is hidden" event,
         this.$sidepanel.one("hidden.bs.collapse", whenTransitionEnds);
 
-        // set duration for closing transition.
+        // manually set the duration so that closing transition uses a custom duration.
+        // this is overriding the default behavior, where duration is set by the css .collapsing class rule, and the same
+        // duration is used for both opening and closing.
         let duration;
         switch(this.closeBehavior) {
             case "page":
@@ -290,7 +286,7 @@
             default:
                 duration = this.settings.durationHide;
         }
-        // access native DOM element within jquery object.
+        // access native DOM element within jquery object
         this.$sidepanel[0].style.transitionDuration = duration;
 
         // initiate the hiding
