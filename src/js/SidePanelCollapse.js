@@ -55,8 +55,8 @@
         // reconcile with any provided options that will supercede/overwrite defaults
         _settings = extend(_settings, options);
 
-        // if backdropEnabled is anything other than "true", it is false
-        _settings.backdropEnabled = (_settings.backdropEnabled === true) ? true : false;
+        // if backdrop enabled is anything other than "true", it is false
+        _settings.backdrop = (_settings.backdrop === true) ? true : false;
 
         // create a flag for the durationShow setting because durationShow is a special case.
         // see SidePanelCollapse constructor.
@@ -90,7 +90,7 @@
         durationHideFast: styles.getPropertyValue("--durationHideFast"),
 
         // boolean: whether or not a backdrop, or overlay, should display behind the sidepanel
-        backdropEnabled: true,
+        backdrop: true,
 
         // HTML class attribute:
         // which color style of backdrop to use: "dark", or "light".
@@ -171,7 +171,7 @@
 
                 // add a class to the document's <body>.
                 // for convenience - use to enable any styles to apply only when sidepanel is open
-                document.body.classList.add(bodyClass);
+                // document.body.classList.add(bodyClass);
             };
             return handler;
         }
@@ -193,6 +193,10 @@
 
         // jquery event listener to run ONCE on the Bootstrap "is shown" event
         this.$sidepanel.one("shown.bs.collapse", whenTransitionEnds(this));
+
+
+        document.body.classList.add(this.settings.sidePanelIsOpenClass);
+
 
         // links in the sidepanel:
         // if sidepanel links are anchor links, then clicking link should just go to the anchor and close the sidebar.
@@ -443,6 +447,15 @@
             if (_settings.backdropEnabled) {
                 this.backdrop = new Backdrop(this);
                 this.backdrop.element.addEventListener("click", this.close, true);
+                this.backdrop.element.addEventListener("scroll", function(e) {
+                    console.log ("backdrop: ", e);
+
+                }, true);
+                document.addEventListener("scroll", function(e) {
+                    console.log ("document: ", e);
+
+                }, true);
+
             }
 
             this.closeBehavior = "normal";  // default behavior when closing the sidepanel
