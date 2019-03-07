@@ -36,7 +36,7 @@
 
     var _proto = SidePanelCollapse.prototype;  // convenience shorthand
 
-    // funciton to reconcile/extend two objects
+    // method to reconcile/extend two objects
     function extend(a, b) {
         for (var p in b) {
             if (b.hasOwnProperty(p)) {
