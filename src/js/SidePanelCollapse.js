@@ -447,15 +447,6 @@
             if (_settings.backdropEnabled) {
                 this.backdrop = new Backdrop(this);
                 this.backdrop.element.addEventListener("click", this.close, true);
-                this.backdrop.element.addEventListener("scroll", function(e) {
-                    console.log ("backdrop: ", e);
-
-                }, true);
-                document.addEventListener("scroll", function(e) {
-                    console.log ("document: ", e);
-
-                }, true);
-
             }
 
             this.closeBehavior = "normal";  // default behavior when closing the sidepanel
