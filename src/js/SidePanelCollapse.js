@@ -440,7 +440,7 @@
             }
 
             // if enabled, create the backdrop element and add event listener
-            if (_settings.backdropEnabled) {
+            if (_settings.backdrop) {
                 this.backdrop = new Backdrop(this);
                 this.backdrop.element.addEventListener("click", this.close, true);
             }
