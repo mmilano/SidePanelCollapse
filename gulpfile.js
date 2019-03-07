@@ -61,6 +61,7 @@ const siteBuildSource = siteSourceRoot + "site/";
 const siteBuildDestinationRoot = "./demo/";
 
 // globals for the demo site(s)
+// 'site' is more or less synonymous with 'demo'
 
 const paths = {
 
@@ -148,15 +149,15 @@ const paths = {
 };
 
 
-
-// globals for the sidePanelCollapse module
+// globals for the SidePanelCollapse module
 const sidepanelSourceRoot = "./src/";
+const sidepanelDestinationRoot = "./dist/";
 
 const paths_sidepanel = {
 
     scss_source: [sidepanelSourceRoot + "scss/sidePanelCollapse.scss"],
     scss_sourceGLOB: [sidepanelSourceRoot + "scss/**/*"],
-    css_built: "./dist/css",
+    css_destination: sidepanelDestinationRoot + "css",
 
     js_source: [sidepanelSourceRoot + "js/**/SidePanelCollapse.js"],
     js_sourceGLOB: [sidepanelSourceRoot + "js/**/*"],
@@ -216,11 +217,13 @@ function findAddress() {
 // & http://[current IP address]:9191 from a virtual (win10) machine.
 // original source of this suggestion:
 // https://stackoverflow.com/questions/10158771/access-localhost-on-the-main-machine-from-vmware-workstation-8-for-asp-net-devel/10159420#10159420
+const server_host = "0.0.0.0";
+var currentIPAddress;
 
 const options_server = {
     name: "dev",
     port: 9191,
-    host: "0.0.0.0",
+    host: server_host,
     defaultFile: "index.html",
     root: siteBuildDestinationRoot,
     directoryListing: {
@@ -231,13 +234,19 @@ const options_server = {
 
 function webserver(done) {
     connect.server(options_server);
-    let currentAddress = findAddress();
-    console.log ("***** current IP address:", currentAddress);
+    currentIPAddress = findAddress();
+    // console.log ("***** current IP address:", currentIPAddress);
     done();
 }
 
-gulp.task("webserver", webserver);
+// user-friendly server info
+function serverInfo() {
+    glog("demo server is running...");
+    glog("connect to: localhost:" + options_server.port );
+    glog("connect to: " + currentIPAddress + ":" + options_server.port );
+}
 
+gulp.task("webserver", webserver);
 
 
 // erases the directories, clean out the compiled stuff
@@ -283,21 +292,6 @@ function copyIco(done) {
     .pipe(gulp.dest(paths.icoDestination));
     done();
 }
-
-
-// function copyCSSVendor(done) {
-//     gulp
-//     .src(paths.cssVendorGLOB)
-//     .pipe(gulp.dest(paths.cssVendorDestination));
-//     done();
-// }
-//
-// function copyJSVendor(done) {
-//     gulp
-//     .src(paths.jsVendorGLOB)
-//     .pipe(gulp.dest(paths.jsVendorDestination));
-//     done();
-// }
 
 gulp.task("copy:images", copyImages);
 gulp.task("copy:images-changed", copyImagesChanged);
@@ -605,14 +599,14 @@ function buildcss(src, dest, outputfile, options, mode) {
         .pipe(sourcemaps.init())
         .pipe(sass(options))
         .on("error", sass.logError)
-        .on("error", () => reject("scss error in" + src))
         .pipe(autoprefixer(options_autoprefix))
-        .pipe(debug({title: "compile scss " + "(" + mode + ")" + ":"}))
+        // .pipe(debug({title: "compile scss " + "(" + mode + ")" + ":"}))
         //.pipe(rename({basename: outputfile}))
         .pipe(mode === "production" ? rename({suffix: ".min"}) : noop())
         .pipe(mode === "production" ? cssnano(options_cssnano) : noop())
         .pipe(sourcemaps.write("./map"))
         .pipe(gulp.dest(dest))
+        .on("error", () => reject("scss compilation error in" + src))
         .on("end", () => resolve("compile scss completed (" + mode + ")"));
     });
 }
@@ -621,8 +615,8 @@ function buildcss(src, dest, outputfile, options, mode) {
 // and output the css files, both normal and minified
 function maketheCSS_sidepanel(done) {
 
-    let scss_sidepanel_source = "./src/scss/sidePanelCollapse.scss";
-    let scss_sidepanel_destination = "./dist/css/";
+    let scss_sidepanel_source = paths_sidepanel.scss_source
+    let scss_sidepanel_destination = paths_sidepanel.css_destination
     let scss_sidepanel_destination_filename = "sidePanelCollapse";
 
     const options_scss_normal = {
@@ -659,7 +653,8 @@ function maketheCSS_sidepanel(done) {
 function copyCSS_sidepanel(done) {
 
     let css_sidepanel_dist = "./dist/css/**/*";
-    let css_sidepanel_destination = "./demo/public/css/sidePanelCollapse";
+
+    let css_sidepanel_destination = siteBuildDestinationRoot + "public/css/sidePanelCollapse";
 
     gulp
     .src(css_sidepanel_dist)
@@ -994,50 +989,54 @@ gulp.task("watch:js-sidepanel", watchJSSidePanel);
 
 // watch all the things
 gulp.task("watch:everything", gulp.parallel(
-    "watch:scss-sidepanel",
-    "watch:js-sidepanel",
-    "watch:buildingSources",
     "watch:scss",
+    "watch:scss-sidepanel",
+
     "watch:js",
     "watch:js-simple",
+    "watch:js-sidepanel",
+
+    "watch:buildingSources",
     "watch:siteGallery",
+
     "watch:index",
     "watch:pages"
 ));
 
-gulp.task("build:demo", gulp.series(
-    "webserver",
-    "site:setup",
-    gulp.parallel(
-        "compile:scss",
-        "browserify:site",
-        "demoify:sidepanel",
-        "build:pages"
-    )
-));
 
-gulp.task("default", gulp.series(
-    "site:setup",
-    "webserver",
-    gulp.parallel(
-        "compile:scss",
-        "browserify:site",
-        "build:pages"
-    ),
-    "watch:everything"
-));
-
+// assemble the complete demo site
 gulp.task("demo", gulp.series(
     "webserver",
     "site:setup",
-    gulp.parallel(
-        "compile:scss",
-        "js:site",
-        "demoify:sidepanel",
-        "build:pages"
-    )
+
+    "compile:scss",
+    "compile:scss-sidepanel",
+    "copy:css-sidepanel",
+
+    "js:site",
+    "demoify:sidepanel",
+
+    "build:pages",
 ));
 
+
+function trial() {
+    var setup = new Promise (function(resolve, reject) {
+        webserver();
+
+    }
+    .then(function(fulfilled) {
+        serverInfo();
+        }
+    )
+    .catch(function(err) {
+        err => {glog(err)};
+        }
+    ));
+
+}
+
+exports.trial = trial;
 
 
 // dev task is basically the default
@@ -1054,6 +1053,8 @@ gulp.task("dev", function taskDevBasic(done) {
         "watch:everything")();
     done();
 });
+
+gulp.task("default", gulp.series("demo")); // alias
 
 
 function productionPages(done) {
