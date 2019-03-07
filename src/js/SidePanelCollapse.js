@@ -66,7 +66,7 @@
     }
 
     // module default values
-    // includes the access of the css variable values as module is created (for slightly better performance)
+    // includes the access of the css variable values as module is created
     //
     // extract and update the css transition values:
     // doing this so that the duration values do not have to be repeated in the javascript,
@@ -104,7 +104,9 @@
 
         // which side of the window is the sidepanel on.
         // currently the only choice is "right"
-        side: "right"
+        side: "right",
+
+        linkHandle: true,
     };
 
 
@@ -128,23 +130,6 @@
         }
     };
 
-//     function linksAddListener(_$sidepanel, handler) {
-//         // apply a 'click' event handler to each of the links in the sidepanel
-//         let sidelinks = e.currentTarget.getElementsByTagName("a");
-//         let ln = sidelinks.length;
-//         for (var i = 0; i < ln; i++) {
-//             sidelinks[i].addEventListener("click", linkClick, false);
-//         };
-//     }
-//
-//     function linksRemoveListener(_$sidepanel, handler) {
-//         // remove listeners on the each of the links in the sidepanel
-//         let sidelinks = e.currentTarget.getElementsByTagName("a");
-//         let ln = sidelinks.length;
-//         for (var i = 0; i < ln; i++) {
-//             sidelinks[i].removeEventListener("click", linkClick, false);
-//         };
-//     }
 
     // manually activate the 'show' action
     _proto.show = function() {
@@ -157,7 +142,7 @@
     };
 
     // OPEN the sidepanel
-    // expects to be called with this = the sidepanel object (e.g. via bind(), which is set as the default)
+    // expects to be called with this = the sidepanel object (e.g. via .bind(this)), which is set as the default
     _proto.open = function(e) {
 
         // return a function as the event handler
@@ -192,40 +177,13 @@
         // jquery event listener to run ONCE on the Bootstrap "is shown" event
         this.$sidepanel.one("shown.bs.collapse", whenTransitionEnds(this));
 
-
         document.body.classList.add(this.settings.sidePanelIsOpenClass);
 
-        // links in the sidepanel:
-        // if sidepanel links are anchor links, then clicking link should just go to the anchor and close the sidebar.
-        // if sidepanel links are to another page, then clicking link should close the navbar (more quickly) and then go to the link destination
-
-        // TODO: how to determine if links are in-page vs to-another-page?
-        // options...
-
-        // go by page id?
-
-        // let linkClickCallback =  _this.closeFast.bind(_this);
-
-        // find all the anchor links in the sidepanel.
-        // convert the jauery node to HTML node
-
-        function callback(e) {
-            if (e.target && e.target.nodeName === "A") {
-                console.log("item ", e.target.textContent, "was clicked");
-                console.log("currenttarget: ", e.currentTarget);
-            }
-            e.preventDefault();
-        }
-
-        let sidenavLinks = this.$sidepanel[0].getElementsByTagName("a");
-        let ln = sidenavLinks.length;
-        for (var i = 0; i < ln; i++) {
-            sidenavLinks[i].addEventListener("click", callback, false);
-        };
     };
 
     // CLOSE the sidepanel.
-    // expects: invoked as event callback, with .bind(this) to give access to the main sidepanel object
+    // usually invoked as event callback
+    // exists with .bind(this) to give access to the main sidepanel object
     _proto.close = function(e) {
 
         // event handler:
@@ -242,7 +200,7 @@
         if (this.isCollapsing() && !this.closeQueued) {
             // queue up to close immediately
             this.closeQueued = true;
-            this.closeBehavior = "fast";
+            this.closeType = "fast";
             this.$sidepanel.one("shown.bs.collapse", this.close);
             return;
         } else if (this.isCollapsing() && this.closeQueued) {
@@ -266,12 +224,12 @@
         // this is overriding the default behavior, where duration is set by the css .collapsing class rule, and the same
         // duration is used for both opening and closing.
         let duration;
-        switch(this.closeBehavior) {
+        switch(this.closeType) {
             case "page":
                 /* falls through */
             case "fast":
                 duration = this.settings.durationHideFast;
-                this.closeBehavior = "normal";  // reset
+                this.closeType = "normal";  // reset
                 break;
             default:
                 duration = this.settings.durationHide;
@@ -292,47 +250,6 @@
         document.body.classList.remove(this.settings.sidePanelIsOpenClass);
 
     };
-
-    // CLOSE the sidepanel - case: extra-fast!!
-    // close the sidenav with fast transition duration.
-    // expects: invoked as event callback, with .bind(this) to give access to the main sidepanel object
-//     _proto.closeFast = function(e) {
-//
-//
-//         // event handler:
-//         // when hiding/closing is complete, remove the transition duration override
-//         // send page to link destination
-//         function transitionEnds(e) {
-//             console.log ("close Fast transition ended *****", e);
-//             e.target.style.transitionDuration = null;
-//             // window.location = e.target.href;
-//         }
-//
-//         // if open is invoked via event (e.g. click link), then event will exist.
-//         // if called independently, e will not exist
-//         if (e !== undefined) {
-//             e.preventDefault();
-//         }
-//
-//         // set a jquery event listener to run once on the Bootstrap "is hidden" event,
-//         this.$sidepanel.one("hidden.bs.collapse", transitionEnds);
-//
-//         // because this is close 'fast', change close duration to fast speed. use native DOM element within jquery object
-//         this.$sidepanel[0].style.transitionDuration = this.settings.durationHideFast;
-//
-//         // initiate the closing
-//         this.hide();
-//
-//         // initiate the hiding of backdrop if backdrop is truthy
-//         if (this.backdrop) {
-//             this.backdrop.hide();
-//         }
-//
-//         // cleanup
-//
-//         console.log ("closeFAST: done.");
-//     };
-
 
     // *****
     // Backdrop
@@ -391,6 +308,29 @@
     // end Backdrop
     // *****
 
+
+
+    // link callback
+        // when a link is clicked,
+        // close the panel - fast mode
+        // when panel is closed,
+        // then go to destination of link
+    function linkHandle() {
+
+        function whenTransitionEnds(destination) {
+            return function(e) {
+                window.location = destination;
+            };
+        }
+
+        return function(e) {
+            e.preventDefault();
+            this.closeType = "fast";
+            this.$sidepanel.one("hidden.bs.collapse", whenTransitionEnds(e.target.href));
+            this.close();
+        };
+    }
+
     // SidePanel constructor
     function SidePanelCollapse(options) {
 
@@ -401,60 +341,76 @@
 
         // check if sidepanel exists on the page;
         // check length because this is a jquery object.
-        if (this.$sidepanel.length) {
 
-            // sidepanel exists!
-            //
-            // begin: sidepanel initialization
-
-            // the open and close methods will be called as event listeners, and all of them need to access the correct 'this,'
-            // which is troublesome with event listeners.
-            // so, pre-bind them all up for convenience and sanity as the default
-            this.open = this.open.bind(this);
-            this.close = this.close.bind(this);
-            // this.closeFast = this.closeFast.bind(this);  TODO remove
-            this.handleKey = this.handleKey.bind(this);
-
-            // durationShow is a special case, because it is the one duration value that is set initially in the css.
-            // so if the configuration (options) have a custom value, then the css variable needs to be updated
-            if (_settings.durationShowCustom) {
-                this.$sidepanel[0].style.setProperty("--durationShow", _settings.durationShow);
-            }
-
-            // add event listener for Bootstrap collapse "show" event
-            // - docs: https://getbootstrap.com/docs/4.3/components/collapse/#events
-            // - show.bs.collapse: This event fires immediately when the show instance method is called.
-            // uses jquery event (and not regular javascript) because Bootstrap uses jquery-land events.
-            this.$sidepanel.on("show.bs.collapse", this.open);
-
-            // (try to) select and cache the close button element.
-            // note: assumes there is only one .sidepanel and only one close button within the sidepanel structure
-            this.sidepanelCloseButton = _settings.sidepanelCloseElement ? _$sidepanel[0].querySelector(_settings.sidepanelCloseElement) : false;
-
-            if (this.sidepanelCloseButton) {
-                // add event listener for action on the close element
-                this.sidepanelCloseButton.addEventListener("click", this.close, false);
-            } else {
-                // no close button found :(
-                // the sidepanel will be initialized, but maybe this isn't what is desired?
-                console.warn("SidePanel: no close button could be found with the selector \""+ _settings.sidepanelCloseElement + "\".");
-            }
-
-            // if enabled, create the backdrop element and add event listener
-            if (_settings.backdrop) {
-                this.backdrop = new Backdrop(this);
-                this.backdrop.element.addEventListener("click", this.close, true);
-            }
-
-            this.closeBehavior = "normal";  // default behavior when closing the sidepanel
-
-            // end: sidepanel initialization
-        } else {
+        if (!this.$sidepanel.length) {
             // no sidepanel :(
             this.$sidepanel = false;
             console.error("No SidePanel element could be found with the selector \""+ _settings.sidepanelElement + "\".");
             console.warn("SidePanel was not created.");
-        };
+            return false;
+        }
+
+        // sidepanel exists!
+        //
+        // begin: sidepanel initialization
+
+        // the open and close methods will be called as event listeners, and all of them need to access the correct 'this,'
+        // which is troublesome with event listeners.
+        // so, pre-bind them all up for convenience and sanity as the default
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
+        this.handleKey = this.handleKey.bind(this);
+
+        // durationShow is a special case, because it is the one duration value that is set initially in the css.
+        // so if the configuration (options) have a custom value, then the css variable needs to be updated
+        if (_settings.durationShowCustom) {
+            this.$sidepanel[0].style.setProperty("--durationShow", _settings.durationShow);
+        }
+
+        // add event listener for Bootstrap collapse "show" event
+        // - docs: https://getbootstrap.com/docs/4.3/components/collapse/#events
+        // - show.bs.collapse: This event fires immediately when the show instance method is called.
+        // uses jquery event (and not regular javascript) because Bootstrap uses jquery-land events.
+        this.$sidepanel.on("show.bs.collapse", this.open);
+
+        // (try to) select and cache the close button element.
+        // note: assumes there is only one .sidepanel and only one close button within the sidepanel structure
+        this.sidepanelCloseButton = _settings.sidepanelCloseElement ? _$sidepanel[0].querySelector(_settings.sidepanelCloseElement) : false;
+
+        if (this.sidepanelCloseButton) {
+            // add event listener for action on the close element
+            this.sidepanelCloseButton.addEventListener("click", this.close, false);
+        } else {
+            // no close button found :(
+            // the sidepanel will be initialized, but maybe this isn't what is desired?
+            console.warn("SidePanel: no close button could be found with the selector \""+ _settings.sidepanelCloseElement + "\".");
+        }
+
+        // if enabled, create the backdrop element and add event listener
+        if (_settings.backdrop) {
+            this.backdrop = new Backdrop(this);
+            this.backdrop.element.addEventListener("click", this.close, true);
+        }
+
+        // internal flag for which close type, and therefore duration, to use: normal, or fast
+        this.closeType = "normal";  // default behavior when closing the sidepanel
+
+        // handle links in the sidepanel
+        //
+        // find all the links in the sidepanel
+        // and add an event on them
+        // in order to trap the links and implement a custom behavior
+        if (_settings.linkHandle) {
+            let sidepanelLinks = this.$sidepanel[0].getElementsByTagName("a");
+            let ln = sidepanelLinks.length;
+
+            let linkHandler = linkHandle().bind(this);
+            for (var i = 0; i < ln; i++) {
+                sidepanelLinks[i].addEventListener("click", linkHandler);
+            };
+        }
+        // end: sidepanel initialization
+
     };
 
     return SidePanelCollapse;
