@@ -429,13 +429,14 @@
 
             // (try to) select and cache the close button element.
             // note: assumes there is only one .sidepanel and only one close button within the sidepanel structure
-            this.sidepanelCloseButton = _$sidepanel[0].querySelector(_settings.sidepanelCloseElement);
+            this.sidepanelCloseButton = _settings.sidepanelCloseElement ? _$sidepanel[0].querySelector(_settings.sidepanelCloseElement) : false;
+
             if (this.sidepanelCloseButton) {
                 // add event listener for action on the close element
                 this.sidepanelCloseButton.addEventListener("click", this.close, false);
             } else {
                 // no close button found :(
-                // the sidepanel will be initialized, but it won't function correctly.
+                // the sidepanel will be initialized, but maybe this isn't what is desired?
                 console.warn("SidePanel: no close button could be found with the selector \""+ _settings.sidepanelCloseElement + "\".");
             }
 
