@@ -148,15 +148,13 @@
 
     // manually activate the 'show' action
     _proto.show = function() {
-        this.$sidepanel.collapse("show");  // invoke Bootstrap function
-
+        this.$sidepanel.collapse("show");  // invoke Bootstrap action
     };
 
     // manually activate the 'hide' action
     _proto.hide = function() {
-        this.$sidepanel.collapse("hide");  // invoke Bootstrap function
+        this.$sidepanel.collapse("hide");  // invoke Bootstrap action
     };
-
 
     // OPEN the sidepanel
     // expects to be called with this = the sidepanel object (e.g. via bind(), which is set as the default)
@@ -197,7 +195,6 @@
 
         document.body.classList.add(this.settings.sidePanelIsOpenClass);
 
-
         // links in the sidepanel:
         // if sidepanel links are anchor links, then clicking link should just go to the anchor and close the sidebar.
         // if sidepanel links are to another page, then clicking link should close the navbar (more quickly) and then go to the link destination
@@ -227,7 +224,7 @@
         };
     };
 
-    // CLOSE the sidepanel - case: normal.
+    // CLOSE the sidepanel.
     // expects: invoked as event callback, with .bind(this) to give access to the main sidepanel object
     _proto.close = function(e) {
 
@@ -399,7 +396,6 @@
 
         let _settings = this.settings = defineSettings(defaults, options);  // convenience shorthand
 
-        // initialization of sidepanel
         // (try to) select and cache the main sidepanel element
         let _$sidepanel = this.$sidepanel = $(_settings.sidepanelElement);  // convenience shorthand
 
@@ -416,7 +412,7 @@
             // so, pre-bind them all up for convenience and sanity as the default
             this.open = this.open.bind(this);
             this.close = this.close.bind(this);
-            // this.closeFast = this.closeFast.bind(this);
+            // this.closeFast = this.closeFast.bind(this);  TODO remove
             this.handleKey = this.handleKey.bind(this);
 
             // durationShow is a special case, because it is the one duration value that is set initially in the css.
@@ -439,7 +435,7 @@
                 this.sidepanelCloseButton.addEventListener("click", this.close, false);
             } else {
                 // no close button found :(
-                // the sidepanel will be initialized, but it won't close.
+                // the sidepanel will be initialized, but it won't function correctly.
                 console.warn("SidePanel: no close button could be found with the selector \""+ _settings.sidepanelCloseElement + "\".");
             }
 
