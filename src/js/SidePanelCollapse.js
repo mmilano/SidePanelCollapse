@@ -121,8 +121,6 @@
     _proto.handleKey = function(e) {
         let key = e.keyCode;
 
-        // console.log ("key handler:", key);
-
         switch(key) {
             case 27: // 'esc'
                 this.close(e);
@@ -225,18 +223,9 @@
         };
     };
 
-
-    // cleanup actions to do when the panel closes
-//     function closeCleanup(_this) {
-//         document.removeEventListener("keyup", _this.handleKey);
-//         document.body.classList.remove(_this.settings.sidePanelIsOpenClass);
-//     }
-
-
     // CLOSE the sidepanel - case: normal.
     // expects: invoked as event callback, with .bind(this) to give access to the main sidepanel object
     _proto.close = function(e) {
-        // console.log ("close: start:", this.closeBehavior);
 
         // event handler:
         // when hiding/closing is complete, remove the transition duration override so that
@@ -301,7 +290,6 @@
         document.removeEventListener("keyup", this.handleKey);
         document.body.classList.remove(this.settings.sidePanelIsOpenClass);
 
-        //console.log ("close: done.");
     };
 
     // CLOSE the sidepanel - case: extra-fast!!
@@ -357,7 +345,6 @@
 
     // hide the backdrop
     Backdrop.prototype.hide = function() {
-        //console.log ("call: backdrop hide");
 
         // method to run when fadeout animation ends - cleans up, and hides the backdrop.
         // because event is on backdrop, event.target is the backdrop - uses backdrop from there for simplicity
@@ -417,6 +404,8 @@
         if (this.$sidepanel.length) {
 
             // sidepanel exists!
+            //
+            // begin: sidepanel initialization
 
             // the open and close methods will be called as event listeners, and all of them need to access the correct 'this,'
             // which is troublesome with event listeners.
@@ -458,7 +447,7 @@
 
             this.closeBehavior = "normal";  // default behavior when closing the sidepanel
 
-            //console.log ("sidepanel initialization: end");
+            // end: sidepanel initialization
         } else {
             // no sidepanel :(
             this.$sidepanel = false;
