@@ -163,15 +163,15 @@ It could be adapted; maybe the next time I need something to amuse myself.
 | name | possible values | default | description |
 | ---- | --------------- | ------- | ----------- |
 | sidepanelElement      | css class name | `#sidePanel` | css selector for the top-level of the sidepanel |
-| sidepanelCloseElement | css class name | `.sidePanel-close` | css selector for the close button, containing the close icon, visible when the sidepanel is displayed |
+| sidepanelCloseElement | css class name  or 'false' | `.sidePanel-close` | css selector for the close button, containing the close icon, visible when the sidepanel is displayed. if false, no closing button will be used. |
 | durationShow          | css transition-duration | 1.0s | Duration for sidepanel opening transition
 | durationHide          | css transition-duration | 0.33s | Duration for sidepanel closing transition
 | durationHideFast          | css transition-duration | 0.11s | Duration for sidepanel closing transition
-| backdropEnabled       | boolean | `true` | Whether or not a backdrop (i.e. overlay) should display behind the open sidepanel |
+| backdrop              | boolean | `true` | Whether or not a backdrop (i.e. overlay) should display behind the open sidepanel |
 | backdropStyle         | "light", "dark" | "light" |  Which style of backdrop to use, corresponding the css styles |
-| sidePanelIsOpenClass  | css class name | sidepanel-shown | css class that is added to the document `<body>` when sidepanel shows, removed when it hides. For use in enabling any specific styles that should apply when sidepanel is open. |
+| sidePanelIsOpenClass  | css class name | sidepanel-open | css class that is added to the document `<body>` when sidepanel shows, removed when it hides. For use in enabling any specific styles that should apply when sidepanel is open. |
 
-    
+
 
 
 
@@ -264,3 +264,6 @@ On the sub-pages, the sidepanel menu displays at all window sizes.
 - function to dispose of the sidepanel
 
 - do i need to check for the sidepanel scss values in setting defaults?
+
+
+- setting to make the sidepanel modal when open, which will prevent any scroll of the document when panel is open
