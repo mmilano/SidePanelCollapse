@@ -84,7 +84,6 @@
         // default values for the sidepanel transition timings
         // in css transition-duration format. e.g.:
         //     durationShow: "1.65s",  // leisurely opening
-
         durationShow: styles.getPropertyValue("--durationShow"),
         durationHide: styles.getPropertyValue("--durationHide"),
         durationHideFast: styles.getPropertyValue("--durationHideFast"),
@@ -116,7 +115,6 @@
         return this.$sidepanel[0].classList.contains("collapsing");
     };
 
-
     // keypress handler
     // when the sidenav is displayed (open), ESC will close.
     // expects: invoked as event callback, with .bind(the main sidepanel object) (i.e. .bind(this))
@@ -129,7 +127,6 @@
                 break;
         }
     };
-
 
     // manually activate the 'show' action
     _proto.show = function() {
@@ -149,12 +146,8 @@
         // of things to do when when the sidebar opening is completed.
         // presumes: event is on the sidepanel DOM element itself.
         function whenTransitionEnds(_this) {
-            let bodyClass = _this.settings.sidePanelIsOpenClass;
             var handler = function(e) {
-
-                // add a class to the document's <body>.
-                // for convenience - use to enable any styles to apply only when sidepanel is open
-                // document.body.classList.add(bodyClass);
+                // no action currently
             };
             return handler;
         }
@@ -177,8 +170,9 @@
         // jquery event listener to run ONCE on the Bootstrap "is shown" event
         this.$sidepanel.one("shown.bs.collapse", whenTransitionEnds(this));
 
+        // add a class to the document's <body>.
+        // for potential use to enable any styles to apply only when sidepanel is open
         document.body.classList.add(this.settings.sidePanelIsOpenClass);
-
     };
 
     // CLOSE the sidepanel.
@@ -194,7 +188,7 @@
             e.target.style.transitionDuration = null;
         }
 
-        // check to see if collapsing is still in progress.
+        // check to see if collapsing is in progress.
         // if so, interrupt the normal close process, and reroute via event
         // so that when the transition is finished, it will then go and close immediately
         if (this.isCollapsing() && !this.closeQueued) {
@@ -248,7 +242,6 @@
         // cleanup
         document.removeEventListener("keyup", this.handleKey);
         document.body.classList.remove(this.settings.sidePanelIsOpenClass);
-
     };
 
     // *****
@@ -296,8 +289,6 @@
         }
 
         // construction
-        // this.SidePanel = _sidepanel;  // store reference to the SidePanel 'parent'
-
         // create the backdrop DOM element and store it
         this.element = create(_sidepanel.settings.backdropStyle);
 
@@ -309,24 +300,24 @@
     // *****
 
 
-
     // link callback
-        // when a link is clicked,
-        // close the panel - fast mode
-        // when panel is closed,
-        // then go to destination of link
+    // when a link is clicked,
+    // close the panel - fast mode.
+    // then, when panel is closed, go to destination of link
     function linkHandle() {
 
-        function whenTransitionEnds(destination) {
+        function linkEvent(destination) {
             return function(e) {
                 window.location = destination;
             };
         }
 
+        // return function with closure. used for the link eventListener
         return function(e) {
             e.preventDefault();
             this.closeType = "fast";
-            this.$sidepanel.one("hidden.bs.collapse", whenTransitionEnds(e.target.href));
+            // create link event handler with closure
+            this.$sidepanel.one("hidden.bs.collapse", linkEvent(e.target.href));
             this.close();
         };
     }
@@ -341,7 +332,6 @@
 
         // check if sidepanel exists on the page;
         // check length because this is a jquery object.
-
         if (!this.$sidepanel.length) {
             // no sidepanel :(
             this.$sidepanel = false;
@@ -409,7 +399,6 @@
         }
 
         // end: sidepanel initialization
-
     };
 
     return SidePanelCollapse;
