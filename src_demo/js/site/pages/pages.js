@@ -30,13 +30,13 @@ var util = {
         return (pageWidth > breakpoint_size ? true : false);
     },
 
-    scrollSpyCreate: function(target, flag) {
+    scrollSpyCreate: function(target, shouldSpy) {
         // if a target value is passed, use that; if not, use a default value for the primary nav
         target = target ? target : "#primaryNav";
 
         // check if scrollspy should activate based on the window width - in certain cases, wider window sizes
         // default to the computed active flag, whatever that is
-        let shouldSpy = (flag !== undefined) ? flag : util.checkWidth();
+        shouldSpy = (shouldSpy !== undefined) ? shouldSpy : util.checkWidth();
 
         if (shouldSpy) {
             $(document.body).scrollspy({
@@ -82,11 +82,38 @@ var pages = {
     // pages script for homepage = index.html
     "index": function indexPage(pageID) {
 
+        // handle toggling the nav & scrollspy
+        function navSpy(flag) {
+            if (flag) {
+                // TRUE = now the horiz nav IS displayed
+                // so dispose of the existing scrollspy, and create a new one for the primarynav
+                util.scrollSpyToggle(navHorizontal);
+                console.log ("toggle: now display " + navHorizontal);
+            } else {
+                // FALSE = now the horiz nav IS NOT displayed
+                // so dispose of the existing scrollspy, and create a new one for sidenav
+                util.scrollSpyToggle(navVertical);
+                console.log ("toggle: now display " + navVertical);
+            }
+        }
+
+
+        // instantiate a new sidepanel for the page for when /if the sidenav will display
+        // sidepanel options for this site
+        var sidepanelOptions = {
+            durationHide: "2s",
+            durationHideFast: "5s",
+            backdropStyle: "dark",
+        };
+        var sidepanel = new SidePanelCollapse(sidepanelOptions);
+
+
+
         // define the 2 different nav's for the page
-        // the horizontal, primarynav, displayed at wider sizes
-        // the vertical, sidenav, displayed when the primary nav is collapsed at smaller screen sizes
+        // the horizontal - primaryNav - displayed at very large window sizes (Bootstrap definition of large)
+        // the vertical - sidePanelNav - displayed when the primary nav is collapsed at smaller window sizes
         //
-        // for scrollspy, these need to be css selectors for the <nav> element
+        // for scrollspy, these need to be css selectors for the <nav> element on this page
         const navHorizontal = "#primaryNav";
         const navVertical = "#sidePanelNav";
 
@@ -97,24 +124,30 @@ var pages = {
         // is the horizontal nav being displayed (i.e. have a display value other than 'none'?)
         let horizontalNavDisplayed = util.checkIfDisplayed(horizontalNav);
 
-        console.log ("horizontalNavDisplayed:" , horizontalNavDisplayed());
-        // create the scrollspy on the nav for the current state of the homepage
-        // homepage: needs to have the scrollspy work on both
-        // (a) the primarynav, horizontal links when window is wider,
-        // (b) the sidenav, vertical list when window is narrower
-        let targetNav = horizontalNavDisplayed() ? navHorizontal : navVertical;
+        // create the scrollspy on the nav for the current state of the index page
+        // pages needs to have the scrollspy work on both horizontal and vertical navs
+        let navRightNow = horizontalNavDisplayed();
+        let targetNav = navRightNow ? navHorizontal : navVertical;
+        // initialize boolean value for determining if the nav display toggled between display states,
+        // meaning the the nav changed from horiz to vertical
+        let previousNavWasHoriz = navRightNow;
+
         // create the first scrollSpy on the currently displayed nav, and it "should spy" now.
         util.scrollSpyCreate(targetNav, true);
 
-        // instantiate a new sidepanel for the page
-        // sidepanel options for this site
-        var sidepanelOptions = {
-
-            durationHide: "2s",
-            durationHideFast: "5s",
-            backdropStyle: "dark",
-        };
-        var sidepanel = new SidePanelCollapse(sidepanelOptions);
+        // resize events will update the primaryNav behavior
+        window.addEventListener("resize", function(e) {
+            // check the current style.display value
+            let status;
+            let horizontal = horizontalNavDisplayed();
+            if (horizontal && !previousNavWasHoriz) {  // if: horiz nav IS true (=displayed) && previous-nav is false, then
+                navSpy(true);
+                previousNavWasHoriz = true;
+            } else if (!horizontal && previousNavWasHoriz) {  // else if: horiz nav is NOT displayed and previous-nav is true, then
+               navSpy(false);
+               previousNavWasHoriz = false;
+            }
+        }, false);
 
     },
 
@@ -125,11 +158,11 @@ var pages = {
         // instantiate a new sidepanel for the page
         // sidepanel options for this site
         var sidepanelOptions = {
-            sidepanelElement: "#sidePanel",
-            sidepanelCloseElement: ".sidePanel-close",
-             durationShow: "5s",
-            durationHide: "5s",
-            durationHideFast: "1s",
+            //sidepanelElement: "#sidePanel",
+            //sidepanelCloseElement: ".sidePanel-close",
+            durationShow: "1s",
+            durationHide: "1s",
+            durationHideFast: "0.5s",
             backdropStyle: "dark",
         };
 
@@ -159,7 +192,7 @@ var pageRouter = function(pageID) {
 };
 
 
-// attach/expose specific methods
+// expose specific methods
 pages.pageRouter = pageRouter;
 
 module.exports = pages;
