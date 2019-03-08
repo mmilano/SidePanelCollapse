@@ -41,7 +41,7 @@ var util = {
         if (shouldSpy) {
             $(document.body).scrollspy({
                 target: target,
-                offset: 100,
+                offset: 110,
             });
         };
     },
