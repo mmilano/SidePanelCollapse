@@ -1,0 +1,57 @@
+// 'pill' like element
+
+
+$pill-width:        330px;
+$pill-height:       90px;
+
+$pill-background-color:         #BBB;
+$pill-border-radius:            1rem;
+$pill-padding:                  8px;
+$pill-text-font-size:           1rem;
+
+$pill-demo-background-color:    #130707;
+
+
+.pill {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: $pill-width;
+    height: $pill-height;
+
+    padding: $pill-padding;
+    background-color: $pill-background-color;
+    border-radius: $pill-border-radius;
+
+    font-size: $pill-text-font-size;
+    text-align: center;
+
+    .pill-content {
+        margin: 0;
+        padding: 0;
+    }
+
+}
+
+
+.pill {
+
+    &.demo {
+        color: $core-white;
+        background-color: $pill-demo-background-color;
+    }
+
+    &.demo-simple {
+        position: absolute;
+        bottom: 200px;
+    }
+
+    &.demo-complex {
+        position: absolute;
+        bottom: 200px;
+    }
+}
+
+
+
