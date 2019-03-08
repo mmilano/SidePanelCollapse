@@ -102,3 +102,19 @@ footer {
     }
 }
 
+
+
+
+
+ul {
+    > li {
+        font-weight: bold;
+
+        li {
+        font-weight: normal;
+        }
+
+    }
+
+
+}

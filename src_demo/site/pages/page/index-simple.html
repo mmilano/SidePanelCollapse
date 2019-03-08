@@ -16,7 +16,7 @@
 
     {{> site-css-simple}}
 
-    <title>Bootstrap 4: Horizontal Sliding Sidebar Example - Simple</title>
+    <title>Horizontal Sliding Sidebar - Simple Demo</title>
 </head>
 
 <body class="index-simple">
@@ -24,7 +24,7 @@
 <div class="container-fluid">
     <nav class="navbar navbar-dark bg-dark top-navbar fixed-top" id="primaryNav">
         <a class="navbar-brand" href="/index-simple.html">
-            <div class="dingbat"><span class="donut">☕</span></div>
+            <div class="dingbat"><span class="coffee">☕</span></div>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidePanel" aria-controls="sidePanel" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -53,42 +53,49 @@
 </div>
 </div>
 
-<section class="theme-section theme-section-full theme-section-center" id="introduction">
+<section class="theme-section theme-section-full theme-section-center-vertical" id="introduction">
     <div class="container">
 
+    <div class="text-center mb-5">
         <h1>
             Bootstrap v4-based Collapsing Sidebar
         </h1>
 
-        <h2>
-            A simple single page example.
-        </h2>
+        {{#heading-L2}}
+            A simple example
+        {{/heading-L2}}
+    </div>
 
 
-<p>
+    <div class="row justify-content-center">
+    <div class="col-sm col-md-7">
+        <p>
+            This is a simple single page example, with a fictitious set of links in the side navigation.
+        </p>
 
-This simple demo is a single page with a fictitious set of links in the side navigation.
+        <p>
+            It is designed to be about as simple as possible, and to demonstrate the most minimal way of using the SidePanelCollapse library in a site.
 
-</p>
+            <ul>
+                <li>The core SidePanelCollapse library and styles are linked in the HTML and loaded independently of other site scripts and styles.</li>
+                <li>The default SidePanelCollapse configuration settings are used for initialization.</li>
+            </ul>
 
-<p>
-It uses the default SidePanelCollapse configuration settings.
+        <p>
 
-<p>
+    </div>
+    </div>
 
 
-
-<div class="pill demo demo-simple">
-<div class="pill-content">
-
-<p>
-There is also a more complex demo:
-<br>
-<a href="./index.html">Complex Demo</a>
-</p>
-
-</div>
-</div>
+    <div class="pill demo demo-simple">
+    <div class="pill-content">
+        <p>
+        There is also an advanced demo:
+        <br>
+        <a href="./index.html">Advanced Demo</a>
+        </p>
+    </div>
+    </div>
 
 
     </div>

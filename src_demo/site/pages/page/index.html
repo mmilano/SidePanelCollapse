@@ -12,7 +12,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="#introduction">Introduction</a></li>
                 <li class="nav-item"><a class="nav-link" href="#secondary">Overview</a></li>
-                <li class="nav-item"><a class="nav-link" href="#gallery">Gallery Of Pages</a></li>
+                <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
             </ul>
         </div>
     </nav>
@@ -30,7 +30,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="{{@root.root}}#introduction">Introduction</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{@root.root}}#secondary">Overview</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{@root.root}}#gallery">Gallery Of Pages</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{@root.root}}#gallery">Gallery</a></li>
             </ul>
         </nav>
     </div>
@@ -55,41 +55,101 @@
     </div>
 </section>
 
+
+
+
 <section class="theme-section theme-section-full theme-section-content" id="secondary">
     <div class="container">
         <div class="row">
-            <div class="col">
+        <div class="col">
+
 
 
             {{#heading-L2}}
             Overview
             {{/heading-L2}}
 
+            <div class="alert alert-warning d-none d-xl-block">
+              <h4 class="alert-heading">
+                    <span class="warn">&#x26A0;</span> Note!
+                    </h4>
+                <p>
+                    The sidebar navigation is not being displayed right now because the window width is too wide.
+                </p>
+                <p>
+                Resize the window to a smaller width in order to display the sidepanel navigation.
+                </p>
+            </div>
+
+
+        </div>
+        </div>
+
+
+    <div class="row">
+    <div class="col-sm col-md-7">
+        <p>
+
+            This is an example comprising a set of multiple pages that have a side navigation.
+            As a site, these pages demonstrate more complex ways of using the SidePanelCollapse library (compared to the Simple Demo).
+
+        </p>
 
 
 
-<p>
+            <ul>
+                <li>SidePanel Library Inclusion
+                    <ul>
+                        <li>The SidePanelCollapse javascript is incorporated into the single site.js file during the build process</li>
+                        <li>The SidePanelCollapse css styles are incorporated into the single site.css file during the build process</li>
+                    </ul>
+                </li>
 
-This demo is a set of multiple pages with different behaviors in the side navigation.
+                <li>SidePanel Configuration
+                    <ul>
+                        <li>
+                            Custom SidePanelCollapse configuration settings are used, and are defined differently between the index page and the interior pages (i.e. the other pages).
+                        </li>
+                    </ul>
+                </li>
 
-</p>
+            </ul>
+
+
+
+    </div>
+    </div>
+
+
+
+
+
+
+    <div class="row">
+    <div class="col-sm col-md-7">
+        <p>
+
+
+
+
+        </p>
+
+
+
+
+
+
 
 
 On this page, the site's index page,
 the primary navigation toggles responsively to the window width.
 
 
-<p class="d-none d-xl-block">
-The sidebar navigation is not being displayed right now. Resize the window to a smaller width in order to view the sidepanel.
-</p>
-
-<p>
-It uses custom SidePanelCollapse configuration settings.
-<p>
 
 
-            </div>
-        </div>
+
+    </div>
+    </div>
 
 
 <div class="pill demo demo-complex">

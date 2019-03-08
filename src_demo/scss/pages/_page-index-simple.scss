@@ -68,6 +68,12 @@ h1, h2, b {
     text-align: center;
 }
 
+.theme-section-center-vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 
 // SPECIFIC SECTIONS //
 #introduction {
