@@ -72,7 +72,7 @@ $overview-shift:                        -8px;
 
         // extra space above the div when it comes right after a heading
         & + div {
-            padding-top: 2.5rem;
+            margin-top: 3rem;
         }
     }
 }
