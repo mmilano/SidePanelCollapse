@@ -7,7 +7,7 @@
 
 
 // make sidepanel available as global
-window.SidePanelCollapse = require("SidePanelCollapse.min.js");
+window.SidePanelCollapse = require("SidePanelCollapse");
 
 // collection of scripts and handlers specific to each page, keyed to page ID
 var pageMethods = require("pages.js");
