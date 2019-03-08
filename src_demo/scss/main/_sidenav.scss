@@ -112,14 +112,7 @@ $group-color-transition-duration:       0.9s;
 
 
 // group = heading + list of items under that heading
-.sidenav-group {
-    margin-bottom: 1.5rem;
-    font-size: $nav-item-font-size;
-
-    &:hover {
-        color: $nav-group-font-color-hover;
-    }
-}
+.sidenav-group {}
 
 // title for groups of items
 .sidenav-group-heading {
