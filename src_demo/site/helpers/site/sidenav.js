@@ -7,6 +7,7 @@
 
 const panini = require("panini");
 const node_path = require("path");
+const titlecase = require("ap-style-title-case");
 
 module.exports = function(globalContext, options) {
     "use strict";
@@ -56,6 +57,7 @@ module.exports = function(globalContext, options) {
         let pageName = node_path.parse(pageURL).name;
         let pageData = globalContext[pageName];
         let name = pageData["page-title-short"];
+        name = titlecase(name);
 
         let context = {
             "url": pageURL,
