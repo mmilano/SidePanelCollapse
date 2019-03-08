@@ -401,14 +401,13 @@
         // and add an event on them
         // in order to trap the links and implement a custom behavior
         if (_settings.linkHandle) {
-            let sidepanelLinks = this.$sidepanel[0].getElementsByTagName("a");
-            let ln = sidepanelLinks.length;
-
+            let sidepanelLinks = this.$sidepanel[0].getElementsByTagName("a"), ln = sidepanelLinks.length;
             let linkHandler = linkHandle().bind(this);
             for (var i = 0; i < ln; i++) {
                 sidepanelLinks[i].addEventListener("click", linkHandler);
             };
         }
+
         // end: sidepanel initialization
 
     };
