@@ -68,14 +68,16 @@ h1, h2, b {
     text-align: center;
 }
 
+
+// SPECIFIC SECTIONS //
+#introduction {
+    background-color: $background-color-intro;
+}
+
 footer {
     position: absolute;
     bottom: 1rem;
     left: 0;
     right: 0;
-}
-
-#introduction {
-    background-color: $background-color-intro;
 }
 

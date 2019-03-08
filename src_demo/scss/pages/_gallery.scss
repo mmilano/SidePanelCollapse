@@ -13,11 +13,9 @@ $gallery-image-max-height:              100px;
 $gallery-image-color:                   #555551;
 
 $card-background-color-default:         #DBDBD7;
-$card-hover-background-color:           #C9A956;
+$card-background-color-hover:           #C9A956;
 $card-border-radius:                    4px;
-$card-image-border-radius:              $card-border-radius;
-
-$card-image-border-color:               #C1C1BF;
+$card-image-border-radius:              $card-border-radius / 2;
 
 $duration-fast:                         0.25s;
 
@@ -53,7 +51,7 @@ $duration-fast:                         0.25s;
 
         // visual interest
         &:hover {
-            background-color: $card-hover-background-color;
+            background-color: $card-background-color-hover;
         }
 
         // container for the gallery image
@@ -63,7 +61,7 @@ $duration-fast:                         0.25s;
             height: $gallery-image-max-height;
 
             // match card's border on outside top corners, soften the rounding on the inside bottom corners
-            border-radius: $card-image-border-radius $card-image-border-radius $card-image-border-radius/2 $card-image-border-radius/2;
+            border-radius: $card-border-radius $card-border-radius $card-image-border-radius $card-image-border-radius;
 
             margin-bottom: 10px;
             background-color: $gallery-image-color; // FPO filler for an image
