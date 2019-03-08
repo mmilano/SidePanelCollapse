@@ -9,7 +9,7 @@ $sidenav-zindex:                        $zindex-fixed + 1;  // z-index of Bootst
 $sidenav-width-large:                   260px;
 $sidenav-width-small:                   $sidenav-width-large - 20;  // adjustment for smaller window sizes
 
-$sidenav-background-color:              #062B62;
+$sidenav-background-color:              rgba(#062B62, 0.91);
 $sidenav-header-color:                  #001B4E;
 $sidenav-border-color:                  desaturate(lighten($sidenav-background-color, 13.33333%), 33.33333%);
 
@@ -21,13 +21,13 @@ $sidenav-close-xposition-large:         183px;
 $sidenav-nav-offset-top:                $page-primarynavbar-height + 12;  // visual margin from top of sidebar to account for the header bar
 $sidenav-nav-margin-left-large:         25px;
 $sidenav-nav-margin-left-small:         20px;  // adjustment for smaller window sizes
-$sidenav-nav-margin-right:              25px;
+$sidenav-nav-margin-right:              1.5rem;
 
-$pagelist-link-hover-color:             $link-color-highlight;
+$nav-item-link-hover-color:             $link-color-highlight;
 $nav-item-font-size:                    0.83rem;
 
-$nav-group-font-color:             #476978;
-$nav-group-font-color-hover:       #3D88C9;
+$nav-group-font-color:                  #476978;
+$nav-group-font-color-hover:            #3D88C9;
 
 $group-color-transition-duration:       0.9s;
 
@@ -41,7 +41,6 @@ $group-color-transition-duration:       0.9s;
     overflow-x: hidden;
     padding: 0;
     background-color: $sidenav-background-color;
-    border-left: 1px solid $sidenav-border-color;
 
     // because the width of the top-level sidepanel is changed during the collapse event by Bootstrap,
     // an interior element is used to maintain a fixed width for the content.
@@ -61,7 +60,7 @@ $group-color-transition-duration:       0.9s;
     .nav-item {
         a {
             &:hover {
-                color: $pagelist-link-hover-color;
+                color: $nav-item-link-hover-color;
                 transition-duration: $nav-item-color-transition-duration;
             }
             transition-duration: $nav-item-color-transition-duration-long;
@@ -111,19 +110,11 @@ $group-color-transition-duration:       0.9s;
     }
 }
 
-// pagelist is the section listing out the pages/links
-.pagelist {
-    margin-bottom: 1.5rem;
-    padding-bottom: .6rem;
-
-    font-size: $nav-item-font-size;
-    line-height: 1.35;
-}
-
 
 // group = heading + list of items under that heading
 .sidenav-group {
-    margin-bottom: .9rem;
+    margin-bottom: 1.5rem;
+    font-size: $nav-item-font-size;
 
     &:hover {
         color: $nav-group-font-color-hover;
@@ -188,7 +179,7 @@ $group-color-transition-duration:       0.9s;
         }
 
         .sidenav-nav {
-            padding: 0 0 3rem $sidenav-nav-margin-left-large;
+            padding: 0 $sidenav-nav-margin-right 3rem $sidenav-nav-margin-left-large;
             font-size: 1rem;
         }
     }
