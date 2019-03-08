@@ -7,7 +7,7 @@
 
 var sidepanelOptions;
 
-sidepanelOptions = {
+// sidepanelOptions = {
 //     sidepanelElement: "#sidePanel",
 //     sidepanelCloseElement: ".sidePanel-close",
 //
@@ -15,11 +15,11 @@ sidepanelOptions = {
 //     durationHide: "1.5s",
 //     durationHideFast: "0.25s",
 //
-//     backdropEnabled: true,
+//     backdrop: true,
 //     backdropStyle: "light",
 //
 //     sidePanelIsOpenClass: "sidepanel-shown",
-};
+// };
 
 // initialize and instantiate a new sidepanel for the page
 var sidepanel = new SidePanelCollapse(sidepanelOptions);
