@@ -4,8 +4,8 @@ module.exports = {
     "id": "page-exampleB",
 
     "group": "Page Group",
-    "page-title": "Voluptate pariatur aliqua beef ribs sed",
-    "page-title-short": "Example Page B",
+    "page-title": "Voluptate pariatur aliqua beef ribs, sed biltong frankfurter",
+    "page-title-short": "Voluptate Pariatur Aliqua Beef Ribs Sed Biltong Frankfurter",
     "page-title-html": "Example Page",
     "page-meta-description": "Voluptate pariatur aliqua, beef ribs sed biltong frankfurter.",
     "overview-short": "Voluptate pariatur aliqua, beef ribs sed biltong frankfurter.",

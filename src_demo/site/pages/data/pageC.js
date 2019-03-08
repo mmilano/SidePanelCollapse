@@ -4,8 +4,8 @@ module.exports = {
     "id": "page-exampleC",
 
     "group": "Page Group",
-    "page-title": "A Bootstrap-based Collapsing Sidebar",
-    "page-title-short": "Example Page",
+    "page-title": "Velit voluptate porchetta fatback cillum eiusmod",
+    "page-title-short": "Voluptate Porchetta",
     "page-title-html": "Example Page",
     "page-meta-description": "Voluptate pariatur aliqua, beef ribs sed biltong frankfurter.",
     "overview-short": "Voluptate pariatur aliqua, beef ribs sed biltong frankfurter.",
