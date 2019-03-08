@@ -1,6 +1,11 @@
-//
-// css for the standalone SidePanelCollapse
-//
+/*
+ * styles for the standalone SidePanelCollapse
+ *
+*/
 
+
+// base files for site styles
 @import "vendor/_bootstrap";
+
+// core SidePanelCollapse styles
 @import "sidepanelcollapse/_sidepanelcollapse";
