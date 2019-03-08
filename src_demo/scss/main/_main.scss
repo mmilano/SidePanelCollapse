@@ -40,6 +40,16 @@ a {
         color: $link-color-highlight;
         transition-duration: $nav-item-color-transition-duration;
     }
+
+    // .disabled = current = used for current location
+    &.disabled,
+    &:disabled {
+        color: $core-white;
+        font-weight: $font-weight-bold;
+        letter-spacing: 0.03rem;  // typographic finnese
+        word-spacing: 0.03rem;  // typographic finesse
+    }
+
 }
 
 

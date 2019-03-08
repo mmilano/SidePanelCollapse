@@ -115,36 +115,14 @@ $group-color-transition-duration:       0.9s;
 .sidenav-group {}
 
 // title for groups of items
-.sidenav-group-heading {
-    margin-bottom: 0;
-    padding: .37rem 0;
-
-    font-weight: $font-weight-bold;
-    letter-spacing: 0.03rem;
-
-    color: $nav-group-font-color;
-    transition: color $group-color-transition-duration;
-}
+.sidenav-group-heading {}
 
 // item
-.sidenav-item {
-    display: block;
-    padding: .35rem 1rem .37rem 0;
-
-    font-weight: $font-weight-normal;
-
-    // .disabled = current = used for current location
-    &.disabled,
-    &:disabled {
-        color: $core-white;
-        font-weight: $font-weight-bold;
-        letter-spacing: 0.03rem;  // typographic finnese
-        word-spacing: 0.03rem;  // typographic finesse
-    }
-}
+.sidenav-item {}
 
 
 // specific styles for display on the index page, aka homepage
+// TODO: needed?
 .theme-homepage {
     .sidenav {
         .sidenav-nav {
