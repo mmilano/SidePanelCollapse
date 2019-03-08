@@ -17,10 +17,10 @@ $sidepanel-zindex:                        $zindex-fixed + 1;  // z-index of Boot
 // sidepanel transitions
 $sidepanel-transition-function:           ease-in;
 
-// default durations
-$sidepanel-duration-show:                 1.05s;  // leisurely opening
-$sidepanel-duration-hide:                 0.33s;  // quick closing
-$sidepanel-duration-hide-fast:            0.11s;  // very fast closing
+// default sidepanel transition durations
+$sidepanel-duration-show:                 1.11s;  // leisurely
+$sidepanel-duration-hide:                 0.42s;  // prompt
+$sidepanel-duration-hide-fast:            0.11s;  // very fast
 
 // backdrop values
 $sidepanel-backdrop-zindex:               $sidepanel-zindex - 100;  // enough to be under .sidepanel, but over the main page content
@@ -37,14 +37,14 @@ $sidepanel-backdrop-duration-hide:        0.15s;
     // output the duration values as css variables so that they only have to be declared in one place, and
     // the page's javascript can access/extract them when needed.
     // see sidePanel.js for usage of the values.
-    // scoped locally to .sidepanel
+    // scoped locally to .sidepanel.
     --durationShow: #{$sidepanel-duration-show};
     --durationHide: #{$sidepanel-duration-hide};
     --durationHideFast: #{$sidepanel-duration-hide-fast};
 
     // transition properties
     // default on load to have no transition duration (therefore no effect) so that there is no slide-out animation shown when the page first loads (in some cases).
-    // Bootstrap collapse will change the width not height because .width is in the HTML
+    // Bootstrap collapse will change the width (not height) because '.width' is in the HTML
     transition-property: width;
     transition-timing-function: $sidepanel-transition-function;
 
@@ -53,7 +53,7 @@ $sidepanel-backdrop-duration-hide:        0.15s;
         width: 0;
 
         // duration value defined to use the css variable rather than scss variable so that the duration can be customized at runtime.
-        // if this is never going to happen, this could be simplified as just
+        // if this is never going to happen, this could be simplified to just
         // transition-duration: $sidepanel-duration-show;
         transition-duration: var(--durationShow);  // default duration. will be in effect for opening the sidepanel, but is overridden by javascript when closing
     }
