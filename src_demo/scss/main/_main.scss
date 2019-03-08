@@ -24,7 +24,9 @@ a {
     }
 }
 
-// global defaults for ALL nav-links
+// defaults for nav-links
+// applies to primary navbar when horizontal, and table-o'contents
+// .active is applied by scrollspy
 .nav-link {
 
     // default transition for nav-link. will apply when un-hovering a link
@@ -36,11 +38,12 @@ a {
     }
     &:not(.active):hover {
         color: $link-color-highlight;
-        transition: color $nav-item-color-transition-duration ease;
+        transition-duration: $nav-item-color-transition-duration;
     }
 }
 
-h1, h2, h3, h4, h5, h6,
+
+h1, h2, h3, h4,
 b, strong {
     font-weight: $font-weight-semibold;
 }
@@ -69,8 +72,23 @@ b, strong {
   text-align: center;
 }
 
+.theme-section-content {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+}
+
 footer {
     padding: 1rem 0 2rem 0;
     border-top: 1px dotted #BBB;
+    background-color: $background-color-footer;
     font-family: $font-family-secondary;
 }
+
+
+// design styles
+.theme-section {
+    h2 {
+        margin-bottom: 5rem;
+    }
+}
+
