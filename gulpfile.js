@@ -195,7 +195,7 @@ function refreshPanini() {
 // simple node server for dev
 // along with simple utility function to show current IP address
 
-function findAddress() {
+function findIPAddress() {
     let ip_main, ip, address;
 
     if (typeof networkInterfaces["en4"] !== "undefined") {
@@ -230,20 +230,49 @@ const options_server = {
       enable: false,
       path: "./"
     },
+    livereload: false
 };
 
+
+// function webserver(done) {
+//     currentIPAddress = findIPAddress();
+//
+//     connect.server(options_server);
+//
+//     // console.log ("***** current IP address:", currentIPAddress);
+//     done();
+// }
+
+
+
+// note about gulp-connect:
+// connect will throw an error and halt if any error happens while trying to start up,
+// such as trying to start the webserver when it is already running ("EADDRINUSE");
+// there does not appear any way to catch and handle this
 function webserver(done) {
-    connect.server(options_server);
-    currentIPAddress = findAddress();
-    // console.log ("***** current IP address:", currentIPAddress);
-    done();
+    currentIPAddress = findIPAddress();
+
+    var server = new Promise(function(resolve, reject) {
+        connect.server(options_server)
+        resolve (true);
+    });
+
+    server
+    .then ( msg => {
+        serverInfo();
+        done();
+    });
 }
 
-// user-friendly server info
+// exports.server2 = server2;
+
+// some user-friendly server info
 function serverInfo() {
-    glog("demo server is running...");
-    glog("connect to: localhost:" + options_server.port );
-    glog("connect to: " + currentIPAddress + ":" + options_server.port );
+    console.info("\n");
+    console.info("Demo webserver is running.");
+    console.info("Connect to: localhost:" + options_server.port );
+    console.info("Connect to: " + currentIPAddress + ":" + options_server.port );
+    console.info("\n");
 }
 
 gulp.task("webserver", webserver);
@@ -260,6 +289,14 @@ function siteClean(done) {
 
 gulp.task("site:clean", siteClean);
 
+
+// copy ico file for demo. pretty much only to avoid the console error that ico file cannot be found.
+function copyIco(done) {
+    gulp
+    .src(paths.icoSource)
+    .pipe(gulp.dest(paths.icoDestination));
+    done();
+}
 
 // copy images
 function copyImages(done) {
@@ -285,22 +322,40 @@ function watchImages(done) {
     done();
 }
 
-// copy ico file for demo. pretty much just to avoid the console error that ico file cannot be found
-function copyIco(done) {
-    gulp
-    .src(paths.icoSource)
-    .pipe(gulp.dest(paths.icoDestination));
-    done();
-}
+
 
 gulp.task("copy:images", copyImages);
-gulp.task("copy:images-changed", copyImagesChanged);
+// gulp.task("copy:images-changed", copyImagesChanged);
 
 // move and copy things that need to be moved and copied
 // gulp.task("site:copy", gulp.parallel("copy:images", "copy:js-vendor", "copy:css-vendor"));
 gulp.task("site:copy", gulp.parallel("copy:images", copyIco));
 gulp.task("site:setup", gulp.series("site:clean", "site:copy"));
 
+
+function doall(done) {
+    var tasks = new Promise(function(resolve, reject) {
+        gulp.parallel(copyImages, copyIco)();
+        gulp.series(webserver)();
+        resolve();
+    });
+
+    tasks.then (msg => {
+        console.log ("done with copyall");
+        done();
+    });
+}
+
+
+gulp.task ("copyme", function(done) {
+    console.log ("start");
+
+    doall(done);
+    console.log ("done");
+
+})
+
+exports.tt = doall;
 
 // let localDevFiles = [{
 //         local: "site-css-local.hbs",
@@ -1022,17 +1077,31 @@ gulp.task("demo", gulp.series(
 
 function trial() {
     var setup = new Promise (function(resolve, reject) {
-        webserver();
+        gulp.series(
 
-    }
+            "site:setup",
+
+            "compile:scss",
+            "compile:scss-sidepanel",
+            "copy:css-sidepanel",
+
+            "js:site",
+            "demoify:sidepanel",
+
+            "build:pages",
+            "webserver",
+        )();
+        resolve();
+
+    })
     .then(function(fulfilled) {
-        serverInfo();
+        console.log ("       finished");
         }
     )
     .catch(function(err) {
         err => {glog(err)};
         }
-    ));
+    );
 
 }
 
