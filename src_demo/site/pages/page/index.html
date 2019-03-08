@@ -20,7 +20,7 @@
 
 <div class="sidepanel sidenav width collapse" id="sidePanel">
 <div class="sidenav-content">
-    <div class="sidenav-header">
+    <div class="sidenav-headBar">
         <button class="sidePanel-close sidenav-close navbar-toggler" type="button" aria-expanded="true" aria-label="Close navigation">
             <span class="closeIcon" aria-hidden="true"></span>
         </button>
@@ -66,17 +66,47 @@
             {{/heading-L2}}
 
 
-{{#markdown}}
 
-There is also a more simple demo: [Simple Demo][link-simple-demo].
 
-[link-simple-demo]: ./index-simple.html
+<p>
 
-{{/markdown}}
+This demo is a set of multiple pages with different behaviors in the side navigation.
+
+</p>
+
+
+On this page, the site's index page,
+the primary navigation toggles responsively to the window width.
+
+
+<p class="d-none d-xl-block">
+The sidebar navigation is not being displayed right now. Resize the window to a smaller width in order to view the sidepanel.
+</p>
+
+<p>
+It uses custom SidePanelCollapse configuration settings.
+<p>
 
 
             </div>
         </div>
+
+
+<div class="pill demo demo-complex">
+<div class="pill-content">
+
+<p>
+There is also a more simple demo:
+<br>
+<a href="./index-simple.html">Simple Demo</a>
+</p>
+
+</div>
+</div>
+
+
+
+
 
     </div>
 </section>

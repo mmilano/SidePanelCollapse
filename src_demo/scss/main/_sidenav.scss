@@ -10,7 +10,7 @@ $sidenav-width-large:                   260px;
 $sidenav-width-small:                   $sidenav-width-large - 20;  // adjustment for smaller window sizes
 
 $sidenav-background-color:              rgba(#062B62, 0.91);
-$sidenav-header-color:                  #001B4E;
+$sidenav-header-bar-color:              #001B4E;
 $sidenav-border-color:                  desaturate(lighten($sidenav-background-color, 13.33333%), 33.33333%);
 
 $sidenav-closeButton-height:            36px;
@@ -74,7 +74,7 @@ $group-color-transition-duration:       0.9s;
 
     // bar at top of the sidenav. visually extends the horizontal primary navbar,
     // and contains the "X" close icon
-    .sidenav-header {
+    .sidenav-headBar {
         position: absolute;
         top: 0;
         left: 0;
@@ -85,7 +85,7 @@ $group-color-transition-duration:       0.9s;
         display: flex;
         align-items: center;
 
-        background-color: $sidenav-header-color;
+        background-color: $sidenav-header-bar-color;
     }
 
     .sidenav-close {
@@ -112,12 +112,15 @@ $group-color-transition-duration:       0.9s;
 
 
 // group = heading + list of items under that heading
+// note: not used in demo
 .sidenav-group {}
 
 // title for groups of items
+// note: not used in demo
 .sidenav-group-heading {}
 
 // item
+// note: not used in demo
 .sidenav-item {}
 
 

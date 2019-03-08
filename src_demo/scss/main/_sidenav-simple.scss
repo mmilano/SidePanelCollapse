@@ -11,7 +11,7 @@ $sidenav-width-small:                   $sidenav-width-large - 20;  // adjustmen
 
 $sidenav-background-color:              #062B62;
 $sidenav-background-color:              #24415A;
-$sidenav-header-color:                  darken(#343A40, 13.33333%);
+$sidenav-header-bar-color:                  darken(#343A40, 13.33333%);
 $sidenav-border-color:                  lighten(#343A40, 13.33333%);
 
 $sidenav-closeButton-height:            36px;
@@ -52,7 +52,7 @@ $sidenav-list-space-left:               25px;
 
     // bar at top of the sidenav. visually extends the horizontal primary navbar,
     // and contains the "X" close icon
-    .sidenav-header {
+    .sidenav-headBar {
         position: absolute;
         top: 0;
         left: 0;
@@ -63,7 +63,7 @@ $sidenav-list-space-left:               25px;
         display: flex;
         align-items: center;
 
-        background-color: $sidenav-header-color;
+        background-color: $sidenav-header-bar-color;
     }
 
     .sidenav-close {
