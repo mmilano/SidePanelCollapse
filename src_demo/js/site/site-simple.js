@@ -1,6 +1,7 @@
 // simple demo site script: main entry point
 // general site javascript initialization
 //
+// there isn't much to this, just initialization of the sidepanel
 
 /* globals SidePanelCollapse */    // jshint: global values
 "use strict";
