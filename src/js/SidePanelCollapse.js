@@ -250,8 +250,8 @@
     //
     // show the backdrop
     Backdrop.prototype.show = function() {
-        let _element = this.element;
-        _element.classList.add("show", "fadein");
+        let _backdrop = this.element;
+        _backdrop.classList.add("show", "fadein");
     };
 
     // hide the backdrop
@@ -265,11 +265,11 @@
             // _backdrop.removeEventListener("animationend", whenAnimationEnds, true);
         }
 
-        let _element = this.element;
+        let _backdrop = this.element;
         // when the backdrop's animationend event fires, call method. only once, since the listener is added again when it displays again.
-        _element.addEventListener("animationend", whenAnimationEnds, {once: true, passive: true, capture: true});
+        _backdrop.addEventListener("animationend", whenAnimationEnds, {once: true, passive: true, capture: true});
         // remove ".fadein" to activate the default animation (fadeout)
-        _element.classList.remove("fadein");
+        _backdrop.classList.remove("fadein");
     };
 
     // Backdrop object constructor
