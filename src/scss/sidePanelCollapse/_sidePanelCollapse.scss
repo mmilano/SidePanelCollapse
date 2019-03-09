@@ -12,7 +12,7 @@
 
 
 // sidepanel universal values
-$sidepanel-zindex:                        $zindex-fixed + 1;  // z-index of Bootstrap4 default nav, plus 1, to put .sidepanel above the nav
+$sidepanel-zindex:                        $zindex-fixed + 1;  // z-index based on Bootstrap v4 default nav, plus 1, to put .sidepanel above the nav
 
 // sidepanel transitions
 $sidepanel-transition-function:           ease-in;
@@ -48,7 +48,7 @@ $sidepanel-backdrop-duration-hide:        0.15s;
     transition-property: width;
     transition-timing-function: $sidepanel-transition-function;
 
-    // .collapsing is applied & removed by the Bootstrap collapse function during transitions, both open and close
+    // .collapsing is applied & removed by the Bootstrap collapse function during both open and close transitions
     &.collapsing {
         width: 0;
 
