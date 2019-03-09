@@ -9,13 +9,16 @@
 // shared values and scss mixins
 @import "common/_variables";
 
-// styles specific to individual page
-@import "pages/_page-index-simple";
+// styles for the general site
+@import "main/_main";
 
 // styles for sidenav
 @import "main/_sidenav-simple";
 
-// styles for specific elements
-@import "custom/_pill";
-@import "custom/_dingbats";
-@import "custom/_icon_close";
+// styles specific to individual page
+@import "pages/_page-index-simple";
+
+// styles for specific elements on/within pages
+@import "element/_dingbats";
+@import "element/_icon_close";
+@import "element/_pill";

@@ -24,11 +24,11 @@
 
 // styles specific to individual page
 @import "pages/_page-index";
-@import "pages/_gallery";
 @import "pages/_pages";
 
-// styles for specific elements
-@import "custom/_pill";
-@import "custom/_dingbats";
-@import "custom/_icon_close";
-@import "custom/_icon_menu";
+// styles for specific elements on/within pages
+@import "element/_gallery";
+@import "element/_dingbats";
+@import "element/_icon_close";
+@import "element/_icon_menu";
+@import "element/_pill";
