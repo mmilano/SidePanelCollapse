@@ -138,6 +138,20 @@
         this.$sidepanel.collapse("hide");  // invoke Bootstrap action
     };
 
+
+    // when sidepanel displays, scrolling is 'frozen' on the main page.
+    // if the page has (y-dimension) overflow, then removing the overflow will remove the scrollbar,
+    // and this will cause the page to shift.
+    // to eliminate the shift, the page dimension need to be adjusted to account for the scrollbar width.
+
+    _proto.scrollbarAdjust = function() {
+
+    };
+
+    _proto.scrollRestore = function () {
+
+    };
+
     // OPEN the sidepanel
     // expects to be called with this = the sidepanel object (e.g. via .bind(this)), which is set as the default
     _proto.open = function(e) {
@@ -154,14 +168,15 @@
 
         // if open is invoked via default bootstrap behavior, then event will exist (e.g. click), and .collapse("show") will have been
         // invoked by bootstrap already.
-        // if called independently, e will not exist, and "show" will need to be called manually.
+        // if called programmatically, e will not exist, and "show" will need to be called manually.
+        // todo: this could be more refined
         if (e === undefined) {
             this.show();
         }
 
         // initiate the showing of backdrop if backdrop is truthy
         if (this.backdrop) {
-            this.backdrop.show();
+            this.backdrop.show(this.$sidepanel);
         }
 
         // set keyup event handler - to catch ESC key and close sidepanel if pressed
@@ -175,7 +190,7 @@
         document.body.classList.add(this.settings.sidePanelIsOpenClass);
     };
 
-    // CLOSE the sidepanel.
+    // CLOSE the sidepanel
     // usually invoked as event callback
     // exists with .bind(this) to give access to the main sidepanel object
     _proto.close = function(e) {
@@ -189,8 +204,8 @@
         }
 
         // check to see if collapsing is in progress.
-        // if so, interrupt the normal close process, and reroute via event
-        // so that when the transition is finished, it will then go and close immediately
+        // if so, interrupt the normal close process, reroute via event, and exit early,
+        // so that when the transition is finished, it will then go and immediately start to close
         if (this.isCollapsing() && !this.closeQueued) {
             // queue up to close immediately
             this.closeQueued = true;
@@ -226,6 +241,7 @@
                 this.closeType = "normal";  // reset
                 break;
             default:
+                // aka "normal"
                 duration = this.settings.durationHide;
         }
         // access native DOM element within jquery object
@@ -236,7 +252,7 @@
 
         // initiate the hiding of backdrop if backdrop is truthy
         if (this.backdrop) {
-            this.backdrop.hide();
+            this.backdrop.hide(this.$sidepanel);
         }
 
         // cleanup
@@ -244,18 +260,27 @@
         document.body.classList.remove(this.settings.sidePanelIsOpenClass);
     };
 
+    // dispose of all the sidepanel
+//     _proto.dispose = function() {
+//         for (var prop in this) {
+//             this[prop] = null;
+//         }
+//     };
+
     // *****
     // Backdrop
     // the backdrop/overlay that is displayed when the sidepanel is open
-    //
+
     // show the backdrop
+    // this will be = Backdrop
     Backdrop.prototype.show = function() {
         let _backdrop = this.element;
         _backdrop.classList.add("show", "fadein");
+        this.freeze();
     };
 
     // hide the backdrop
-    Backdrop.prototype.hide = function() {
+    Backdrop.prototype.hide = function($sidepanel) {
 
         // method to run when fadeout animation ends - cleans up, and hides the backdrop.
         // because event is on backdrop, event.target is the backdrop - uses backdrop from there for simplicity
@@ -267,10 +292,52 @@
 
         let _backdrop = this.element;
         // when the backdrop's animationend event fires, call method. only once, since the listener is added again when it displays again.
-        _backdrop.addEventListener("animationend", whenAnimationEnds, {once: true, passive: true, capture: true});
+        _backdrop.addEventListener("animationend", whenAnimationEnds, {once: true, passive: true});
         // remove ".fadein" to activate the default animation (fadeout)
         _backdrop.classList.remove("fadein");
+
+        // when sidepanel becomes hidden, unfreeze the page
+        $sidepanel.one("hidden.bs.collapse", this.unfreeze.bind(this));
     };
+
+
+    // backdrop freezes the page behind itself
+    // expects: 'this' = Backdrop
+    Backdrop.prototype.freeze = function() {
+
+        let marginRight = 0;
+
+        // access and store current values
+        let bodyStyle = window.getComputedStyle(document.body);
+        let _existingMarginRight = parseInt(bodyStyle.marginRight, 10);
+        let _existingPaddingRight = parseInt(bodyStyle.paddingRight, 10);
+        let _existingOverflow = bodyStyle.overflow;
+
+        // width of a scroll bar will be the (total inner width) - (the document's width)
+        let scrollbarWidth = window.innerWidth - document.body.clientWidth;
+        scrollbarWidth = (scrollbarWidth > 0) ? scrollbarWidth : false;
+        console.log ("scroll: scrollbarWidth:", scrollbarWidth);
+
+        if (scrollbarWidth) {
+            let _page = document.body.style;
+            _page.overflow = "hidden";
+            _page.marginRight = (_existingMarginRight + scrollbarWidth) + "px";
+//             _page.paddingRight = (_existingPaddingRight + scrollbarWidth) + "px";
+        }
+        this.scrollbarWidthAdjustment = scrollbarWidth;
+    };
+
+    // unfreeze the page behind the backdrop
+    // expects: 'this' = Backdrop
+    Backdrop.prototype.unfreeze = function() {
+        console.log("unfreeze");
+        if (this.scrollbarWidthAdjustment) {
+            let _page = document.body.style;
+            _page.overflow = "";
+            _page.marginRight = "";
+        }
+    };
+
 
     // Backdrop object constructor
     // @param: provide backdrop with access to the parent sidepanel object that is created...
@@ -325,12 +392,13 @@
     // SidePanel constructor
     function SidePanelCollapse(options) {
 
-        let _settings = this.settings = defineSettings(defaults, options);  // convenience shorthand
+        let _settings = this.settings = defineSettings(defaults, options);
 
-        // (try to) select and cache the main sidepanel element
-        let _$sidepanel = this.$sidepanel = $(_settings.sidepanelElement);  // convenience shorthand
+        // (try to) select and cache the main sidepanel element as jquery object
+        let _$sidepanel = this.$sidepanel = $(_settings.sidepanelElement);
 
         // check if sidepanel exists on the page;
+        // if not, exit early.
         // check length because this is a jquery object.
         if (!this.$sidepanel.length) {
             // no sidepanel :(
@@ -366,9 +434,8 @@
         // (try to) select and cache the close button element.
         // note: assumes there is only one .sidepanel and only one close button within the sidepanel structure
         this.sidepanelCloseButton = _settings.sidepanelCloseElement ? _$sidepanel[0].querySelector(_settings.sidepanelCloseElement) : false;
-
         if (this.sidepanelCloseButton) {
-            // add event listener for action on the close element
+            // add persistent event listener for action on the close element
             this.sidepanelCloseButton.addEventListener("click", this.close, false);
         } else {
             // no close button found :(
@@ -377,6 +444,7 @@
         }
 
         // if enabled, create the backdrop element and add event listener
+        this.backdrop = null;
         if (_settings.backdrop) {
             this.backdrop = new Backdrop(this);
             this.backdrop.element.addEventListener("click", this.close, true);
