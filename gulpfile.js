@@ -355,6 +355,7 @@ gulp.task ("copyme", function(done) {
 
 })
 
+// trial, stuff in progress. to be deleted, fixed,
 exports.tt = doall;
 
 // let localDevFiles = [{
@@ -1004,6 +1005,37 @@ function copyJSSimple(done) {
 gulp.task("copy:jsSimple", copyJSSimple);
 
 gulp.task("js:site", gulp.parallel("browserify:site", "copy:jsSimple"));
+
+
+
+// BOOTSTRAP FOR DEVELOPMENT
+// TODO REMOVE
+function copybs(done) {
+
+    let bs_src = siteSourceRoot + "js/vendor/**/*.js";
+    let bs_dest = paths.jsDestination + "vendor/";
+    gulp
+    .src(bs_src)
+    .pipe(debug())
+    .pipe(gulp.dest(bs_dest));
+    done();
+}
+
+gulp.task("copy:bs", copybs);
+
+// watch the dev js stuff  TODO: remove
+function watchJSBS(done) {
+
+    let bssrc = siteSourceRoot + "js/vendor/**/*.js";
+
+    var watcher = gulp.watch(bssrc);
+    watcher.on("error", err => glog("watch js error: " + err.message));
+    watcher.on("change", path => glog("js changed >>> " + path));
+    watcher.on("change", gulp.series("copy:bs"));
+	done();
+}
+
+gulp.task("watch:bs", watchJSBS);
 
 
 // watch the js sources
