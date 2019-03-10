@@ -2,11 +2,19 @@
 // site homepage
 //
 
+$background-color-intro:        #618BFF;
+$background-color-second:       #95AF57;
+$background-color-footer:       #EDEDEA;
+
+
 // =============
 // INTRO
 
 #introduction {
-    background-color: $background-color-intro;
+//     background-color: $background-color-intro;
+
+    background-color: #8b4b51;
+
 }
 
 // =============
@@ -16,7 +24,3 @@
     background-color: $background-color-second;
 }
 
-// =============
-// GALLERY
-
-#gallery {}
