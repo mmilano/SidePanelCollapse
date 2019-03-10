@@ -114,13 +114,36 @@
     </div>
 </section>
 
-<section class="theme-section theme-section-full" id="bintroduction" style="margin:9rem;">
+<section class="theme-section theme-section-full" id="bintroduction">
     <div class="container">
 
-
+    <p>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
       Launch demo modal
     </button>
+    </p>
+
+    <p>
+    can also create a test modal:
+    </p>
+
+    <pre>
+    test = $("#test").modal({show:false});
+    test.modal("show");
+    test.modal("hide");
+    </pre>
+
+    <p>
+    can invoke the internal scrollbar methods using this
+    </p>
+
+    <pre>
+    test.modal("_checkScrollbar");
+    test.modal("_setScrollbar");
+    test.modal("_resetScrollbar");
+    </pre>
+
+
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -145,10 +168,10 @@
 
 
 
-
     </div>
 </section>
 
+<div class="test" id="test"></div>
 
 {{> page-footer}}
 
