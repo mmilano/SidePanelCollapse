@@ -2,6 +2,14 @@
 // site simple homepage
 //
 
+$background-color-intro:        #618BFF;
+
+
+$default-scrollbar-width: 15px;
+
+:root {
+    --scrollBar-width: $default-scrollbar-width;
+}
 
 body {
     position: relative;
@@ -34,7 +42,12 @@ h1, h2, b {
     height: $page-primarynavbar-height;
     padding-top: 0;
     padding-bottom: 0;
-    background-color: $site-primarynavbar-background-color;
+
+    // for work on page freeze with scrollbar
+    @at-root .sidepanel-open #{&} {  // = .sidepanel-open .top-navbar
+        padding-right: var(--scrollBar-width);
+    }
+
 }
 
 .navbar-brand {
@@ -88,3 +101,13 @@ footer {
     right: 0;
 }
 
+
+
+*[position=fixed] {
+    color: #F00 !important;
+
+}
+*[position] {
+    color: #F00 !important;
+
+}
