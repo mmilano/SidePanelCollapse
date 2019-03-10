@@ -45,6 +45,7 @@ $group-color-transition-duration:       0.9s;
     // because the width of the top-level sidepanel is changed during the collapse event by Bootstrap,
     // an interior element is used to maintain a fixed width for the content.
     .sidenav-content {
+
         width: $sidenav-width-small;
     }
 
@@ -75,10 +76,12 @@ $group-color-transition-duration:       0.9s;
     // bar at top of the sidenav. visually extends the horizontal primary navbar,
     // and contains the "X" close icon
     .sidenav-headBar {
-        position: absolute;
+//         position: absolute;
+
+        position: fixed;
         top: 0;
-        left: 0;
-        right: 0;
+        // right: 0;
+        width: inherit;
         height: $page-primarynavbar-height;
 
         // flex layout model to match the primary navbar
@@ -86,6 +89,7 @@ $group-color-transition-duration:       0.9s;
         align-items: center;
 
         background-color: $sidenav-header-bar-color;
+        opacity: .4;
     }
 
     .sidenav-close {
