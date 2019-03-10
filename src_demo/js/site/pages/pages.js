@@ -101,13 +101,14 @@ var pages = {
         // instantiate a new sidepanel for the page for when /if the sidenav will display
         // sidepanel options for this site
         var sidepanelOptions = {
+            durationShow: "2s",
             durationHide: "2s",
-            durationHideFast: "5s",
+            durationHideFast: "3s",
             backdropStyle: "dark",
         };
-        var sidepanel = new SidePanelCollapse(sidepanelOptions);
 
-
+        // expose sidepanel as global for demo purposes
+        window.sidepanel = new SidePanelCollapse(sidepanelOptions);
 
         // define the 2 different nav's for the page
         // the horizontal - primaryNav - displayed at very large window sizes (Bootstrap definition of large)
@@ -166,7 +167,8 @@ var pages = {
             backdropStyle: "dark",
         };
 
-        var sidepanel = new SidePanelCollapse(sidepanelOptions);
+        // expose sidepanel as global for demo purposes
+        window.sidepanel = new SidePanelCollapse(sidepanelOptions);
 
         // only need TOC scrollspy if window is above certain size
         util.scrollSpyCreate("#tableOfContents", util.checkWidth());
