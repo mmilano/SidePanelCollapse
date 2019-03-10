@@ -2,6 +2,9 @@
 // GENERAL common, shared style definitions
 
 
+$background-color-footer:       #EDEDEA;
+
+
 html {
   scroll-behavior: smooth;
 }
@@ -29,7 +32,6 @@ a {
 // .active is applied by scrollspy
 .nav-link {
 
-    // default transition for nav-link. will apply when un-hovering a link
     transition: color $nav-item-color-transition-duration-long ease;
 
     &.active {
@@ -53,8 +55,7 @@ a {
 }
 
 
-h1, h2, h3, h4,
-b, strong {
+h1, h2, h3, h4, b, strong {
     font-weight: $font-weight-semibold;
 }
 
@@ -82,10 +83,18 @@ b, strong {
   text-align: center;
 }
 
+.theme-section-center-vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .theme-section-content {
     padding-top: 6rem;
     padding-bottom: 6rem;
 }
+
+
 
 footer {
     padding: 1rem 0 2rem 0;
@@ -104,8 +113,6 @@ footer {
 
 
 
-
-
 ul {
     > li {
         font-weight: bold;
@@ -113,8 +120,5 @@ ul {
         li {
         font-weight: normal;
         }
-
     }
-
-
 }
