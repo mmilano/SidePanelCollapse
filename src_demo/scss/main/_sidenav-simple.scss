@@ -12,7 +12,6 @@ $sidenav-width-small:                   $sidenav-width-large - 20;  // adjustmen
 $sidenav-background-color:              #062B62;
 $sidenav-background-color:              #24415A;
 $sidenav-header-bar-color:              darken(#343A40, 13.33333%);
-$sidenav-border-color:                  lighten(#343A40, 13.33333%);
 
 $sidenav-closeButton-height:            36px;
 
@@ -29,11 +28,11 @@ $sidenav-list-space-left:               25px;
     overflow-x: hidden;
     padding: 0;
     background-color: $sidenav-background-color;
-    border-left: 1px solid $sidenav-border-color;
 
     // because the width of the top-level sidepanel is changed during the collapse event by Bootstrap,
     // an interior element is used to maintain a fixed width for the content.
     .sidenav-content {
+        position: relative;
         width: $sidenav-width-small;
     }
 
@@ -41,7 +40,6 @@ $sidenav-list-space-left:               25px;
     // main nav in the sidenav
     nav {
         display: block;  // override Bootstrap
-
         margin-top: $sidenav-list-offset-top;
         padding: 0 0 3rem $sidenav-list-space-left;
     }
@@ -51,12 +49,15 @@ $sidenav-list-space-left:               25px;
     }
 
     // bar at top of the sidenav. visually extends the horizontal primary navbar,
-    // and contains the "X" close icon
+    // and contains the "X" close icon.
+    // near replication to match the primary navbars
     .sidenav-headBar {
-        position: absolute;
+//         position: absolute;
+        position: fixed;
         top: 0;
-        left: 0;
-        right: 0;
+//         left: 0;
+//         right: 0;
+        width: inherit;
         height: $page-primarynavbar-height;
 
         // flex layout model to match the primary navbar
@@ -64,6 +65,7 @@ $sidenav-list-space-left:               25px;
         align-items: center;
 
         background-color: $sidenav-header-bar-color;
+        opacity: .6;
     }
 
     .sidenav-close {
