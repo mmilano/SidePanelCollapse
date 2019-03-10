@@ -27,7 +27,7 @@
     "url": "https://gitlab.com/mmilano/bootstrapHorizontalCollapse/issues"
   },
   "scripts": {
-    "test": "mocha --require babel-core/register --reporter nyan"
+    "test": "echo \"Error: no tests specified\" && exit 1"
   },
   "_moduleAliases": {
     "@root": ".",
