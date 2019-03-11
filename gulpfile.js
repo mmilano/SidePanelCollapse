@@ -409,12 +409,12 @@ const options_changedInPlace = {
 };
 
 const options_pageBuild = {
-    root:       paths.siteBuildSource,             // path to the root folder all the page build stuff lives in
+    root:       "./src_demo/site/pages/page",    // path to the root folder all the pages live in
     layouts:    paths.siteBuildSource + "layouts/",
     pageLayouts: {
                 "index.html":           "layout-index",
                 "index-simple.html":    "layout-index-simple",
-                "pages/page/**/*":      "layout-page",
+                "":                     "layout-page",
                 },
     helpers:    paths.siteBuildSource + "helpers/",       // path to a folder containing panini & handlebars helpers
     partials:   paths.siteBuildSource + "partials/",      // path to a folder containing HTML partials
