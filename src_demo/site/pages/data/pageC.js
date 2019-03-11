@@ -4,19 +4,19 @@ module.exports = {
     "id": "page-exampleC",
 
     "group": "Page Group",
-    "page-title": "Velit voluptate porchetta fatback cillum eiusmod",
-    "page-title-short": "Voluptate Porchetta",
+    "page-title": "kopi-luwak trifecta caramelization steamed, cream, and skinny saucer cultivar",
+    "page-title-short": "trifecta caramelization steamed",
     "page-title-html": "Example Page",
-    "page-meta-description": "Voluptate pariatur aliqua, beef ribs sed biltong frankfurter.",
-    "overview-short": "Voluptate pariatur aliqua, beef ribs sed biltong frankfurter.",
+    "page-meta-description": "Kopi-luwak trifecta caramelization steamed, cream, and skinny saucer cultivar",
+    "overview-short": "Kopi-luwak trifecta caramelization steamed, cream, and skinny saucer cultivar.",
 
     "og": {
         image: {
             url: "public/images/og/og-site.png",  // defined in relation to "url-image-base"
             width: 512,
             height: 256,
-            alt: "Voluptate pariatur aliqua, beef ribs sed biltong frankfurter.",
+            alt: "",
         },
-        "description": "Voluptate pariatur aliqua, beef ribs sed biltong frankfurter.",
+        "description": "Kopi-luwak trifecta caramelization steamed, cream, and skinny saucer cultivar",
     },
 };

@@ -4,19 +4,19 @@ module.exports = {
     "id": "page-exampleA",
 
     "group": "Page Group",
-    "page-title": "Spare ribs tenderloin officia est sint pork loin sirloin",
-    "page-title-short": "Spare Ribs Tenderloin",
+    "page-title": "In Grounds Est Barista Con Panna",
+    "page-title-short": "est barista con panna",
     "page-title-html": "Example Page",
-    "page-meta-description": "Spare ribs tenderloin officia est sint pork loin sirloin beef ribs nulla ea.",
-    "overview-short": "Spare ribs tenderloin officia est sint pork loin sirloin beef ribs nulla ea, doner ground round jowl meatball.",
+    "page-meta-description": "Et, ristretto, crema sweet kopi-luwak, breve robusta, java dripper coffee.",
+    "overview-short": "Et, ristretto, crema sweet kopi-luwak, breve robusta, java dripper coffee.",
 
     "og": {
         image: {
             url: "public/images/og/og-site.png",  // defined in relation to "url-image-base"
             width: 512,
             height: 256,
-            alt: "Spare ribs tenderloin officia est sint pork loin sirloin beef ribs nulla ea.",
+            alt: "",
         },
-        "description": "Spare ribs tenderloin officia est sint pork loin sirloin beef ribs nulla ea.",
+        "description": "Et, ristretto, crema sweet kopi-luwak, breve robusta, java dripper coffee.",
     },
 };
