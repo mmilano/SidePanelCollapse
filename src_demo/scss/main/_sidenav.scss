@@ -1,6 +1,6 @@
 // site-specific styles for the sidepanel sidenav
 //
-// .sidenav styles add .sidepanel styles
+// .sidenav styles add to .sidepanel styles
 // can also override .sidepanel styles here
 
 // sidepanel universal values
@@ -9,12 +9,11 @@ $sidenav-zindex:                        $zindex-fixed + 1;  // z-index of Bootst
 $sidenav-width-large:                   260px;
 $sidenav-width-small:                   $sidenav-width-large - 20;  // adjustment for smaller window sizes
 
-$sidenav-background-color:              rgba(#062B62, 0.91);
+$sidenav-background-color:              #062B62;
 $sidenav-header-bar-color:              #001B4E;
 $sidenav-border-color:                  desaturate(lighten($sidenav-background-color, 13.33333%), 33.33333%);
 
 $sidenav-closeButton-height:            36px;
-
 $sidenav-close-xposition-small:         193px;
 $sidenav-close-xposition-large:         183px;
 
@@ -29,8 +28,6 @@ $nav-item-font-size:                    0.83rem;
 $nav-group-font-color:                  #476978;
 $nav-group-font-color-hover:            #3D88C9;
 
-$group-color-transition-duration:       0.9s;
-
 
 .sidenav {
     z-index: $sidenav-zindex;
@@ -42,7 +39,7 @@ $group-color-transition-duration:       0.9s;
     padding: 0;
     background-color: $sidenav-background-color;
 
-    // because the width of the top-level sidepanel is changed during the collapse event by Bootstrap,
+    // because the width of the top-level .sidepanel is changed during the collapse event by Bootstrap,
     // an interior element is used to maintain a fixed width for the content.
     .sidenav-content {
 
@@ -76,11 +73,8 @@ $group-color-transition-duration:       0.9s;
     // bar at top of the sidenav. visually extends the horizontal primary navbar,
     // and contains the "X" close icon
     .sidenav-headBar {
-//         position: absolute;
-
         position: fixed;
         top: 0;
-        // right: 0;
         width: inherit;
         height: $page-primarynavbar-height;
 
@@ -89,7 +83,6 @@ $group-color-transition-duration:       0.9s;
         align-items: center;
 
         background-color: $sidenav-header-bar-color;
-        opacity: .4;
     }
 
     .sidenav-close {
@@ -117,19 +110,18 @@ $group-color-transition-duration:       0.9s;
 
 // group = heading + list of items under that heading
 // note: not used in demo
-.sidenav-group {}
+// .sidenav-group {}
 
 // title for groups of items
 // note: not used in demo
-.sidenav-group-heading {}
+// .sidenav-group-heading {}
 
 // item
 // note: not used in demo
-.sidenav-item {}
+// .sidenav-item {}
 
 
 // specific styles for display on the index page, aka homepage
-// TODO: needed?
 .theme-homepage {
     .sidenav {
         .sidenav-nav {
