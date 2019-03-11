@@ -22,9 +22,9 @@ $sidepanel-duration-hide-fast:            0.11s;  // very fast
 // backdrop values
 $sidepanel-zindex:                        $zindex-fixed + 1;        // first: define a z-index based on Bootstrap v4 default nav, plus 1, to put .sidepanel above the nav
 $sidepanel-backdrop-zindex:               $sidepanel-zindex - 100;  // then, for backdrop: enough to be under .sidepanel, but over the main page content
-$sidepanel-backdrop-opacity-max:          0.61;
-$sidepanel-backdrop-dark:                 #000;
-$sidepanel-backdrop-light:                #FFF;
+$sidepanel-backdrop-opacity-max:          1;
+$sidepanel-backdrop-dark:                 rgba(#000, 0.51);
+$sidepanel-backdrop-light:                rgba(#FFF, 0.6);
 
 // backdrop transition durations
 $sidepanel-backdrop-duration-show:        0.33s;
