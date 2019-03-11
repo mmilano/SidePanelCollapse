@@ -103,7 +103,7 @@
 
         // which side of the window is the sidepanel on.
         // currently the only choice is "right"
-        side: "right",
+        // side: "right",
 
         linkHandle: true,
     };
@@ -136,20 +136,6 @@
     // manually activate the 'hide' action
     _proto.hide = function() {
         this.$sidepanel.collapse("hide");  // invoke Bootstrap action
-    };
-
-
-    // when sidepanel displays, scrolling is 'frozen' on the main page.
-    // if the page has (y-dimension) overflow, then removing the overflow will remove the scrollbar,
-    // and this will cause the page to shift.
-    // to eliminate the shift, the page dimension need to be adjusted to account for the scrollbar width.
-
-    _proto.scrollbarAdjust = function() {
-
-    };
-
-    _proto.scrollRestore = function () {
-
     };
 
     // OPEN the sidepanel
@@ -276,7 +262,6 @@
     Backdrop.prototype.show = function() {
         let _backdrop = this.element;
         _backdrop.classList.add("show", "fadein");
-        this.freeze();
     };
 
     // hide the backdrop
@@ -296,46 +281,6 @@
         // remove ".fadein" to activate the default animation (fadeout)
         _backdrop.classList.remove("fadein");
 
-        // when sidepanel becomes hidden, unfreeze the page
-        $sidepanel.one("hidden.bs.collapse", this.unfreeze.bind(this));
-    };
-
-
-    // backdrop freezes the page behind itself
-    // expects: 'this' = Backdrop
-    Backdrop.prototype.freeze = function() {
-
-        let marginRight = 0;
-
-        // access and store current values
-        let bodyStyle = window.getComputedStyle(document.body);
-        let _existingMarginRight = parseInt(bodyStyle.marginRight, 10);
-        let _existingPaddingRight = parseInt(bodyStyle.paddingRight, 10);
-        let _existingOverflow = bodyStyle.overflow;
-
-        // width of a scroll bar will be the (total inner width) - (the document's width)
-        let scrollbarWidth = window.innerWidth - document.body.clientWidth;
-        scrollbarWidth = (scrollbarWidth > 0) ? scrollbarWidth : false;
-        console.log ("scroll: scrollbarWidth:", scrollbarWidth);
-
-        if (scrollbarWidth) {
-            let _page = document.body.style;
-            _page.overflow = "hidden";
-            _page.marginRight = (_existingMarginRight + scrollbarWidth) + "px";
-//             _page.paddingRight = (_existingPaddingRight + scrollbarWidth) + "px";
-        }
-        this.scrollbarWidthAdjustment = scrollbarWidth;
-    };
-
-    // unfreeze the page behind the backdrop
-    // expects: 'this' = Backdrop
-    Backdrop.prototype.unfreeze = function() {
-        console.log("unfreeze");
-        if (this.scrollbarWidthAdjustment) {
-            let _page = document.body.style;
-            _page.overflow = "";
-            _page.marginRight = "";
-        }
     };
 
 
