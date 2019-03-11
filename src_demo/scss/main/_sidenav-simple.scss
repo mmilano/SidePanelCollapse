@@ -14,9 +14,11 @@ $sidenav-background-color:              #24415A;
 $sidenav-header-bar-color:              darken(#343A40, 13.33333%);
 
 $sidenav-closeButton-height:            36px;
+$sidenav-close-xposition-small:         177px;
+$sidenav-close-xposition-large:         196px;
 
-$sidenav-list-offset-top:               $page-primarynavbar-height + 12;  // visual margin from top of sidebar to account for the header bar
-$sidenav-list-space-left:               25px;
+$sidenav-nav-offset-top:               $page-primarynavbar-height + 12;  // visual margin from top of sidebar to account for the header bar
+$sidenav-nav-padding-left:               25px;
 
 
 .sidenav-simple {
@@ -29,7 +31,7 @@ $sidenav-list-space-left:               25px;
     padding: 0;
     background-color: $sidenav-background-color;
 
-    // because the width of the top-level sidepanel is changed during the collapse event by Bootstrap,
+    // because the width of the top-level .sidepanel is changed during the collapse event by Bootstrap,
     // an interior element is used to maintain a fixed width for the content.
     .sidenav-content {
         position: relative;
@@ -40,8 +42,8 @@ $sidenav-list-space-left:               25px;
     // main nav in the sidenav
     nav {
         display: block;  // override Bootstrap
-        margin-top: $sidenav-list-offset-top;
-        padding: 0 0 3rem $sidenav-list-space-left;
+        margin-top: $sidenav-nav-offset-top;
+        padding: 0 0 3rem $sidenav-nav-padding-left;
     }
 
     .navbar-nav {
@@ -52,11 +54,8 @@ $sidenav-list-space-left:               25px;
     // and contains the "X" close icon.
     // near replication to match the primary navbars
     .sidenav-headBar {
-//         position: absolute;
         position: fixed;
         top: 0;
-//         left: 0;
-//         right: 0;
         width: inherit;
         height: $page-primarynavbar-height;
 
@@ -65,7 +64,6 @@ $sidenav-list-space-left:               25px;
         align-items: center;
 
         background-color: $sidenav-header-bar-color;
-        opacity: .6;
     }
 
     .sidenav-close {
@@ -80,8 +78,9 @@ $sidenav-list-space-left:               25px;
         .sidenav-content {
             width: $sidenav-width-large;
         }
+
         .sidenav-close {
-            margin-left: 196px; // visually adjust the close button to match the position of the sandwich menu button in the primary nav
+            margin-left: $sidenav-close-xposition-large; // visually adjust the close button to match the position of the sandwich menu button in the primary nav
         }
     }
 
