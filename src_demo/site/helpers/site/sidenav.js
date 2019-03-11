@@ -3,7 +3,7 @@
 //
 // generate the gallery page list in the pages - currently displayed as the slide-out sidepanel
 //
-// @param {object} globalContext: the top level context for the pages
+// @param {object} globalContext: the top level context for the site
 
 const panini = require("panini");
 const node_path = require("path");
