@@ -103,19 +103,23 @@ footer {
 
 
 // design styles
-.theme-section {
-    h2 {
-        margin-bottom: 5rem;
-    }
-}
-
-
-ul {
-    > li {
-        font-weight: bold;
-
-        li {
-        font-weight: normal;
+section {
+    &.theme-section {
+        h2 {
+            margin-bottom: 5rem;
         }
     }
+
+    ul {
+        > li {
+            font-weight: bold;
+
+            li {
+            font-weight: normal;
+            }
+        }
+    }
+
 }
+
+
