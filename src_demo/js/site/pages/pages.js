@@ -103,7 +103,7 @@ var pages = {
         var sidepanelOptions = {
             durationShow: "2s",
             durationHide: "2s",
-            durationHideFast: "3s",
+            durationHideFast: ".5s",
             backdropStyle: "dark",
         };
 
