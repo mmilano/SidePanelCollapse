@@ -1,8 +1,8 @@
 // 'pill' like element
 
 
-$pill-width:        330px;
-$pill-height:       90px;
+$pill-width:                    330px;
+$pill-height:                   90px;
 
 $pill-background-color:         #BBB;
 $pill-border-radius:            1rem;
@@ -36,19 +36,20 @@ $pill-demo-background-color:    #130737;
 
 
 .pill {
-
     &.demo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+
         color: $core-white;
         background-color: $pill-demo-background-color;
     }
 
     &.demo-simple {
-        position: absolute;
-        bottom: 200px;
+        bottom: 150px;
     }
 
     &.demo-complex {
-        position: absolute;
         bottom: 200px;
     }
 }
