@@ -4,13 +4,6 @@
 
 $background-color-intro:        #618BFF;
 
-
-$default-scrollbar-width: 15px;
-
-:root {
-    --scrollBar-width: $default-scrollbar-width;
-}
-
 body {
     position: relative;
     font-family: $font-family-primary;
@@ -26,10 +19,11 @@ h1, h2, b {
     // default transition for nav-link. will apply when un-hovering a link
     transition: color $nav-item-color-transition-duration-long ease;
 
-//     &.active {
-//         font-weight: $font-weight-semibold;
-//         color: $text-color-nav-default;
-//     }
+    &.active {
+        font-weight: $font-weight-semibold;
+        color: $text-color-nav-default;
+    }
+
     &:not(.active):hover {
         color: $link-color-highlight;
         transition-duration: $nav-item-color-transition-duration;
@@ -42,12 +36,6 @@ h1, h2, b {
     height: $page-primarynavbar-height;
     padding-top: 0;
     padding-bottom: 0;
-
-    // for work on page freeze with scrollbar
-    @at-root .sidepanel-open #{&} {  // = .sidepanel-open .top-navbar
-        padding-right: var(--scrollBar-width);
-    }
-
 }
 
 .navbar-brand {
