@@ -11,7 +11,8 @@ $sidenav-width-small:                   $sidenav-width-large - 20;  // adjustmen
 
 $sidenav-background-color:              #062B62;
 $sidenav-background-color:              #24415A;
-$sidenav-header-bar-color:              darken(#343A40, 13.33333%);
+// $sidenav-header-bar-color:              darken(#343A40, 13.33333%);
+$sidenav-header-bar-color:              #162023;
 
 $sidenav-closeButton-height:            36px;
 $sidenav-close-xposition-small:         177px;
@@ -21,7 +22,7 @@ $sidenav-nav-offset-top:               $page-primarynavbar-height + 12;  // visu
 $sidenav-nav-padding-left:               25px;
 
 
-.sidenav-simple {
+.sidenav {
     z-index: $sidenav-zindex;
     position: fixed;
     top: 0;
@@ -74,7 +75,7 @@ $sidenav-nav-padding-left:               25px;
 // for larger windows
 @include media-breakpoint-up(md) {
 
-    .sidenav-simple {
+    .sidenav{
         .sidenav-content {
             width: $sidenav-width-large;
         }
