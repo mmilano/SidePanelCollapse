@@ -9,14 +9,6 @@
 
 /* jshint latedef: nofunc */
 
-// to invoke...
-//
-// values to pass in:
-// sidepanel: css selector of the sidepanel in the html
-// close button: css selector of the close button?
-// backdrop color: light or dark
-
-
 // UMD (from the UMD template)
 (function(window, SidePanelCollapse) {
     if (typeof define === "function" && define.amd) {
@@ -88,6 +80,11 @@
         durationHide: styles.getPropertyValue("--durationHide"),
         durationHideFast: styles.getPropertyValue("--durationHideFast"),
 
+        // HTML class attribute:
+        // class that is added to the document's <body> element when sidepanel shows, removed when it hides.
+        // this is a convenience - for use in enabling any specific styles that should apply when sidepanel is open.
+        sidePanelIsOpenClass: "sidepanel-open",
+
         // boolean: whether or not a backdrop, or overlay, should display behind the sidepanel
         backdrop: true,
 
@@ -96,18 +93,32 @@
         // corresponds to the css styles (e.g. "light" -> ".light")
         backdropStyle: "light",
 
-        // HTML class attribute:
-        // class that is added to the document's <body> element when sidepanel shows, removed when it hides.
-        // this is a convenience - for use in enabling any specific styles that should apply when sidepanel is open.
-        sidePanelIsOpenClass: "sidepanel-open",
-
-        // which side of the window is the sidepanel on.
-        // currently the only choice is "right"
-        // side: "right",
-
+        // whether sidepanel should enable special behavior for <a> links in the sidepanel.
+        // currently, the behavior is to intercept the link click, close the sidepanel using the HideFast duration, and then follow the link
         linkHandle: true,
     };
 
+    // linkhandle: link callback
+    // when a link is clicked,
+    // close the panel - fast mode.
+    // then, when panel is closed, go to destination of link.
+    function linkHandle() {
+
+        function linkEvent(destination) {
+            return function(e) {
+                window.location = destination;
+            };
+        }
+
+        // return function with closure. used for the link eventListener
+        return function(e) {
+            e.preventDefault();
+            this.closeType = "fast";
+            // create link event handler with closure
+            this.$sidepanel.one("hidden.bs.collapse", linkEvent(e.target.href));
+            this.close();
+        };
+    }
 
     // determine if the sidepanel is currently transitioning or not
     // '.collapsing' is applied to the element by Bootstrap during the transition, removed when finished
@@ -246,19 +257,21 @@
         document.body.classList.remove(this.settings.sidePanelIsOpenClass);
     };
 
-    // dispose of all the sidepanel
-//     _proto.dispose = function() {
-//         for (var prop in this) {
-//             this[prop] = null;
-//         }
-//     };
+    // future home of method to dispose of all the sidepanel.
+    // dev note: currently disabled. to be developed.
+    //     _proto.dispose = function() {
+    //         for (var prop in this) {
+    //             this[prop] = null;
+    //         }
+    //     };
+
 
     // *****
     // Backdrop
     // the backdrop/overlay that is displayed when the sidepanel is open
 
     // show the backdrop
-    // this will be = Backdrop
+    // 'this' will be = Backdrop
     Backdrop.prototype.show = function() {
         let _backdrop = this.element;
         _backdrop.classList.add("show", "fadein");
@@ -282,7 +295,6 @@
         _backdrop.classList.remove("fadein");
 
     };
-
 
     // Backdrop object constructor
     // @param: provide backdrop with access to the parent sidepanel object that is created...
@@ -310,29 +322,6 @@
 
     // end Backdrop
     // *****
-
-
-    // link callback
-    // when a link is clicked,
-    // close the panel - fast mode.
-    // then, when panel is closed, go to destination of link
-    function linkHandle() {
-
-        function linkEvent(destination) {
-            return function(e) {
-                window.location = destination;
-            };
-        }
-
-        // return function with closure. used for the link eventListener
-        return function(e) {
-            e.preventDefault();
-            this.closeType = "fast";
-            // create link event handler with closure
-            this.$sidepanel.one("hidden.bs.collapse", linkEvent(e.target.href));
-            this.close();
-        };
-    }
 
     // SidePanel constructor
     function SidePanelCollapse(options) {
@@ -398,11 +387,10 @@
         // internal flag for which close type, and therefore duration, to use: normal, or fast
         this.closeType = "normal";  // default behavior when closing the sidepanel
 
-        // handle links in the sidepanel
-        //
+        // handle links:
         // find all the links in the sidepanel
         // and add an event on them
-        // in order to trap the links and implement a custom behavior
+        // in order to trap the links and implement custom behavior
         if (_settings.linkHandle) {
             let sidepanelLinks = this.$sidepanel[0].getElementsByTagName("a"), ln = sidepanelLinks.length;
             let linkHandler = linkHandle().bind(this);
