@@ -38,7 +38,6 @@ const rename =          require("gulp-rename");
 const notify =          require("gulp-notify");
 const notify_node =     require("node-notifier");  // existing dependency of gulp-notify
 const filter =          require("gulp-filter");
-// const through =         require("through2");
 const cached =          require("gulp-cached");
 const changed =         require("gulp-changed");
 const changedInPlace =  require("gulp-changed-in-place");
@@ -54,8 +53,11 @@ const networkInterfaces = require("os").networkInterfaces();
 // **********
 // globals: build settings, paths and files of sources, etc.
 
+// browser targets used for transpiling js and building targeted css
 const browserTargets = ["> 0.5%"];
 
+
+// file paths
 const siteSourceRoot = "./src_demo/";
 const siteBuildSource = siteSourceRoot + "site/";
 const siteBuildDestinationRoot = "./demo/";
@@ -98,26 +100,25 @@ const paths = {
 
     // the site's 3rd party js files.
     // only here for the option to develop locally without network access
-    jsVendorGLOB: siteSourceRoot + "js/vendor/**/*.js",
-    jsVendorDestination: siteBuildDestinationRoot + "public/js",
+//     jsVendorGLOB: siteSourceRoot + "js/vendor/**/*.js",
+//     jsVendorDestination: siteBuildDestinationRoot + "public/js",
 
-    // the demo site's js files
     jsSourceSITEGLOB: [siteSourceRoot + "js/site/**/*.js"],
     jsFile_site: "site.js",
     browserifyDestinationFile_site: "site.js",
     jsFile_site_simple: "site-simple.js",
 
-    browserifyDestinationFile_SidePanel: "SidePanelCollapse.js",
+//     browserifyDestinationFile_SidePanel: "SidePanelCollapse.js",
 
     // demo site building files
-    siteBuildSource: siteBuildSource,  // dupe for convenience/consistency
+    siteBuildSource: siteBuildSource,  // alias for convenience/consistency
     pageBuildSourceRoot: siteBuildSource + "pages/",
     siteDataGLOB: siteSourceRoot + "site/data/site/**/*",
 
     // MASTER FILE of the subpage/gallery data
     siteGalleryData: siteSourceRoot + "js/site/gallery/site-gallery-data.js",
 
-    // demo html pages
+    // html
     indexPage: "index.html",
     indexPage_simple: "index-simple.html",
     get indexPageSRC() {
@@ -145,16 +146,14 @@ const paths = {
     get siteHBSjsFilesGLOB() {
         return this.siteHBSFilesGLOB + ".js";
     },
-
 };
 
 
-// globals for the SidePanelCollapse module
+// paths for the SidePanelCollapse module
 const sidepanelSourceRoot = "./src/";
 const sidepanelDestinationRoot = "./dist/";
 
 const paths_sidepanel = {
-
     scss_source: [sidepanelSourceRoot + "scss/sidePanelCollapse.scss"],
     scss_sourceGLOB: [sidepanelSourceRoot + "scss/**/*"],
     css_destination: sidepanelDestinationRoot + "css",
@@ -180,16 +179,6 @@ function touchNow(src) {
 function refreshPanini() {
     panini.refresh();
 }
-
-// utility function for displaying individual file names within a gulp stream
-// function logFile(title) {
-//     function logger (file, enc, callback) {
-//         glog (title, ":", file.path);
-//         callback( null, file);
-//     }
-//     return through.obj(logger);
-// }
-
 
 // webserver
 // simple node server for dev
@@ -315,7 +304,7 @@ function copyImagesChanged(done) {
 }
 
 function watchImages(done) {
-    var watcherImages =  gulp.watch(paths.imgSourceGLOBall);
+    var watcherImages = gulp.watch(paths.imgSourceGLOBall);
     watcherImages.on("error", err => glog("watch images error: " + err));
     watcherImages.on("change", path => glog("image changed >>> " + path));
     watcherImages.on("change", gulp.series("copy:images-changed"));
@@ -409,12 +398,12 @@ const options_changedInPlace = {
 };
 
 const options_pageBuild = {
-    root:       "./src_demo/site/pages/page",    // path to the root folder all the pages live in
+    root:       "./src_demo/site/pages/page",   // path to the root folder all the pages live in
     layouts:    paths.siteBuildSource + "layouts/",
     pageLayouts: {
                 "index.html":           "layout-index",
                 "index-simple.html":    "layout-index-simple",
-                "":                     "layout-page",
+                "":                     "layout-page",  // key intentionally left blank
                 },
     helpers:    paths.siteBuildSource + "helpers/",       // path to a folder containing panini & handlebars helpers
     partials:   paths.siteBuildSource + "partials/",      // path to a folder containing HTML partials
@@ -435,7 +424,6 @@ function buildPage(pages, destination) {
     .pipe(gulp.dest(destination))
     .pipe(debug({title: "BUILT page:"}));
 }
-
 
 // build all the known pages,
 // including the index page(s)
@@ -557,7 +545,7 @@ function buildpagesCHANGED(done) {
 gulp.task("build:pages-changed", buildpagesCHANGED);
 
 function watchPages(done) {
-    var watcherPages =  gulp.watch([paths.sitePagesGLOB, paths.DSStoreIgnore]);
+    var watcherPages = gulp.watch([paths.sitePagesGLOB, paths.DSStoreIgnore]);
     watcherPages.on("error", err => glog("watch error: " + err));
     watcherPages.on("change", path => glog("pages changed >>> " + path));
     watcherPages.on("change", gulp.series("build:pages-changed"));
@@ -571,7 +559,7 @@ gulp.task("watch:pages", gulp.series(watchPageData, watchPages));
 // rebuild all because these items affect all pages.
 // also watch the site data, which also affects all the pages.
 function watchTemplateSources(done) {
-    var watchTemplateSources =  gulp.watch([paths.siteHBSFilesGLOB, paths.siteDataGLOB]);
+    var watchTemplateSources = gulp.watch([paths.siteHBSFilesGLOB, paths.siteDataGLOB]);
     watchTemplateSources.on("error", err => glog("watch templates & helpers error: " + err));
     watchTemplateSources.on("change", path => glog("templates & helpers changed >>> " + path));
     watchTemplateSources.on("change", gulp.series("build:pages"));
@@ -771,7 +759,7 @@ gulp.task("lint:css-demo", lintCSS_demo);
 
 // watch the sidepanel scss sources
 function watchSCSS_sidepanel(done) {
-    var watcherSCSS =  gulp.watch(paths_sidepanel.scss_sourceGLOB);
+    var watcherSCSS = gulp.watch(paths_sidepanel.scss_sourceGLOB);
     watcherSCSS.on("error", err => glog("watch scss error: " + err));
     watcherSCSS.on("unlink", path => glog(path + " was deleted"));
     watcherSCSS.on("change", path => glog("scss changed: "+ path));
@@ -781,7 +769,7 @@ function watchSCSS_sidepanel(done) {
 
 // watch the demo scss sources
 function watchSCSS(done) {
-    var watcherSCSS =  gulp.watch(paths.scssSourceGLOB);
+    var watcherSCSS = gulp.watch(paths.scssSourceGLOB);
     watcherSCSS.on("error", err => glog("watch scss error: " + err));
     watcherSCSS.on("unlink", path => glog(path + " was deleted"));
     watcherSCSS.on("change", gulp.series("compile:scss"));
@@ -800,7 +788,7 @@ gulp.task("watch:scss", watchSCSS);
 // the gallery data is used to generate the set of page cards displayed on the index page,
 // and the inter-page navigation displayed in the sidepanel nav
 function watchGalleryData(done) {
-    var watcherGallery =  gulp.watch(paths.siteGalleryData);
+    var watcherGallery = gulp.watch(paths.siteGalleryData);
     watcherGallery.on("error", err => glog("watch gallery data error: " + err));
     watcherGallery.on("change", gulp.parallel("build:index"));
     done();
@@ -815,7 +803,6 @@ gulp.task("watch:siteGallery", watchGalleryData);
 //
 // lint, assemble, compile, and etc., for the javascript
 
-
 // check the Panini files
 function lintJSPanini() {
     let src = paths.siteHBSjsFilesGLOB;
@@ -828,6 +815,7 @@ function lintJSPanini() {
     .pipe(jshint.reporter("default"));
 }
 
+// check the site files
 function lintJSDemoSite() {
     let src = paths.jsSourceSITEGLOB;
 
@@ -839,6 +827,7 @@ function lintJSDemoSite() {
     .pipe(jshint.reporter("default"));
 }
 
+// check the SidepanelCollapse files
 function lintJS_sidepanel() {
     let src = paths_sidepanel.js_source;
 
@@ -878,7 +867,6 @@ const options_uglify = {
         comments: "/^!/"  // retain comments that match this pattern
     }
 };
-
 
 // main site.js javascript assembly for demo
 function browserifyScript(file) {
@@ -1052,7 +1040,7 @@ function watchJSSite(done) {
 
 // watch the site-simple.js source
 function watchJSSiteSimple(done) {
-    var watcherJSsimple =  gulp.watch(siteSourceRoot + "js/site/" + paths.jsFile_site_simple);
+    var watcherJSsimple = gulp.watch(siteSourceRoot + "js/site/" + paths.jsFile_site_simple);
     watcherJSsimple.on("error", err => glog("watch js error: " + err.message));
     watcherJSsimple.on("change", path => glog("js changed >>> " + path));
     watcherJSsimple.on("change", gulp.series("lint:js-demo", "copy:jsSimple"));
@@ -1062,7 +1050,7 @@ function watchJSSiteSimple(done) {
 // watch the sidepanelcollapse js
 // if it changes, rebuild the js for the demo
 function watchJSSidePanel(done) {
-    var watcherJSsidepanel =  gulp.watch(paths_sidepanel.js_sourceGLOB);
+    var watcherJSsidepanel = gulp.watch(paths_sidepanel.js_sourceGLOB);
     watcherJSsidepanel.on("error", err => glog("watch js error: " + err.message));
     watcherJSsidepanel.on("change", path => glog("js changed >>> " + path));
     watcherJSsidepanel.on("change", gulp.series("lint:js-sidepanel", "browserify:site", "demoify:sidepanel", "scriptify:sidepanel"));
