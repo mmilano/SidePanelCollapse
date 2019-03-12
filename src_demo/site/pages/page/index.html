@@ -62,10 +62,8 @@
 
 <section class="theme-section theme-section-full theme-section-content" id="secondary">
     <div class="container">
-        <div class="row">
-        <div class="col">
-
-
+        <div class="row justify-content-center">
+        <div class="col-10 col-md-8">
 
             {{#heading-L2}}
             Overview
@@ -73,7 +71,7 @@
 
             <div class="alert alert-warning d-none d-xl-block">
               <h4 class="alert-heading">
-                    <span class="warn">&#x26A0;</span> Notice!
+                    Notice!
                     </h4>
                 <p>
                     The sidebar navigation is not being displayed right now because the window width is too wide.
@@ -83,13 +81,6 @@
                 </p>
             </div>
 
-
-        </div>
-        </div>
-
-
-    <div class="row">
-    <div class="col-sm col-md-7">
         <p>
 
             This is an example comprising a set of multiple pages that have a side navigation.
@@ -97,12 +88,19 @@
 
         </p>
 
-
-            <ul>
-                <li>Library Inclusion
+        <ul class="list-unstyled">
+                <li>Inclusion
                     <ul>
-                        <li>The SidePanelCollapse library's source javascript is incorporated into the single site.js file during the build process.</li>
-                        <li>The SidePanelCollapse source scss styles are incorporated into the build process and becomes part of the single site.css file.</li>
+                        <li>The SidePanelCollapse javascript source is incorporated into the single site.js file during the build process.</li>
+                        <li>The SidePanelCollapse SCSS source is incorporated into the build process and becomes part of the single site.css file.</li>
+                    </ul>
+                </li>
+
+                <li>Initialization
+                    <ul>
+                        <li>
+                            The sidepanel is initialized programmatically in javascript by code specific to each page.
+                        </li>
                     </ul>
                 </li>
 
@@ -115,27 +113,6 @@
                 </li>
 
             </ul>
-
-
-
-    </div>
-    </div>
-
-
-
-
-
-
-    <div class="row">
-    <div class="col-sm col-md-7">
-        <p>
-
-
-
-
-        </p>
-
-
 
 
 
@@ -168,12 +145,12 @@ There is also a more simple demo:
 
 
 
-
     </div>
 </section>
 
 <section class="theme-section theme-section-full theme-section-content" id="gallery">
     <div class="container">
+
 
         {{#heading-L2}}
         A gallery sort of section
