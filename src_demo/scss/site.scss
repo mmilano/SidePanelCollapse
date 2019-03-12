@@ -3,14 +3,15 @@
  *
 */
 
-// base files for site styles
+// files for site styles
+// in order to reference the Bootstrap values in the project's own scss
 @import "vendor/_bootstrap";
 
 // shared values, mixins, and scss functions
 @import "common/_variables";
 @import "common/_functions";
 
-// styles for the general site
+// styles for the general project
 @import "main/_main";
 @import "main/_navbar";
 
@@ -22,7 +23,7 @@
 // styles for sidenav
 @import "main/_sidenav";
 
-// styles specific to individual page
+// styles specific to individual page(s)
 @import "pages/_page-index";
 @import "pages/_pages";
 
