@@ -2,7 +2,6 @@
 // GENERAL common, shared style definitions
 
 
-$background-color-footer:       #EDEDEA;
 
 
 html {
@@ -31,7 +30,6 @@ a {
 // applies to primary navbar when horizontal, and table-o'contents
 // .active is applied by scrollspy
 .nav-link {
-
     transition: color $nav-item-color-transition-duration-long ease;
 
     &.active {
@@ -51,7 +49,6 @@ a {
         letter-spacing: 0.03rem;  // typographic finnese
         word-spacing: 0.03rem;  // typographic finesse
     }
-
 }
 
 
@@ -96,9 +93,8 @@ h1, h2, h3, h4, b, strong {
 
 footer {
     padding: 1rem 0 2rem 0;
-    border-top: 1px dotted #BBB;
-    background-color: $background-color-footer;
-    font-family: $font-family-secondary;
+    // border-top: 1px dotted #BBB;
+    // background-color: $background-color-footer;
 }
 
 
@@ -109,17 +105,25 @@ section {
             margin-bottom: 5rem;
         }
     }
+}
 
-    ul {
+ul {
+    &.list-unstyled {
         > li {
+            // first <li> as heading
             font-weight: bold;
-
-            li {
+            margin-bottom: 1rem;
+        }
+        ul {
             font-weight: normal;
+            li {
+                list-style-type: disc;
             }
         }
     }
-
 }
 
-
+code {
+    font-size: 93%;
+    color: #EEE;
+}
