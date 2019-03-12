@@ -21,6 +21,7 @@
 </head>
 
 <body class="index-simple">
+<div class="theme-index">
 
 <div class="container-fluid">
     <nav class="navbar navbar-dark bg-dark top-navbar fixed-top" id="primaryNav">
@@ -33,7 +34,7 @@
     </nav>
 </div>
 
-<div class="sidepanel sidenav-simple width collapse" id="sidePanel">
+<div class="sidepanel sidenav width collapse" id="sidePanel" data-sidepanel-collapse>
 <div class="sidenav-content">
     <div class="sidenav-headBar">
         <button class="sidePanel-close sidenav-close navbar-toggler" type="button" aria-expanded="true" aria-label="Close navigation">
@@ -69,19 +70,30 @@
     <div class="row justify-content-center">
     <div class="col-sm col-md-7">
         <p>
-            This is a simple single page example, with a fictitious set of links in the side navigation.
+            This is a simple single page example, with a set of links in the side navigation that conceptually lead to other pages
+            (although here they just lead back to this page).
         </p>
 
         <p>
-            It is designed to be about as simple as possible, and to demonstrate the most minimal way of using the SidePanelCollapse library in a site.
+            It is designed to demonstrate the most simple, least intrusive, and most minimal way of using the SidePanelCollapse library in a web project.
         </p>
 
-        <ul>
-            <li>Library Inclusion
+
+        <ul class="list-unstyled">
+            <li>Inclusion
                 <ul>
-                    <li>The precompiled core SidePanelCollapse javascript and css styles are linked in the HTML and loaded independently of the other site scripts and styles.</li>
+                     <li>The precompiled SidePanelCollapse javascript and css files are linked in the HTML and loaded independently (and asynchronously, in the case of the .js) of the other site resources.</li>
                 </ul>
             </li>
+
+            <li>Initialization
+                <ul>
+                    <li>
+                        The sidepanel is initialized and created automatically based on the presence of the <code>data-sidepanel-collapse</code> attribute.
+                    </li>
+                </ul>
+            </li>
+
 
             <li>Configuration
                 <ul>
@@ -106,12 +118,12 @@
     </div>
     </div>
 
-
     </div>
 </section>
 
-
 {{> page-footer}}
+
+</div>
 
 {{> site-js-simple}}
 
