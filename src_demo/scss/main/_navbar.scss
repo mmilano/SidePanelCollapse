@@ -3,6 +3,7 @@
 
 // navbar
 $site-primarynavbar-background-color:       #DDDDDA;
+$site-primarynavbar-background-color:       #D0D0CC;
 
 // #636359;
 
@@ -32,6 +33,7 @@ $site-primarynavbar-background-color:       #DDDDDA;
     font-weight: $font-weight-semibold;
 }
 
+// using a custom toggler glyph, not the default Bootstrap one
 .navbar-toggler {
     position: relative;
     border: unset;

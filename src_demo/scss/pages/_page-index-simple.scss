@@ -1,8 +1,9 @@
 //
-// site simple homepage
+// simple index aka homepage
 //
 
 $background-color-intro:        #618BFF;
+
 
 body {
     position: relative;
@@ -30,24 +31,7 @@ h1, h2, b {
     }
 }
 
-// PRIMARY NAVBAR //
-
-.top-navbar {
-    height: $page-primarynavbar-height;
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-.navbar-brand {
-    margin: 0 2rem 0 1rem;
-    font-size: 1rem;
-    padding: 0;
-    color: $text-color-nav-default;
-    font-weight: $font-weight-semibold;
-}
-
 // SECTION TYPES //
-
 .theme-section {
     position: relative;
     padding-top: 9rem;
@@ -84,18 +68,7 @@ h1, h2, b {
 
 footer {
     position: absolute;
-    bottom: 1rem;
+    bottom: 0;
     left: 0;
     right: 0;
-}
-
-
-
-*[position=fixed] {
-    color: #F00 !important;
-
-}
-*[position] {
-    color: #F00 !important;
-
 }
