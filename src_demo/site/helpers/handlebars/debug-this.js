@@ -9,7 +9,8 @@
 // *****
 
 module.exports = function(argument1, argument2) {
-    let v;
+    let val;
+    let i;
 
     console.log("DEBUG ====================");
     console.log("Current Context");
@@ -23,8 +24,8 @@ module.exports = function(argument1, argument2) {
         console.log ("ARGUMENT 1:");
         if (typeof val === "object") {
 
-           for (var i in val) {
-                var k = val[i];
+           for (i in val) {
+                let k = val[i];
                 console.log(i + ":" + k);
             };
 
@@ -39,8 +40,8 @@ module.exports = function(argument1, argument2) {
         console.log ("ARGUMENT 2:");
         if (typeof val === "object") {
 
-           for (var i in val) {
-                var k = val[i];
+           for (i in val) {
+                let k = val[i];
                 console.log(i + ":" + k);
             };
 
