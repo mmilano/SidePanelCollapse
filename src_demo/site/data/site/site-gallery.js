@@ -1,7 +1,7 @@
-// js template
-// site gallery data for panini/handlebars
+// js data helper
+// access the site gallery data and make it available for panini/handlebars
 //
-/* jshint esversion: 6 */  // allow es6 features
+// data will be part of the panini global context with key = this filename ("site-gallery")
 
 const basepath = process.cwd();
 
@@ -9,6 +9,6 @@ const basepath = process.cwd();
 const requireNoCache = require(basepath + "/src_demo/site/lib/invalidateRequireCacheForFile.js");
 
 // include the canonical subpage/gallery data file
-let galleryData = requireNoCache(basepath + "/src_demo/js/site/gallery/site-gallery-data.js");
+var galleryData = requireNoCache(basepath + "/src_demo/js/site/gallery/site-gallery-data.js");
 
 module.exports = galleryData;

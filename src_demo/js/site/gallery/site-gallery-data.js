@@ -1,4 +1,4 @@
-// site gallery data
+// site 'gallery of pages' data
 //
 // master file.
 // includes all the data
@@ -8,27 +8,30 @@ var gallerySetup = (function() {
 
     // define the site's pages
     //
+    // each page has its own object of data
+    // the page key = the page id
+    //
+    // object data:
     // id:              unique id for the page
-
-    // url:             path to the page details content file
+    // url:             name of the page's content file
     // page:            convenience value. just the page name, without extension. intended to match the panini {{page}} value when on the page, for cross-referencing.
 
     var galleryData = {
 
-        "page-exampleA": {
-            "id": "page-exampleA",
+        "pageA": {
+            "id": "pageA",
             "url": "pageA.html",
             "page": "pageA"
         },
 
-        "page-exampleB": {
-            "id": "page-exampleB",
+        "pageB": {
+            "id": "pageB",
             "url": "pageB.html",
             "page": "pageB"
         },
 
-        "page-exampleC": {
-            "id": "page-exampleC",
+        "pageC": {
+            "id": "pageC",
             "url": "pageC.html",
             "page": "pageC"
         },

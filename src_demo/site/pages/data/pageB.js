@@ -1,7 +1,7 @@
 // page data js
 
 module.exports = {
-    "id": "page-exampleB",
+    "id": "pageB",
 
     "group": "Page Group",
     "page-title": "Voluptate Arabica carajillo grounds turkish caffeine dripper latte trifecta half and half",
