@@ -28,6 +28,8 @@
 
     var _proto = SidePanelCollapse.prototype;  // convenience shorthand
 
+    var data_selector = "[data-sidepanel-collapse]";  // selector for creation via data attribute
+
     // method to reconcile/extend two objects
     function extend(a, b) {
         for (var p in b) {
@@ -296,7 +298,7 @@
 
     };
 
-    // Backdrop object constructor
+    // Backdrop constructor
     // @param: provide backdrop with access to the parent sidepanel object that is created...
     function Backdrop(_sidepanel) {
 
@@ -328,7 +330,7 @@
 
         let _settings = this.settings = defineSettings(defaults, options);
 
-        // (try to) select and cache the main sidepanel element as jquery object
+        // (try to) select and store the main sidepanel element as jquery object
         let _$sidepanel = this.$sidepanel = $(_settings.sidepanelElement);
 
         // check if sidepanel exists on the page;
@@ -384,7 +386,7 @@
             this.backdrop.element.addEventListener("click", this.close, true);
         }
 
-        // internal flag for which close type, and therefore duration, to use: normal, or fast
+        // flag for which close type, and therefore duration, to use: normal, or fast
         this.closeType = "normal";  // default behavior when closing the sidepanel
 
         // handle links:
@@ -393,14 +395,29 @@
         // in order to trap the links and implement custom behavior
         if (_settings.linkHandle) {
             let sidepanelLinks = this.$sidepanel[0].getElementsByTagName("a"), ln = sidepanelLinks.length;
-            let linkHandler = linkHandle().bind(this);
             for (var i = 0; i < ln; i++) {
-                sidepanelLinks[i].addEventListener("click", linkHandler);
+                sidepanelLinks[i].addEventListener("click", linkHandle().bind(this));
             };
         }
 
         // end: sidepanel initialization
     };
+
+    // initialize any elements 'automatically' based on existence of data_selector attribute
+    function initOnData() {
+        window.SidePanel = [];
+        let list = document.querySelectorAll(data_selector);
+        list.forEach(function(element) {
+            let _id = element.id;
+            SidePanel.push (new SidePanelCollapse(_id));
+        });
+    }
+
+    if (document.readyState === "loading") {  // loading hasn't finished yet
+        document.addEventListener("DOMContentLoaded", initOnData);
+    } else {  // already fired
+        initOnData();
+    }
 
     return SidePanelCollapse;
 }));
