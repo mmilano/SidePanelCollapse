@@ -180,9 +180,8 @@ function refreshPanini() {
     panini.refresh();
 }
 
-// webserver
+// WEB SERVER
 // simple node server for dev
-
 
 // utility function to find current IP address.
 // * might not be bulletproof *
@@ -226,7 +225,6 @@ const options_server = {
     livereload: false
 };
 
-
 // some user-friendly server info
 function serverInfo() {
     console.info("\n");
@@ -238,8 +236,7 @@ function serverInfo() {
 
 // note about gulp-connect:
 // connect will throw an error and halt if any error happens while trying to start up,
-// such as trying to start the webserver when it is already running ("EADDRINUSE");
-// there does not appear any way to catch and handle this
+// such as trying to start the webserver when it is already running ("EADDRINUSE").
 function webserver(done) {
     currentIPAddress = findIPAddress();
 
@@ -268,7 +265,6 @@ function siteClean(done) {
 }
 
 gulp.task("site:clean", siteClean);
-
 
 // copy ico file for demo. pretty much only to avoid the console error that ico file cannot be found.
 function copyIco(done) {
@@ -381,6 +377,8 @@ exports.tt = doall;
 // });
 
 
+// **************
+// PAGE GENERATION
 
 // options for the changed-in-place module
 const options_changedInPlace = {
@@ -510,10 +508,6 @@ function watchPageData(done) {
     done();
 }
 
-// **************
-// **************
-
-
 function buildpagesCHANGED(done) {
     panini.refresh(done);
 
@@ -560,9 +554,8 @@ function watchTemplateSources(done) {
 gulp.task("watch:buildingSources", watchTemplateSources);
 
 
-// **********
+// **************
 // HTML
-//
 
 // html minimization: all the pages
 // orverwrite the original file with the minified version
@@ -611,7 +604,7 @@ gulp.task("validate:pages", validatepPagesBuilt);
 gulp.task("validate:site", gulp.parallel("validate:pages"));  // alias
 
 
-// **********
+// **************
 // SCSS/SASS
 //
 // compile the scss, minify it, etc.
@@ -749,7 +742,7 @@ gulp.task("watch:scss", watchSCSS);
 
 
 
-// **********
+// **************
 // SITE DATA
 
 // site building: watch the gallery data
@@ -766,7 +759,7 @@ function watchGalleryData(done) {
 gulp.task("watch:siteGallery", watchGalleryData);
 
 
-// **********
+// **************
 // JAVASCRIPT
 //
 // lint, assemble, compile, and etc., the javascript
@@ -1002,7 +995,6 @@ gulp.task("copy:bs", copybs);
 
 // watch the dev js stuff  TODO: remove
 function watchJSBS(done) {
-
     let bssrc = siteSourceRoot + "js/vendor/**/*.js";
 
     var watcher = gulp.watch(bssrc);
@@ -1013,7 +1005,6 @@ function watchJSBS(done) {
 }
 
 gulp.task("watch:bs", watchJSBS);
-
 
 // watch the js sources
 function watchJSSite(done) {
@@ -1067,6 +1058,9 @@ gulp.task("watch:everything", gulp.parallel(
     "watch:pages"
 ));
 
+
+// **************
+// PRIMARY TASKS
 
 // assemble the complete demo site
 gulp.task("demo", gulp.series(
@@ -1135,29 +1129,6 @@ gulp.task("dev", function taskDevBasic(done) {
 gulp.task("default", gulp.series("demo")); // alias
 
 
-function productionPages(done) {
-    gulp.series("build:pages", "validate:pages");
-}
-
-// build for 'production'
-// includes minification of code and validation of the html
-
-function production(done) {
-
-    gulp.series(
-        "site:setup",
-        "webserver",
-        // "site:remote",
-        gulp.parallel(
-            "compile:scss",
-            "browserify:site",
-            productionPages
-        ),
-        "watch:everything")();
-    done();
-}
-
-
 // sidepanel dist/production process
 //
 // js:
@@ -1182,6 +1153,3 @@ function dist_sidepanel(done) {
 
 exports.dist_sidepanel = dist_sidepanel;
 exports.production_sidepanel = dist_sidepanel;  // alias
-
-exports.production = production;
-exports.productionPages = productionPages;
