@@ -24,7 +24,7 @@ $sidenav-nav-padding-left:               25px;
 
 .sidenav {
     z-index: $sidenav-zindex;
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;  // the default position = right side of window
     height: 100vh;  // sidepanel extends the full height of the window
@@ -57,7 +57,7 @@ $sidenav-nav-padding-left:               25px;
     .sidenav-headBar {
         position: fixed;
         top: 0;
-        width: inherit;
+        width: 100%;
         height: $page-primarynavbar-height;
 
         // flex layout model to match the primary navbar
