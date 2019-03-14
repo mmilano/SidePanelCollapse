@@ -198,14 +198,16 @@ function findIPAddress() {
     };
     if (typeof ip !== "undefined") {
         address = ip.address;
+    } else (
+        address = "* cannot be determined *";
     }
 
     return address;
 }
 
 // note: host 0.0.0.0 allows a browser to view the built site at
-// http://localhost:9191 OR http://[current IP address]:9191 (on macOS),
-// & http://[current IP address]:9191 from a virtual (win10) machine.
+// http://localhost:9191 OR http://[current IP address]:9191 (on macOSX),
+// & http://[current IP address]:9191 from a virtual machine.
 // original source of this suggestion:
 // https://stackoverflow.com/questions/10158771/access-localhost-on-the-main-machine-from-vmware-workstation-8-for-asp-net-devel/10159420#10159420
 const server_host = "0.0.0.0";
@@ -223,17 +225,6 @@ const options_server = {
     },
     livereload: false
 };
-
-
-// function webserver(done) {
-//     currentIPAddress = findIPAddress();
-//
-//     connect.server(options_server);
-//
-//     // console.log ("***** current IP address:", currentIPAddress);
-//     done();
-// }
-
 
 
 // note about gulp-connect:
