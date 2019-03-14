@@ -198,7 +198,7 @@ function findIPAddress() {
     };
     if (typeof ip !== "undefined") {
         address = ip.address;
-    } else (
+    } else {
         address = "* cannot be determined *";
     }
 
@@ -227,6 +227,15 @@ const options_server = {
 };
 
 
+// some user-friendly server info
+function serverInfo() {
+    console.info("\n");
+    console.info("Demo webserver is running.");
+    console.info("Connect to:  localhost:" + options_server.port );
+    console.info("Connect to:  " + currentIPAddress + ":" + options_server.port );
+    console.info("\n");
+}
+
 // note about gulp-connect:
 // connect will throw an error and halt if any error happens while trying to start up,
 // such as trying to start the webserver when it is already running ("EADDRINUSE");
@@ -235,7 +244,7 @@ function webserver(done) {
     currentIPAddress = findIPAddress();
 
     var server = new Promise(function(resolve, reject) {
-        connect.server(options_server)
+        connect.server(options_server);
         resolve (true);
     });
 
@@ -244,17 +253,6 @@ function webserver(done) {
         serverInfo();
         done();
     });
-}
-
-// exports.server2 = server2;
-
-// some user-friendly server info
-function serverInfo() {
-    console.info("\n");
-    console.info("Demo webserver is running.");
-    console.info("Connect to:  localhost:" + options_server.port );
-    console.info("Connect to:  " + currentIPAddress + ":" + options_server.port );
-    console.info("\n");
 }
 
 gulp.task("webserver", webserver);
@@ -335,7 +333,7 @@ gulp.task ("copyme", function(done) {
     doall(done);
     console.log ("done");
 
-})
+});
 
 // trial, stuff in progress. to be deleted, fixed,
 exports.tt = doall;
@@ -650,8 +648,8 @@ function buildcss(src, dest, outputfile, options, mode) {
 // and output the css files, both normal and minified
 function maketheCSS_sidepanel(done) {
 
-    let scss_sidepanel_source = paths_sidepanel.scss_source
-    let scss_sidepanel_destination = paths_sidepanel.css_destination
+    let scss_sidepanel_source = paths_sidepanel.scss_source;
+    let scss_sidepanel_destination = paths_sidepanel.css_destination;
     let scss_sidepanel_destination_filename = "sidePanelCollapse";
 
     const options_scss_normal = {
@@ -1082,7 +1080,7 @@ gulp.task("demo", gulp.series(
     "js:site",
     "demoify:sidepanel",
 
-    "build:pages",
+    "build:pages"
 ));
 
 
@@ -1100,17 +1098,17 @@ function trial() {
             "demoify:sidepanel",
 
             "build:pages",
-            "webserver",
+            "webserver"
         )();
         resolve();
 
     })
     .then(function(fulfilled) {
-        console.log ("       finished");
+        console.log("       finished");
         }
     )
     .catch(function(err) {
-        err => {glog(err)};
+        glog(err);
         }
     );
 
