@@ -3,19 +3,24 @@
 // .sidenav styles add to .sidepanel styles
 // can also override .sidepanel styles here
 
-// sidepanel universal values
-$sidenav-zindex:                        $zindex-fixed + 1;  // z-index of Bootstrap4 default nav, plus 1, to put .sidepanel above the nav
+
+
+$sidenav-side:                          "right";  // the default position = right side of window
+
+$sidenav-zindex:                        $zindex-fixed + 1;  // z-index of Bootstrap4 default nav, plus 1, to put the sidenav above the nav
 
 $sidenav-width-large:                   260px;
 $sidenav-width-small:                   $sidenav-width-large - 20;  // adjustment for smaller window sizes
 
 $sidenav-background-color:              #062B62;
-$sidenav-header-bar-color:              #001B4E;
-$sidenav-border-color:                  desaturate(lighten($sidenav-background-color, 13.33333%), 33.33333%);
+$sidenav-background-color:              #302956;
+
+// $sidenav-header-bar-color:              #001B4E;
+$sidenav-header-bar-color:              #494946;
 
 $sidenav-closeButton-height:            36px;
-$sidenav-close-xposition-small:         193px;
-$sidenav-close-xposition-large:         183px;
+$sidenav-close-xposition-small:         200px;
+$sidenav-close-xposition-large:         193px;
 
 $sidenav-nav-offset-top:                $page-primarynavbar-height + 12;  // visual margin from top of sidebar to account for the header bar
 $sidenav-nav-margin-left-large:         25px;
@@ -31,18 +36,18 @@ $nav-group-font-color-hover:            #3D88C9;
 
 .sidenav {
     z-index: $sidenav-zindex;
-    position: absolute;
+    position: fixed;
     top: 0;
-    right: 0;  // the default position = right side of window
+    #{$sidenav-side}: 0;
     height: 100vh;  // sidepanel extends the full height of the window
-    overflow-x: hidden;
     padding: 0;
+    overflow-x: hidden;
+
     background-color: $sidenav-background-color;
 
     // because the width of the top-level .sidepanel is changed during the collapse event by Bootstrap,
     // an interior element is used to maintain a fixed width for the content.
     .sidenav-content {
-
         width: $sidenav-width-small;
     }
 
@@ -75,7 +80,7 @@ $nav-group-font-color-hover:            #3D88C9;
     .sidenav-headBar {
         position: fixed;
         top: 0;
-        width: 100%;
+        width: $sidenav-width-small;
         height: $page-primarynavbar-height;
 
         // flex layout model to match the primary navbar
@@ -136,6 +141,10 @@ $nav-group-font-color-hover:            #3D88C9;
 
     .sidenav {
         .sidenav-content {
+            width: $sidenav-width-large;
+        }
+
+        .sidenav-headBar {
             width: $sidenav-width-large;
         }
 
