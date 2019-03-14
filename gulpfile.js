@@ -182,8 +182,10 @@ function refreshPanini() {
 
 // webserver
 // simple node server for dev
-// along with simple utility function to show current IP address
 
+
+// utility function to find current IP address.
+// * might not be bulletproof *
 function findIPAddress() {
     let ip_main, ip, address;
 
@@ -572,6 +574,7 @@ gulp.task("watch:buildingSources", watchTemplateSources);
 // **********
 // HTML
 //
+
 // html minimization: all the pages
 // orverwrite the original file with the minified version
 function minifyPages() {
@@ -586,8 +589,6 @@ function minifyPages() {
     // set up to use base & relative path for overwriting the original file with the minified file
     let pathRelative = "./";
 
-    console.log ("build val: ", paths.pagesBuiltGLOB);
-
     return gulp
     .src(paths.pagesBuiltGLOB, {base: pathRelative})
     .pipe(htmlmin(options_htmlMin))
@@ -599,7 +600,6 @@ function minifyPages() {
 
 gulp.task("minify:pages", minifyPages);
 gulp.task("minify:site", gulp.series("minify:pages"));  // alias
-
 
 // html validation of the built pages
 function validatepPagesBuilt() {
@@ -655,7 +655,7 @@ function buildcss(src, dest, outputfile, options, mode) {
     });
 }
 
-// compile the sidepanel.scss for standalone,
+// compile the sidePanelCollapse.scss for standalone,
 // and output the css files, both normal and minified
 function maketheCSS_sidepanel(done) {
 
@@ -692,8 +692,8 @@ function maketheCSS_sidepanel(done) {
     done();
 }
 
-// process sidepanel.css for demo
-// in this case, just copy the /dist files to /demo
+// sidePanelCollapse.css for demo
+// in this case, copy the /dist files to /demo
 function copyCSS_sidepanel(done) {
 
     let css_sidepanel_dist = "./dist/css/**/*";
@@ -704,7 +704,6 @@ function copyCSS_sidepanel(done) {
     .pipe(gulp.dest(css_sidepanel_destination));
     done();
 }
-
 
 gulp.task("compile:scss-sidepanel", maketheCSS_sidepanel);
 gulp.task("copy:css-sidepanel", copyCSS_sidepanel);
@@ -737,26 +736,7 @@ gulp.task("compile:scss_production", function(done) {
     done();
 });
 
-
-const options_css_lint = {
-    "order-alphabetical": false,
-};
-
-function lintCSS_demo() {
-    let src = paths.cssDestinationGLOB;
-
-    return gulp
-    .src(src)
-    .pipe(debug({title: "css check:"}))
-    .pipe(csslint(options_css_lint))
-    .pipe(csslint.formatter());
-}
-
-gulp.task("lint:css-demo", lintCSS_demo);
-
-
-
-// watch the sidepanel scss sources
+// watch the sidePanelCollapse scss sources
 function watchSCSS_sidepanel(done) {
     var watcherSCSS = gulp.watch(paths_sidepanel.scss_sourceGLOB);
     watcherSCSS.on("error", err => glog("watch error: " + err));
@@ -785,7 +765,7 @@ gulp.task("watch:scss", watchSCSS);
 
 // site building: watch the gallery data
 // the gallery data is used to generate the set of page cards displayed on the index page,
-// and the inter-page navigation displayed in the sidepanel nav
+// and the inter-page navigation displayed in the side nav
 function watchGalleryData(done) {
     var watcherGallery = gulp.watch(paths.siteGalleryData);
     watcherGallery.on("error", err => glog("watch error: " + err));
@@ -800,7 +780,7 @@ gulp.task("watch:siteGallery", watchGalleryData);
 // **********
 // JAVASCRIPT
 //
-// lint, assemble, compile, and etc., for the javascript
+// lint, assemble, compile, and etc., the javascript
 
 // check the Panini files
 function lintJSPanini() {
@@ -962,10 +942,31 @@ function scriptifySidepanel(done) {
 
 gulp.task("scriptify:sidepanel", scriptifySidepanel);
 
+// process sidePanelCollapse.css for demo
+// in this case, copy the /dist files to /demo
+// function copyCSS_sidepanel(done) {
+//
+//     let css_sidepanel_dist = "./dist/css/**/*";
+//     let css_sidepanel_destination = siteBuildDestinationRoot + "public/css/sidePanelCollapse";
+//
+//     gulp
+//     .src(css_sidepanel_dist)
+//     .pipe(gulp.dest(css_sidepanel_destination));
+//     done();
+// }
+
+
 // sidepanelcollapse.js for the demo site
+// in this case, copy the /dist files to /demo
+
 // build/transpile sidepanel
 // then put it into the demo directory
 function demoifySidepanel(done) {
+
+    //let source = "./dist/css/**/*";
+    //let destination = paths.jsDestination + "/sidePanelCollapse/";
+
+
     let options = {
         "normal": true,
         "minified": true,
@@ -1047,12 +1048,12 @@ function watchJSSiteSimple(done) {
 }
 
 // watch the sidepanelcollapse js
-// if it changes, rebuild the js for the demo
+// if it changes, rebuild js for /dist and /demo
 function watchJSSidePanel(done) {
     var watcherJSsidepanel = gulp.watch(paths_sidepanel.js_sourceGLOB);
     watcherJSsidepanel.on("error", err => glog("watch error: " + err.message));
     watcherJSsidepanel.on("change", path => glog("js changed >>> " + path));
-    watcherJSsidepanel.on("change", gulp.series("lint:js-sidepanel", "browserify:site", "demoify:sidepanel", "scriptify:sidepanel"));
+    watcherJSsidepanel.on("change", gulp.series("lint:js-sidepanel", "browserify:site", "scriptify:sidepanel", "demoify:sidepanel"));
 	done();
 }
 
