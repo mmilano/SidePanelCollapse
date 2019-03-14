@@ -7,6 +7,9 @@
 
 
 // make sidepanel available as global
+// this isn't strictly necessary, depending on how your site is structured,
+// but makes development investigation easier
+
 window.SidePanelCollapse = require("SidePanelCollapse");
 
 // collection of scripts and handlers specific to each page, keyed to page ID
