@@ -1,24 +1,16 @@
 // 'pill' like element
 
-
-$pill-width:                    330px;
-$pill-height:                   90px;
-
 $pill-background-color:         #BBB;
 $pill-border-radius:            1rem;
 $pill-padding:                  8px;
 $pill-text-font-size:           1rem;
 
-$pill-demo-background-color:    #130737;
 
-
+// basic pill-like shape
 .pill {
-
     display: flex;
     justify-content: center;
     align-items: center;
-    width: $pill-width;
-    height: $pill-height;
 
     padding: $pill-padding;
     background-color: $pill-background-color;
@@ -33,26 +25,3 @@ $pill-demo-background-color:    #130737;
     }
 
 }
-
-
-.pill {
-    &.demo {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-
-        color: $core-white;
-        background-color: $pill-demo-background-color;
-    }
-
-    &.demo-simple {
-        bottom: 140px;
-    }
-
-    &.demo-complex {
-        bottom: 140px;
-    }
-}
-
-
-
