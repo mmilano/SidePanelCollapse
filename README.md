@@ -179,9 +179,9 @@ The Sidepanel will open using the duration value
 
 ### Closing
 
-Two closing durations are available.
+Two closing durations are used: "standard" and "fast".
 
-#### Closing Normally
+#### Closing 
 
 When the side panel is closed using the close button, clicking the backdrop, or using the keyboard (the ESCAPE key), the sidepanel closes using the duration value `durationHide`.
 
@@ -192,7 +192,7 @@ Inter-page links – Page Links
 For a link that goes to another page, 
 the sidepanel is configured to close using the duration
 `durationHideFast`.
-By default the fast duration is about 1/3 of the normal duration.
+By default the fast duration is about 1/3 of the standard duration.
 
 
 
@@ -222,8 +222,8 @@ SidePanelCollapse can be passed an object of configuration options when instanti
 | ---- | --------------- | ------- | ----------- |
 | `sidepanelElement`      | css class name | `#sidePanel` | CSS selector for the top-level of the sidepanel |
 | `sidepanelCloseElement` | css class name  or `false` | `.sidePanel-close` | CSS selector for the close button, containing the close icon, that should close the sidepanel. If `false`, no closing button will be used. |
-| `durationShow`          | css transition-duration | `1.1s` | Duration for opening transition.
-| `durationHide`          | css transition-duration | `0.4s` | Duration for  closing transition.
+| `durationShow`          | css transition-duration | `1.1s` | Duration for the opening transition.
+| `durationHide`          | css transition-duration | `0.4s` | Duration for the standard closing transition.
 | `durationHideFast`          | css transition-duration | `0.13s` | Duration for  _FAST_ closing transition.
 | `sidePanelIsOpenClass`  | css class name | `sidepanel-open` | CSS class that is added to the document `<body>` when sidepanel shows, removed when it hides. For convenient use in enabling any specific styles that should apply when sidepanel is open. |
 | `backdrop`              | boolean | `true` | Whether or not a backdrop (i.e. overlay) should display behind the open sidepanel |
@@ -235,11 +235,9 @@ SidePanelCollapse can be passed an object of configuration options when instanti
 
 
 # About The Production Builds
-Production builds of the library's .js and .css files are in the project's `/dist` directory, both minified and verbose (aka normal) versions. Sourcemaps are available in the associated `/map` directories.
+Production builds of the library (the .js and .css files) are in the project's `/dist` directory, both minified and verbose (aka normal) versions. Sourcemaps are available in the associated `/map` directories.
 
-
-The css and javascript has been compiled or transpiled respectively to a browser target of ` ["> 0.5%"].`
-If you need a different target range, this value can be changed in the gulp task file and the files rebuilt to the new target.
+The css and javascript has been compiled or transpiled to a browser target of ` ["> 0.5%"].` If you need a different target range, this value can be changed in the gulp task file and the files rebuilt to the new target.
 
 See [Building The Project](#building-the-project) for more details.
 
