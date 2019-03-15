@@ -10,11 +10,10 @@ $sidenav-zindex:                        $zindex-fixed + 1;  // z-index of Bootst
 $sidenav-width-large:                   260px;
 $sidenav-width-small:                   $sidenav-width-large - 20;  // adjustment for smaller window sizes
 
-$sidenav-background-color:              #062B62;
+// $sidenav-background-color:              #062B62;
 $sidenav-background-color:              #24415A;
-// $sidenav-header-bar-color:              darken(#343A40, 13.33333%);
-$sidenav-header-bar-color:              #162023;
-$sidenav-header-bar-color:              #474743;
+// $sidenav-header-bar-color:              #474743;
+$sidenav-header-bar-color:              darken($dark, 6.6667%);  // use Bootstrap theme color $dark as the basis
 
 $sidenav-closeButton-height:            36px;
 $sidenav-close-xposition-small:         177px;
