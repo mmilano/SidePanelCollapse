@@ -2,16 +2,12 @@
 // GENERAL common, shared style definitions
 
 
-
-
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;  // replacement for smoothscroll. limited browser support, but sufficient for demo
 }
 
-// TYPOGRAPHY */
-
 body {
-    position: relative;
+    position: relative;  // required by scrollspy
     font-family: $font-family-primary;
 }
 
@@ -26,16 +22,23 @@ a {
     }
 }
 
+h1, h2, h3, h4, b, strong {
+    font-weight: $font-weight-semibold;
+}
+
 // defaults for nav-links
 // applies to primary navbar when horizontal, and table-o'contents
 // .active is applied by scrollspy
 .nav-link {
+
+    // default transition for nav-link. will apply when un-hovering a link
     transition: color $nav-item-color-transition-duration-long ease;
 
     &.active {
         font-weight: $font-weight-semibold;
         color: $text-color-nav-default;
     }
+
     &:not(.active):hover {
         color: $link-color-highlight;
         transition-duration: $nav-item-color-transition-duration;
@@ -51,13 +54,7 @@ a {
     }
 }
 
-
-h1, h2, h3, h4, b, strong {
-    font-weight: $font-weight-semibold;
-}
-
 // SECTION TYPES
-
 .theme-section {
     position: relative;
     padding-top: 9rem;
@@ -91,14 +88,6 @@ h1, h2, h3, h4, b, strong {
     padding-bottom: 6rem;
 }
 
-footer {
-    padding: 1rem 0 2rem 0;
-    // border-top: 1px dotted #BBB;
-    // background-color: $background-color-footer;
-}
-
-
-// design styles
 section {
     &.theme-section {
         h2 {
@@ -109,6 +98,7 @@ section {
 
 ul {
     &.list-unstyled {
+
         > li {
             // first <li> as heading
             font-weight: bold;
