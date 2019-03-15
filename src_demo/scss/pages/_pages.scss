@@ -23,8 +23,8 @@ $overview-font-spacing:                 -0.1px;
 $overview-shift:                        -8px;
 
 
-@mixin section-border-bar ($border-side: "border-top") {
-    #{$border-side}: 1px dotted $section-border-bar-color;
+@mixin section-border-bar ($border-side: "border-top", $color: $section-border-bar-color) {
+    #{$border-side}: 1px dotted $color;
 }
 
 @mixin sidebarText {
@@ -33,7 +33,9 @@ $overview-shift:                        -8px;
 }
 
 
-// **********
+footer {
+    @include section-border-bar("border-top", #BBB);
+}
 
 .mainColumn {
     font-size: 16px;
