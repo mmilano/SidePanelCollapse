@@ -7,15 +7,13 @@ item/page name
 --}}
 
 <li>
-{{~#unless currentPage}}
+{{#unless currentPage}}
 <a class="nav-link" href="{{> page-url}}">
 {{else}}
 <div class="nav-link disabled current">
 {{/unless}}
-
-    {{~{pagename}}}
-
-{{~#unless currentPage}}
+    {{{pagename}}}
+{{#unless currentPage}}
 </a>
 {{else}}
 </div>
