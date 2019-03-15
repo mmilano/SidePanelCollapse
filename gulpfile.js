@@ -291,10 +291,9 @@ function copyImagesChanged(done) {
 }
 
 function watchImages(done) {
-    var watcherImages = gulp.watch(paths.imgSourceGLOBall);
+    var watcherImages = gulp.watch(paths.imgSourceGLOBall, gulp.series("copy:images-changed"));
     watcherImages.on("error", err => glog("watch error: " + err));
     watcherImages.on("change", path => glog("image changed >>> " + path));
-    watcherImages.on("change", gulp.series("copy:images-changed"));
     done();
 }
 
@@ -438,10 +437,9 @@ gulp.task("build:pages", buildPagesAll);
 
 
 function watchindexPageSource(done) {
-    var watcherIndex = gulp.watch(paths.indexPageSRC);
+    var watcherIndex = gulp.watch(paths.indexPageSRC, gulp.series("build:index"));
     watcherIndex.on("error", err => glog("watch error: " + err));
-    watcherIndex.on("change", path => glog("file changed >>> " + path));
-    watcherIndex.on("change", gulp.series("build:index"));
+    watcherIndex.on("change", path => glog("changed >>> " + path));
     done();
 }
 
@@ -530,10 +528,9 @@ function buildpagesCHANGED(done) {
 gulp.task("build:pages-changed", buildpagesCHANGED);
 
 function watchPages(done) {
-    var watcherPages = gulp.watch([paths.sitePagesGLOB, paths.DSStoreIgnore]);
+    var watcherPages = gulp.watch([paths.sitePagesGLOB, paths.DSStoreIgnore], gulp.series("build:pages-changed"));
     watcherPages.on("error", err => glog("watch error: " + err));
     watcherPages.on("change", path => glog("pages changed >>> " + path));
-    watcherPages.on("change", gulp.series("build:pages-changed"));
 	done();
 }
 
@@ -544,10 +541,9 @@ gulp.task("watch:pages", gulp.series(watchPageData, watchPages));
 // rebuild all because these items affect all pages.
 // also watch the site data, which also affects all the pages.
 function watchTemplateSources(done) {
-    var watchTemplateSources = gulp.watch([paths.siteHBSFilesGLOB, paths.siteDataGLOB]);
+    var watchTemplateSources = gulp.watch([paths.siteHBSFilesGLOB, paths.siteDataGLOB], gulp.series("build:pages"));
     watchTemplateSources.on("error", err => glog("watch templates & helpers error: " + err));
     watchTemplateSources.on("change", path => glog("templates & helpers changed >>> " + path));
-    watchTemplateSources.on("change", gulp.series("build:pages"));
     done();
 }
 
@@ -632,7 +628,7 @@ function buildcss(src, dest, outputfile, options, mode) {
         .pipe(mode === "production" ? cssnano(options_cssnano) : noop())
         .pipe(sourcemaps.write("./map"))
         .pipe(gulp.dest(dest))
-        .on("error", () => reject("scss compilation error in" + src))
+        .on("error", () => reject("scss compilation error in: " + src))
         .on("end", () => resolve("compile scss completed (" + mode + ")"));
     });
 }
@@ -720,20 +716,26 @@ gulp.task("compile:scss_production", function(done) {
 
 // watch the sidePanelCollapse scss sources
 function watchSCSS_sidepanel(done) {
-    var watcherSCSS = gulp.watch(paths_sidepanel.scss_sourceGLOB);
+
+    // see note in watchSCSS()
+    var watcherSCSS = gulp.watch(paths_sidepanel.scss_sourceGLOB, {delay: 500}, gulp.series("compile:scss-sidepanel", "copy:css-sidepanel", "compile:scss"));
     watcherSCSS.on("error", err => glog("watch error: " + err));
-    watcherSCSS.on("unlink", path => glog(path + " was deleted"));
-    watcherSCSS.on("change", path => glog("scss changed: "+ path));
-    watcherSCSS.on("change", gulp.series("compile:scss-sidepanel", "copy:css-sidepanel", "compile:scss"));
+    watcherSCSS.on("unlink", path => glog("deleted >>> " + path));
+    watcherSCSS.on("change", path => glog("changed >>> " + path));
     done();
 }
 
 // watch the demo scss sources
 function watchSCSS(done) {
-    var watcherSCSS = gulp.watch(paths.scssSourceGLOB);
+
+    // note: using the watcher = gulp.watch format DOES NOT IMPLEMENT the queue and delay options.
+    // and there does not appear to be any documentation about using chokidir's internal throttle ability, so...
+    // delay will apply to the events managed by gulp, but response will be immediate for the direct .on events
+    // defined afterwards
+    var watcherSCSS = gulp.watch(paths.scssSourceGLOB, {delay: 500}, gulp.series("compile:scss"));
     watcherSCSS.on("error", err => glog("watch error: " + err));
-    watcherSCSS.on("unlink", path => glog(path + " was deleted"));
-    watcherSCSS.on("change", gulp.series("compile:scss"));
+    watcherSCSS.on("unlink", path => glog("deleted >>> " + path));
+    watcherSCSS.on("change", path => glog("changed >>> " + path));
     done();
 }
 
@@ -749,9 +751,8 @@ gulp.task("watch:scss", watchSCSS);
 // the gallery data is used to generate the set of page cards displayed on the index page,
 // and the inter-page navigation displayed in the side nav
 function watchGalleryData(done) {
-    var watcherGallery = gulp.watch(paths.siteGalleryData);
+    var watcherGallery = gulp.watch(paths.siteGalleryData, gulp.parallel("build:index"));
     watcherGallery.on("error", err => glog("watch error: " + err));
-    watcherGallery.on("change", gulp.parallel("build:index"));
     done();
 }
 
@@ -867,7 +868,7 @@ function browserifyJSSite(done) {
 gulp.task("browserify:site", browserifyJSSite);
 
 // SidePanelCollapse.js javascript processing
-// create (conditionally) two files: normal version and minified version
+// create (conditionally) two files: verbose version and minified version
 function javascriptSidePanel(options) {
 
     let source = options.source_path + options.source_file;
@@ -907,7 +908,7 @@ function javascriptSidePanel(options) {
     return stream;
 }
 
-// sidepanelcollapse.js for standalone dist/production
+// SidePanelCollapse.js for standalone dist/production
 // build/transpile sidepanel
 // then put it into the /dist directory
 function scriptifySidepanel(done) {
@@ -947,7 +948,6 @@ function demoifySidepanel(done) {
 
     //let source = "./dist/css/**/*";
     //let destination = paths.jsDestination + "/sidePanelCollapse/";
-
 
     let options = {
         "normal": true,
@@ -1008,22 +1008,18 @@ gulp.task("watch:bs", watchJSBS);
 
 // watch the js sources
 function watchJSSite(done) {
-    // exclude site-simple.js from this watch for simplicity
-    let NOTsiteSimple = "!" + siteSourceRoot + "js/site/" + paths.jsFile_site_simple;
-
-    var watcherJS = gulp.watch([paths.jsSourceGLOB, NOTsiteSimple]);
+    var watcherJS = gulp.watch([paths.jsSourceGLOB], gulp.series("lint:js-demo", "browserify:site"));
     watcherJS.on("error", err => glog("watch error: " + err.message));
-    watcherJS.on("change", path => glog("js changed >>> " + path));
-    watcherJS.on("change", gulp.series("lint:js-demo", "browserify:site"));
+    watcherJS.on("change", path => glog("changed >>> " + path));
 	done();
 }
 
 // watch the site-simple.js source
 function watchJSSiteSimple(done) {
-    var watcherJSsimple = gulp.watch(siteSourceRoot + "js/site/" + paths.jsFile_site_simple);
+    var watcherJSsimple = gulp.watch(siteSourceRoot + "js/site/" + paths.jsFile_site_simple, gulp.series("lint:js-demo", "copy:jsSimple"));
     watcherJSsimple.on("error", err => glog("watch error: " + err.message));
-    watcherJSsimple.on("change", path => glog("js changed >>> " + path));
-    watcherJSsimple.on("change", gulp.series("lint:js-demo", "copy:jsSimple"));
+    watcherJSsimple.on("change", path => glog("changed >>> " + path));
+//     watcherJSsimple.on("change", gulp.series("lint:js-demo", "copy:jsSimple"));
 	done();
 }
 
@@ -1032,7 +1028,7 @@ function watchJSSiteSimple(done) {
 function watchJSSidePanel(done) {
     var watcherJSsidepanel = gulp.watch(paths_sidepanel.js_sourceGLOB);
     watcherJSsidepanel.on("error", err => glog("watch error: " + err.message));
-    watcherJSsidepanel.on("change", path => glog("js changed >>> " + path));
+    watcherJSsidepanel.on("change", path => glog("changed >>> " + path));
     watcherJSsidepanel.on("change", gulp.series("lint:js-sidepanel", "browserify:site", "scriptify:sidepanel", "demoify:sidepanel"));
 	done();
 }
