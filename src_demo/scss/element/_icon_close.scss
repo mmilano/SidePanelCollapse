@@ -29,7 +29,7 @@ $closeicon-transition-function:    ease;                    // css transition ti
     &::before,
     &::after {
         position: absolute;
-        top: 48%; // visually adjust position upwards slightly from 50% for better vertical centering
+        top: 48%;  // adjust position upwards ever so slightly from 50% for better vertical visual centering
         left: 0;
 
         width: $closeicon-size;
