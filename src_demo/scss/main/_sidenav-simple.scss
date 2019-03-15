@@ -1,7 +1,8 @@
 // site-specific design styles for the sidenav
 //
-// .sidenav styles add to .sidepanel styles
-// can also override .sidepanel styles here
+// .sidenav styles add to .sidepanel styles for site-specific design.
+// one could also override .sidepanel styles here
+
 
 $sidenav-side:                          "right";  // the default position = right side of window
 
@@ -19,8 +20,8 @@ $sidenav-closeButton-height:            36px;
 $sidenav-close-xposition-small:         177px;
 $sidenav-close-xposition-large:         196px;
 
-$sidenav-nav-offset-top:               $page-primarynavbar-height + 12;  // visual margin from top of sidebar to account for the header bar
-$sidenav-nav-padding-left:               25px;
+$sidenav-nav-offset-top:                $page-primarynavbar-height + 12;  // visual margin from top of sidebar to account for the header bar
+$sidenav-nav-padding-left:              25px;
 
 
 .sidenav {

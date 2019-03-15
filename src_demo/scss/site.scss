@@ -15,8 +15,7 @@
 @import "main/_main";
 @import "main/_demo";
 
-
-// sidepanelCollapse: incorporate the scss into the build
+// SidePanelCollapse: incorporate the scss into the build
 // 'includePaths' option (in gulpfile) allows this to find /src/sidePanelCollapse/
 // include it before site's sidenav styles to allow overriding in the second file
 @import "sidePanelCollapse";

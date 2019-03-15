@@ -1,8 +1,7 @@
 // site-specific styles for the sidepanel sidenav
 //
-// .sidenav styles add to .sidepanel styles
-// can also override .sidepanel styles here
-
+// .sidenav styles add to .sidepanel styles for site-specific design.
+// one could also override .sidepanel styles here
 
 
 $sidenav-side:                          "right";  // the default position = right side of window
@@ -134,7 +133,6 @@ $nav-group-font-color-hover:            #3D88C9;
         }
     }
 }
-
 
 // for larger windows
 @include media-breakpoint-up(md) {
