@@ -1,9 +1,9 @@
 // *****
 // panini/handlebars helper module
 //
-// generate the gallery page list in the pages - currently displayed as the slide-out sidepanel
+// generate the sub-page page list in the pages - currently displayed as the slide-out side panel
 //
-// @param {object} globalContext: the top level context for the site
+// @param {object} globalContext: the top level (handlebars) context for the site
 
 const panini = require("panini");
 const node_path = require("path");
@@ -83,11 +83,13 @@ module.exports = function(globalContext, options) {
     }
 
     function renderGroupBegin() {
-        return "<div class=\"sidenav-group\">";
+        // return "<div class=\"sidenav-group\">";
+        return "<!-- begin: sidenav-group -->";
     }
 
     function renderGroupEnd() {
-        return "\n</div>";
+        // return "\n</div>";
+        return "<!-- end: sidenav-group -->";
     }
 
     // iterate the data array of pages passed in and find just the non-disabled ones
