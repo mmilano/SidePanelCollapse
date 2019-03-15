@@ -43,9 +43,6 @@ $color-white-darker3:    darken($core-white, 20.0%);       // #CCCCCC
 $color-white-darker4:    darken($core-white, 26.66667%);   // #BBBBBB
 $color-white-darker5:    darken($core-white, 33.33333%);   // #AAAAAA
 
-// background colors
-// $background-color-second:       #95AF57;
-
 // text colors
 // increment the colors in steps of 16/256
 $text-color-black:              $core-black;
@@ -61,13 +58,12 @@ $text-color-white-darker3:      darken($core-white, 20%);         // #CCCCCC
 $text-color-white-darker4:      darken($core-white, 26.66667%);   // #BBBBBB
 // @debug $text-color-white-muted;
 
-$link-color-primary:    #007BFF;
+$link-color-primary:              #007BFF;
 
 $theme-link-color:                $link-color-primary;
 $theme-link-decoration:           none;
 $theme-link-hover-color:          darken($link-color-primary, 13%);
 $theme-link-hover-decoration:     none;
-
 $theme-link-active:               $color-white-darker1;
 
 
@@ -82,7 +78,6 @@ $default-border-color: $color-white-darker5;
 
 // LAYOUT
 $page-primarynavbar-height:     50px;  // height of the primary nav bar on the page
-
 
 
 // TYPOGRAPHY
@@ -103,9 +98,6 @@ $font-weight-light:     300;
 $font-weight-normal:    400;
 $font-weight-semibold:  600;
 $font-weight-bold:      700;
-
-// font sizes
-$page-heading-size:      2.9rem;
 
 // NAV transitions
 $nav-item-color-transition-duration:        0.3s;
@@ -134,5 +126,5 @@ $nav-item-color-transition-duration-long:   0.8s;
     cursor: grabbing;
 }
 
-// Do not put any css rules into this file. This file is only for declaration of variables and mixins
+// No css rules in this file. This file is only for declaration of variables and mixins
 //
