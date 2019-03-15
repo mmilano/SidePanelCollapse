@@ -10,14 +10,14 @@ $gallery-item-content-space-side:       20px;
 
 $gallery-item-text-color:               $core-black;
 $gallery-image-max-height:              100px;
-$gallery-image-color:                   #555551;
+$gallery-image-color:                   #666666;
 
 $card-background-color-default:         #DBDBD7;
 $card-background-color-hover:           #C9A956;
 $card-border-radius:                    4px;
 $card-image-border-radius:              $card-border-radius / 2;
 
-$duration-fast:                         0.25s;
+$card-duration-fast:                    0.25s;
 
 #gallery-grid {
     margin-left: -$gallery-item-side-padding;
@@ -47,11 +47,15 @@ $duration-fast:                         0.25s;
         border: 0;
         border-radius: $card-border-radius;
 
-        transition: background-color $duration-fast ease-in-out;
+        transition: background-color $card-duration-fast ease-in-out;
 
         // visual interest
         &:hover {
             background-color: $card-background-color-hover;
+
+            .card-image {
+                 background-color: darken($gallery-image-color, 13.3333%);
+            }
         }
 
         // container for the gallery image
@@ -62,9 +66,10 @@ $duration-fast:                         0.25s;
 
             // match card's border on outside top corners, soften the rounding on the inside bottom corners
             border-radius: $card-border-radius $card-border-radius $card-image-border-radius $card-image-border-radius;
-
             margin-bottom: 10px;
             background-color: $gallery-image-color; // FPO filler for an image
+
+            transition: background-color $card-duration-fast ease-in-out;
         }
 
         // the page description text
@@ -76,7 +81,6 @@ $duration-fast:                         0.25s;
         // the group and name
         .card-info {
             margin: 0 $gallery-item-content-space-side;
-
             font-size: 1.2rem;
             line-height: 1.4;
         }
