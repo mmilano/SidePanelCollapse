@@ -23,7 +23,6 @@ _site
 # Optional eslint cache
 .eslintcache
 
-
 # destination folders for builds
 public
 build
