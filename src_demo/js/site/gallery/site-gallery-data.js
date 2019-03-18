@@ -40,7 +40,7 @@ var gallerySetup = (function() {
     // **********
     // BEGIN:
     // any processing of the gallery data
-
+        // nothing for the demo
     // END
     // **********
 
