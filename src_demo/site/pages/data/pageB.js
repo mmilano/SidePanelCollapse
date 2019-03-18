@@ -11,12 +11,6 @@ module.exports = {
     "overview-short": "Voluptate Arabica carajillo grounds turkish caffeine dripper latte trifecta half and half.",
 
     "og": {
-        image: {
-            url: "public/images/og/og-site.png",  // defined in relation to "url-image-base"
-            width: 512,
-            height: 256,
-            alt: "",
-        },
         "description": "Voluptate Arabica carajillo grounds turkish caffeine dripper latte trifecta half and half",
     },
 };

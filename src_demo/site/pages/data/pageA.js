@@ -11,12 +11,6 @@ module.exports = {
     "overview-short": "Et, ristretto, crema sweet kopi-luwak, breve robusta, java dripper coffee.",
 
     "og": {
-        image: {
-            url: "public/images/og/og-site.png",  // defined in relation to "url-image-base"
-            width: 512,
-            height: 256,
-            alt: "",
-        },
         "description": "Et, ristretto, crema sweet kopi-luwak, breve robusta, java dripper coffee.",
     },
 };

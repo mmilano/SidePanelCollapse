@@ -11,12 +11,6 @@ module.exports = {
     "overview-short": "Kopi-luwak trifecta caramelization steamed, cream, and skinny saucer cultivar.",
 
     "og": {
-        image: {
-            url: "public/images/og/og-site.png",  // defined in relation to "url-image-base"
-            width: 512,
-            height: 256,
-            alt: "",
-        },
         "description": "Kopi-luwak trifecta caramelization steamed, cream, and skinny saucer cultivar",
     },
 };
