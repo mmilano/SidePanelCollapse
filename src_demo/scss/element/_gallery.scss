@@ -3,9 +3,7 @@
 
 $gallery-item-side-padding:             10px;
 $gallery-item-topbottom-margin:         25px;
-
 $gallery-item-inside-spacing-bottom:    25px;
-
 $gallery-item-content-space-side:       20px;
 
 $gallery-item-text-color:               $core-black;
@@ -72,26 +70,19 @@ $card-duration-fast:                    0.25s;
             transition: background-color $card-duration-fast ease-in-out;
         }
 
-        // the page description text
+        // the page description
         .card-overview {
             flex-grow: 2;
             margin: 0 $gallery-item-content-space-side 2rem $gallery-item-content-space-side;
         }
 
-        // the group and name
+        // the title
         .card-info {
+            min-height: 3rem;
             margin: 0 $gallery-item-content-space-side;
+            font-weight: $font-weight-semibold;
             font-size: 1.2rem;
             line-height: 1.4;
-        }
-
-        // subtitle
-        .card-group {}
-
-        // title
-        .card-name {
-            font-size: inherit;
-            font-weight: $font-weight-semibold;
         }
     }
 }
