@@ -20,7 +20,7 @@ window.addEventListener("load", function() {
     //     durationHideFast: "0.25s",
     //
     //     backdrop: true,
-    //     backdropStyle: "light",
+    //     backdropStyleClass: "light",
     //
     //     sidePanelIsOpenClass: "sidepanel-shown",
     // };

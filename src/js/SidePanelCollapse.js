@@ -92,7 +92,7 @@
         // HTML class attribute:
         // which color style of backdrop to use: "dark", or "light".
         // corresponds to the css styles (e.g. "light" -> ".light")
-        backdropStyle: "light",
+        backdropStyleClass: "light",
 
         // boolean:
         // whether sidepanel should enable special behavior for <a> links in the sidepanel.
@@ -323,7 +323,7 @@
 
         // construction
         // create the backdrop DOM element and store it
-        this.element = create(_sidepanel.settings.backdropStyle);
+        this.element = create(_sidepanel.settings.backdropStyleClass);
 
         // add backdrop to the page DOM
         insert(this.element);

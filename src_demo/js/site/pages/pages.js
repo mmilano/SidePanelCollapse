@@ -104,7 +104,7 @@ var pages = {
             durationShow: "2s",
             durationHide: "2s",
             durationHideFast: ".5s",
-            backdropStyle: "dark",
+            backdropStyleClass: "dark",
         };
 
         // expose sidepanel as global for demo purposes
