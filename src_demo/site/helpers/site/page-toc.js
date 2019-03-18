@@ -72,7 +72,6 @@ module.exports = function(attr, options) {
         } else {
             partialCompiled = hbs.compile(p);
         }
-
         return partialCompiled;
     }
 
@@ -135,10 +134,9 @@ module.exports = function(attr, options) {
             }
 
             let $descendants = $scope.find(selector);
-            let group = $scope.filter(selector).add($descendants);
-            group = this.filterOut(group);
-
-            return group;
+            let _selections = $scope.filter(selector).add($descendants);
+            _selections = this.filterOut(_selections);
+            return _selections;
         };
 
         // given a NODE DOM element,
@@ -150,9 +148,6 @@ module.exports = function(attr, options) {
                 console.warn ("getTitle: NO ELEMENT ARGUMENT GIVEN");
                 return 0;
             }
-
-            // console.log ("**** el1", el);
-            // console.log ("**** el2", $(el));
             let $el = $(el);
 
             // first check if there is a data-title-short value
@@ -162,7 +157,6 @@ module.exports = function(attr, options) {
                 // if that doesnt exist, try to get the innertext of the tag
                 title = trimWhitespace($el.text());
             }
-
             return title;
         };
 
@@ -257,7 +251,6 @@ module.exports = function(attr, options) {
 
             // set to -1 to signal if there are no top level headings
             let topLevel = -1;
-
             for (var i = this.topHeadingLevel; i <= this.maxHeadingDepth; i++) {
                 let $headings = this.findAndFilter("h" + i, $scope);
                 if ($headings.length > 0) {
@@ -265,7 +258,6 @@ module.exports = function(attr, options) {
                     break;
                 }
             }
-
             return topLevel;
         };
 
@@ -289,8 +281,8 @@ module.exports = function(attr, options) {
 
         this.getNextHeadingsUntil = function($el, headingLevel, $scope) {
             let headingSelector = "h" + headingLevel;
-            let group = $el.nextUntil($el, headingSelector);
-            return group;
+            let headings = $el.nextUntil($el, headingSelector);
+            return headings;
         };
 
         this.generateContents = function() {
@@ -377,7 +369,6 @@ module.exports = function(attr, options) {
                     contents[key_top]["subsections"] = subsections;
                 }
             }
-
             return contents;
         };
 
