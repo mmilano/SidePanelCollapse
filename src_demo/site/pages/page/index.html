@@ -146,13 +146,11 @@
             <div class="col-12 col-md-6 col-lg-4 gallery-item" id="{{id}}-item">
                 <a class="card gallery-card h-100" href="./{{{url}}}">
                     <div class="card-image"></div>
-
                     <div class="card-overview">
                         {{getProjectPageKeyById id "overview-short"}}
                     </div>
-
                     <div class="card-info">
-                        <h4 class="card-name">{{titleCase (getPageTitleShortById id)}}</h4>
+                        {{titleCase (getPageTitleShortById id)}}
                     </div>
                 </a>
             </div>
