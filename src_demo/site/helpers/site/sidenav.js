@@ -14,8 +14,7 @@ module.exports = function(globalContext, options) {
 
     let out = ""; // output
 
-    let currentPage;
-    let currentPageID;
+    let currentPage, currentPageID;
 
     const hbs = panini.Handlebars;
     const hbs_partials = panini.Handlebars.partials;
@@ -38,30 +37,30 @@ module.exports = function(globalContext, options) {
     }
 
     let template_compiled = {};
+
+    // convenience references to the partials and helpers
     template_compiled["name"] = getCompiled(hbs_partials["sidenav-name"]);
     template_compiled["group"] = getCompiled(hbs_partials["sidenav-group"]);
     template_compiled["divider"] = getCompiled(hbs_partials["sidenav-divider"]);
-
-    let getPageData = hbs_helpers["getPageData"]; // use the existing helper
+    let getPageData = hbs_helpers["getPageData"];
 
     // for page name:
     // get url from the gallery data
     // but
     // get page name from the page data
-
     function renderPageName(page) {
         let pageURL = page.url;
 
         // to get the title in the page data,
         // have to breakdown the page url because the page data is keyed to the page file name
-        let pageName = node_path.parse(pageURL).name;
-        let pageData = globalContext[pageName];
-        let name = pageData["page-title-short"];
-        name = titlecase(name);
+        let fileName = node_path.parse(pageURL).name;
+        let pageData = globalContext[fileName];
+        let pageName = pageData["page-title-short"];
+        pageName = titlecase(pageName);
 
         let context = {
             "url": pageURL,
-            "pagename": name,
+            "pagename": pageName,
         };
 
         if (page.id === currentPageID) {
@@ -71,25 +70,28 @@ module.exports = function(globalContext, options) {
         return template_compiled["name"](context, options);
     }
 
-    function renderGroupName(group) {
-        let context = {
-            "group": group,
-        };
-        return template_compiled["group"](context);
+    function renderDivider() {
+        // not being used in demo
+        // return template_compiled["divider"]();
+        return "<!-- divider -->";
     }
 
-    function renderDivider() {
-        return template_compiled["divider"]();
-    }
+// not being used in demo
+//     function renderGroupName(group) {
+//         let context = {
+//             "group": group,
+//         };
+//         return template_compiled["group"](context);
+//     }
 
     function renderGroupBegin() {
-        // return "<div class=\"sidenav-group\">";
-        return "<!-- begin: sidenav-group -->";
+        // not being used in demo
+        return "<!-- begin: a group -->";
     }
 
     function renderGroupEnd() {
-        // return "\n</div>";
-        return "<!-- end: sidenav-group -->";
+        // not being used in demo
+        return "<!-- end: a group -->";
     }
 
     // iterate the data array of pages passed in and find just the non-disabled ones
@@ -102,7 +104,6 @@ module.exports = function(globalContext, options) {
                list.push(key);
             };
         });
-
         return list;
     }
 
@@ -127,7 +128,7 @@ module.exports = function(globalContext, options) {
     currentPageID = getPageData(globalContext, currentPage, "id");
 
     pagesActive.forEach(function(k, index) {
-        let htmlFragment = "";
+        let htmlFragment = "";  // set to empty at beginning
 
         let aPage = siteGallery[k];
         let pageID = aPage.id;
@@ -139,17 +140,17 @@ module.exports = function(globalContext, options) {
         if (pageGroup === previousGroup) {
             htmlFragment = renderPageName(aPage);
         } else {
-            // if group !== previous group, then render
+            // if group !== previous group, then render:
             // 1. group closer and a divider to close the previous group,
-            // 2. the group name,
+            // 2. the new group title,
             // 3. the first page in the new group
-
             if (previousGroup !== "") {
-                htmlelement = renderGroupEnd();
-                htmlelement += renderDivider();
-            };
+                htmlFragment = renderGroupEnd();
+                htmlFragment += renderDivider();
+            }
+
             htmlFragment += renderGroupBegin();
-            htmlFragment += renderGroupName(pageGroup);
+            // htmlFragment += renderGroupName(pageGroup);  // not being used in demo
             htmlFragment += renderPageName(aPage);
             previousGroup = pageGroup;
         }
