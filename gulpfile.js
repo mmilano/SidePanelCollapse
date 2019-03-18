@@ -155,7 +155,7 @@ const sidepanelDestinationRoot = "./dist/";
 
 const paths_sidepanel = {
     scss_source: [sidepanelSourceRoot + "scss/sidePanelCollapse.scss"],
-    scss_sourceGLOB: [sidepanelSourceRoot + "scss/**/*"],
+    scss_sourceGLOB: [sidepanelSourceRoot + "scss/**/*.scss"],
     css_destination: sidepanelDestinationRoot + "css",
 
     js_source: [sidepanelSourceRoot + "js/**/SidePanelCollapse.js"],
@@ -164,12 +164,14 @@ const paths_sidepanel = {
 
 
 // simply touch a file so that filesystem thinks the file changed
+// or to a gulp.dest file's mtime be now.
+// takes single file or array of files
 function touchNow(src) {
     let timenow = Date.now() / 1000;  // https://nodejs.org/docs/latest/api/fs.html#fs_fs_utimes_path_atime_mtime_callback
     if (!Array.isArray(src)) {
         src = src.split();
     }
-    src.forEach( function(file) {
+    src.forEach(function(file) {
         fs_utimes(file, timenow, timenow, function(){return;});
     });
 }
@@ -189,7 +191,7 @@ function findIPAddress() {
     let ip_main, ip, address;
 
     if (typeof networkInterfaces["en4"] !== "undefined") {
-        ip_main = networkInterfaces["en4"];  // ethernet cableconsole.log ("ip_eth: ", ip_eth);
+        ip_main = networkInterfaces["en4"];  // ethernet cable
         ip = ip_main.find(netInterface => netInterface.family === "IPv4");
     } else if (typeof networkInterfaces["en0"] !== "undefined") {
         ip_main = networkInterfaces["en0"];  // wifi
@@ -228,7 +230,7 @@ const options_server = {
 // some user-friendly server info
 function serverInfo() {
     console.info("\n");
-    console.info("Demo webserver is running.");
+    console.info("Webserver is running.");
     console.info("Connect to:  localhost:" + options_server.port );
     console.info("Connect to:  " + currentIPAddress + ":" + options_server.port );
     console.info("\n");
@@ -246,9 +248,12 @@ function webserver(done) {
     });
 
     server
-    .then ( msg => {
+    .then (() => {
         serverInfo();
         done();
+    })
+    .catch (() => {
+        console.log ("problem with starting the webserver");
     });
 }
 
@@ -528,7 +533,7 @@ function buildpagesCHANGED(done) {
 gulp.task("build:pages-changed", buildpagesCHANGED);
 
 function watchPages(done) {
-    var watcherPages = gulp.watch([paths.sitePagesGLOB, paths.DSStoreIgnore], gulp.series("build:pages-changed"));
+    var watcherPages = gulp.watch([paths.sitePagesGLOB, paths.DSStoreIgnore], {delay: 400}, gulp.series("build:pages-changed"));
     watcherPages.on("error", err => glog("watch error: " + err));
     watcherPages.on("change", path => glog("pages changed >>> " + path));
 	done();
@@ -573,7 +578,7 @@ function minifyPages() {
     .pipe(debug({title: "minifying page: "}))
     .pipe(gulp.dest(pathRelative))
     .on("error", err => glog("HTML minification error: " + err))
-    .on("change", path => console.log("minification of page >>> " + path));
+    .on("change", path => glog("minification of page >>> " + path));
 }
 
 gulp.task("minify:pages", minifyPages);
@@ -622,24 +627,26 @@ function buildcss(src, dest, outputfile, options, mode) {
         .pipe(sass(options))
         .on("error", sass.logError)
         .pipe(autoprefixer(options_autoprefix))
-        // .pipe(debug({title: "compile scss " + "(" + mode + ")" + ":"}))
+        .pipe(debug({title: "compile scss " + "(" + mode + ")" + ":"}))
         //.pipe(rename({basename: outputfile}))
         .pipe(mode === "production" ? rename({suffix: ".min"}) : noop())
         .pipe(mode === "production" ? cssnano(options_cssnano) : noop())
         .pipe(sourcemaps.write("./map"))
         .pipe(gulp.dest(dest))
+
         .on("error", () => reject("scss compilation error in: " + src))
-        .on("end", () => resolve("compile scss completed (" + mode + ")"));
+        .on("end", () => resolve("scss compilation completed (" + mode + ")"));
     });
 }
 
 // compile the sidePanelCollapse.scss for standalone,
-// and output the css files, both normal and minified
+// and output the css files, both normal and minified, to /dist
+// written as a chained promise so that this will not return UNTIL all the making is really complete
 function maketheCSS_sidepanel(done) {
 
     let scss_sidepanel_source = paths_sidepanel.scss_source;
     let scss_sidepanel_destination = paths_sidepanel.css_destination;
-    let scss_sidepanel_destination_filename = "sidePanelCollapse";
+    let scss_sidepanel_destination_filename = "SidePanelCollapse";
 
     const options_scss_normal = {
         includePaths: ["/"],
@@ -647,7 +654,7 @@ function maketheCSS_sidepanel(done) {
         outputStyle: "expanded",
         sourceComments: true,
         indentWidth: 4,
-        precision: 4
+        precision: 4,
     };
 
     const options_scss_production = {
@@ -656,31 +663,41 @@ function maketheCSS_sidepanel(done) {
         outputStyle: "compact",
         sourceComments: false,
         indentWidth: 2,
-        precision: 4
+        precision: 4,
     };
 
-    buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, options_scss_normal, "normal")
-    .then(msg => {glog(msg)})
-    .catch(err => {glog(err)});
+    // async of normal mode build
+    var buildNormal = buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, options_scss_normal, "normal");
 
-    buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, options_scss_production, "production")
-    .then(msg => {glog(msg)})
-    .catch(err => {glog(err)});
+    // async of production mode build
+    var buildProduction = buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, options_scss_production, "production");
 
-    done();
+    // do not return from here until the files are completely built and done.
+    Promise.all([buildNormal, buildProduction])
+    .then(msgs => {
+        msgs.forEach( msg => glog(msg));
+    })
+    .catch(err => {
+        glog(err);
+    })
+    .then (() => {
+        done();
+    });
+
 }
 
 // sidePanelCollapse.css for demo
 // in this case, copy the /dist files to /demo
-function copyCSS_sidepanel(done) {
+function copyCSS_sidepanel() {
 
-    let css_sidepanel_dist = "./dist/css/**/*";
-    let css_sidepanel_destination = siteBuildDestinationRoot + "public/css/sidePanelCollapse";
+    let source = "./dist/css/**/*";
+    let destination = siteBuildDestinationRoot + "public/css/sidePanelCollapse";
 
-    gulp
-    .src(css_sidepanel_dist)
-    .pipe(gulp.dest(css_sidepanel_destination));
-    done();
+    return gulp
+    .src(source)
+    .pipe(debug({title: "sidepanel: "}))
+    .pipe(gulp.dest(destination));
+
 }
 
 gulp.task("compile:scss-sidepanel", maketheCSS_sidepanel);
@@ -716,9 +733,8 @@ gulp.task("compile:scss_production", function(done) {
 
 // watch the sidePanelCollapse scss sources
 function watchSCSS_sidepanel(done) {
-
     // see note in watchSCSS()
-    var watcherSCSS = gulp.watch(paths_sidepanel.scss_sourceGLOB, {delay: 500}, gulp.series("compile:scss-sidepanel", "copy:css-sidepanel", "compile:scss"));
+    var watcherSCSS = gulp.watch(paths_sidepanel.scss_sourceGLOB, {delay: 400}, gulp.series("compile:scss-sidepanel", "compile:scss", "copy:css-sidepanel"));
     watcherSCSS.on("error", err => glog("watch error: " + err));
     watcherSCSS.on("unlink", path => glog("deleted >>> " + path));
     watcherSCSS.on("change", path => glog("changed >>> " + path));
@@ -727,11 +743,9 @@ function watchSCSS_sidepanel(done) {
 
 // watch the demo scss sources
 function watchSCSS(done) {
-
-    // note: using the watcher = gulp.watch format DOES NOT IMPLEMENT the queue and delay options.
+    // note: using the "watcher = gulp.watch" format DOES NOT IMPLEMENT the queue and delay options.
     // and there does not appear to be any documentation about using chokidir's internal throttle ability, so...
     // delay will apply to the events managed by gulp, but response will be immediate for the direct .on events
-    // defined afterwards
     var watcherSCSS = gulp.watch(paths.scssSourceGLOB, {delay: 500}, gulp.series("compile:scss"));
     watcherSCSS.on("error", err => glog("watch error: " + err));
     watcherSCSS.on("unlink", path => glog("deleted >>> " + path));
@@ -875,23 +889,20 @@ function javascriptSidePanel(options) {
     let destination_path = options.destination_path;
     let destination_filename = options.standalone_file;
 
-    let create_normal = options.normal;
-    let create_minified = options.minified;
-
     // start the stream
     let stream = gulp.src(source)
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(babel(options_babel));
 
     // output the non-minified version
-    if (create_normal) {
+    if (options.normal) {
         stream = stream
         .pipe(sourcemaps.write("./map"))
         .pipe(gulp.dest(destination_path));
     }
 
     // now do the minified version
-    if (create_minified) {
+    if (options.minified) {
         stream = stream
         // filter out non .js (i.e. the .map file) before uglification step
         .pipe(filter("**/*.js"))
@@ -917,7 +928,7 @@ function scriptifySidepanel(done) {
         "minified": true,
         "source_path": sidepanelSourceRoot + "js/",
         "source_file": "SidePanelCollapse.js",
-        "destination_path": "./dist/js/",
+        "destination_path": "./dist/js/"
     };
     javascriptSidePanel(options);
     done();
@@ -941,23 +952,14 @@ gulp.task("scriptify:sidepanel", scriptifySidepanel);
 
 // sidepanelcollapse.js for the demo site
 // in this case, copy the /dist files to /demo
+function demoifySidepanel() {
 
-// build/transpile sidepanel
-// then put it into the demo directory
-function demoifySidepanel(done) {
+    let source = "./dist/js/**/*";
+    let destination = paths.jsDestination + "/sidePanelCollapse/";
 
-    //let source = "./dist/css/**/*";
-    //let destination = paths.jsDestination + "/sidePanelCollapse/";
-
-    let options = {
-        "normal": true,
-        "minified": true,
-        "source_path": sidepanelSourceRoot + "js/",
-        "source_file": "SidePanelCollapse.js",
-        "destination_path": paths.jsDestination + "/sidePanelCollapse/",
-    };
-    javascriptSidePanel(options);
-    done();
+    return gulp
+    .src(source)
+    .pipe(gulp.dest(destination));
 }
 
 gulp.task("demoify:sidepanel", demoifySidepanel);
@@ -1077,7 +1079,6 @@ gulp.task("demo", gulp.series(
 function trial() {
     var setup = new Promise (function(resolve, reject) {
         gulp.series(
-
             "site:setup",
 
             "compile:scss",
