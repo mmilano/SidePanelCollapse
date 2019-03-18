@@ -3,7 +3,7 @@
 module.exports = {
     "id": "pageB",
 
-    "group": "Page Group",
+    "group": "Demo Group",
     "page-title": "Voluptate Arabica carajillo grounds turkish caffeine dripper latte trifecta half and half",
     "page-title-short": "Voluptate Arabica carajillo grounds",
     "page-title-html": "Example Page",

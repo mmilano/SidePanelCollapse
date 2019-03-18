@@ -3,7 +3,7 @@
 module.exports = {
     "id": "pageA",
 
-    "group": "Page Group",
+    "group": "Demo Group",
     "page-title": "In Grounds Est Barista Con Panna",
     "page-title-short": "est barista con panna",
     "page-title-html": "Example Page",

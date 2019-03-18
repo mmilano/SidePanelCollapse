@@ -3,7 +3,7 @@
 module.exports = {
     "id": "pageC",
 
-    "group": "Page Group",
+    "group": "Demo Group",
     "page-title": "kopi-luwak trifecta caramelization steamed, cream, and saucer cultivar",
     "page-title-short": "trifecta caramelization steamed",
     "page-title-html": "Example Page",
