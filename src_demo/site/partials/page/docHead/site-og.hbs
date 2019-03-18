@@ -28,7 +28,7 @@ generate the opengraph meta data
             {{#if alt}}<meta property="og:image:alt" content="{{alt}}">{{/if}}
         {{/with~}}
     {{~else~}}
-         {{#with site.og.image~}}
+         {{#with ../site.og.image~}}
             <meta property="og:image" content="{{@root.site.og.url-content}}{{url}}">
             <meta property="og:image:width" content="{{width}}">
             <meta property="og:image:height" content="{{height}}">
