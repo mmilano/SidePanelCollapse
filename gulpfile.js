@@ -27,7 +27,7 @@ const uglify =          require("gulp-uglify");
 const htmlvalidator =   require("gulp-html");
 const htmlmin =         require("gulp-htmlmin");
 
-// content/template tool
+// page-generation/templating tool
 const panini =          require("panini");
 
 // gulp tools
@@ -183,19 +183,19 @@ function refreshPanini() {
 }
 
 // WEB SERVER
-// simple node server for dev
+// simple node server for development and demo viewing
 
 // utility function to find current IP address.
 // * might not be bulletproof *
 function findIPAddress() {
-    let ip_main, ip, address;
+    let network, ip, address;
 
     if (typeof networkInterfaces["en4"] !== "undefined") {
-        ip_main = networkInterfaces["en4"];  // ethernet cable
-        ip = ip_main.find(netInterface => netInterface.family === "IPv4");
+        network = networkInterfaces["en4"];  // ethernet cable?
+        ip = network.find(netInterface => netInterface.family === "IPv4");
     } else if (typeof networkInterfaces["en0"] !== "undefined") {
-        ip_main = networkInterfaces["en0"];  // wifi
-        ip = ip_main.find(netInterface => netInterface.family === "IPv4");
+        network = networkInterfaces["en0"];  // wifi?
+        ip = network.find(netInterface => netInterface.family === "IPv4");
     };
     if (typeof ip !== "undefined") {
         address = ip.address;
@@ -206,9 +206,10 @@ function findIPAddress() {
     return address;
 }
 
-// note: host 0.0.0.0 allows a browser to view the built site at
-// http://localhost:9191 OR http://[current IP address]:9191 (on macOSX),
-// & http://[current IP address]:9191 from a virtual machine.
+// note: host 0.0.0.0 allows you to view the pages at
+// http://localhost:9191
+// OR http://[current IP address]:9191 (on macOSX),
+// AND http://[current IP address]:9191 from a virtual machine.
 // original source of this suggestion:
 // https://stackoverflow.com/questions/10158771/access-localhost-on-the-main-machine-from-vmware-workstation-8-for-asp-net-devel/10159420#10159420
 const server_host = "0.0.0.0";
@@ -248,17 +249,22 @@ function webserver(done) {
     });
 
     server
-    .then (() => {
+    .then(() => {
         serverInfo();
-        done();
     })
-    .catch (() => {
+    .catch(() => {
         console.log ("problem with starting the webserver");
+    })
+    .then(() => {
+        done();
     });
 }
 
 gulp.task("webserver", webserver);
 
+
+// **************
+// CLEAN UP and SET UP
 
 // erases the directories, clean out the compiled stuff
 function siteClean(done) {
@@ -313,6 +319,8 @@ gulp.task("site:copy", gulp.parallel("copy:images", copyIco));
 gulp.task("site:setup", gulp.series("site:clean", "site:copy"));
 
 
+
+// TODO: finish or delete
 function doall(done) {
     var tasks = new Promise(function(resolve, reject) {
         gulp.parallel(copyImages, copyIco)();
@@ -680,7 +688,7 @@ function maketheCSS_sidepanel(done) {
     .catch(err => {
         glog(err);
     })
-    .then (() => {
+    .then(() => {
         done();
     });
 
@@ -1010,7 +1018,7 @@ gulp.task("watch:bs", watchJSBS);
 
 // watch the js sources
 function watchJSSite(done) {
-    var watcherJS = gulp.watch([paths.jsSourceGLOB], gulp.series("lint:js-demo", "browserify:site"));
+    var watcherJS = gulp.watch([paths.jsSourceGLOB], {delay: 300}, gulp.series("lint:js-demo", "browserify:site"));
     watcherJS.on("error", err => glog("watch error: " + err.message));
     watcherJS.on("change", path => glog("changed >>> " + path));
 	done();
@@ -1028,10 +1036,9 @@ function watchJSSiteSimple(done) {
 // watch the sidepanelcollapse js
 // if it changes, rebuild js for /dist and /demo
 function watchJSSidePanel(done) {
-    var watcherJSsidepanel = gulp.watch(paths_sidepanel.js_sourceGLOB);
+    var watcherJSsidepanel = gulp.watch(paths_sidepanel.js_sourceGLOB, gulp.series("lint:js-sidepanel", "browserify:site", "scriptify:sidepanel", "demoify:sidepanel"));
     watcherJSsidepanel.on("error", err => glog("watch error: " + err.message));
     watcherJSsidepanel.on("change", path => glog("changed >>> " + path));
-    watcherJSsidepanel.on("change", gulp.series("lint:js-sidepanel", "browserify:site", "scriptify:sidepanel", "demoify:sidepanel"));
 	done();
 }
 
@@ -1039,6 +1046,9 @@ gulp.task("watch:js", watchJSSite);
 gulp.task("watch:js-simple", watchJSSiteSimple);
 gulp.task("watch:js-sidepanel", watchJSSidePanel);
 
+
+// **************
+// PRIMARY TASKS
 
 // watch all the things
 gulp.task("watch:everything", gulp.parallel(
@@ -1056,11 +1066,7 @@ gulp.task("watch:everything", gulp.parallel(
     "watch:pages"
 ));
 
-
-// **************
-// PRIMARY TASKS
-
-// assemble the complete demo site
+// assemble the demo sites
 gulp.task("demo", gulp.series(
     "webserver",
     "site:setup",
@@ -1074,6 +1080,42 @@ gulp.task("demo", gulp.series(
 
     "build:pages"
 ));
+
+// primary task for development/working with the source
+gulp.task("dev", function devTask(done) {
+    gulp.series(
+        "site:setup",
+        "webserver",
+        gulp.parallel(
+            "compile:scss",
+            "browserify:site",
+            "demoify:sidepanel",
+            "build:pages"
+            ),
+        "watch:everything")();
+    done();
+});
+
+// default task = demo
+gulp.task("default", gulp.series("demo")); // alias
+
+
+// make sidepanelcollapse for production
+// both js and css
+
+function sidepanel(done) {
+    gulp.series(
+        "lint:js-sidepanel",
+        gulp.parallel(
+            "scriptify:sidepanel",
+            "compile:scss-sidepanel"
+            )
+        )();
+    done();
+}
+
+exports.production = sidepanel;  // alias
+
 
 
 function trial() {
@@ -1106,47 +1148,3 @@ function trial() {
 }
 
 exports.trial = trial;
-
-
-// dev task is basically the default
-gulp.task("dev", function taskDevBasic(done) {
-    gulp.series(
-//         "site:setup",
-        "webserver",
-        gulp.parallel(
-            "compile:scss",
-            "browserify:site",
-            "demoify:sidepanel",
-            "build:pages"
-        ),
-        "watch:everything")();
-    done();
-});
-
-gulp.task("default", gulp.series("demo")); // alias
-
-
-// sidepanel dist/production process
-//
-// js:
-// * lint js
-// * copy the main js file to dist/js
-// * browserify the copy into min version, same dest
-//
-// css:
-// * compile the standalone scss file, normal, dest = dist/css
-// * compile the standalone scss file, minify, dest = dist/css
-
-function dist_sidepanel(done) {
-    gulp.series(
-        "lint:js-sidepanel",
-        gulp.parallel(
-            "scriptify:sidepanel",
-            "compile:scss-sidepanel"
-        ),
-        "watch:js-sidepanel")();
-    done();
-}
-
-exports.dist_sidepanel = dist_sidepanel;
-exports.production_sidepanel = dist_sidepanel;  // alias
