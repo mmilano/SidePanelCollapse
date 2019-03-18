@@ -103,7 +103,7 @@ const paths = {
 //     jsVendorGLOB: siteSourceRoot + "js/vendor/**/*.js",
 //     jsVendorDestination: siteBuildDestinationRoot + "public/js",
 
-    jsSourceSITEGLOB: [siteSourceRoot + "js/site/**/*.js"],
+    jsSourceSITEGLOB: [siteSourceRoot + "js/site/**/*.js", siteSourceRoot + "site/pages/**/*.js"],
     jsFile_site: "site.js",
     browserifyDestinationFile_site: "site.js",
     jsFile_site_simple: "site-simple.js",
