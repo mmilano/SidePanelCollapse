@@ -8,15 +8,16 @@ var siteBase = "./";
 var siteHome = "/";
 
 var siteData = {
-    "site_name": "Bootstrap v4 Sidebar",
-    "title": "Horizontal Sliding Sidebar",
-    "description": "An example project to demo using the Bootstrap v4 'collapse' component to make a vertical sidebar slide horizontally, with variable timing.",
-    "project-url": "http://www.stochasticnotions.com/",
+    "site_name": "Bootstrap SidePanelCollapse",
+    "title": "Horizontal Sliding Side Panel",
+    "description": "An example project to demonstrate using the Bootstrap 'collapse' component to make a vertical sidebar slide horizontally, with variable timing.",
+    "project-url": "http://localhost:9191",
 
     // site meta keywords
     "keywords": [
         "Bootstrap 4",
         "collapse",
+        "horizontal collapse",
         "vertical sidebar",
         "example",
         "demonstration",
@@ -36,14 +37,14 @@ var siteData = {
             return siteData.description;
         },
         "type":         "website",
-        "url":          "exampleurl.com",
-        "url-content":  "exampleurl.com",
-        "url-image-base":   "/",
+        "url":          "localhost:9191/",
+        "url-content":  "localhost:9191/",
+        "url-image-base": "/",
         "image": {
-            url: "public/images/og/og-site.png",
+            url: "public/images/og/og-demo.png",
             width: 512,
             height: 256,
-            alt: "Example site",
+            alt: "SidePanelCollapse Demonstration"
         },
     },
 
