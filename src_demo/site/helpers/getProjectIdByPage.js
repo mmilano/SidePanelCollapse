@@ -9,7 +9,6 @@
 
 // @param {string} page - the @page value, which is @page=name of the page file (without extension). this serves as the index to @page.json data, from which the "id" is extracted,
 //                        and then the "id" is used as the key to the site.json data
-//
 // @returns {string} id - the id value from the gallery data
 
 

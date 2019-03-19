@@ -1,5 +1,5 @@
-// main style file
-// GENERAL common, shared style definitions
+// demo style file
+// GENERAL common, shared style definitions for the demos
 
 
 $pill-width-demo:                310px;
@@ -11,7 +11,7 @@ footer {
     padding: 2rem 0;
 }
 
-// specifics for the demo pages
+// specifics for the demo pill
 .pill {
     &.demo {
         width: $pill-width-demo;
@@ -31,11 +31,4 @@ footer {
         left: 50%;
         transform: translateX(-50%);
     }
-}
-
-
-
-// short windows
-@media (max-height: $breakpoint-height-md){
-
 }
