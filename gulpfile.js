@@ -45,7 +45,7 @@ const del =             require("del");
 const node_path =       require("path");
 const fs_utimes =       require("fs").utimes;
 
-// dev/demo webserver
+// dev/demo web server
 const connect =         require("gulp-connect");
 const networkInterfaces = require("os").networkInterfaces();
 
@@ -231,7 +231,7 @@ const options_server = {
 // some user-friendly server info
 function serverInfo() {
     console.info("\n");
-    console.info("Webserver is running.");
+    console.info("Web server is running.");
     console.info("Connect to:  localhost:" + options_server.port );
     console.info("Connect to:  " + currentIPAddress + ":" + options_server.port );
     console.info("\n");
@@ -239,7 +239,7 @@ function serverInfo() {
 
 // note about gulp-connect:
 // connect will throw an error and halt if any error happens while trying to start up,
-// such as trying to start the webserver when it is already running ("EADDRINUSE").
+// such as trying to start the web server when it is already running ("EADDRINUSE").
 function webserver(done) {
     currentIPAddress = findIPAddress();
 
@@ -253,7 +253,7 @@ function webserver(done) {
         serverInfo();
     })
     .catch(() => {
-        console.log ("problem with starting the webserver");
+        console.log ("problem with starting the web server");
     })
     .then(() => {
         done();
