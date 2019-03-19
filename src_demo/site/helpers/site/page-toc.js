@@ -279,7 +279,7 @@ module.exports = function(attr, options) {
             return this.findAndFilter(selector, $scope);
         };
 
-        this.getNextHeadingsUntil = function($el, headingLevel, $scope) {
+        this.getNextHeadingsUntil = function($el, headingLevel) {
             let headingSelector = "h" + headingLevel;
             let headings = $el.nextUntil($el, headingSelector);
             return headings;

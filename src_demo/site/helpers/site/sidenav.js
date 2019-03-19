@@ -99,7 +99,7 @@ module.exports = function(globalContext, options) {
         let list = [];
         let keys = Object.keys(gallery);
 
-        keys.forEach(function(key, index) {
+        keys.forEach(function(key) {
             if (!gallery[key].disable) {
                list.push(key);
             };
@@ -131,7 +131,6 @@ module.exports = function(globalContext, options) {
         let htmlFragment = "";  // set to empty at beginning
 
         let aPage = siteGallery[k];
-        let pageID = aPage.id;
         let pageName = node_path.parse(aPage.url).name;
         let pageGroup = getPageData(globalContext, pageName, "group");
 

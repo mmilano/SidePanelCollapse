@@ -20,7 +20,7 @@ var gallery = function(globalContext, options) {
     // create a parallel array of just the active page keys
     let keys = Object.keys(siteGallery);
     let pagesActive = [];
-    keys.forEach(function(page, index) {
+    keys.forEach(function(page) {
         if (!siteGallery[page].disable) {
            pagesActive.push(page);
         };
@@ -30,7 +30,7 @@ var gallery = function(globalContext, options) {
     if (pagesLength < 1) {pagesLength = 1;};
 
     // generate the block element for each active page
-    pagesActive.forEach(function(p, index) {
+    pagesActive.forEach(function(p) {
         let aPage = siteGallery[p];
 
         // render the block helper content
