@@ -1,5 +1,5 @@
 // captions
-// caption for elements used in the info pages
+// caption for an item on an info page
 
 
 $caption-text-color:            #777;
@@ -9,12 +9,10 @@ $caption-font-letter-spacing:   0.007rem;
 
 .theme-page {
     .caption {
-
         font-size: $caption-font-size;
         font-style: italic;
         line-height: $caption-font-line-height;
         letter-spacing: $caption-font-letter-spacing;
-
         color: $caption-text-color;
     }
 }
