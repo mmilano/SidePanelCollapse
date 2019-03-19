@@ -4,7 +4,9 @@
     "jquery":       true,
     "node":         true,
     "eqeqeq":       true,   // Require triple equals i.e. '==='
-    "latedef":      true,   // Prohibit variable use before definition.
+    "latedef":      true,   // Prohibit variable use before definition
+    "undef":        true,
+//    "unused":       true,
     "loopfunc":     true,   // Allow functions to be defined within loops
     "debug":        true,   // Allow debugger statements e.g. browser breakpoints
     "devel":        false,  // Allow development statements e.g. 'console.log();'
