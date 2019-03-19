@@ -30,24 +30,14 @@
 
     var data_selector = "[data-sidepanel-collapse]";  // selector for creation via data attribute
 
-    // method to reconcile/extend two objects a & b
-    function extend(a, b) {
-        for (let p in b) {
-            if (b.hasOwnProperty(p)) {
-                a[p] = b[p];
-            }
-        }
-        return a;
-    }
-
     // make one single set of settings from defaults and any options passed in on construction
     function defineSettings(defaults, options) {
 
         // start with the defaults
-        let _settings = extend({}, defaults);
+        let _settings = Object.assign({}, defaults);
 
         // reconcile with any provided options that will supercede/overwrite defaults
-        _settings = extend(_settings, options);
+        Object.assign(_settings, options);
 
         // if backdrop is anything other than "true", it is false
         _settings.backdrop = (_settings.backdrop === true) ? true : false;
