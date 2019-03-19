@@ -5,10 +5,9 @@ SidePanelCollapse is a javascript and CSS package that extends Bootstrap 4 to ma
 
 ### Contents
 * [Introduction](#introduction)
-* [Installing](#installing-sidepanelcollapse)
+* [Installing the Library](#installing-sidepanelcollapse)
 * [Using the Library](#using-the-library)
 * [The Demos](#the-demos)
-
 
 
 
@@ -70,48 +69,9 @@ Feel free to contact me if you have questions.
 
 # Installing SidePanelCollapse
 
-
-## SidePanelCollapse Requirements
-
-Minimum requirements to use the library on a site.
-
-### Tech Requirements
-
-* [Bootstrap 4.x][Bootstrap-home]. The library was developed with version 4.3.1, but it may work with earlier 4.x versions.
-* [jQuery 3.x][jQuery-home]. Developed with version 3.3.1, slim build. Bootstrap itself requires jQuery, so this library should already be part of the site. 
-* A recent model browser.
-
-There are additional requirements to build/view the demos or work with the source code:
-* [Node](https://nodejs.org/), v8+.
-* npm, which is generally installed with node
-
-
-### HTML Page Requirements
-
-In order to work, the side panel HTML element must first be set up as a valid, functioning Bootstrap collapse component. 
-
-The side panel HTML element itself must have the `width` class.
-
-```html
-<div class="sidepanel width collapse" id="sidePanel">
-    ...
-</div>
-```
-
-There should also be a functioning Bootstrap button configured to open the collapse element.
-
-```html
-<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidePanel" aria-controls="sidePanel" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-</button>
-```
-
-See the [Bootstrap Collapse documentation][BS-collapse] for details of the fundamental collapse component requirements. 
-
-
 ## Installation Options
 
-Installation of SidePanelCollapse means installing the library into your own project. Two options are available.
+Two options are available to install SidePanelCollapse into your own project. 
 
 ### Option A: External Linked Files
 
@@ -174,6 +134,44 @@ The [Advanced Demo](#the-advanced-demo) uses this method.
 
 # Using the Library
 
+## Requirements
+
+Minimum requirements to use SidePanelCollapse on a site.
+
+### Tech Requirements
+
+* [Bootstrap 4.x][Bootstrap-home]. The library was developed with version 4.3.1, but it may work with earlier 4.x versions.
+* [jQuery 3.x][jQuery-home]. Developed with version 3.3.1, slim build. Bootstrap itself requires jQuery, so this library should already be part of the site. 
+* A recent model browser. Chrome 51+, Firefox 50+, Safari 11+. Not really IE. See note [about the production builds](#about-the-production-builds).
+
+There are additional requirements to build/view the demos or work with the source code:
+* [Node](https://nodejs.org/), v8+.
+* npm. Which is generally installed with node
+
+
+### HTML Page Requirements
+
+In order to work, the side panel HTML element must first be set up as a valid, functioning Bootstrap collapse component. 
+
+The side panel HTML element itself must have the `width` class.
+
+```html
+<div class="sidepanel width collapse" id="sidePanel">
+    ...
+</div>
+```
+
+There should also be a functioning Bootstrap button configured to open the collapse element.
+
+```html
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidePanel" aria-controls="sidePanel" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+```
+
+See the [Bootstrap Collapse documentation][BS-collapse] for details of the fundamental collapse component requirements. 
+
+
 To begin with, you should have an element in your web page – the "side panel" – containing some content that you want to show and hide side to side.
 
 * The top level of the side panel must have a unique css selector. The default is `#sidePanel`.
@@ -182,10 +180,15 @@ To begin with, you should have an element in your web page – the "side panel"
 
 Once the page has loaded, SidePanelCollapse will need to be instantiated and initialized.
 
+
 ## Initialization
 
+Initialization can happen 'automatically' on page load by putting a data atrribute on your side panel element, or it can be done programmatically with a javascript function constructor.
 
-### Via data attributes
+Either of these methods is available to you no matter how you have incorporated the library into your own project. You can use linked files and then invoke it manually, or you can integrate it into your build process and use a data attribute. Mix and match. **Use only one method, however.**
+
+
+### Via Data Attributes
 
 Add the boolean attribute `data-sidepanel-collapse` on the side panel HTML element to have the side panel activated automatically when the page loads.
 
@@ -199,7 +202,7 @@ Data attribute activation will use the default settings. Custom configurations a
 
 ### Via Javascript
 
-Activate SidePanelCollapse manually by creating a new SidePanelCollapse instance.
+Activate SidePanelCollapse manually by creating a new SidePanelCollapse instance with the constructor.
 
 ```js
 sidepanel = new SidePanelCollapse(options);
@@ -210,19 +213,17 @@ Setting custom configuration options is only available via javascript initializa
 
 
 
-
-
 # Configuration Options
 
 If you want, SidePanelCollapse can be initialized via javascript with custom options. Any values not specified will use the default value.
 
 ```js
-    var options = {
-        durationShow: "3s",
-        durationHide: "2s",
-        backdropStyle: "dark",
-    };
-    sidepanel = new SidePanelCollapse(options);
+var options = {
+    durationShow: "3s",
+    durationHide: "2s",
+    backdropStyle: "dark",
+};
+sidepanel = new SidePanelCollapse(options);
 ```
 
 
@@ -245,44 +246,41 @@ During initialization, if the `sidepanelElement` HTML element cannot be found in
 Any custom settings should be manually verified and validated for the context. For example, the durations are required to be valid CSS transition-duration values. If they are not, there may not be any overt indication that something is awry, but the side panel will not function correctly.
 
 
-## About the Options
+## sidepanelElement
 
-### The Side Panel Element Itself
-
-`sidepanelElement` must be a valid unique CSS selector for the top level of the side panel DOM element in the HTML. As a test, if `document.querySelector()` returns the right element and only one element, then it should be valid.
+This selects the The Side Panel Element Itself. Its value must be a valid unique CSS selector for the top level of the side panel DOM element in the HTML page. As a test, if `document.querySelector()` returns the right element and only one element, then it should work correctly.
 
 
-### The Side Panel Close Element
+## sidepanelCloseElement
 
-`sidepanelCloseElement` must be a valid unique CSS selector for side panel's close button DOM element in the HTML. As a test, if `document.querySelector()` returns the right element and only one element, then it should be valid.
+The side panel closing button. It must be a valid unique CSS selector for close button DOM element in the HTML page. As a test, if `document.querySelector()` returns the right element and only one element, then it should be valid.
 
-If no close button is being used, pass `false` and the library will not look for a close button. If the CSS selector cannot be found in the DOM, the internal value will also be `false`.
-
-
-### Durations
-
-SidePanelCollapse implements different transition durations for regular opening and closing the panel, and has an additional duration for closing very fast.
+If you do not want to use a close button, set `false` and the library will not look for a close button. If the CSS selector cannot be found in the DOM, the internal value will also be `false`.
 
 
-#### Opening
+## Durations
+
+SidePanelCollapse implements different durations for regular open and transitions, and has another duration for closing very fast.
+
+See [About Timing and the User Experience](#about-timing-and-the-user-experience) for thoughts about how SidePanelCollapse has been designed.
+
+
+### durationShow
 
 The panel opens using the duration value `durationShow`. The default value chosen is felt to be a good balance between two qualities: fast enough to be prompt and attentive, but not too fast that it feels pugnacious.
 
 
-#### Closing
+### durationHide
 
-There are two closing durations: "**normal**", or standard, and "**fast**".
+**Closing Normally:**
+When the side panel is closed using the close button, clicking the backdrop, or using the keyboard, the closing duration is the value `durationHide`. 
 
-##### Closing Normally
-
-When the side panel is closed using the close button, clicking the backdrop, or using the keyboard, the sidep anel closes using the duration value `durationHide`. 
-
-The default hide duration is chosen to be fast enough to get out of the way expediently but not overly fast.
+The default hide duration is chosen to be fast enough to get out of the way expediently without being too fast for the situation.
 
 
-##### Closing Fast
+### durationHideFast
 
-For a link that goes to another page, SidePanelCollapse is designed to close using the duration `durationHideFast`. The default fast duration is about 1/3 of the standard closing duration.
+**Closing Very Fast:** In certain situations, SidePanelCollapse closes the panel using the duration of `durationHideFast`. The default fast duration is about 1/3 of the standard closing duration.
 
 
 #### About Timing and the User Experience
@@ -295,52 +293,50 @@ On the flip side, psychological response time tolerance decreases significantly 
 On acting to close the panel, mental focus shifts back to the page itself, whether it is a task-based application or textual content. Once the focus is on the main page, the side navigation becomes secondary and it needs to disappear. If it closes too slowly, it does not fulfill mental expectations and intrudes negatively on focus. Closing quickly is what the person wants, but too quickly and it also creates an unconscious negative impression of being a behavior that is not purposeful and a detail that was left unmanaged.
 
 
-### Backdrop Options
+## `backdrop` & backdropStyleClass
 
-If `backdrop` is true, opening the side panel will be accompanied by a translucent overlay that displays behind the side panel and above the main page content. 
+When `backdrop` is true, opening the panel will be accompanied by a translucent overlay that displays behind the side panel and above the main page content. 
 
-The visual color of the backdrop is set by the `backdropStyleClass` value. Included in the library are two existing styles: "light", the default, is a diaphanous #FFF; "dark" is a shadowy #000.
+The visual style of the backdrop is set by the `backdropStyleClass` value. Included in the library are two  styles: `light`, the default, is a diaphanous #FFF; `dark` is a shadowy #000.
 
 You can specify a custom style by defining a rule in your project's SCSS and providing the selector as a string (without the leading dot). It must be a class and cannot be an id.
 
-Example: this SCSS and option...
+For example, this SCSS and option...
 ```scss
-    .inYourFace {
-        background-color: rgba(#AAFF11, 0.57);
-    }
+.brightSpring {
+    background-color: rgba(#AAFF11, 0.57);
+}
 ```
 ```js
-    var options = {
-        backdropStyleClass: "inYourFace",
-    };
+var options = {
+    backdropStyleClass: "brightSpring",
+};
 ```
-...results in this backdrop DOM element:
+...results in this backdrop HTML element:
 ```html
-    <div class="backdrop inYourFace"></div>
+<div class="backdrop brightSpring"></div>
 ```
 
-### Is Open Class
+## `sidePanelIsOpenClass`
 
-When the side panel displays, the CSS class name specified by `sidePanelIsOpenClass` is added to the document's `<body>` tag and removed when it hides. This provides a convenient cascade to enable styles that should apply only when the panel is open.
+When the side panel opens, the CSS class name specified by `sidePanelIsOpenClass` is added to the document's `<body>` tag and then removed when it hides. This provides a convenient cascade to enable styles that should apply only when the panel is open.
 
 ```css
-    // turn all <p> chartreuse when sidebar is open
-    .sidepanel-open p {
-        background-color: #AAFF11;
-    }
+// turn all <p> chartreuse when sidebar is open
+.sidepanel-open p {
+    background-color: #AAFF11;
+}
 ```
 
+## handleLinks
 
-### handleLinks
+The `handleLinks` option is a boolean value that determines if SidePanelCollapse will attempt to alter the default behavior of links in the side panel element. 
 
-The `handleLinks` option is a boolean value that determines is SidePanelCollapse will manage 
-
-When `handleLinks` is `true`, SidePanelCollapse will attempt to parse the content of the side panel element. Any links found - defined as standard <a> tags – will be  given a custom event handler. When clicked, the side panel will be closed "fast" and then the page will be sent to the link destination.
+When `handleLinks` is `true`, SidePanelCollapse will attempt to parse the content of the element. Any links found - defined as standard <a> tags – will be  given a custom event handler. When clicked, the side panel will be closed "fast" and then the page will be sent to the link destination.
 
 When `false`, link-handling is disabled and nothing changes.
 
-See [Closing The Side Panel: Clicking A Link](#clicking-a-link) for more details and a deeper discussion.
-
+See [Closing The Side Panel: Clicking A Link](#clicking-a-link) for more explanaation.
 
 
 
@@ -509,8 +505,7 @@ The side panel library is included into the page as linked files, separate from 
 
 ### Initialization
 
-The side panel is enabled for Bootstrap's collapse via data-attributes and initialized by SidePanelCollapse using the data-attribute option.
-
+The side panel is enabled for Bootstrap's collapse via data-attributes, and also initialized by SidePanelCollapse using the data-attribute option.
 
 ### Configuration
 
@@ -540,55 +535,38 @@ For the javascript, the beginning of the site's standalone script loads SidePane
 window.SidePanelCollapse = require("SidePanelCollapse");
 ```
 
-Later in the script timeline the SidePanelCollapse object is instantiated and initialized in code specific to each page.
-
-When building the site, a `gulp` task assembles the final `site.js` using `browserify`, `babel` and some other tools.
-
-
 ### Initialization
 
-The side panel is enabled for Bootstrap's collapse via data-attributes, and initialized for SidePanelCollapse programmatically when each page loads.
+SidePanelCollapse is instantiated and initialized differently for each page. Currently, the site script distinguishes between the index page and the interior pages.
 
 ### Configuration
 
-The side panel is configured differently for the home page and the interior pages.
-
-This isn't necessary to do, and might even be a poor user experience practice for a site, but is done here to demonstrate the possibility.
+Configuration settings differ for the home page and the interior pages. This isn't necessary to do, and might even be a poor user experience practice for a site, but is done here to illustrate the possibility.
 
 
 
-### Other Details of the Advanced Demo
+# Building From Source
 
-On the index page, the sidepanel menu displays only at large (in the Bootstrap breakpoint definition) window sizes or smaller; at extra-large, the primary navigation displays in-page anchor links in a row. The anchor links scroll to their respective sections, but the side panel items are links to the interior pages.
-
-On the interior pages, the side menu always displays.
-
-
-
-
-
-## Building the Library From Source
-
-To make changes or
+## Building For Development
 
 1. Clone the repository
 1. Open a terminal to the root of the project directory.
-1. From the root of the project, the command `npm install` will initiate the installation of all the necessary dependencies, including `gulp`. At the time of this writing, the total is about 132MB. This may take a little while.
+1. From the root, the command `npm install` will initiate installation of all the necessary dependencies, including `gulp`.
 
 ```sh
-> git clone https://github.com/mmilano/sidePanelCollapse
+> git clone https://github.com/mmilano/SidePanelCollapse
 > cd SidePanelCollapse
 > npm install
 ```
 
-4. When the install has completed successfully, `gulp dev` will build the all of the files, watch for changes, and start a local node-based web server to serve the example pages.
+4. When the install has completed successfully, `gulp dev` will build the all of the files, watch for changes, and start a local node-based web server for the example pages.
 
-If no errors occur, there will be a message about the web server within the stream of status messages displayed (like the one below, but your listed IP address may be different or not displayed).
+If no errors occur, there will be a message about the web server within the stream of status messages (like the one below, but your listed IP address may be different or not displayed).
 
 ```sh
 > gulp dev
 
-[11:11:51] Starting 'demo'...
+[11:11:51] Starting 'dev'...
 ...
 
 Demo web server is running.
@@ -596,22 +574,23 @@ Connect to:  localhost:9191
 Connect to:  192.168.1.42:9191
 
 ...
-[11:12:13] Finished 'demo' after 456 ms
+[11:12:13] Finished 'dev' after 777 ms
 ```
 
-5. Open one of the "connect to:" addresses (they point to the same location) in your recent-model browser of choice, and the "Advanced Demo" home page will display.
+5. Open one of the "connect to:" addresses in your recent-model browser, and a demo index page will display.
 
 
-### Building Just The Library
+### Building Just SidePanelCollapse
 
-If all you want is to 
+If all you want is a new build of just the library, there is also a task for that. Assuming everything is already installed (per **Building For Development**), open a terminal to the root of the project directory as run the `production` task.
 
 ```sh
 > gulp production
 
 
-
 ```
+
+The results will be in `dist/` directory.
 
 
 ### About the Production Builds
@@ -619,8 +598,6 @@ If all you want is to
 Production builds of the library (the .js and .css files) get put into the project's `/dist` directory, in both minified and verbose (aka normal) versions. Source maps are created in the associated `/map` directories.
 
 The CSS and javascript is compiled or transpiled to a browser target of `["> 0.5%"].` If you need a different target range, this value can be changed (in the gulp task file) and the files rebuilt to the new target.
-
-
 
 
 
