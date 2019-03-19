@@ -1,7 +1,7 @@
 // page data js
 
 module.exports = {
-    "id": "pageA",
+    "id": "page-a",
 
     "group": "Demo Group",
     "page-title": "In Grounds Est Barista Con Panna",

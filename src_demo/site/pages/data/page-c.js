@@ -1,7 +1,7 @@
 // page data js
 
 module.exports = {
-    "id": "pageC",
+    "id": "page-c",
 
     "group": "Demo Group",
     "page-title": "kopi-luwak trifecta caramelization steamed, cream, and saucer cultivar",

@@ -18,22 +18,22 @@ var gallerySetup = (function() {
 
     var galleryData = {
 
-        "pageA": {
-            "id": "pageA",
-            "url": "pageA.html",
-            "page": "pageA"
+        "page-a": {
+            "id": "page-a",
+            "url": "page-a.html",
+            "page": "page-a"
         },
 
-        "pageB": {
-            "id": "pageB",
-            "url": "pageB.html",
-            "page": "pageB"
+        "page-b": {
+            "id": "page-b",
+            "url": "page-b.html",
+            "page": "page-b"
         },
 
-        "pageC": {
-            "id": "pageC",
-            "url": "pageC.html",
-            "page": "pageC"
+        "page-c": {
+            "id": "page-c",
+            "url": "page-c.html",
+            "page": "page-c"
         },
     };
 
