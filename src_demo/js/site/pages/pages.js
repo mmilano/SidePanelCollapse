@@ -70,10 +70,6 @@ var util = {
 };
 
 
-// flag to only activate scrollspy if window is larger than breakpoint
-// this is dependent on the layout being in columns >= checked size, so that nav will be displayed
-let scrollSpyShouldActivate = util.checkWidth();
-
 // define page specific scripts, if any are needed.
 // if not, use the default
 
@@ -97,13 +93,12 @@ var pages = {
             }
         }
 
-
-        // instantiate a new sidepanel for the page for when /if the sidenav will display
-        // sidepanel options for this site
+        // instantiate a new side panel for the page for when/if the sidenav will display
+        // options for this page
         var sidepanelOptions = {
-            durationShow: "2s",
+            durationShow: "2.25s",
             durationHide: "2s",
-            durationHideFast: ".5s",
+            durationHideFast: "0.5s",
             backdropStyleClass: "dark",
         };
 
@@ -139,7 +134,7 @@ var pages = {
         // resize events will update the primaryNav behavior
         window.addEventListener("resize", function(e) {
             // check the current style.display value
-            let status;
+
             let horizontal = horizontalNavDisplayed();
             if (horizontal && !previousNavWasHoriz) {  // if: horiz nav IS true (=displayed) && previous-nav is false, then
                 navSpy(true);
@@ -154,23 +149,24 @@ var pages = {
 
     // default page handler
     "default": function(pageID) {
-        // initialize the sidepanel
+        // can do something with pageID if necessary
 
         // instantiate a new sidepanel for the page
-        // sidepanel options for this site
+        // with options
         var sidepanelOptions = {
-            //sidepanelElement: "#sidePanel",
-            //sidepanelCloseElement: ".sidePanel-close",
-            durationShow: "1s",
-            durationHide: "1s",
-            durationHideFast: "0.5s",
+            // sidepanelElement: "#sidePanel",
+            // sidepanelCloseElement: ".sidePanel-close",
+            durationShow: "1.5s",
+            durationHide: ".7s",
+            durationHideFast: "0.2s",
             backdropStyle: "dark",
         };
 
         // expose sidepanel as global for demo purposes
         window.sidepanel = new SidePanelCollapse(sidepanelOptions);
 
-        // only need TOC scrollspy if window is above certain size
+        // only activate scrollspy on TOC if window is above certain size
+        // this is dependent on the layout being in columns >= checked size, so that TOC will be displayed
         util.scrollSpyCreate("#tableOfContents", util.checkWidth());
     },
 };

@@ -8,6 +8,7 @@
  */
 
 /* jshint latedef: nofunc */
+/* globals define, self, SidePanel */
 
 // UMD template
 (function(window, SidePanelCollapse) {
@@ -108,6 +109,7 @@
 
         function linkEvent(destination) {
             return function(e) {
+                // ...if anything needs to be done with e here...
                 window.location = destination;
             };
         }
@@ -161,9 +163,10 @@
         // of things to do when when the sidebar opening is completed.
         // presumes: event is on the sidepanel DOM element itself.
         function whenTransitionEnds(_this) {
-            var handler = function(e) {
+            var handler = function() {};
+            //var handler = function(e) {
                 // no action currently
-            };
+            //};
             return handler;
         }
 
@@ -258,7 +261,7 @@
 
         // initiate the hiding of backdrop if truthy
         if (this.backdrop) {
-            this.backdrop.hide(this.$sidepanel);
+            this.backdrop.hide();
         }
 
         // cleanup
@@ -287,9 +290,7 @@
 
     // hide the backdrop
     // 'this' will be = Backdrop
-    Backdrop.prototype.hide = function($sidepanel) {
-
-        // let _backdrop = this.element;
+    Backdrop.prototype.hide = function() {
 
         // method to run when fadeout animation ends - cleans up, and hides the backdrop.
         // because event is on backdrop, event.target is the backdrop - uses backdrop from there for simplicity
@@ -411,12 +412,14 @@
         // end: sidepanel initialization
     };
 
-    // initialize any elements 'automatically' based on existence of data_selector attribute
+    // initialize any elements 'automatically' based on existence of the data_selector attribute on an element.
+    // will create a page global "SidePanel" containing the instance(s) of the SidePanelCollapse object.
+    // presumes just one, which will be SidePanel[0], but who knows - maybe there can be multiple in the future.
     function initOnData() {
         window.SidePanel = [];
         let list = document.querySelectorAll(data_selector);
         list.forEach(function(element) {
-            SidePanel.push (new SidePanelCollapse(element.id));
+            SidePanel.push(new SidePanelCollapse(element.id));
         });
     }
 
