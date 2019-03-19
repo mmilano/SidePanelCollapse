@@ -705,7 +705,6 @@ function copyCSS_sidepanel() {
     .src(source)
     .pipe(debug({title: "sidepanel: "}))
     .pipe(gulp.dest(destination));
-
 }
 
 gulp.task("compile:scss-sidepanel", maketheCSS_sidepanel);
@@ -725,8 +724,10 @@ function maketheCSS_demo(buildMode, done) {
 
     buildcss(paths.scssSource, paths.cssDestination, "demo site", options_scss_demo, buildMode)
     .then(msg => {glog(msg)})
-    .catch(err => {glog(err)});
-    done();
+    .catch(err => {glog(err)})
+    .then(() => {
+        done();
+    });
 }
 
 gulp.task("compile:scss", function(done) {
@@ -1029,7 +1030,6 @@ function watchJSSiteSimple(done) {
     var watcherJSsimple = gulp.watch(siteSourceRoot + "js/site/" + paths.jsFile_site_simple, gulp.series("lint:js-demo", "copy:jsSimple"));
     watcherJSsimple.on("error", err => glog("watch error: " + err.message));
     watcherJSsimple.on("change", path => glog("changed >>> " + path));
-//     watcherJSsimple.on("change", gulp.series("lint:js-demo", "copy:jsSimple"));
 	done();
 }
 
@@ -1088,7 +1088,7 @@ gulp.task("dev", function devTask(done) {
         "webserver",
         gulp.parallel(
             "compile:scss",
-            "browserify:site",
+            "js:site",
             "demoify:sidepanel",
             "build:pages"
             ),
