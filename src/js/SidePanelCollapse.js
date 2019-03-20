@@ -1,7 +1,7 @@
 /*! **********
- * Horizontal Sliding Sidebar v1.1
- * A Bootstrap 4-based sidebar using the "collapse" component to collapse horizontally instead of the default vertical),
- * and allow different transition timing between the expand and the collapse transitions.
+ * SidePanelCollapse v1.0
+ * A Bootstrap 4-based sidebar augmenting the "collapse" component to collapse horizontally,
+ * and allow variable duration timings for the transitions
  *
  * Michel Milano
  * MIT License
