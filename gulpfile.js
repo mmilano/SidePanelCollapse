@@ -319,76 +319,6 @@ gulp.task("site:copy", gulp.parallel("copy:images", copyIco));
 gulp.task("site:setup", gulp.series("site:clean", "site:copy"));
 
 
-
-// TODO: finish or delete
-function doall(done) {
-    var tasks = new Promise(function(resolve, reject) {
-        gulp.parallel(copyImages, copyIco)();
-        gulp.series(webserver)();
-        resolve();
-    });
-
-    tasks.then (msg => {
-        console.log ("done with copyall");
-        done();
-    });
-}
-
-
-gulp.task ("copyme", function(done) {
-    console.log ("start");
-
-    doall(done);
-    console.log ("done");
-
-});
-
-// trial, stuff in progress. to be deleted, fixed,
-exports.tt = doall;
-
-// let localDevFiles = [{
-//         local: "site-css-local.hbs",
-//         remote: "site-css-remote.hbs",
-//         destination: "site-css.hbs",
-//         path: "./src/site/partials/page/docHead/",
-//     },
-//     {
-//         local: "site-js-local.hbs",
-//         remote: "site-js-remote.hbs",
-//         destination: "site-js.hbs",
-//         path: "./src/site/partials/page/docBottom/",
-//     }];
-//
-// function developmentFileSwitch(status) {
-//     let sourceFile;
-//
-//     if (status === "local") {
-//         sourceFile = "local";
-//     } else {
-//         sourceFile = "remote";
-//     }
-//
-//     localDevFiles.forEach(function(file, i) {
-//         gulp
-//         .src(file.path + file[sourceFile])
-//         .pipe(rename(file.destination))
-//         .pipe(gulp.dest(file.path))
-//         .pipe(debug({title: "file: "}))
-//         .on("error", err => glog("error: " + err.message))
-//     });
-// }
-//
-// gulp.task("site:local", function(done) {
-//     developmentFileSwitch("local");
-//     done();
-// });
-//
-// gulp.task("site:remote", function(done) {
-//     developmentFileSwitch("remote");
-//     done();
-// });
-
-
 // **************
 // PAGE GENERATION
 
@@ -995,35 +925,6 @@ gulp.task("copy:jsSimple", copyJSSimple);
 gulp.task("js:site", gulp.parallel("browserify:site", "copy:jsSimple"));
 
 
-
-// BOOTSTRAP FOR DEVELOPMENT
-// TODO REMOVE
-function copybs(done) {
-
-    let bs_src = siteSourceRoot + "js/vendor/**/*.js";
-    let bs_dest = paths.jsDestination + "vendor/";
-    gulp
-    .src(bs_src)
-    .pipe(debug())
-    .pipe(gulp.dest(bs_dest));
-    done();
-}
-
-gulp.task("copy:bs", copybs);
-
-// watch the dev js stuff  TODO: remove
-function watchJSBS(done) {
-    let bssrc = siteSourceRoot + "js/vendor/**/*.js";
-
-    var watcher = gulp.watch(bssrc);
-    watcher.on("error", err => glog("watch error: " + err.message));
-    watcher.on("change", path => glog("js changed >>> " + path));
-    watcher.on("change", gulp.series("copy:bs"));
-	done();
-}
-
-gulp.task("watch:bs", watchJSBS);
-
 // watch the js sources
 function watchJSSite(done) {
     var watcherJS = gulp.watch([paths.jsSourceGLOB], {delay: 300}, gulp.series("lint:js-demo", "browserify:site"));
@@ -1108,21 +1009,6 @@ gulp.task("dev", function devTask(done) {
 gulp.task("default", gulp.series("demo")); // alias
 
 
-// make sidepanelcollapse for production
-// both js and css
-
-// function sidepanel(done) {
-//     gulp.series(
-//         "lint:js-sidepanel",
-//         gulp.parallel(
-//             "scriptify:sidepanel",
-//             "compile:scss-sidepanel"
-//             )
-//         )();
-//     //done();
-// }
-
-
 function sidepanelProduction(done) {
 
     gulp.series("lint:js-sidepanel", "scriptify:sidepanel","compile:scss-sidepanel")();
@@ -1130,35 +1016,3 @@ function sidepanelProduction(done) {
 }
 
 exports.production = sidepanelProduction;  // alias
-
-
-function trial() {
-    var setup = new Promise (function(resolve, reject) {
-        gulp.series(
-            "site:setup",
-
-            "compile:scss",
-            "compile:scss-sidepanel",
-            "copy:css-sidepanel",
-
-            "js:site",
-            "demoify:sidepanel",
-
-            "build:pages",
-            "webserver"
-        )();
-        resolve();
-
-    })
-    .then(function(fulfilled) {
-        console.log("       finished");
-        }
-    )
-    .catch(function(err) {
-        glog(err);
-        }
-    );
-
-}
-
-exports.trial = trial;
