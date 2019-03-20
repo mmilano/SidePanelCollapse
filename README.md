@@ -571,7 +571,7 @@ Production builds of the library (the .js and .css files) get put into the proje
 
 #### About the Production Builds
 
-The CSS and javascript is compiled or transpiled to a browser target of `["> 0.5%"].` If you need a different target range, this value can be changed (in the gulp task file) and the files rebuilt to the new target.
+The CSS and javascript is compiled or transpiled to a browser target = `["> 0.5%"].` If you need a different target range, this value can be changed (in the gulp task file) and the files rebuilt to the new target.
 
 
 
