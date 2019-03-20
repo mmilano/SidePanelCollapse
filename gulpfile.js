@@ -820,7 +820,7 @@ function lintJS_sidepanel() {
     .src(src)
     .pipe(debug({title: "js lint:"}))
     .pipe(jshint(paths.jshintConfiguration))
-    .pipe(jshint.reporter("default"))
+    .pipe(jshint.reporter("default"));
 }
 
 gulp.task ("lint:js-panini", lintJSPanini);
@@ -957,14 +957,6 @@ function scriptifySidepanel(done) {
 
 gulp.task("scriptify:sidepanel", scriptifySidepanel);
 
-
-// copy the SidePanelCollapse production files into demo/
-function demoifySidepanel(done) {
-    copyjs_sidepanel();
-    copyCSS_sidepanel();
-    done();
-}
-
 // SidePanelCollapse javascript for the demo site
 // in this case, copy the /dist files to /demo
 function copyjs_sidepanel() {
@@ -975,6 +967,13 @@ function copyjs_sidepanel() {
     return gulp
     .src(source)
     .pipe(gulp.dest(destination));
+}
+
+// copy the SidePanelCollapse production files into demo/
+function demoifySidepanel(done) {
+    copyjs_sidepanel();
+    copyCSS_sidepanel();
+    done();
 }
 
 gulp.task("copy:jsSidepanel", copyjs_sidepanel);
