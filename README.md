@@ -438,7 +438,7 @@ Begin by getting a copy of the project source locally.
 
 1. Clone the repository, or download and unzip.
 1. Open a terminal to the root of the project directory.
-1. From the root, the command `npm install` will initiate the installation of all the necessary dependencies, including `gulp`. At the time of this writing, the total is about 132MB. This may take a little while.
+1. From the root, the command `npm install` will initiate the installation of all the necessary dependencies, including `gulp`. This may take a few moments.
 
 ```shell
 > cd SidePanelCollapse
@@ -447,7 +447,7 @@ Begin by getting a copy of the project source locally.
 
 4. When the install has completed successfully, `gulp demo` will build all of the files and start a local node-based web server to serve the web pages. 
 
-    When the gulp tasks run, and if no errors occur, there will be a message about the web server in the stream of status messages displayed (like the one below, but your listed IP address may be different or not displayed at all).
+    When the gulp tasks run, and if no errors occur, there will be a message about the web server somewhere in the stream of status messages displayed. It will be like the one below, but your listed IP address may be different (or not displayed at all).
 
 ```shell
 > gulp demo
@@ -455,7 +455,7 @@ Begin by getting a copy of the project source locally.
 [11:11:51] Starting 'demo'...
 ...
 
-Demo web server is running.
+Web server is running.
 Connect to:  localhost:9191
 Connect to:  192.168.1.42:9191
 
@@ -546,27 +546,27 @@ The library's source code is, I think, commented generously with notes written w
 [11:11:51] Starting 'dev'...
 ...
 
-Demo web server is running.
+Web server is running.
 Connect to:  localhost:9191
 Connect to:  192.168.1.42:9191
 
 ...
-[11:12:13] Finished 'dev' after 777 ms
 ```
 
 Open one of the "connect to:" addresses in your recent-model browser to view the example sites if you want to use them for testing changes.
 
 
-## Building Just SidePanelCollapse
+## Building Just The Library
 
-If all you want is a new build of just the library, there is also a task for that. Assuming everything is already installed (per **Building For Development**), open a terminal to the root of the project directory and run the `production` task.
+If all you want is a new build of library files, there is a task for that. Assuming everything is already installed (per [Building For Development](#building-for-development)), open a terminal to the root of the project directory and run the `production` task.
 
 ```shell
 > gulp production
+Starting 'production'...
 
 ```
 
-Production builds of the library (the .js and .css files) get put into the project's `/dist` directory, in both minified and verbose (aka normal) versions. Source maps are created in the respective `/map` directories.
+Production builds of the library (the .js and .css files) get saved into the project's `/dist` directory, in both minified and verbose (aka normal) versions. Source maps are created in the respective `/map` directories.
 
 
 #### About the Production Builds
