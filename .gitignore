@@ -4,7 +4,7 @@
 # bbedit project files
 *.bbprojectd
 
-# Logs
+# logs
 logs
 *.log
 npm-debug.log*
@@ -12,18 +12,20 @@ npm-debug.log*
 # node stuff
 node_modules
 npm-debug.log
-_site
 
 #sass scss etc
 .sass-cache
 
-# Optional npm cache directory
+# optional npm cache directory
 .npm
 
-# Optional eslint cache
+# optional eslint cache
 .eslintcache
 
 # destination folders for builds
 public
 build
 demo
+
+# dev stuff
+src_demo/js/vendor/
