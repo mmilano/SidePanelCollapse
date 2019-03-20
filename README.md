@@ -8,6 +8,8 @@ SidePanelCollapse is a javascript and CSS package that extends Bootstrap 4 to ma
 * [The Demos](#the-demos)
 * [Building From Source](#building-from-source)
 * [Miscellaneous](#miscellaneous)
+* [License](#license)
+
 
 
 
@@ -67,7 +69,9 @@ Feel free to contact me if you have questions.
 
 
 
+
 # Installing SidePanelCollapse
+
 
 ## Installation Options
 
@@ -88,13 +92,11 @@ This is the simplest way of using SidePanelCollapse: the javascript and CSS file
 </body>
 ```
 
-
 1. Clone the repository, or download and unzip.
 1. Copy the pre-built `/dist` sidePanelCollapse files to an appropriate location in your own project. You can choose to use either the minified or regular versions. If you also want the source maps, copy those as well (maintain the `/map` directory structure so that the browser can find the map files).
 1. Add the `<link>` and `<script>` tags to your HTML document.
 
 The [Simple Demo](#the-simple-demo) uses this option.
-
 
 ### Option B: Incorporate Into an Existing Build Process
 
@@ -102,7 +104,8 @@ If your own project already has a node.js-based build process, already compiles,
 
 1. Clone the repository, or download and unzip.
 1. Copy all of the `/src` sidePanelCollapse javascript and SCSS files to a location in your own project. Those files are:
- ```sh
+
+ ```shell
 src/
     scss/
         sidePanelCollapse.scss
@@ -115,9 +118,11 @@ src/
 ```
 
 3. SidePanelCollapse's SCSS references one or two Bootstrap variables, and so the Bootstrap source scss needs to be available (in `node-modules/`). If Bootstrap 4 is not already in your project's dependencies, add it. E.g.:
-```sh
+
+```shell
 > npm install --save-dev bootstrap
 ```
+
 4. You will need to add the appropriate directives to include or require the source files into your own source.
     - For SCSS, this is an SCSS import. 
     - For javascript, this will be whatever method you are already using (e.g. `require` or `import`).
@@ -129,10 +134,14 @@ src/
 /* javascript */
 SidePanelCollapse = require("SidePanelCollapse");
 ```
+
 The [Advanced Demo](#the-advanced-demo) uses this method.
 
 
+
+
 # Using SidePanelCollapse
+
 
 ## Requirements
 
@@ -147,7 +156,6 @@ Minimum requirements to use SidePanelCollapse on a site.
 There are additional requirements to build/view the demos or work with the source code:
 * [Node](https://nodejs.org/), v8+.
 * npm. Which is generally installed with node
-
 
 ### HTML Page Requirements
 
@@ -186,7 +194,6 @@ Once the page has loaded, SidePanelCollapse will need to be instantiated and ini
 Initialization can happen 'automatically' on page load by putting a data atrribute on your side panel element, or it can be done programmatically with a javascript function constructor.
 
 Either of these methods is available to you no matter how you have incorporated the library into your own project. You can use linked files and then invoke it manually, or you can integrate it into your build process and use a data attribute. Mix and match. **Use only one method.**
-
 
 ### Via Data Attribute
 
@@ -264,11 +271,9 @@ SidePanelCollapse implements different durations for regular open and transition
 
 See [Timing and the User Experience](#timing-and-the-user-experience) for thoughts about how SidePanelCollapse has been designed.
 
-
 ### durationShow
 
 The panel opens using the duration value `durationShow`. The default value chosen is felt to be a good balance between two qualities: fast enough to be prompt and attentive, but not too fast that it feels pugnacious.
-
 
 ### durationHide
 
@@ -276,7 +281,6 @@ The panel opens using the duration value `durationShow`. The default value chose
 When the side panel is closed using the close button, clicking the backdrop, or using the keyboard, the closing duration is the value `durationHide`. 
 
 The default hide duration is chosen to be fast enough to get out of the way expediently without being too fast for the situation.
-
 
 ### durationHideFast
 
@@ -317,16 +321,18 @@ var options = {
 <div class="backdrop brightSpring"></div>
 ```
 
+
 ## sidePanelIsOpenClass
 
 When the side panel opens, the CSS class name specified by `sidePanelIsOpenClass` is added to the document's `<body>` tag and then removed when it hides. This provides a convenient cascade to enable styles that should apply only when the panel is open.
 
-```css
+```scss
 // turn all <p> chartreuse when sidebar is open
 .sidepanel-open p {
     background-color: #AAFF11;
 }
 ```
+
 
 ## handleLinks
 
@@ -351,7 +357,6 @@ It opens and it closes. Look more closely, and there is a little more to it than
 The side panel opens when the open button is clicked. And if backdrop is enabled, then the backdrop will appear behind the side panel and will screen off the content in the page. 
 
 Some default Bootstrap components (fixed navbar, modals, popover, tooltips) will remain above the backdrop, including the navbar component. This is by design and is due to basing the SidePanelCollapse z-index values on Bootstrap's `$zindex-fixed` variable. 
-
 
 ### The Irrevocable Opening
 
@@ -380,7 +385,6 @@ Once it is open, there are four regulated ways to close the side panel:
 
 The first three of these are mostly straightforward. The fourth is not.
 
-
 ### A Close Button
 
 SidePanelCollapse allows for a close `<button>` element within the vertical panel or on the page. For example, in the demos, this is the glyph "X" in the side header bar that overlaps and covers the opening menu glyph (&#9776;).
@@ -391,16 +395,13 @@ Clicking the close button will close the side panel at the normal duration speed
 
 **Caution**: The toggle button used to first open the side panel will close the panel when clicked (if it is visible and not covered). Activating it calls directly to bootstrap.js. However, when it closes, it will not clean up the page properly. Notably, the backdrop will remain. This is something to change in [a future iteration](#roadmap).
 
-
 ### The ESCAPE Key
 
 When the sidepanel is open, pressing the "ESC" key will close at the normal duration speed.
 
-
 ### Clicking the Backdrop
 
 The panel will also close – at normal duration – if the backdrop is clicked. This covers clicking anywhere in the page window other than within the side panel element itself.
-
 
 ### Clicking a Link
 
@@ -413,7 +414,6 @@ When the `handleLinks` setting is `true`, SidePanelCollapse will add an intersti
 
 The setting `handleLinks: false` disables this behavior. Do this if, say, your project's side bar is not for navigation.
 
-
 #### Links and the User Experience
 
 The design intent behind managed links is to provide a subtly more sophisticated user experience.
@@ -425,21 +425,10 @@ When links are handled (`handleLinks = true`, the default), the side panel will 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 # The Demos
 
 There are two different demo sites included in the source code to showcase using the library in different ways: simple, and advanced.
+
 
 ## Building the Demos
 
@@ -451,7 +440,7 @@ Begin by getting a copy of the project source locally.
 1. Open a terminal to the root of the project directory.
 1. From the root, the command `npm install` will initiate the installation of all the necessary dependencies, including `gulp`. At the time of this writing, the total is about 132MB. This may take a little while.
 
-```sh
+```shell
 > cd SidePanelCollapse
 > npm install
 ```
@@ -460,7 +449,7 @@ Begin by getting a copy of the project source locally.
 
     When the gulp tasks run, and if no errors occur, there will be a message about the web server in the stream of status messages displayed (like the one below, but your listed IP address may be different or not displayed at all).
 
-```sh
+```shell
 > gulp demo
 
 [11:11:51] Starting 'demo'...
@@ -495,7 +484,6 @@ The side panel is enabled for Bootstrap's collapse via data-attributes, and also
 All of the default SidePanelCollapse settings are used for configuration.
 
 
-
 ## The Advanced Demo
 
 The "advanced demo" (for want of a preferable name) is a more complex example of using SidePanelCollapse. It has a top-level home page, `index.html`, and a couple of interior pages. Although these are all individual page files, the site is structured as a primordial single page application in that all of the pages rely on a single common javascript file with a simplistic routing mechanism to run different functions depending on the page.
@@ -528,6 +516,7 @@ Configuration settings differ for the home page and the interior pages. This isn
 
 
 
+
 # Building From Source
 
 
@@ -542,17 +531,16 @@ The library's source code is, I think, commented generously with notes written w
 1. Open a terminal to the root of the project directory.
 1. From the root, `npm install` will initiate installation of all the necessary dependencies, including `gulp`.
 
-```sh
+```shell
 > git clone https://github.com/mmilano/SidePanelCollapse
 > cd SidePanelCollapse
 > npm install
 ```
 
-4. When the install has completed successfully, `gulp dev` will build the all of the files, watch for changes, and start a local node-based web server for the example pages.
+4. When the install has completed successfully, `gulp dev` will build the all of the project files, watch for changes, and start a local node-based web server for the example pages.
 
-    If no errors occur, there will be a message about the web server within the stream of status messages (like the one below, but your listed IP address may be different or not displayed).
 
-```sh
+```shell
 > gulp dev
 
 [11:11:51] Starting 'dev'...
@@ -566,14 +554,14 @@ Connect to:  192.168.1.42:9191
 [11:12:13] Finished 'dev' after 777 ms
 ```
 
-5. Open one of the "connect to:" addresses in your recent-model browser.
+Open one of the "connect to:" addresses in your recent-model browser to view the example sites if you want to use them for testing changes.
 
 
-### Building Just SidePanelCollapse
+## Building Just SidePanelCollapse
 
 If all you want is a new build of just the library, there is also a task for that. Assuming everything is already installed (per **Building For Development**), open a terminal to the root of the project directory and run the `production` task.
 
-```sh
+```shell
 > gulp production
 
 ```
@@ -588,10 +576,11 @@ The CSS and javascript is compiled or transpiled to a browser target of `["> 0.5
 
 
 
-# Miscellaneous
+# Closing Comments
+
 
 ## Questions
-If you have any questions, ideas, or problems, feel free to create a new [issue][project-issues].
+If you have any questions, ideas, or problems, feel free to open a new issue.
 
 
 ## Roadmap
@@ -604,13 +593,13 @@ Planned and unplanned future revisions for SidePanelCollapse.
 **Q3, 2019**
 - Allow the opening button to also be the close, and not require a separate close button
 
-**In the Backlog**
+**Possibly Maybe**
 - Tests
 - Method to dispose of the SidePanelCollapse object
 - Functionality to prevent scroll of the document when side panel is open
 
-
 ### Recognitions
+
 **Pioneers**
 
 There are other examples in the wild demonstrating a Bootstrap horizontal collapse that I may have read when originally trying to work out how to make sideways happen. To the original authors of those: thank you for your inspiration and help.
@@ -622,12 +611,17 @@ There are other examples in the wild demonstrating a Bootstrap horizontal collap
 * Iconography in the demo open graph image by Jacob Halton from the [Noun Project][TheNounProject].
 
 
-
 ## Notes
 I crafted this library in order to fill a need that I had on my own project. 
 
 SidePanelCollapse was created and designed for a static site, a set of static HTML files. Therefore, many of the methods and behaviors are written with that assumption, and not, for example, a more dynamic site like an application where the links may have complex behaviors connected to them. Nonetheless, it should be possible to adapt to more complex contexts. Let me know if you find success or encounter issues.
 
+
+
+
+# License
+
+SidePanelCollapse is released under the MIT license.
 
 
 [Bootstrap-home]: https://getbootstrap.com/
@@ -639,5 +633,3 @@ SidePanelCollapse was created and designed for a static site, a set of static HT
 [CoffeeIpsum]: https://coffeeipsum.com/
 [TheNounProject]: https://thenounproject.com
 [stochasticnotions]: https://www.stochasticnotions.com/?pk_source=github
-
-[project-issues]: https://gitlab.com/mmilano/bootstrapHorizontalCollapse/issues
