@@ -1,0 +1,78 @@
+/*
+ * styles for the standalone SidePanelCollapse
+ *
+*/
+/*! **********
+ * SidePanelCollapse v1.0
+ * A Bootstrap 4-based sidebar augmenting the "collapse" component to collapse horizontally,
+ * and allow variable duration timings for the transitions
+ *
+ * Main (universal) SCSS for the sidepanel
+ *
+ * Michel Milano
+ *
+ * MIT License
+ */
+/* line 36, src/scss/sidepanelcollapse/_sidepanelcollapse.scss */
+.sidepanel {
+    --durationShow: 1.05s;
+    --durationHide: 0.35s;
+    --durationHideFast: 0.13s;
+    transition-property: width;
+    transition-timing-function: ease-in;
+}
+
+/* line 52, src/scss/sidepanelcollapse/_sidepanelcollapse.scss */
+.sidepanel.collapsing {
+    width: 0;
+    transition-duration: var(--durationShow);
+}
+
+/* line 65, src/scss/sidepanelcollapse/_sidepanelcollapse.scss */
+.backdrop {
+    z-index: 931;
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    background-color: rgba(255, 255, 255, 0.6);
+    animation: backdropFadeOut 0.17s linear;
+}
+
+/* line 84, src/scss/sidepanelcollapse/_sidepanelcollapse.scss */
+.backdrop.fadein {
+    animation: backdropFadeIn 0.33s linear forwards;
+}
+
+/* line 88, src/scss/sidepanelcollapse/_sidepanelcollapse.scss */
+.backdrop.show {
+    display: block;
+}
+
+/* line 99, src/scss/sidepanelcollapse/_sidepanelcollapse.scss */
+.backdrop.dark {
+    background-color: rgba(0, 0, 0, 0.51);
+}
+
+@keyframes backdropFadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes backdropFadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/*# sourceMappingURL=map/sidePanelCollapse.css.map */
