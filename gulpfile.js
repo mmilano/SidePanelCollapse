@@ -683,7 +683,7 @@ function maketheCSS_sidepanel(done) {
     // do not return from here until the files are completely built and done.
     Promise.all([buildNormal, buildProduction])
     .then(msgs => {
-        msgs.forEach( msg => glog(msg));
+        // msgs.forEach( msg => glog(msg));
     })
     .catch(err => {
         glog(err);
@@ -795,7 +795,7 @@ function lintJSPanini() {
     return gulp
     .src(src)
     .pipe(cached("jslintPanini"))
-    .pipe(debug({title: "js lint check:"}))   // iterate out name of each file being checked
+    .pipe(debug({title: "js lint:"}))   // iterate out name of each file being checked
     .pipe(jshint(paths.jshintConfiguration))
     .pipe(jshint.reporter("default"));
 }
@@ -807,7 +807,7 @@ function lintJSDemoSite() {
     return gulp
     .src(src)
     .pipe(cached("jslintSite"))
-    .pipe(debug({title: "js lint check:"}))   // iterate out name of each file being checked
+    .pipe(debug({title: "js lint:"}))   // iterate out name of each file being checked
     .pipe(jshint(paths.jshintConfiguration))
     .pipe(jshint.reporter("default"));
 }
@@ -818,15 +818,14 @@ function lintJS_sidepanel() {
 
     return gulp
     .src(src)
-    .pipe(debug({title: "js lint check:"}))
+    .pipe(debug({title: "js lint:"}))
     .pipe(jshint(paths.jshintConfiguration))
-    .pipe(jshint.reporter("default"));
+    .pipe(jshint.reporter("default"))
 }
 
 gulp.task ("lint:js-panini", lintJSPanini);
 gulp.task ("lint:js-demo", lintJSDemoSite);
 gulp.task ("lint:js-sidepanel", lintJS_sidepanel);
-
 
 // javascript building: global options
 // babel options to transpile javascript to browser-compatible level
@@ -939,29 +938,36 @@ function scriptifySidepanel(done) {
         "source_file": "SidePanelCollapse.js",
         "destination_path": "./dist/js/"
     };
-    javascriptSidePanel(options);
-    done();
+
+    var build = new Promise(function(resolve, reject) {
+        let task = javascriptSidePanel(options);
+        task
+        .on("end", () => {
+            resolve();
+        });
+
+    })
+    // .then(() => {})
+    .catch(err => {glog(err)})
+    .then(() => {
+        done();
+    });
+
 }
 
 gulp.task("scriptify:sidepanel", scriptifySidepanel);
 
-// process sidePanelCollapse.css for demo
-// in this case, copy the /dist files to /demo
-// function copyCSS_sidepanel(done) {
-//
-//     let css_sidepanel_dist = "./dist/css/**/*";
-//     let css_sidepanel_destination = siteBuildDestinationRoot + "public/css/sidePanelCollapse";
-//
-//     gulp
-//     .src(css_sidepanel_dist)
-//     .pipe(gulp.dest(css_sidepanel_destination));
-//     done();
-// }
 
+// copy the SidePanelCollapse production files into demo/
+function demoifySidepanel(done) {
+    copyjs_sidepanel();
+    copyCSS_sidepanel();
+    done();
+}
 
-// sidepanelcollapse.js for the demo site
+// SidePanelCollapse javascript for the demo site
 // in this case, copy the /dist files to /demo
-function demoifySidepanel() {
+function copyjs_sidepanel() {
 
     let source = "./dist/js/**/*";
     let destination = paths.jsDestination + "/sidePanelCollapse/";
@@ -971,7 +977,9 @@ function demoifySidepanel() {
     .pipe(gulp.dest(destination));
 }
 
+gulp.task("copy:jsSidepanel", copyjs_sidepanel);
 gulp.task("demoify:sidepanel", demoifySidepanel);
+
 
 // process site-simple.js for demo.
 // which is actually so simple that no processing is needed.
@@ -1036,7 +1044,7 @@ function watchJSSiteSimple(done) {
 // watch the sidepanelcollapse js
 // if it changes, rebuild js for /dist and /demo
 function watchJSSidePanel(done) {
-    var watcherJSsidepanel = gulp.watch(paths_sidepanel.js_sourceGLOB, gulp.series("lint:js-sidepanel", "browserify:site", "scriptify:sidepanel", "demoify:sidepanel"));
+    var watcherJSsidepanel = gulp.watch(paths_sidepanel.js_sourceGLOB, gulp.series("lint:js-sidepanel", "browserify:site", "scriptify:sidepanel", "copy:jsSidepanel"));
     watcherJSsidepanel.on("error", err => glog("watch error: " + err.message));
     watcherJSsidepanel.on("change", path => glog("changed >>> " + path));
 	done();
@@ -1088,6 +1096,7 @@ gulp.task("dev", function devTask(done) {
         "webserver",
         gulp.parallel(
             "compile:scss",
+            "compile:scss-sidepanel",
             "js:site",
             "demoify:sidepanel",
             "build:pages"
@@ -1103,19 +1112,25 @@ gulp.task("default", gulp.series("demo")); // alias
 // make sidepanelcollapse for production
 // both js and css
 
-function sidepanel(done) {
-    gulp.series(
-        "lint:js-sidepanel",
-        gulp.parallel(
-            "scriptify:sidepanel",
-            "compile:scss-sidepanel"
-            )
-        )();
+// function sidepanel(done) {
+//     gulp.series(
+//         "lint:js-sidepanel",
+//         gulp.parallel(
+//             "scriptify:sidepanel",
+//             "compile:scss-sidepanel"
+//             )
+//         )();
+//     //done();
+// }
+
+
+function sidepanelProduction(done) {
+
+    gulp.series("lint:js-sidepanel", "scriptify:sidepanel","compile:scss-sidepanel")();
     done();
 }
 
-exports.production = sidepanel;  // alias
-
+exports.production = sidepanelProduction;  // alias
 
 
 function trial() {
