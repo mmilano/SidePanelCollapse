@@ -779,6 +779,9 @@ const options_babel = {
 const options_uglify = {
     output: {
         comments: "/^!/"  // retain comments that match this pattern
+    },
+    compress: {
+        drop_debugger: false,
     }
 };
 
