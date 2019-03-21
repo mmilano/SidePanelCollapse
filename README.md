@@ -1,6 +1,6 @@
 # SidePanelCollapse
 
-SidePanelCollapse is a javascript and CSS package that extends Bootstrap 4 to make a vertical navigation bar open and close with added features to create a more nuanced user experience. 
+SidePanelCollapse is a javascript and CSS package that augments Bootstrap 4 to make a vertical navigation bar open and close with added features to create a more nuanced user experience. 
 
 * [Introduction](#introduction)
 * [Installing](#installing-sidepanelcollapse)
