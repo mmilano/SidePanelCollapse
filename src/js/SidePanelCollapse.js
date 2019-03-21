@@ -318,7 +318,7 @@
 
         // add backdrop to the page DOM
         insert(this.element);
-    };
+    }
 
     // end Backdrop
     // *****
@@ -394,13 +394,13 @@
         // in order to trap the links and implement custom behavior
         if (_settings.handleLinks) {
             let sidepanelLinks = this.$sidepanel[0].getElementsByTagName("a"), ln = sidepanelLinks.length;
-            for (var i = 0; i < ln; i++) {
+            for (let i = 0; i < ln; i++) {
                 sidepanelLinks[i].addEventListener("click", linkHandle().bind(this));
             };
         }
 
         // end: sidepanel initialization
-    };
+    }
 
     // initialize any elements 'automatically' based on existence of the data_selector attribute on an element.
     // will create a page global "SidePanel" containing the instance(s) of the SidePanelCollapse object.
