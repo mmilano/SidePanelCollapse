@@ -47,6 +47,7 @@ Vertical/height collapse is the default behavior, but Bootstrap will check if th
 SidePanelCollapse starts from this buried possibility and augments the normal behavior of Bootstrap collapse to manage an element that opens and closes horizontally. Then, going beyond simple horizontal movement, the library provides additional functionality to make the user experience better.
 
 ### Features:
+
 * Different and customizable durations for the open and close transitions.
 * Optimized closing behavior when a link is clicked.
 * A backdrop that overlays the page when the side panel is open.
@@ -58,13 +59,13 @@ SidePanelCollapse starts from this buried possibility and augments the normal be
 
 **The SidePanelCollapse library is itself just two files, one javascript and one CSS. The package's source code is in `src/` and the pre-built files are in `dist/`.**
 
-So you might wonder: what are all these other files in this project?
+So you might wonder: what are all these other files?
 
 Everything in the `/src_demo` directory is for the demonstration examples that can be [built and viewed](#the-demos). These demos are derived from a site I developed which is built around a custom static page generation system using (a forked version of) [Panini][Panini]. 
 
 In addition to the handlebars partials, there are custom handlebars helpers (for example, `page-toc.js` generatively creates the page's table of contents when the page is built), site-specific javascript modules, and supporting files. The data-driven pages and things like the "gallery" on the advanced demo's index/homepage are also from to the original site.
 
-If you are interested, that other site is at [stochasticnotions.com][stochasticnotions].
+If you are curious, that other site is at [stochasticnotions.com][stochasticnotions].
 
 I crafted this library in order to fill a need that I had on my own project, and then transformed it to be a stand-alone package. During that evolution, I have tried to distill everything down to greater simplicity, and have cut down the source code considerably. But I might have missed some vestigial artifacts. If some aspect of seems internally inexplicable, that is probably the reason why.
 
@@ -201,7 +202,7 @@ Once the page has loaded, the side panel must be instantiated and initialized by
 
 ### Visual Design Requirements
 
-SidePanelCollapse makes absolutely no claims on the visual design of the side panel element. All visual styling must be done seperately. It can be any color, practically any size, and can have most any content.
+SidePanelCollapse makes absolutely no claims on the visual design of the side panel element. All visual styling must be done separately. It can be any color, practically any size, and can have most any content.
 
 
 
@@ -391,7 +392,8 @@ This is a bootstrap  ~~limitation~~ [condition][BS-javascript].
 From the user experience perspective this is not ideal. It is a reasonable and likely possibility that a person will initiate opening the side panel and then immediately want to (or at least try to) close the panel.
 
 #### Queued
-To account for this uninterruptibility, SidePanelCollapse makes the design decision that if an action to close the panel is made while it is opening (e.g. ESC key), the closing command will be queued **once**. Then, when the open transition has completed, it will immediately be closed very quickly (`durationHideFast`).
+
+To account for uninterruptibility, SidePanelCollapse makes the design decision that if an action to close the panel is made while it is opening (e.g. ESC key), the closing command will be queued **once**. Then, when the open transition has completed, it will immediately be closed very quickly (`durationHideFast`).
 
 Queuing is only done for actions while the panel is opening, and not for actions when it is closing. Irrevocability is also true of the closing transition. But since closing has different user expectations, it generally will not be an issue.
 
@@ -442,7 +444,7 @@ SidePanelCollapse was designed and built originally for a static HTML site. Ther
 
 The design intent behind managed links is to provide a subtly more sophisticated user experience.
 
-If `handleLinks` is diabled, link actions will happen in the usual unmodified manner of links – immediately. Typically this means that the browser will leave the current page as-is and begin to load the link's destination URL. In the browser window, the side panel will remain open until the new destination page begins to render, and the window will "jump cut" to the new page.
+If `handleLinks` is disabled, link actions will happen in the usual unmodified manner of links – immediately. Typically this means that the browser will leave the current page as-is and begin to load the link's destination URL. In the browser window, the side panel will remain open until the new destination page begins to render, and the window will "jump cut" to the new page.
 
 When links are handled (`handleLinks = true`, the default), the side panel will first close itself expediently and neatly before starting off to the new destination. This is a subtle communication to the end-user that the current page is exiting gracefully and helps engender trust.
 
@@ -450,6 +452,8 @@ When links are handled (`handleLinks = true`, the default), the side panel will 
 # The Demos
 
 There are two demo sites included in the source code to showcase using the library in different ways: simple, and advanced.
+
+**The demos are intended to be a source of ideas and inspirations, not canon.** They are only example designs that use SidePanelCollapse, and are starting points for your own implementation.
 
 
 ## Building the Demos
@@ -487,10 +491,12 @@ Connect to:  192.168.1.42:9191
 
 5. Now, open one of the "connect to:" addresses (they point to the same location) in your recent-model browser of choice, and a demo will display.
 
+The `demo` task does not update any files for changes. For that you need to use the `dev` task; see [Building For Development](#building-for-development).
+
 
 ## The Simple Demo
 
-Simple demo is a single page, `index-simple.html`, that exemplifies the most minimal method of using the SidePanelCollapse library in a website: linked files, no javascript, and the default settings.
+Simple demo is a single page that exemplifies the most minimal method of using the SidePanelCollapse library in a website: linked files, no javascript, and the default settings.
 
 ### Inclusion: External Resources
 
@@ -508,7 +514,7 @@ All of the default SidePanelCollapse settings are used for configuration.
 
 ## The Advanced Demo
 
-The "advanced demo" (for want of a preferable name) is a more complex example of using SidePanelCollapse. It has a top-level home page, `index.html`, and a couple of interior pages. Although these are all individual page files, the site is structured as a primordial single page application in that all of the pages rely on a single common javascript file with a simplistic routing mechanism to run different functions depending on the page.
+The "advanced demo" (for want of a more clever name) is a more involved example of using SidePanelCollapse. It has a top-level home page and a couple of mock interior pages. Although these are all individual page files, the site is structured as a kind of primordial single page application in that all of the pages rely on a single common javascript file with a simplistic routing mechanism to run different functions depending on the page.
 
 In this demo, SidePanelCollapse is incorporated into the site's source, is initialized programmatically, and has custom configuration settings.
 
@@ -516,13 +522,13 @@ In this demo, SidePanelCollapse is incorporated into the site's source, is initi
 
 The SCSS and javascript sources are incorporated into the site's build process, and become part of the final .css and .js files respectively.
 
-For the SCSS, the source is included by an `import` directive in `site.scss`, and `gulp` tasks compile the composite CSS file.
+The SCSS is included by an `import` directive in `site.scss`, and `gulp` tasks compile the composite CSS file.
 
 ```scss
 @import "sidePanelCollapse";
 ```
 
-For the javascript, the beginning of the site's standalone script loads SidePanelCollapse.js. 
+For the javascript, the beginning of the site's standalone script loads SidePanelCollapse.js, and an aggregate javascript is assembled by a `browserify` task.
 
 ```js
 window.SidePanelCollapse = require("SidePanelCollapse");
@@ -542,8 +548,6 @@ Configuration settings differ for the home page and the interior pages. This isn
 
 # Building From Source
 
-
-## About the Source
 
 The library's source code is, I think, commented generously with notes written to explain most of the code behaviors. Look in there for details.
 
@@ -594,6 +598,7 @@ Production builds of the library (the .js and .css files) get saved into the pro
 ### About the Production Builds
 
 #### Browser Targets
+
 The CSS and javascript is compiled or transpiled to a default browser target = `["> 0.5%"].` If you need a different target range, this value can be changed (in the gulp task file) and the files rebuilt to the new target. Be cognizant that increasing the range will probably increase the final file size as a result of added polyfills.
 
 
@@ -625,9 +630,11 @@ Planned and unplanned future revisions for SidePanelCollapse.
 ### Recognitions
 
 #### Pioneers
+
 There are other examples in the wild demonstrating a Bootstrap horizontal collapse that I may have read when  trying to work out how to make sideways happen. To the original authors of those: thank you for your inspiration and help.
 
 #### Attributions
+
 * The FPO text on the examples pages was caffeinated-ly generated by [Coffee Ipsum][CoffeeIpsum].
 * Iconography in the demo open graph image by Jacob Halton from the [Noun Project][TheNounProject].
 
