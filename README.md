@@ -5,6 +5,8 @@ SidePanelCollapse is a javascript and CSS package that extends Bootstrap 4 to ma
 * [Introduction](#introduction)
 * [Installing](#installing-sidepanelcollapse)
 * [Using](#using-sidepanelcollapse)
+* [Configuring](#configuration-options)
+* [How It Behaves](#the-behavior-of-sidepanelcollapse)
 * [The Demos](#the-demos)
 * [Building From Source](#building-from-source)
 * [Miscellaneous](#miscellaneous)
@@ -173,10 +175,10 @@ See note regarding [browser targets](#about-the-production-builds).
 To begin with, you should have an element in your web page – the "side panel" – containing some content that you want to show and hide, side to side.
 
 * The top level of the side panel must have a unique CSS selector. The default is `#sidePanel`.
-* The side panel HTML element itself must have the `width` class.
+* The side panel HTML element itself must have the `width` and `sidepanel` classes.
 
 ```html
-<div class="sidepanel width collapse" id="sidePanel">
+<div class="sidepanel width mysidenav collapse" id="sidePanel">
     ...
 </div>
 ```
@@ -192,21 +194,23 @@ To begin with, you should have an element in your web page – the "side panel"
 See the [Bootstrap Collapse documentation][BS-collapse] for details of the collapse component requirements. 
 
 * There should be an HTML button element that will close the panel when clicked. This complements the Bootstrap button element for opening a collapse-able element. Having a close button isn't exactly a technical requirement, but a user-centered design requirement.
-
-
-
-
 * The side panel must be initialized by SidePanelCollapse before it will function correctly. Either passively via a data-attribute or manually via javascript.
 
-
 Once the page has loaded, the side panel must be instantiated and initialized by SidePanelCollapse before it will function correctly.
+
+
+### Visual Design Requirements
+
+SidePanelCollapse makes absolutely no claims on the visual design of the side panel element. All visual styling must be done seperately. It can be any color, practically any size, and can have most any content.
+
+
 
 
 ## Initialization
 
 Initialization can happen 'automatically' on page load by putting a data attribute on your side panel HTML element, or it can be done programmatically with a javascript function constructor.
 
-Either of these methods is available to you no matter how you have incorporated the library into your own project. You can use linked files and then invoke it manually, or you can integrate it into your build process and use a data attribute. Mix and match. **Use only one method.**
+Either of these methods is available to you no matter how you have incorporated the library into your own project. You can use linked files and then invoke it manually, or you can integrate it into your build process and use a data attribute. **But only initialize once.**
 
 ### Via Data Attribute
 
@@ -354,7 +358,7 @@ See [Closing The Side Panel: Clicking A Link](#clicking-a-link) for more explana
 
 # The Behavior of SidePanelCollapse
 
-It opens and it closes. Look more closely, and there is a little more to it than just that. Read on.
+It opens and it closes. Look more closely, and there is a little more to it than just that.
 
 
 ## Opening and Closing Durations
@@ -441,8 +445,6 @@ The design intent behind managed links is to provide a subtly more sophisticated
 If `handleLinks` is diabled, link actions will happen in the usual unmodified manner of links – immediately. Typically this means that the browser will leave the current page as-is and begin to load the link's destination URL. In the browser window, the side panel will remain open until the new destination page begins to render, and the window will "jump cut" to the new page.
 
 When links are handled (`handleLinks = true`, the default), the side panel will first close itself expediently and neatly before starting off to the new destination. This is a subtle communication to the end-user that the current page is exiting gracefully and helps engender trust.
-
-
 
 
 # The Demos
@@ -543,7 +545,7 @@ Configuration settings differ for the home page and the interior pages. This isn
 
 ## About the Source
 
-The library's source code is, I think, commented generously with notes written with a general perspective in mind and they attempt to explain most of the internal code behaviors. Look there for deeper details.
+The library's source code is, I think, commented generously with notes written to explain most of the code behaviors. Look in there for details.
 
 
 ## Building For Development
@@ -589,9 +591,9 @@ Starting 'production'...
 Production builds of the library (the .js and .css files) get saved into the project's `/dist` directory, in both minified and verbose (aka normal) versions. Source maps are created in the respective `/map` directories.
 
 
-#### About the Production Builds
+### About the Production Builds
 
-##### Browser Targets
+#### Browser Targets
 The CSS and javascript is compiled or transpiled to a default browser target = `["> 0.5%"].` If you need a different target range, this value can be changed (in the gulp task file) and the files rebuilt to the new target. Be cognizant that increasing the range will probably increase the final file size as a result of added polyfills.
 
 
