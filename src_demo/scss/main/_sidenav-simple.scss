@@ -1,4 +1,4 @@
-// site-specific design styles for the sidenav
+// visual design styles for the sidenav
 //
 // .sidenav styles add to .sidepanel styles for site-specific design.
 // one could also override .sidepanel styles here
@@ -11,10 +11,8 @@ $sidenav-zindex:                        $zindex-fixed + 1;  // z-index of Bootst
 $sidenav-width-large:                   260px;
 $sidenav-width-small:                   $sidenav-width-large - 20;  // adjustment for smaller window sizes
 
-// $sidenav-background-color:              #062B62;
 $sidenav-background-color:              #24415A;
-// $sidenav-header-bar-color:              #474743;
-$sidenav-header-bar-color:              darken($dark, 6.6667%);  // use Bootstrap theme color $dark as the basis
+$sidenav-header-bar-color:              darken($sidenav-background-color, 6.6667%);
 
 $sidenav-closeButton-height:            36px;
 $sidenav-close-xposition-small:         177px;
@@ -28,6 +26,7 @@ $sidenav-nav-padding-left:              25px;
     z-index: $sidenav-zindex;
     position: fixed;
     top: 0;
+    bottom: 0;
     #{$sidenav-side}: 0;
     height: 100vh;  // sidepanel extends the full height of the window
     padding: 0;
@@ -44,7 +43,7 @@ $sidenav-nav-padding-left:              25px;
 
     // sidenav is structured to be one general "nav" element
     // main nav in the sidenav
-    nav {
+    .nav {
         display: block;  // override Bootstrap
         margin-top: $sidenav-nav-offset-top;
         padding: 0 0 3rem $sidenav-nav-padding-left;
@@ -56,10 +55,12 @@ $sidenav-nav-padding-left:              25px;
 
     // bar at top of the sidenav. visually extends the horizontal primary navbar,
     // and contains the "X" close icon.
-    // near replication to match the primary navbars
+    // near replication to match the primary navbar
     .sidenav-headBar {
+        z-index: $sidenav-zindex;
         position: fixed;
-        top: 0;
+        // top: 0;
+
         width: $sidenav-width-small;
         height: $page-primarynavbar-height;
 
@@ -71,14 +72,14 @@ $sidenav-nav-padding-left:              25px;
     }
 
     .sidenav-close {
-        margin-left: 177px; // visually adjust the close button to match the position of the sandwich menu button in the primary nav
+        margin-left: 177px; // visually adjust the close button to try to match the position of the sandwich menu button in the primary nav
     }
 }
 
 // for larger windows
 @include media-breakpoint-up(md) {
 
-    .sidenav{
+    .sidenav {
         .sidenav-content {
             width: $sidenav-width-large;
         }
@@ -88,7 +89,7 @@ $sidenav-nav-padding-left:              25px;
         }
 
         .sidenav-close {
-            margin-left: $sidenav-close-xposition-large; // visually adjust the close button to match the position of the sandwich menu button in the primary nav
+            margin-left: $sidenav-close-xposition-large;
         }
     }
 

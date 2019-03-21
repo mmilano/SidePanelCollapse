@@ -19,24 +19,26 @@
 </div>
 
 <div class="sidepanel sidenav width collapse" id="sidePanel">
-<div class="sidenav-content">
     <div class="sidenav-headBar">
         <button class="sidePanel-close sidenav-close navbar-toggler" type="button" aria-expanded="true" aria-label="Close navigation">
             <span class="closeIcon" aria-hidden="true"></span>
         </button>
     </div>
-    <div class="sidenav-nav">
-        <nav class="nav" id="sidePanelNav">
-            <ul class="navbar-nav">
 
-                {{#sidenav this}}
-                    {{!~~ iterate list of gallery pages ~~}}
-                {{/sidenav}}
+    <div class="sidenav-content">
 
-            </ul>
-        </nav>
+        <div class="sidenav-nav">
+            <nav class="nav" id="sidePanelNav">
+                <ul class="navbar-nav">
+
+                    {{#sidenav this}}
+                        {{!~~ iterate list of gallery pages ~~}}
+                    {{/sidenav}}
+
+                </ul>
+            </nav>
+        </div>
     </div>
-</div>
 </div>
 
 <section class="theme-section theme-section-full theme-section-center" id="introduction">
