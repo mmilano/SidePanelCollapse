@@ -154,11 +154,19 @@ Minimum requirements to use SidePanelCollapse on a site.
 
 * [Bootstrap 4.x][Bootstrap-home]. The library was developed with version 4.3.1, but it may work with earlier 4.x versions.
 * [jQuery 3.x][jQuery-home]. Developed with version 3.3.1, slim build. Bootstrap itself requires jQuery, so this library should already be part of the site. 
-* A recent model browser. Chrome 51+, Firefox 50+, Safari 11+. Not really IE. See note [about the production builds](#about-the-production-builds).
+
 
 There are additional requirements to build/view the demos or work with the source code:
 * [Node](https://nodejs.org/), v8+.
 * npm. Which is generally installed with node
+
+### Browser Support
+
+A recent model browser.
+* Chrome 51+, Firefox 50+, Safari 11+, Edge 44+. Some mobile versions, too.
+* IE - not so much.
+
+See note regarding browser targets in [about the production builds](#about-the-production-builds).
 
 ### HTML Page Requirements
 
@@ -580,8 +588,10 @@ Starting 'production'...
 Production builds of the library (the .js and .css files) get saved into the project's `/dist` directory, in both minified and verbose (aka normal) versions. Source maps are created in the respective `/map` directories.
 
 
-#### Technical Bits About the Production Builds
-The CSS and javascript is compiled or transpiled to a browser target = `["> 0.5%"].` If you need a different target range, this value can be changed (in the gulp task file) and the files rebuilt to the new target.
+#### About the Production Builds
+
+##### Browser Targets
+The CSS and javascript is compiled or transpiled to a default browser target = `["> 0.5%"].` If you need a different target range, this value can be changed (in the gulp task file) and the files rebuilt to the new target. Be cognizant that increasing the range will probably increase the final file size as a result of added polyfills.
 
 
 
