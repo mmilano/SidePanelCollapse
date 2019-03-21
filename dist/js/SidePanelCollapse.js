@@ -1,5 +1,5 @@
 /*! **********
- * SidePanelCollapse v1.0
+ * SidePanelCollapse v1.0.0
  * A Bootstrap 4-based sidebar augmenting the "collapse" component to collapse horizontally,
  * and allow variable duration timings for the transitions
  *
@@ -302,11 +302,10 @@
     this.element = create(_sidepanel.settings.backdropStyleClass); // add backdrop to the page DOM
 
     insert(this.element);
-  }
-
-  ; // end Backdrop
+  } // end Backdrop
   // *****
   // SidePanel constructor
+
 
   function SidePanelCollapse(options) {
     var _settings = this.settings = defineSettings(defaults, options); // (try to) select and store the main sidepanel element as jquery object
@@ -384,11 +383,10 @@
       ;
     } // end: sidepanel initialization
 
-  }
-
-  ; // initialize any elements 'automatically' based on existence of the data_selector attribute on an element.
+  } // initialize any elements 'automatically' based on existence of the data_selector attribute on an element.
   // will create a page global "SidePanel" containing the instance(s) of the SidePanelCollapse object.
   // presumes just one, which will be SidePanel[0], but who knows - maybe there can be multiple in the future.
+
 
   function initOnData() {
     window.SidePanel = [];
