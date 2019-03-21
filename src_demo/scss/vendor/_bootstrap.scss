@@ -1,0 +1,6 @@
+// import selected portions of the Bootstrap scss
+// in order to use the Bootstrap layout media queries in the project's own scss
+
+@import "node_modules/bootstrap/scss/_functions";
+@import "node_modules/bootstrap/scss/_variables";
+@import "node_modules/bootstrap/scss/mixins/_breakpoints";

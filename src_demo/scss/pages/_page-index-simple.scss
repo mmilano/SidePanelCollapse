@@ -1,0 +1,36 @@
+//
+// simple index aka homepage
+//
+
+
+$background-color-intro:        #618BFF;
+
+
+#introduction {
+    background-color: $background-color-intro;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+// short windows
+@media (max-height: $breakpoint-height-md){
+
+    .theme-section-full {
+        height: auto;
+    }
+
+    .headings {
+        margin-top: 7.5rem;
+    }
+
+    footer {
+        position: static;
+        padding-bottom: 0;
+    }
+
+}

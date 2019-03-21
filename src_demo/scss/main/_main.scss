@@ -1,0 +1,119 @@
+// main style file
+// GENERAL common, shared style definitions
+
+
+html {
+    scroll-behavior: smooth;  // replacement for smoothscroll. limited browser support, but sufficient for demo
+}
+
+body {
+    position: relative;  // required by scrollspy
+    font-family: $font-family-primary;
+}
+
+// links. obviously.
+a {
+    color: $theme-link-color;
+    text-decoration: $theme-link-decoration;
+
+    &:hover {
+        color: $theme-link-hover-color;
+        text-decoration: $theme-link-hover-decoration;
+    }
+}
+
+h1, h2, h3, h4, b, strong {
+    font-weight: $font-weight-semibold;
+}
+
+// defaults for nav-links
+// applies to primary navbar when horizontal, and table-o'contents
+// .active is applied by scrollspy
+.nav-link {
+
+    // default transition for nav-link. will apply when un-hovering a link
+    transition: color $nav-item-color-transition-duration-long ease;
+
+    &.active {
+        font-weight: $font-weight-semibold;
+        color: $text-color-nav-default;
+    }
+
+    &:not(.active):hover {
+        color: $link-color-highlight;
+        transition-duration: $nav-item-color-transition-duration;
+    }
+
+    // .disabled = current = used for current location
+    &.disabled,
+    &:disabled {
+        color: $core-white;
+        font-weight: $font-weight-bold;
+        letter-spacing: 0.03rem;  // typographic finnese
+        word-spacing: 0.03rem;  // typographic finesse
+    }
+}
+
+// SECTION TYPES
+.theme-section {
+    position: relative;
+    padding-top: 9rem;
+    padding-bottom: 9rem;
+}
+
+.theme-section-full {
+    display: table;
+    width: 100%;
+    height: 100vh;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.theme-section-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.theme-section-center-vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.theme-section-content {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+}
+
+section {
+    &.theme-section {
+        h2 {
+            margin-bottom: 5rem;
+        }
+    }
+}
+
+ul {
+    &.list-unstyled {
+
+        > li {
+            // first <li> as heading
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        ul {
+            font-weight: normal;
+            li {
+                list-style-type: disc;
+            }
+        }
+    }
+}
+
+code {
+    font-size: 93%;
+    color: #EEE;
+}

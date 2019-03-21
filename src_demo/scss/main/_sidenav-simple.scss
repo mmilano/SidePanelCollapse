@@ -1,0 +1,96 @@
+// visual design styles for the sidenav
+//
+// .sidenav styles add to .sidepanel styles for site-specific design.
+// one could also override .sidepanel styles here
+
+
+$sidenav-side:                          "right";  // the default position = right side of window
+
+$sidenav-zindex:                        $zindex-fixed + 1;  // z-index of Bootstrap4 default nav, plus 1, to put the sidenav above the nav
+
+$sidenav-width-large:                   260px;
+$sidenav-width-small:                   $sidenav-width-large - 20;  // adjustment for smaller window sizes
+
+$sidenav-background-color:              #24415A;
+$sidenav-header-bar-color:              darken($sidenav-background-color, 6.6667%);
+
+$sidenav-closeButton-height:            36px;
+$sidenav-close-xposition-small:         177px;
+$sidenav-close-xposition-large:         196px;
+
+$sidenav-nav-offset-top:                $page-primarynavbar-height + 12;  // visual margin from top of sidebar to account for the header bar
+$sidenav-nav-padding-left:              25px;
+
+
+.sidenav {
+    z-index: $sidenav-zindex;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    #{$sidenav-side}: 0;
+    height: 100vh;  // sidepanel extends the full height of the window
+    padding: 0;
+    overflow-x: hidden;
+
+    background-color: $sidenav-background-color;
+
+    // because the width of the top-level .sidepanel is changed during the collapse event by Bootstrap,
+    // an interior element is used to maintain a fixed width for the content.
+    .sidenav-content {
+        position: relative;
+        width: $sidenav-width-small;
+    }
+
+    // sidenav is structured to be one general "nav" element
+    // main nav in the sidenav
+    .nav {
+        display: block;  // override Bootstrap
+        margin-top: $sidenav-nav-offset-top;
+        padding: 0 0 3rem $sidenav-nav-padding-left;
+    }
+
+    .navbar-nav {
+        display: block;  // override Bootstrap
+    }
+
+    // bar at top of the sidenav. visually extends the horizontal primary navbar,
+    // and contains the "X" close icon.
+    // near replication to match the primary navbar
+    .sidenav-headBar {
+        z-index: $sidenav-zindex;
+        position: fixed;
+        // top: 0;
+
+        width: $sidenav-width-small;
+        height: $page-primarynavbar-height;
+
+        // flex layout model to match the primary navbar
+        display: flex;
+        align-items: center;
+
+        background-color: $sidenav-header-bar-color;
+    }
+
+    .sidenav-close {
+        margin-left: 177px; // visually adjust the close button to try to match the position of the sandwich menu button in the primary nav
+    }
+}
+
+// for larger windows
+@include media-breakpoint-up(md) {
+
+    .sidenav {
+        .sidenav-content {
+            width: $sidenav-width-large;
+        }
+
+        .sidenav-headBar {
+            width: $sidenav-width-large;
+        }
+
+        .sidenav-close {
+            margin-left: $sidenav-close-xposition-large;
+        }
+    }
+
+}

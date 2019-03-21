@@ -1,0 +1,19 @@
+{{!--
+**********
+page element
+page function
+establish some of the global values for the page, and call page specific function(s)
+
+@param {string} page: page id value
+
+**********
+--~}}
+
+<script>
+{{#with (lookup . page)}}
+    var pageGlobal = {
+        pageID: "{{id}}",
+    };
+    document.addEventListener("DOMContentLoaded", site.pageMethods.pageRouter(pageGlobal.pageID), false);
+{{/with}}
+</script>

@@ -1,0 +1,51 @@
+/*
+ * pure css "x" icon
+ * used for the close button on sidenav
+ *
+*/
+
+
+$closeicon-size:                   26px;
+$closeicon-thickness:              3.4px;                   // the graphic's bars are rotated rectangles. thickness of each bar
+$closeicon-rounding:               1.8px;                   // the rounding value is the css corners of the rectangles, to soften them
+$closeicon-color:                  $color-white-darker4;    // color of the glyph in normal state
+$closeicon-color-hover:            $core-white;             // color of the glyph when hovered
+$closeicon-transition-duration:    0.25s;                   // duration of color change on hover
+$closeicon-transition-function:    ease;                    // css transition timing function
+
+.closeIcon {
+    position: relative;
+    display: block;
+    width: $closeicon-size;
+    height: $closeicon-size;
+    overflow: hidden;
+
+    &:hover {
+        &::before,
+        &::after {
+          background: $closeicon-color-hover;
+        }
+    }
+
+    &::before,
+    &::after {
+        position: absolute;
+        top: 48%;  // adjust position upwards ever so slightly from 50% for better vertical visual centering
+        left: 0;
+
+        width: $closeicon-size;
+        height: $closeicon-thickness;
+        background: $closeicon-color;
+        border-radius: $closeicon-rounding;
+        transition: background $closeicon-transition-duration $closeicon-transition-function;
+        content: "";
+    }
+
+    &::before {
+        transform: rotate(45deg);
+    }
+
+    &::after {
+        transform: rotate(-45deg);
+    }
+}

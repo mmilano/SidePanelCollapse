@@ -1,0 +1,20 @@
+<meta charset="utf-8">
+
+<link rel="preconnect" href="https://code.jquery.com" crossorigin> <!-- jquery cdn -->
+<link rel="dns-prefetch" href="https://stackpath.bootstrapcdn.com" crossorigin> <!-- bootstrap cdn -->
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com"> <!-- popper cdn -->
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="{{#each site.keywords}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}">
+<meta name="description" content="{{site.description}}">
+
+<meta name="author" content="Michel Milano">
+<meta name="revised" content="{{timestamp}}">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="apple-mobile-web-app-title" content="{{site.title}}">
+
+{{> site-og}}
+
+{{> site-css}}
+
+{{> page-title}}

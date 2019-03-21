@@ -1,0 +1,25 @@
+//
+// index aka homepage
+//
+
+
+$background-color-intro:        #4E8B62;
+$background-color-about:        #95AF57;
+$background-color-footer:       #EDEDEA;
+
+
+// INTRO
+#introduction {
+    background-color: $background-color-intro;
+}
+
+// SECOND SECTION
+#about {
+    background-color: $background-color-about;
+}
+
+.theme-index {
+    footer {
+        background-color: $background-color-footer;
+    }
+}

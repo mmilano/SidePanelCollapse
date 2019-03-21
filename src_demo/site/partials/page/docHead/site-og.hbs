@@ -1,0 +1,43 @@
+{{!--
+**********
+partial
+
+generate opengraph meta data
+
+**********
+--}}
+
+<meta property="og:site_name" content="{{site.og.site_name}}">
+<meta property="og:title" content="{{site.og.title}} {{~#if (getPageData this page "project-title-html")}} : {{getPageData this page "project-title-html"}}{{~/if~}}">
+{{~#if (getPageData this page "og")~}}
+    {{#with (getPageData this page "og")~}}
+    <meta property="og:description" content="{{description}}">
+    {{/with}}
+{{~else~}}
+    <meta property="og:description" content="{{site.og.description}}">
+{{/if~}}
+
+{{#if (getPageData this page "og")~}}
+    {{#with (getPageData this page "og")~}}
+
+    {{#if image}}
+        {{#with image~}}
+            <meta property="og:image" content="{{@root.site.og.url-image-base}}{{url}}">
+            <meta property="og:image:width" content="{{width}}">
+            <meta property="og:image:height" content="{{height}}">
+            {{#if alt}}<meta property="og:image:alt" content="{{alt}}">{{/if}}
+        {{/with~}}
+    {{~else~}}
+         {{#with ../site.og.image~}}
+            <meta property="og:image" content="{{@root.site.og.url-content}}{{url}}">
+            <meta property="og:image:width" content="{{width}}">
+            <meta property="og:image:height" content="{{height}}">
+            {{#if alt}}<meta property="og:image:alt" content="{{alt}}">{{/if}}
+        {{/with~}}
+    {{/if~}}
+
+    {{/with}}
+{{/if~}}
+
+<meta property="og:url" content="{{site.og.url}}">
+<meta property="og:type" content="{{site.og.type}}">

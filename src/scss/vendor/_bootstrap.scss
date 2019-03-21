@@ -1,0 +1,6 @@
+// import selected portions of the Bootstrap scss variables
+// in order to reference/use the Bootstrap values in the sidepanel's scss.
+// note: _variables depends on _functions
+
+@import "node_modules/bootstrap/scss/_functions";
+@import "node_modules/bootstrap/scss/_variables";

@@ -1,0 +1,27 @@
+/*
+ * css for the simple demo site
+ *
+*/
+
+// files for site styles
+// in order to reference the Bootstrap values in the project's own scss
+@import "vendor/_bootstrap";
+
+// shared values and scss mixins
+@import "common/_variables";
+
+// styles for the general project
+@import "main/_main";
+@import "main/_demo";
+
+// styles for the simple project
+@import "main/_navbar-simple";
+@import "main/_sidenav-simple";
+
+// styles specific to individual page(s)
+@import "pages/_page-index-simple";
+
+// styles for specific elements on/within pages. common.
+@import "element/_dingbats";
+@import "element/_icon_close";
+@import "element/_pill";

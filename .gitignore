@@ -1,0 +1,31 @@
+#osx stuff
+.DS_Store
+
+# bbedit project files
+*.bbprojectd
+
+# logs
+logs
+*.log
+npm-debug.log*
+
+# node stuff
+node_modules
+npm-debug.log
+
+#sass scss etc
+.sass-cache
+
+# optional npm cache directory
+.npm
+
+# optional eslint cache
+.eslintcache
+
+# destination folders for builds
+public
+build
+demo
+
+# dev stuff
+src_demo/js/vendor/

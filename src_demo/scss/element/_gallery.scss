@@ -1,0 +1,88 @@
+// ------- GALLERY -------
+
+
+$gallery-item-side-padding:             10px;
+$gallery-item-topbottom-margin:         25px;
+$gallery-item-inside-spacing-bottom:    25px;
+$gallery-item-content-space-side:       20px;
+
+$gallery-item-text-color:               $core-black;
+$gallery-image-max-height:              100px;
+$gallery-image-color:                   #666666;
+
+$card-background-color-default:         #DBDBD7;
+$card-background-color-hover:           #C9A956;
+$card-border-radius:                    4px;
+$card-image-border-radius:              $card-border-radius / 2;
+
+$card-duration-fast:                    0.25s;
+
+#gallery-grid {
+    margin-left: -$gallery-item-side-padding;
+    margin-right: -$gallery-item-side-padding;
+}
+
+.gallery-item {
+
+    // spacing that affects the overall grid layout of the cards
+    margin: 0 0 $gallery-item-topbottom-margin 0;
+
+    // override the default BS side padding (15px)
+    // this override also requires adjusting the containing row (#gallery-grid) to equalize the overall margins
+    padding-right: $gallery-item-side-padding;
+    padding-left: $gallery-item-side-padding;
+
+    // link element is the primary container so that the entire card is clickable
+    a {
+        color: $gallery-item-text-color;
+    }
+
+    // overrides of Bootstrap .card
+    .card {
+        padding-bottom: $gallery-item-inside-spacing-bottom;
+
+        background-color: $card-background-color-default;
+        border: 0;
+        border-radius: $card-border-radius;
+
+        transition: background-color $card-duration-fast ease-in-out;
+
+        // visual interest
+        &:hover {
+            background-color: $card-background-color-hover;
+
+            .card-image {
+                 background-color: darken($gallery-image-color, 13.3333%);
+            }
+        }
+
+        // container for the gallery image
+        // or, in this case, a placeholder
+        .card-image {
+            overflow: hidden;
+            height: $gallery-image-max-height;
+
+            // match card's border on outside top corners, soften the rounding on the inside bottom corners
+            border-radius: $card-border-radius $card-border-radius $card-image-border-radius $card-image-border-radius;
+            margin-bottom: 10px;
+            background-color: $gallery-image-color; // FPO filler for an image
+
+            transition: background-color $card-duration-fast ease-in-out;
+        }
+
+        // the page description
+        .card-overview {
+            flex-grow: 2;
+            margin: 0 $gallery-item-content-space-side 2rem $gallery-item-content-space-side;
+        }
+
+        // the title
+        .card-info {
+            min-height: 3rem;
+            margin: 0 $gallery-item-content-space-side;
+            font-weight: $font-weight-semibold;
+            font-size: 1.2rem;
+            line-height: 1.4;
+        }
+    }
+}

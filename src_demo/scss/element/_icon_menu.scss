@@ -1,0 +1,63 @@
+/*
+ * pure css menu icon (aka: the layer cake. the sandwich. the hamburger)
+ *
+*/
+
+// note: uses the inner span element so that outer menuicon width and height can be defined
+// and that larger area be active for rollover/clicking/touching
+
+$menuicon-width:                   25px;
+$menuicon-height:                  26px;
+$menuicon-size:                    25px;
+$menuicon-thickness:               3.1px;                    // thickness of each slice
+$menuicon-layer-offset:            8px;                      // spacing between each slice or patty in the sandwich
+$menuicon-rounding:                1.8px;                    // the rounding value is the css corners of the rectangles, to soften them
+$menuicon-color:                   $toasted-black;           // color of the glyph in normal state
+$menuicon-color-hover:             $color-black-lighter3;    // color of the glyph when hovered
+$menuicon-transition-duration:     .25s;                     // duration of color change on hover
+$menuicon-transition-function:     ease;                     // css transition timing function
+
+.menuIcon {
+    display: block;
+    width: $menuicon-width;
+    height: $menuicon-height;
+
+    span {
+        &,
+        &::before,
+        &::after {
+            position: absolute;
+            top: 48%;  // visually adjust position upwards slightly from 50% for better vertical centering
+
+            width: $menuicon-size;
+            height: $menuicon-thickness;
+            background: $menuicon-color;
+            border-radius: $menuicon-rounding;
+            transition: background $menuicon-transition-duration $menuicon-transition-function;
+            content: "";
+        }
+
+        & {
+            left: 1rem;  // same left offset as the enclosing button element
+        }
+
+        &::before,
+        &::after {
+            left: 0;
+        }
+
+        &::before {
+            top: -$menuicon-layer-offset;
+        }
+
+        &::after {
+            top: $menuicon-layer-offset;
+        }
+    }
+
+    &:hover {
+        span {
+          background: $menuicon-color-hover;
+        }
+    }
+}

@@ -1,0 +1,201 @@
+// PAGES
+// styles for individual pages
+
+$page-header-space-top:                 15px;
+
+$page-section-spacing-top:              0;
+$page-section-spacing-bottom:           3.5rem;
+
+$heading-font-size-large:               3.0rem;
+$heading-line-height-large:             1.1;
+
+$section-border-bar-color:              #AFAFAA;
+
+// $side-item is used for the individual items in the right sidebar (tags, roles, etc) and the left nav (table of contents)
+$side-item-line-height:                 1.25rem;
+$side-item-margin-bottom:               .5rem;
+
+$subnav-margin-bottom:                  .6rem;
+
+$overview-font-size:                    1.7rem;
+$overview-font-lineheight:              1.5;
+$overview-font-spacing:                 -0.1px;
+$overview-shift:                        -8px;
+
+
+@mixin section-border-bar ($border-side: "border-top", $color: $section-border-bar-color) {
+    #{$border-side}: 1px dotted $color;
+}
+
+@mixin sidebarText {
+    line-height: $side-item-line-height;
+    margin-bottom: $side-item-margin-bottom;
+}
+
+
+footer {
+    @include section-border-bar("border-top", #BBB);
+}
+
+.mainColumn {
+    font-size: 16px;
+}
+
+// header on general page
+.page-header {
+    margin-bottom: 3rem;
+    padding-top: $page-primarynavbar-height + $page-header-space-top;
+
+    h1 {
+        position: relative;
+        left: -2px;
+        font-weight: $font-weight-semibold;
+        font-size: $heading-font-size-large;
+        line-height: $heading-line-height-large;
+        letter-spacing: -0.03rem;
+        word-spacing: 0.05rem;
+    }
+}
+
+// interior page specific styles
+.theme-page {
+
+    // only applied to a <section>
+    .page-section {
+        margin-top: $page-section-spacing-top;
+        margin-bottom: $page-section-spacing-bottom;
+    }
+
+    h2 {
+        // h2 follwed immediately by h3
+        & + h3 {
+            margin-top: 1rem;
+        }
+
+        // extra space above the div when it comes right after a heading
+        & + div {
+            margin-top: 3rem;
+        }
+    }
+}
+
+#tableOfContents {
+    margin-bottom: 3rem;
+    padding: 1rem 0 1rem 0;
+
+    @include section-border-bar;
+    @include section-border-bar("border-bottom");
+
+    // FIRST-LEVEL ITEMS,
+    // <h2> headings in the page (the main sections)
+    flex-direction: column;
+
+    // SECOND-LEVEL ITEMS,
+    // <h3> headings in the page
+    nav {
+        flex-direction: column;
+
+        margin-top: .4rem;
+        margin-bottom: $subnav-margin-bottom;
+        margin-left: 1.5rem;
+
+        // second-level items are slightly smaller than the first-level items
+        font-size: #{$font-secondlevel-scale}em;
+    }
+
+    .nav-link {
+        padding: 0;
+
+        &.active {
+            transition-duration: $nav-item-color-transition-duration;
+        }
+
+        &:not(.active):hover {}  // inherit from main
+    }
+
+    .nav-item {
+        @include sidebarText;
+    }
+
+    // spacing for each top-level .nav-item (FIRST-LEVEL headings)
+    > .nav-item {
+        margin-bottom: $side-item-margin-bottom;
+    }
+}
+
+// intended width of the table-o-Contents section
+// this is basically recreating/hardcoding the eventual widths of the .leftColumn section in the layout
+// but done this way because tableOContents is given 'position: fixed', so physical width needs to be defined.
+// this is completely dependent on Bootstrap's behavior itself
+// - $size is keyed to the Bootstrap breakpoints
+// - $width is measurement of how wide the column ends up being
+
+$tableOfContents-widths: (
+    md:  150px,
+    lg:  130px,
+    xl:  160px,
+);
+
+@each $size, $width in ($tableOfContents-widths) {
+    @include media-breakpoint-up($size) {
+        #tableOfContents {
+            width: $width;
+        }
+    }
+}
+
+// fix for scrolling to a heading in the page,
+// where the fixed page header will overlap/obscure the heading
+h2,
+h3 {
+    &:target {
+        &::before {
+            display: block;
+            height:  $page-primarynavbar-height + $page-header-space-top; // primarynav header height + space
+            margin: -($page-primarynavbar-height + $page-header-space-top) 0 0;
+            content: "";
+        }
+    }
+}
+
+.theme-page {
+    .page-overview {
+
+        position: relative;
+        margin-top: $overview-shift;  // typographic finesse – small shift of entire block upwards for better visual alignment of the text with the sidebar rules
+        margin-bottom: 2.5rem;
+
+        font-size: $overview-font-size;
+        letter-spacing: $overview-font-spacing;  // typographic finesse
+
+        p {
+            margin-bottom: 1.5rem;
+        }
+
+        ul,
+        ol {
+            margin-top: -.5rem;
+        }
+    }
+}
+
+// for larger windows
+@include media-breakpoint-up(md) {
+
+    .theme-page {
+        .page-overview {
+            margin-bottom: 4.0rem;
+            line-height: $overview-font-lineheight;
+        }
+
+        .page-section {
+            margin-top: $page-section-spacing-top;
+            margin-bottom: $page-section-spacing-bottom;
+        }
+    }
+
+    #tableOfContents {
+        position: fixed;
+    }
+
+}

@@ -1,0 +1,18 @@
+//
+// styles for the primarynav dingbat
+//
+
+
+$dingbat-element-width:     32px;
+
+.dingbat {
+    position: relative;
+    width: $dingbat-element-width;
+    margin: 0;
+    font-size: 1.7rem;
+
+	span {
+        display: block;
+        text-align: center;
+	}
+}
