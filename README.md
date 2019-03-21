@@ -166,7 +166,7 @@ A recent model browser.
 * Chrome 51+, Firefox 50+, Safari 11+, Edge 44+. Some mobile versions, too.
 * IE - not so much.
 
-See note regarding browser targets in [about the production builds](#about-the-production-builds).
+See note regarding [browser targets](#about-the-production-builds).
 
 ### HTML Page Requirements
 
@@ -222,13 +222,13 @@ Data attribute activation will use the default settings. Custom configurations a
 
 ### Via Javascript
 
-Activate SidePanelCollapse manually by creating a new SidePanelCollapse instance with the constructor.
+Activate SidePanelCollapse manually by creating a new SidePanelCollapse instance with the constructor. 
 
 ```js
 sidepanel = new SidePanelCollapse(options);
 ```
 
-Setting custom configuration options is only available via javascript initialization. See [Configuration Options](#configuration-options) for details.
+Setting custom configuration options is, well...optional, and only available via javascript initialization. [Configuration Options](#configuration-options) describes the available choices in detail.
 
 
 
@@ -236,7 +236,7 @@ Setting custom configuration options is only available via javascript initializa
 
 # Configuration Options
 
-SidePanelCollapse can be initialized via javascript with custom options. Use only what you need - any values not specified will use the defaults.
+SidePanelCollapse can be initialized via javascript with custom settings using a javascript properties object. Use only what you need - any values not specified will use the defaults.
 
 ```js
 var options = {
@@ -256,8 +256,8 @@ sidepanel = new SidePanelCollapse(options);
 | `durationHide`          | CSS transition-duration | `0.35s` | Duration for the standard closing transition.
 | `durationHideFast`          | CSS transition-duration | `0.13s` | Duration for  _FAST_ closing transition.
 | `backdrop`              | boolean | `true` | Whether or not a backdrop (i.e. overlay) should display behind the open panel. |
-| `backdropStyleClass`         | CSS class name | `light` |  Which style of backdrop to use, corresponding to a CSS style. Built-in options are "light" or "dark". |
-| `sidePanelIsOpenClass`  | CSS class name | `sidepanel-open` | CSS class that is added to the document `<body>` when the sidepanelElement shows, removed when it hides. |
+| `backdropStyleClass`         | CSS CLASS name | `light` |  Which style of backdrop to use, corresponding to a CSS class style. Built-in classes are "light" or "dark". |
+| `sidePanelIsOpenClass`  | CSS CLASS name | `sidepanel-open` | CSS class that is added to the document `<body>` when the sidepanelElement shows, removed when it hides. |
 | `handleLinks`         | boolean | `true `| Whether or not links in the side panel should be handled in a special manner by the library.  |
 
 
@@ -386,7 +386,8 @@ This is a bootstrap  ~~limitation~~ [condition][BS-javascript].
 
 From the user experience perspective this is not ideal. It is a reasonable and likely possibility that a person will initiate opening the side panel and then immediately want to (or at least try to) close the panel.
 
-To account for this uninterruptibility, SidePanelCollapse makes the design decision that if an action to close the panel is made while it is opening (e.g. ESC key), the closing command will be queued once. Then, when the open transition has completed, it will immediately be closed very quickly (`durationHideFast`).
+#### Queued
+To account for this uninterruptibility, SidePanelCollapse makes the design decision that if an action to close the panel is made while it is opening (e.g. ESC key), the closing command will be queued **once**. Then, when the open transition has completed, it will immediately be closed very quickly (`durationHideFast`).
 
 Queuing is only done for actions while the panel is opening, and not for actions when it is closing. Irrevocability is also true of the closing transition. But since closing has different user expectations, it generally will not be an issue.
 
