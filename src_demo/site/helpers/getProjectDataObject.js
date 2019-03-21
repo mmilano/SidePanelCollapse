@@ -1,5 +1,3 @@
-// TODO: may be unused
-
 // *****
 // handlebars helper
 //
