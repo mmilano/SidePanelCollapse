@@ -21,12 +21,16 @@ footer {
 @media (max-height: $breakpoint-height-md){
 
     .theme-section-full {
-        padding-top: 7rem;
+        height: auto;
+    }
+
+    .headings {
+        margin-top: 7.5rem;
     }
 
     footer {
         position: static;
-        padding-bottom: 1rem;
+        padding-bottom: 0;
     }
 
 }
