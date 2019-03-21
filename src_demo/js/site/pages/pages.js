@@ -84,12 +84,12 @@ var pages = {
                 // TRUE = now the horiz nav IS displayed
                 // so dispose of the existing scrollspy, and create a new one for the primarynav
                 util.scrollSpyToggle(navHorizontal);
-                console.log ("toggle: now display " + navHorizontal);
+                // console.log ("toggle: now display " + navHorizontal);
             } else {
                 // FALSE = now the horiz nav IS NOT displayed
                 // so dispose of the existing scrollspy, and create a new one for sidenav
                 util.scrollSpyToggle(navVertical);
-                console.log ("toggle: now display " + navVertical);
+                // console.log ("toggle: now display " + navVertical);
             }
         }
 
