@@ -163,7 +163,7 @@ const paths_sidepanel = {
 
 
 // simply touch a file so that filesystem thinks the file changed
-// or to a gulp.dest file's mtime be now.
+// by setting mtime to now.
 // takes single file or array of files
 function touchNow(src) {
     let timenow = Date.now() / 1000;  // https://nodejs.org/docs/latest/api/fs.html#fs_fs_utimes_path_atime_mtime_callback
