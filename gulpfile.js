@@ -30,7 +30,7 @@ const htmlmin =         require("gulp-htmlmin");
 // page-generation/templating tool
 const panini =          require("panini");
 
-// gulp tools
+// tools
 const noop =            require("gulp-noop");
 const glob =            require("glob");
 const sourcemaps =      require("gulp-sourcemaps");
@@ -55,7 +55,6 @@ const networkInterfaces = require("os").networkInterfaces();
 
 // browser targets used for transpiling js and building targeted css
 const browserTargets = ["> 0.5%"];
-
 
 // file paths
 const siteSourceRoot = "./src_demo/";
@@ -726,7 +725,7 @@ function lintJSPanini() {
     .src(src)
     .pipe(cached("jslintPanini"))
     .pipe(debug({title: "js lint:"}))   // iterate out name of each file being checked
-    .pipe(jshint(paths.jshintConfiguration))
+    .pipe(jshint())
     .pipe(jshint.reporter("default"));
 }
 
@@ -738,7 +737,7 @@ function lintJSDemoSite() {
     .src(src)
     .pipe(cached("jslintSite"))
     .pipe(debug({title: "js lint:"}))   // iterate out name of each file being checked
-    .pipe(jshint(paths.jshintConfiguration))
+    .pipe(jshint())
     .pipe(jshint.reporter("default"));
 }
 
@@ -749,7 +748,7 @@ function lintJS_sidepanel() {
     return gulp
     .src(src)
     .pipe(debug({title: "js lint:"}))
-    .pipe(jshint(paths.jshintConfiguration))
+    .pipe(jshint())
     .pipe(jshint.reporter("default"));
 }
 
