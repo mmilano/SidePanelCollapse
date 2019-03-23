@@ -307,13 +307,10 @@ function watchImages(done) {
     done();
 }
 
-
-
 gulp.task("copy:images", copyImages);
 // gulp.task("copy:images-changed", copyImagesChanged);
 
 // move and copy things that need to be moved and copied
-// gulp.task("site:copy", gulp.parallel("copy:images", "copy:js-vendor", "copy:css-vendor"));
 gulp.task("site:copy", gulp.parallel("copy:images", copyIco));
 gulp.task("site:setup", gulp.series("site:clean", "site:copy"));
 
