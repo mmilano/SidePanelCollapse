@@ -51,7 +51,11 @@
 
     // default values
     // includes the access of the css variable values as module is instantiated
-    let styles = getComputedStyle(document.querySelector(".sidepanel"));
+
+    // check if there is no sidePanel in the page so that error is not thrown
+    let el = document.querySelector(".sidepanel");
+    let styles = el ? getComputedStyle(el) : "";
+
     var defaults = {
 
         // css selectors:
