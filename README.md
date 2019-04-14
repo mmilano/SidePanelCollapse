@@ -202,7 +202,9 @@ Once the page has loaded, the side panel must be instantiated and initialized by
 
 ### Visual Design Requirements
 
-SidePanelCollapse makes absolutely no claims on the visual design of the side panel element. All visual styling must be done separately. It can be any color, practically any size, and can have most any content.
+SidePanelCollapse only manages the interactions of the side panel. 
+It makes absolutely no claims on the visual design of the side panel element. 
+All visual styling must be done separately. It can be any color, practically any size, and can have most any content. You should be able to make it work with just about any design of your own. Take a look at [the Demos](#the-demos) for ideas.
 
 
 
