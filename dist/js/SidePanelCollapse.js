@@ -45,9 +45,10 @@
     return _settings;
   } // default values
   // includes the access of the css variable values as module is instantiated
+  // check first if there is no sidePanel in the page so that error is not thrown
 
-
-  var styles = getComputedStyle(document.querySelector(".sidepanel"));
+  var el = document.querySelector(".sidepanel");
+  var styles = el ? getComputedStyle(el) : "";
   var defaults = {
     // css selectors:
     // default selectors for the sidepanel DOM elements
