@@ -1,6 +1,6 @@
 {
   "name": "sidebar-slide",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A horizontal sliding sidebar with Bootstrap v4 and the 'collapse' component, along with different duration timing for both the show and hide events.",
   "keywords": [
     "bootstrap4",
