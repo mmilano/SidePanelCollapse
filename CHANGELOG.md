@@ -5,11 +5,12 @@
 * Change in SidePanelCollapse.js to reference the css variables. Prevents error when the sidepanel element is not in the page.
 
 ### Removed
-* Removed popper.js from packages
+* Removed popper.js from project inclusion - popup components are not used here.
 
 ### Changed
 * Tweaked message about independence of library from UX design of the SidePanel
-* Updated package dependencies
+* Updated gulp package dependencies
+* Updated jquery reference to 3.4.1
 * Updated version to 1.0.1
 
 
