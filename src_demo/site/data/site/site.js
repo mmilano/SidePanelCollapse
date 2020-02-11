@@ -24,7 +24,7 @@ var siteData = {
         "website",
     ],
 
-    "siteYear": 2019,
+    "siteYear": 2020,
 
     "og": {
         get site_name() {
