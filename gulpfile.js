@@ -53,7 +53,7 @@ const ip = 				require("ip");
 // globals: build settings, paths and files of sources, etc.
 
 // browser targets used for transpiling js and building targeted css
-const browserTargets = ["> 0.5%"];
+// const browserTargets = ["> 0.5%"];
 
 // file paths
 const siteSourceRoot = "./src_demo/";
@@ -540,9 +540,9 @@ gulp.task("validate:site", gulp.parallel("validate:pages"));  // alias
 //
 // compile the scss, minify it, etc.
 
-const options_autoprefix = {
-    browsers: browserTargets,
-};
+// const options_autoprefix = {
+//     browsers: browserTargets,
+// };
 
 const options_cssnano = {
     zindex: false
@@ -556,7 +556,7 @@ function buildcss(src, dest, outputfile, options, mode) {
         .pipe(sourcemaps.init())
         .pipe(sass(options))
         .on("error", sass.logError)
-        .pipe(autoprefixer(options_autoprefix))
+        .pipe(autoprefixer())
         .pipe(debug({title: "compile scss " + "(" + mode + ")" + ":"}))
         //.pipe(rename({basename: outputfile}))
         .pipe(mode === "production" ? rename({suffix: ".min"}) : noop())
@@ -755,9 +755,9 @@ const options_babel = {
   "presets": [
     [ "@babel/preset-env",
         {
-            "targets": {
-                "browsers": browserTargets
-            },
+//             "targets": {
+//                 "browsers": browserTargets
+//             },
             "exclude": [
                 "transform-typeof-symbol"  // don't add polyfill for typeof
             ],
