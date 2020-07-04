@@ -8,9 +8,9 @@
     "collapse",
     "demonstration",
     "example",
+    "website",
     "sidebar",
-    "javascript-library",
-    "website"
+    "javascript-library"
   ],
   "author": {
     "name": "Michel Milano",
@@ -75,6 +75,7 @@
     "jquery": "^3.5.1",
     "jshint": "^2.11.1",
     "mocha": "^8.0.1",
+    "node-notifier": "^7.0.1",
     "panini": "github:mmilano/panini#master",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
