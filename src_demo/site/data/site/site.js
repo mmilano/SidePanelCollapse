@@ -48,7 +48,7 @@ var siteData = {
         },
     },
 
-    "site-version":     "1.0.1",
+    "site-version":     "1.1.0",
     "site-root":        siteBase,
     "site-home":        siteHome,
     "path-pages":       "./",
