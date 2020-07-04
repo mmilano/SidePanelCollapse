@@ -1,5 +1,5 @@
 /*! **********
- * SidePanelCollapse v1.0.0
+ * SidePanelCollapse v1.1.0
  * A Bootstrap 4-based sidebar augmenting the "collapse" component to collapse horizontally,
  * and allow variable duration timings for the transitions
  *
@@ -45,7 +45,8 @@
     return _settings;
   } // default values
   // includes the access of the css variable values as module is instantiated
-  // check first if there is no sidePanel in the page so that error is not thrown
+  // check if there is no sidePanel in the page so that error is not thrown
+
 
   var el = document.querySelector(".sidepanel");
   var styles = el ? getComputedStyle(el) : "";
