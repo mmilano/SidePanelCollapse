@@ -47,15 +47,13 @@ const fs_utimes =       require("fs").utimes;
 
 // dev/demo web server
 const connect =         require("gulp-connect");
-const networkInterfaces = require("os").networkInterfaces();
-
+const ip = 				require("ip");
 
 // **********
 // globals: build settings, paths and files of sources, etc.
 
 // browser targets used for transpiling js and building targeted css
-const browserTargets = ["> 0.5%"];
-
+// const browserTargets = ["> 0.5%"];
 
 // file paths
 const siteSourceRoot = "./src_demo/";
@@ -164,7 +162,7 @@ const paths_sidepanel = {
 
 
 // simply touch a file so that filesystem thinks the file changed
-// or to a gulp.dest file's mtime be now.
+// by setting mtime to now.
 // takes single file or array of files
 function touchNow(src) {
     let timenow = Date.now() / 1000;  // https://nodejs.org/docs/latest/api/fs.html#fs_fs_utimes_path_atime_mtime_callback
@@ -188,37 +186,30 @@ function refreshPanini() {
 // utility function to find current IP address.
 // * might not be bulletproof *
 function findIPAddress() {
-    let network, ip, address;
 
-    if (typeof networkInterfaces["en4"] !== "undefined") {
-        network = networkInterfaces["en4"];  // ethernet cable?
-        ip = network.find(netInterface => netInterface.family === "IPv4");
-    } else if (typeof networkInterfaces["en0"] !== "undefined") {
-        network = networkInterfaces["en0"];  // wifi?
-        ip = network.find(netInterface => netInterface.family === "IPv4");
-    };
-    if (typeof ip !== "undefined") {
-        address = ip.address;
-    } else {
-        address = "* cannot be determined *";
+	let address = ip.address();
+
+    if (typeof address === "undefined") {
+        address = noAddressMessage;
     }
 
     return address;
 }
 
-// note: host 0.0.0.0 allows you to view the pages at
-// http://localhost:9191
+// note: host 0.0.0.0 allows you to view the pages at http://localhost:9191
 // OR http://[current IP address]:9191 (on macOSX),
 // AND http://[current IP address]:9191 from a virtual machine.
-// original source of this suggestion:
+//
+// source of this suggestion:
 // https://stackoverflow.com/questions/10158771/access-localhost-on-the-main-machine-from-vmware-workstation-8-for-asp-net-devel/10159420#10159420
-const server_host = "0.0.0.0";
+const default_server_host = "0.0.0.0";
 var currentIPAddress;
+var noAddressMessage = "* cannot be determined *";
 
-const options_server = {
+const options_webserver = {
     name: "dev",
     port: 9191,
-    host: server_host,
+    host: default_server_host,
     defaultFile: "index.html",
     root: siteBuildDestinationRoot,
     directoryListing: {
@@ -232,19 +223,23 @@ const options_server = {
 function serverInfo() {
     console.info("\n");
     console.info("Web server is running.");
-    console.info("Connect to:  localhost:" + options_server.port );
-    console.info("Connect to:  " + currentIPAddress + ":" + options_server.port );
+    console.info("Connection options:");
+    console.info("localhost:" + options_webserver.port );
+
+    if ((typeof currentIPAddress !== "undefined") && (currentIPAddress !== noAddressMessage)) {
+    	console.info(currentIPAddress + ":" + options_webserver.port );
+    }
     console.info("\n");
 }
 
 // note about gulp-connect:
 // connect will throw an error and halt if any error happens while trying to start up,
-// such as trying to start the web server when it is already running ("EADDRINUSE").
+// such as trying to start the web server when it is already running (i.e. "EADDRINUSE").
 function webserver(done) {
     currentIPAddress = findIPAddress();
 
     var server = new Promise(function(resolve, reject) {
-        connect.server(options_server);
+        connect.server(options_webserver);
         resolve (true);
     });
 
@@ -308,13 +303,10 @@ function watchImages(done) {
     done();
 }
 
-
-
 gulp.task("copy:images", copyImages);
 // gulp.task("copy:images-changed", copyImagesChanged);
 
 // move and copy things that need to be moved and copied
-// gulp.task("site:copy", gulp.parallel("copy:images", "copy:js-vendor", "copy:css-vendor"));
 gulp.task("site:copy", gulp.parallel("copy:images", copyIco));
 gulp.task("site:setup", gulp.series("site:clean", "site:copy"));
 
@@ -548,9 +540,9 @@ gulp.task("validate:site", gulp.parallel("validate:pages"));  // alias
 //
 // compile the scss, minify it, etc.
 
-const options_autoprefix = {
-    browsers: browserTargets,
-};
+// const options_autoprefix = {
+//     browsers: browserTargets,
+// };
 
 const options_cssnano = {
     zindex: false
@@ -564,7 +556,7 @@ function buildcss(src, dest, outputfile, options, mode) {
         .pipe(sourcemaps.init())
         .pipe(sass(options))
         .on("error", sass.logError)
-        .pipe(autoprefixer(options_autoprefix))
+        .pipe(autoprefixer())
         .pipe(debug({title: "compile scss " + "(" + mode + ")" + ":"}))
         //.pipe(rename({basename: outputfile}))
         .pipe(mode === "production" ? rename({suffix: ".min"}) : noop())
@@ -726,7 +718,7 @@ function lintJSPanini() {
     .src(src)
     .pipe(cached("jslintPanini"))
     .pipe(debug({title: "js lint:"}))   // iterate out name of each file being checked
-    .pipe(jshint(paths.jshintConfiguration))
+    .pipe(jshint())
     .pipe(jshint.reporter("default"));
 }
 
@@ -738,7 +730,7 @@ function lintJSDemoSite() {
     .src(src)
     .pipe(cached("jslintSite"))
     .pipe(debug({title: "js lint:"}))   // iterate out name of each file being checked
-    .pipe(jshint(paths.jshintConfiguration))
+    .pipe(jshint())
     .pipe(jshint.reporter("default"));
 }
 
@@ -749,7 +741,7 @@ function lintJS_sidepanel() {
     return gulp
     .src(src)
     .pipe(debug({title: "js lint:"}))
-    .pipe(jshint(paths.jshintConfiguration))
+    .pipe(jshint())
     .pipe(jshint.reporter("default"));
 }
 
@@ -763,9 +755,9 @@ const options_babel = {
   "presets": [
     [ "@babel/preset-env",
         {
-            "targets": {
-                "browsers": browserTargets
-            },
+//             "targets": {
+//                 "browsers": browserTargets
+//             },
             "exclude": [
                 "transform-typeof-symbol"  // don't add polyfill for typeof
             ],
