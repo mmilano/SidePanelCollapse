@@ -7,7 +7,6 @@ Primarily package updates.
 
 ### Changed
 * Updated project version to 1.1.0.
-* Updated scss files to use @use instead of @import
 * Updated browser targets
 * Updated bootstrap usage to version 4.5.0.
 * Updated jquery usage to version 3.5.1.
