@@ -1,12 +1,27 @@
 # Changelog
 
 
+## [1.1.0] - 03-07-2020
+Primarily package updates.
+
+
+### Changed
+* Updated project version to 1.1.0.
+* Updated scss files to use @use instead of @import
+* Updated browser targets
+* Updated bootstrap usage to version 4.5.0.
+* Updated jquery usage to version 3.5.1.
+* Updated autoprefixer package
+* Multiple other package updates
+
+
+
 ## [1.0.1] - 14-02-2020
 ### Added
 * Change in SidePanelCollapse.js to reference the css variables. Prevents error when the sidepanel element is not in the page.
 
 ### Removed
-* Removed popper.js from project inclusion - popup components are not used here, so library isn't needed.
+* Removed popper.js from project inclusion - popup components are not used in the demo, so library isn't needed.
 
 ### Changed
 * Updated project version to 1.0.1.
