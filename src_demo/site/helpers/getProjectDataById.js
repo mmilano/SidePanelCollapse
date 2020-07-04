@@ -13,7 +13,7 @@
 // @returns {string} the value of key from the gallery data
 
 
-module.exports = function(context, pageID, key) {
+module.exports = function(globalContext, pageID, key) {
     "use strict";
 
     let value = "";  // default = empty

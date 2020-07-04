@@ -9,8 +9,7 @@
 // *****
 
 module.exports = function(argument1, argument2) {
-    let val;
-    let i;
+    let val, i;
 
     console.log("DEBUG ====================");
 
