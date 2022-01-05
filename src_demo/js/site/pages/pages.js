@@ -11,7 +11,7 @@
 "use strict";
 
 // utility methods
-var util = {
+const util = {
 
     // utility method to check if window is larger than breakpoint
     checkWidth: function() {
@@ -26,7 +26,6 @@ var util = {
 
         // get width of the current window
         let pageWidth = window.innerWidth;
-
         return (pageWidth > breakpoint_size ? true : false);
     },
 
@@ -73,7 +72,7 @@ var util = {
 // define page specific scripts, if any are needed.
 // if not, use the default
 
-var pages = {
+const pages = {
 
     // pages script for homepage = index.html
     "index": function indexPage(pageID) {
@@ -95,7 +94,7 @@ var pages = {
 
         // instantiate a new side panel for the page for when/if the sidenav will display
         // options for this page
-        var sidepanelOptions = {
+        const sidepanelOptions = {
             durationShow: "2.25s",
             durationHide: "2s",
             durationHideFast: "0.5s",
@@ -153,7 +152,7 @@ var pages = {
 
         // instantiate a new sidepanel for the page
         // with options
-        var sidepanelOptions = {
+        const sidepanelOptions = {
             // sidepanelElement: "#sidePanel",
             // sidepanelCloseElement: ".sidePanel-close",
             durationShow: "1.5s",
@@ -177,7 +176,7 @@ var pages = {
 //
 // establish some of the global values for the page, and call page specific function(s)
 
-var pageRouter = function(pageID) {
+const pageRouter = function(pageID) {
 
     console.log ("page: ", pageID);
     // if there is page function defined, invoke that
