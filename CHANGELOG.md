@@ -1,12 +1,18 @@
 # Changelog
 
+## [1.1.1] - 06-04-2021
+Primarily package updates
+
+* bootstrap to 4.6.0
+* package audit fix (w/o -force)
+
+
 
 ## [1.1.0] - 03-07-2020
 Primarily package updates.
 
 
 ### Changed
-* Updated project version to 1.1.0.
 * Updated browser targets
 * Updated bootstrap usage to version 4.5.0.
 * Updated jquery usage to version 3.5.1.
@@ -23,7 +29,6 @@ Primarily package updates.
 * Removed popper.js from project inclusion - popup components are not used in the demo, so library isn't needed.
 
 ### Changed
-* Updated project version to 1.0.1.
 * Revised message about independence of library from UX design of the SidePanel.
 * Minor revisions to text content of demo pages.
 * Updated the year (date) in footer.
