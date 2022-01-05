@@ -1,5 +1,6 @@
 // ------- GALLERY -------
 
+@use "sass:math";
 
 $gallery-item-side-padding:             10px;
 $gallery-item-topbottom-margin:         25px;
@@ -13,7 +14,8 @@ $gallery-image-color:                   #666666;
 $card-background-color-default:         #DBDBD7;
 $card-background-color-hover:           #C9A956;
 $card-border-radius:                    4px;
-$card-image-border-radius:              $card-border-radius / 2;
+
+$card-image-border-radius:              math.div($card-border-radius, 2);
 
 $card-duration-fast:                    0.25s;
 
