@@ -1,5 +1,5 @@
 /*! **********
- * SidePanelCollapse v1.1.0
+ * SidePanelCollapse v1.2.0
  * A Bootstrap 4-based sidebar augmenting the "collapse" component to collapse horizontally,
  * and allow variable duration timings for the transitions
  *
@@ -26,9 +26,9 @@
 } (typeof self !== "undefined" ? self : this, function() {
     "use strict";
 
-    var _proto = SidePanelCollapse.prototype;  // convenience shorthand
+    const _proto = SidePanelCollapse.prototype;  // convenience shorthand
 
-    var data_selector = "[data-sidepanel-collapse]";  // selector for creation via data attribute
+    const data_selector = "[data-sidepanel-collapse]";  // selector for creation via data attribute
 
     // make one single set of settings from defaults and any options passed in on construction
     function defineSettings(defaults, options) {
@@ -53,10 +53,10 @@
     // includes the access of the css variable values as module is instantiated
 
     // check if there is no sidePanel in the page so that error is not thrown
-    let el = document.querySelector(".sidepanel");
-    let styles = el ? getComputedStyle(el) : "";
+    const el = document.querySelector(".sidepanel");
+    const styles = el ? getComputedStyle(el) : "";
 
-    var defaults = {
+    const defaults = {
 
         // css selectors:
         // default selectors for the sidepanel DOM elements
@@ -108,7 +108,7 @@
             };
         }
 
-        // return function with closure. used for the link eventListener
+        // return function. used for the link eventListener
         return function(e) {
             e.preventDefault();
             this.closeType = "fast";
@@ -198,9 +198,9 @@
         // when hiding/closing is complete, remove the transition duration override so that
         // the fallback, css-defined duration, will apply when the sidebar is shown/opened again.
         // presumes event is on the sidenav DOM element itself.
-        function whenTransitionEnds(e) {
+        const whenTransitionEnds = (e) => {
             e.target.style.transitionDuration = null;
-        }
+        };
 
         // check to see if collapsing is in progress.
         // if so, interrupt the normal close process, reroute via event, and exit early,
@@ -288,11 +288,11 @@
 
         // method to run when fadeout animation ends - cleans up, and hides the backdrop.
         // because event is on backdrop, event.target is the backdrop - uses backdrop from there for simplicity
-        function whenAnimationEnds(e) {
+        const whenAnimationEnds = (e) => {
             e.target.classList.remove("show");
             // note: if eventlistener {once: true} is not available (browser support), then eventListener should be removed manually, e.g.:
             // _backdrop.removeEventListener("animationend", whenAnimationEnds, true);
-        }
+        };
 
         // when the backdrop's animationend event fires, call method. only once, since the listener is added again when it displays again.
         this.element.addEventListener("animationend", whenAnimationEnds, {once: true, passive: true});
@@ -305,16 +305,16 @@
     function Backdrop(_sidepanel) {
 
         // create the backdrop HTML element
-        function create(style) {
+        const create = (style) => {
             let el = document.createElement("div");
             el.className = "backdrop" + " " + style;
             return el;
-        }
+        };
 
         // insert the element into the document DOM (at bottom)
-        function insert(el) {
+        const insert = (el) => {
             document.body.appendChild(el);
-        }
+        };
 
         // construction
         // create the backdrop DOM element and store it
@@ -333,7 +333,7 @@
         let _settings = this.settings = defineSettings(defaults, options);
 
         // (try to) select and store the main sidepanel element as jquery object
-        let _$sidepanel = this.$sidepanel = $(_settings.sidepanelElement);
+        const _$sidepanel = this.$sidepanel = $(_settings.sidepanelElement);
 
         // check if sidepanel exists on the page;
         // if not, exit early.
@@ -397,7 +397,7 @@
         // find all the links in the sidepanel and add an event on them
         // in order to trap the links and implement custom behavior
         if (_settings.handleLinks) {
-            let sidepanelLinks = this.$sidepanel[0].getElementsByTagName("a"), ln = sidepanelLinks.length;
+            const sidepanelLinks = this.$sidepanel[0].getElementsByTagName("a"), ln = sidepanelLinks.length;
             for (let i = 0; i < ln; i++) {
                 sidepanelLinks[i].addEventListener("click", linkHandle().bind(this));
             };
@@ -411,7 +411,7 @@
     // presumes just one, which will be SidePanel[0], but who knows - maybe there can be multiple in the future.
     function initOnData() {
         window.SidePanel = [];
-        let list = document.querySelectorAll(data_selector);
+        const list = document.querySelectorAll(data_selector);
         list.forEach(function(element) {
             SidePanel.push(new SidePanelCollapse(element.id));
         });
