@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0] - 01-07-2022
+
+* package updates
+* bootstrap to 4.6.1
+* revision typing of multiple javascript variables
+* convert some functions to arrow functions
+* update year
+* update readme content
+* added/revised comments
+
+
+
 ## [1.1.1] - 06-04-2021
 Primarily package updates
 
