@@ -20,18 +20,17 @@
 // data-title-short         alt value of the element's text to be used in the table of contents. allows a shorter version of the heading
 //
 
-/* jshint esversion: 6 */  // allow es6 features
-
+/* jshint esversion: 6 */ // allow es6 features
 
 const panini = require("panini");
 const cheerio = require("cheerio");
 const basepath = process.cwd();
-const trimWhitespace = require( basepath + "/src_demo/site/lib/trim");
+const trimWhitespace = require(basepath + "/src_demo/site/lib/trim");
 
-module.exports = function(attr, options) {
+module.exports = function (attr, options) {
     /* jshint validthis: true */
     /* jshint undef:true */
-    /* jshint -W069 */   // suppress the warning 'better written in dot notation'
+    /* jshint -W069 */ // suppress the warning 'better written in dot notation'
 
     "use strict";
 
@@ -39,7 +38,7 @@ module.exports = function(attr, options) {
     const hbs_partials = panini.Handlebars.partials;
 
     // internal default values for the TOC
-    var defaults = {
+    const defaults = {
         // default scope is the whole page
         $scope: null,
 
@@ -84,7 +83,7 @@ module.exports = function(attr, options) {
 
     // allow for arbitrary number of attributes passed as arguments
     if (!options || !options.fn) {
-        options = arguments[arguments.length-1];
+        options = arguments[arguments.length - 1];
     }
 
     // rendered body content has been added to the pagedata value in panini, and is available via options.data.root.pageRendered
@@ -94,8 +93,7 @@ module.exports = function(attr, options) {
     // ******************
 
 
-
-    function TableOfContents(options) {
+    function TableOfContents (options) {
 
         // forge bonds to the defaults and methods.
         // var myself = this;
@@ -121,7 +119,7 @@ module.exports = function(attr, options) {
 
         this.filterOut = function filterOut($el) {
             // construct selector for elements that should be filtered out. in this case, it is determined by the ignoreSelector value
-            let filterOutSelector = ":not(" + this.ignoreSelector +")";
+            const filterOutSelector = ":not(" + this.ignoreSelector + ")";
             return $el.filter(filterOutSelector);
         };
 
@@ -129,7 +127,7 @@ module.exports = function(attr, options) {
         // exclude items that have 'data-toc-ignore' attribute
         this.findAndFilter = function findAndFilter(selector, $scope) {
             if ($scope === undefined) {
-                console.warn ("findAndFilter: NO SCOPE GIVEN");
+                console.warn("findAndFilter: NO SCOPE GIVEN");
                 return false;
             }
 
@@ -141,14 +139,14 @@ module.exports = function(attr, options) {
 
         // given a NODE DOM element,
         // try to get its title value, or what should be used in the TOC
-        this.getTitle = function(el) {
+        this.getTitle = function (el) {
             let title;
 
             if (el === undefined) {
-                console.warn ("getTitle: NO ELEMENT ARGUMENT GIVEN");
+                console.warn("getTitle: NO ELEMENT ARGUMENT GIVEN");
                 return 0;
             }
-            let $el = $(el);
+            const $el = $(el);
 
             // first check if there is a data-title-short value
             if ($el.data("title-short")) {
@@ -166,13 +164,13 @@ module.exports = function(attr, options) {
             let anchor;
 
             if (el === undefined) {
-                console.warn ("generateUniqueIdBase: NO ELEMENT ARGUMENT GIVEN");
+                console.warn("generateUniqueIdBase: NO ELEMENT ARGUMENT GIVEN");
                 return 0;
             }
 
-            let elObject = $(el);
+            const elObject = $(el);
 
-                // first try to get the data-id value
+            // first try to get the data-id value
             if (elObject.data("id-value")) {
                 anchor = elObject.data("id-value");
             } else if (elObject.data("title-short")) {
@@ -184,26 +182,29 @@ module.exports = function(attr, options) {
             }
 
             // replace invalid characters and spaces with '-' to make valid css identifiers
-            anchor = anchor.trim().toLowerCase().replace(/[^A-Za-z0-9]+/g, "-");
+            anchor = anchor
+                .trim()
+                .toLowerCase()
+                .replace(/[^A-Za-z0-9]+/g, "-");
             return anchor || el.tagName.toLowerCase();
         };
 
         // check if an element is in the top scope
-        this.checkIfExists = function(attr) {
+        this.checkIfExists = function (attr) {
             let exists = this.$scope(attr).length > 0;
             return exists ? true : false;
         };
 
         // check if an element with given ID exists
-        this.checkIfIDExists = function(attr) {
-            return (this.checkIfExists("#" + attr));
+        this.checkIfIDExists = function (attr) {
+            return this.checkIfExists("#" + attr);
         };
 
         // given a NODE DOM element,
         // attempt to create an ID value for it that is unique in the page
         this.generateUniqueId = function generateUniqueId(el) {
             if (el === undefined) {
-                console.warn ("generateUniqueId: NO ELEMENT ARGUMENT GIVEN");
+                console.warn("generateUniqueId: NO ELEMENT ARGUMENT GIVEN");
                 return false;
             }
 
@@ -227,7 +228,7 @@ module.exports = function(attr, options) {
         // given a NODE DOM element,
         // either return its existing ID value,
         // or if there is none, create a new unique ID value
-        this.getAnchor = function(el) {
+        this.getAnchor = function (el) {
             let anchor;
 
             // if there is an existing id value, get that
@@ -247,11 +248,11 @@ module.exports = function(attr, options) {
         this.getTopLevel = function getTopLevel($scope) {
             // default the scope to the top
 
-            $scope = ($scope !== undefined) ? $scope : this.$ROOT;
+            $scope = $scope !== undefined ? $scope : this.$ROOT;
 
             // set to -1 to signal if there are no top level headings
             let topLevel = -1;
-            for (var i = this.topHeadingLevel; i <= this.maxHeadingDepth; i++) {
+            for (let i = this.topHeadingLevel; i <= this.maxHeadingDepth; i++) {
                 let $headings = this.findAndFilter("h" + i, $scope);
                 if ($headings.length > 0) {
                     topLevel = i;
@@ -265,47 +266,41 @@ module.exports = function(attr, options) {
         // $scope:      $object of content to search within
         // startLevel:  integer of top heading level to search for
         this.getHeadingsAndNext = function getHeadingsAndNext(startLevel, $scope) {
-            $scope = ($scope !== undefined) ? $scope : this.$ROOT;
+            $scope = $scope !== undefined ? $scope : this.$ROOT;
 
-            let topSelector = "h" + startLevel;
-            let secondarySelector = "h" + (startLevel + 1);
-            let combinedSelector = topSelector + "," + secondarySelector;
+            const topSelector = "h" + startLevel;
+            const secondarySelector = "h" + (startLevel + 1);
+            const combinedSelector = topSelector + "," + secondarySelector;
             return this.findAndFilter(combinedSelector, this.$ROOT);
         };
 
-        this.getHeadingsOnly = function(level, $scope) {
-            $scope = ($scope !== undefined) ? $scope : this.$ROOT;
-            let selector = "h" + level;
+        this.getHeadingsOnly = function (level, $scope) {
+            $scope = $scope !== undefined ? $scope : this.$ROOT;
+            const selector = "h" + level;
             return this.findAndFilter(selector, $scope);
         };
 
-        this.getNextHeadingsUntil = function($el, headingLevel) {
-            let headingSelector = "h" + headingLevel;
-            let headings = $el.nextUntil($el, headingSelector);
+        this.getNextHeadingsUntil = function ($el, headingLevel) {
+            const headingSelector = "h" + headingLevel;
+            const headings = $el.nextUntil($el, headingSelector);
             return headings;
         };
 
-        this.generateContents = function() {
+        this.generateContents = function () {
             let contents = {};
             // index counter for the top-level sections
             let contentsIndexTop = 1;
 
-            function contentsKeyFirst(i) {
-                return "section" + i;
-            }
-            function contentsKeySecond(i) {
-                return "subsection" + i;
-            }
-            function isEmpty(obj) {
-                return Object.keys(obj).length === 0;
-            }
+            const contentsKeyFirst = (i) => "section" + i;
+            const contentsKeySecond = (i) => "subsection" + i;
+            const isEmpty = (obj) => Object.keys(obj).length === 0;
 
             // put the first contents entry in
             let firstEntry = this.createContentsEntry_overview();
             let indexTop = contentsKeyFirst(contentsIndexTop++);
             contents[indexTop] = firstEntry;
 
-            let $PAGE= this.$ROOT;
+            let $PAGE = this.$ROOT;
             let topLevel = this.getTopLevel($PAGE);
 
             // this should be a collection of all the headings that should appear in the table of contents
@@ -314,14 +309,12 @@ module.exports = function(attr, options) {
             var thisContext = this;
 
             // how many relevant headings are there?
-            let allHeadingsLength = $allReleventHeadings.length;
+            const allHeadingsLength = $allReleventHeadings.length;
 
             // top-sections:
             // manually loop through all the relevant headings, one by one
             // note: cannot use for x in object because the cheerio object has been given a bunch of its methods as properties, rather than as prototype or something
-            topSectionsLoop:
-            for (var i = 0; i < allHeadingsLength; i++) {
-
+            topSectionsLoop: for (let i = 0; i < allHeadingsLength; i++) {
                 let heading = $allReleventHeadings[i];
 
                 // get the anchor and title of the heading
@@ -344,9 +337,7 @@ module.exports = function(attr, options) {
                 // index counter for the subsections
                 let subsectionIndex = 1;
 
-                subsectionLoop:
-                for (var j = i + 1; j < allHeadingsLength; j++, i++) {
-
+                subsectionLoop: for (let j = i + 1; j < allHeadingsLength; j++, i++) {
                     let nextHeading = $allReleventHeadings[j];
                     let nextLevel = thisContext.getLevel($(nextHeading));
 
@@ -363,7 +354,7 @@ module.exports = function(attr, options) {
                     } else {
                         break subsectionLoop;
                     }
-                };
+                }
 
                 if (!isEmpty(subsections)) {
                     contents[key_top]["subsections"] = subsections;
@@ -381,7 +372,7 @@ module.exports = function(attr, options) {
         // given a $element object, return the tag object itself
         // because some calls require the tag object, instead of the cheerio object
         // cheerio specific
-        this.getTag = function($el) {
+        this.getTag = function ($el) {
             return $el.get(0);
         };
 
@@ -389,20 +380,20 @@ module.exports = function(attr, options) {
         //
         // create a new contents item object given the anchor (= the html ID attribute) & title value
         // and return it
-        this.createContentsEntry = function(anchor, title) {
-            let obj = {
-                "anchor": anchor,
-                "title": title
-                };
+        this.createContentsEntry = function (anchor, title) {
+            const obj = {
+                anchor: anchor,
+                title: title,
+            };
             return obj;
         };
 
         // create a new contents item object
         // for the 'overview' that is the default first section on the interior page
         // and return it
-        this.createContentsEntry_overview = function() {
-            const anchor =  "overview";
-            const title =   "Overview";
+        this.createContentsEntry_overview = function () {
+            const anchor = "overview";
+            const title = "Overview";
             return this.createContentsEntry(anchor, title);
         };
 
@@ -410,26 +401,25 @@ module.exports = function(attr, options) {
         //
         // $scope: element to limit the search for headings (at this element and down). should be a $cheerio object
         function initialize(arg) {
-
             // if no args passed, then use empty
             arg = arg || {};
 
-            let defaults = this.defaults;
+            const defaults = this.defaults;
 
             // scope:
             // either use a more narrow scope that was passed in as option, or else use the entire body (the document) as scope
-            this.$scope = (arg.$scope !== undefined) ? arg.$scope : $;
-            this.$ROOT  = this.$scope.root();
+            this.$scope = arg.$scope !== undefined ? arg.$scope : $;
+            this.$ROOT = this.$scope.root();
 
-            this.maxHeadingDepth = (arg.maxHeadingDepth !== undefined) ? arg.maxHeadingDepth : defaults.maxHeadingDepth;
-            this.topHeadingLevel = (arg.topHeadingLevel !== undefined) ? arg.topHeadingLevel : defaults.topHeadingLevel;
+            this.maxHeadingDepth = arg.maxHeadingDepth !== undefined ? arg.maxHeadingDepth : defaults.maxHeadingDepth;
+            this.topHeadingLevel = arg.topHeadingLevel !== undefined ? arg.topHeadingLevel : defaults.topHeadingLevel;
 
             // uniqueID is internal property used as index for creating new uniqueIDs
-            this.startingUniqueID = (arg.startingUniqueID !== undefined) ? arg.startingUniqueID : defaults.startingUniqueID;
+            this.startingUniqueID = arg.startingUniqueID !== undefined ? arg.startingUniqueID : defaults.startingUniqueID;
             this.uniqueIDIndex = defaults.startingUniqueID;
 
-            this.sectionSelector = (arg.sectionSelector !== undefined) ? arg.sectionSelector : defaults.sectionSelector;
-            this.ignoreSelector = (arg.ignoreSelector !== undefined) ? arg.ignoreSelector : defaults.ignoreSelector;
+            this.sectionSelector = arg.sectionSelector !== undefined ? arg.sectionSelector : defaults.sectionSelector;
+            this.ignoreSelector = arg.ignoreSelector !== undefined ? arg.ignoreSelector : defaults.ignoreSelector;
         }
 
         initialize.call(this, options);
