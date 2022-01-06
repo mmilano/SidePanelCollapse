@@ -24,7 +24,7 @@
         window.SidePanelCollapse = SidePanelCollapse();
     }
 } (typeof self !== "undefined" ? self : this, function() {
-    ("use strict");
+    "use strict";
 
     const _proto = SidePanelCollapse.prototype; // convenience shorthand
 
