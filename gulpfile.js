@@ -2,7 +2,6 @@
 "use strict";
 
 const gulp =            require("gulp");
-// const HubRegistry =       require("gulp-hub");
 
 // gulp debuggin'
 const glog =            require("fancy-log");
@@ -36,7 +35,6 @@ const glob =            require("glob");
 const sourcemaps =      require("gulp-sourcemaps");
 const rename =          require("gulp-rename");
 const notify =          require("gulp-notify");
-// const notify_node =     require("node-notifier");  // existing dependency of gulp-notify
 const filter =          require("gulp-filter");
 const cached =          require("gulp-cached");
 const changed =         require("gulp-changed");
@@ -165,7 +163,7 @@ const paths_sidepanel = {
 // by setting mtime to now.
 // takes single file or array of files
 function touchNow(src) {
-    let timenow = Date.now() / 1000;  // https://nodejs.org/docs/latest/api/fs.html#fs_fs_utimes_path_atime_mtime_callback
+    const timenow = Date.now() / 1000;  // https://nodejs.org/docs/latest/api/fs.html#fs_fs_utimes_path_atime_mtime_callback
     if (!Array.isArray(src)) {
         src = src.split();
     }
@@ -202,7 +200,7 @@ function findIPAddress() {
 // source of this suggestion:
 // https://stackoverflow.com/questions/10158771/access-localhost-on-the-main-machine-from-vmware-workstation-8-for-asp-net-devel/10159420#10159420
 const default_server_host = "0.0.0.0";
-var currentIPAddress;
+let currentIPAddress;
 const noAddressMessage = "* cannot be determined *";
 
 const options_webserver = {
@@ -287,16 +285,16 @@ function copyImages(done) {
     done();
 }
 
-function copyImagesChanged(done) {
-    gulp
-    .src(paths.imgSourceGLOB)
-    .pipe(changed(paths.imgDestination))
-    .pipe(gulp.dest(paths.imgDestination));
-    done();
-}
+// function copyImagesChanged(done) {
+    // gulp
+    // .src(paths.imgSourceGLOB)
+    // .pipe(changed(paths.imgDestination))
+    // .pipe(gulp.dest(paths.imgDestination));
+    // done();
+// }
 
 function watchImages(done) {
-    var watcherImages = gulp.watch(paths.imgSourceGLOBall, gulp.series("copy:images-changed"));
+    const watcherImages = gulp.watch(paths.imgSourceGLOBall, gulp.series("copy:images-changed"));
     watcherImages.on("error", err => glog("watch error: " + err));
     watcherImages.on("change", path => glog("image changed >>> " + path));
     done();
@@ -319,6 +317,7 @@ const options_changedInPlace = {
     howToDetermineDifference: "modification-time"
 };
 
+// options for the page building
 const options_pageBuild = {
     root:       "./src_demo/site/pages/page",   // path to the root folder all the pages live in
     layouts:    paths.siteBuildSource + "layouts/",
@@ -341,7 +340,6 @@ function buildPage(pages, destination) {
 
     return gulp
     .src(pages)
-    // .pipe(debug({title: "building:"}))
     .pipe(panini(options_pageBuild))
     .pipe(gulp.dest(destination))
     .pipe(debug({title: "BUILT page:"}));
@@ -351,8 +349,8 @@ function buildPage(pages, destination) {
 // including the index page(s)
 function buildPagesAll(done) {
 
-    let src = paths.siteSourcePagesContentGLOB;
-    let dest = paths.pagesBuildDestinationRoot;
+    const src = paths.siteSourcePagesContentGLOB;
+    const dest = paths.pagesBuildDestinationRoot;
 
     buildPage(src, dest);
     glog("BUILDING ALL PAGES");
@@ -362,7 +360,7 @@ function buildPagesAll(done) {
 
 // build the index.html page(s)
 function buildIndex(done) {
-    let stream = buildPage(paths.indexPageSRC, paths.indexPageBuildDestination);
+    const stream = buildPage(paths.indexPageSRC, paths.indexPageBuildDestination);
     return stream;
 }
 
@@ -403,7 +401,7 @@ function constructPagePath(file) {
     let counterPath = filePath.replace(dataPagePathBase, htmlPagePathBase);
 
     // construct full path to the html version...
-    let htmlFile = counterPath + node_path.sep + htmlFilename;
+    const htmlFile = counterPath + node_path.sep + htmlFilename;
 
     return htmlFile;
 };
@@ -817,9 +815,9 @@ gulp.task("browserify:site", browserifyJSSite);
 // create (conditionally) two files: verbose version and minified version
 function javascriptSidePanel(options) {
 
-    let source = options.source_path + options.source_file;
-    let destination_path = options.destination_path;
-    let destination_filename = options.standalone_file;
+    const source = options.source_path + options.source_file;
+    const destination_path = options.destination_path;
+    const destination_filename = options.standalone_file;
 
     // start the stream
     let stream = gulp.src(source)
@@ -855,7 +853,7 @@ function javascriptSidePanel(options) {
 // build/transpile sidepanel
 // then put it into the /dist directory
 function scriptifySidepanel(done) {
-    let options = {
+    const options = {
         "normal": true,
         "minified": true,
         "source_path": sidepanelSourceRoot + "js/",
@@ -886,7 +884,7 @@ gulp.task("scriptify:sidepanel", scriptifySidepanel);
 function copyjs_sidepanel() {
 
     const source = "./dist/js/**/*";
-    let destination = paths.jsDestination + "/sidePanelCollapse/";
+    const destination = paths.jsDestination + "/sidePanelCollapse/";
 
     return gulp
     .src(source)
