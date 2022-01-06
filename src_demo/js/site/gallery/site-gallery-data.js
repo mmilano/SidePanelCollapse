@@ -17,7 +17,6 @@ const gallerySetup = (function() {
     // page:            convenience value. just the page name, without extension. intended to match the panini {{page}} value when on the page, for cross-referencing.
 
     const galleryData = {
-
         "page-a": {
             "id": "page-a",
             "url": "page-a.html",
