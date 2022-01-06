@@ -21,11 +21,11 @@ const util = {
         if (!breakpoint_size) {
             // if no value, then the browser doesn't support css variables.
             // so use an arbitrary default value
-            breakpoint_size = 42;
+            breakpoint_size = 42;  // breakpoint size default. arbitrary breakpoint size value in px.
         };
 
         // get width of the current window
-        let pageWidth = window.innerWidth;
+        const pageWidth = window.innerWidth;
         return (pageWidth > breakpoint_size ? true : false);
     },
 
@@ -40,6 +40,9 @@ const util = {
         if (shouldSpy) {
             $(document.body).scrollspy({
                 target: target,
+
+                // offset = Pixels to offset from top when calculating position of scroll.
+                // https://getbootstrap.com/docs/4.6/components/scrollspy/#options
                 offset: 110,
             });
         };
@@ -59,7 +62,7 @@ const util = {
     },
 
     checkIfDisplayed: function getDisplayStyle(el) {
-        // setup closure function for the passed in element for ongoing use in page
+        // setup function for the passed in element for ongoing use in page
         // return true if the element of interest IS displayed
         return function() {
             return (getComputedStyle(el).display !== "none" ? true : false );
@@ -70,11 +73,10 @@ const util = {
 
 
 // define page specific scripts, if any are needed.
-// if not, use the default
-
+// if there is no specific, default will be used
 const pages = {
 
-    // pages script for homepage = index.html
+    // pages script for homepage ()= index.html)
     "index": function indexPage(pageID) {
 
         // handle toggling the nav & scrollspy
@@ -95,8 +97,8 @@ const pages = {
         // instantiate a new side panel for the page for when/if the sidenav will display
         // options for this page
         const sidepanelOptions = {
-            durationShow: "2.25s",
-            durationHide: "2s",
+            durationShow: "1.25s",
+            durationHide: "1s",
             durationHideFast: "0.5s",
             backdropStyleClass: "dark",
         };
@@ -115,32 +117,35 @@ const pages = {
         // deal with the 2 possible primary navs on the page:
         // start by checking
         // the primarynav horizontal nav that will collapse depending to screen size (= navbar-expand-*)
-        let horizontalNav = document.getElementById("primaryNav-horiz");
+        const horizontalNav = document.getElementById("primaryNav-horiz");
         // is the horizontal nav being displayed (i.e. have a display value other than 'none'?)
-        let horizontalNavDisplayed = util.checkIfDisplayed(horizontalNav);
+        // debugger;
+        const horizontalNavDisplayed = util.checkIfDisplayed(horizontalNav);
+        let horizontalNavIsDisplayed = util.checkIfDisplayed(horizontalNav)();
 
         // create the scrollspy on the nav for the current state of the index page
         // pages needs to have the scrollspy work on both horizontal and vertical navs
-        let navRightNow = horizontalNavDisplayed();
-        let targetNav = navRightNow ? navHorizontal : navVertical;
+        let targetNav = horizontalNavIsDisplayed ? navHorizontal : navVertical;
+
         // initialize boolean value for determining if the nav display toggled between display states,
         // meaning the the nav changed from horiz to vertical
-        let previousNavWasHoriz = navRightNow;
+        let previousNavWasHoriz = horizontalNavIsDisplayed;
 
         // create the first scrollSpy on the currently displayed nav, and it "should spy" now.
         util.scrollSpyCreate(targetNav, true);
 
-        // resize events will update the primaryNav behavior
-        window.addEventListener("resize", function(e) {
+        // resize events: update the primaryNav behavior
+        window.addEventListener("resize", (e) => {
             // check the current style.display value
-
-            let horizontal = horizontalNavDisplayed();
-            if (horizontal && !previousNavWasHoriz) {  // if: horiz nav IS true (=displayed) && previous-nav is false, then
+            let horizontalNavIsDisplayed = horizontalNavDisplayed();
+            if (horizontalNavIsDisplayed && !previousNavWasHoriz) {
+                // if: horiz nav IS true (=displayed) && previous-nav is false, then
                 navSpy(true);
                 previousNavWasHoriz = true;
-            } else if (!horizontal && previousNavWasHoriz) {  // else if: horiz nav is NOT displayed and previous-nav is true, then
-               navSpy(false);
-               previousNavWasHoriz = false;
+            } else if (!horizontalNavIsDisplayed && previousNavWasHoriz) {
+                // else if: horiz nav is NOT displayed and previous-nav is true, then
+                navSpy(false);
+                previousNavWasHoriz = false;
             }
         }, false);
 
@@ -151,11 +156,9 @@ const pages = {
         // can do something with pageID if necessary
 
         // instantiate a new sidepanel for the page
-        // with options
+        // with options (different from index)
         const sidepanelOptions = {
-            // sidepanelElement: "#sidePanel",
-            // sidepanelCloseElement: ".sidePanel-close",
-            durationShow: "1.5s",
+            durationShow: "1.25s",
             durationHide: ".7s",
             durationHideFast: "0.2s",
             backdropStyle: "dark",
@@ -177,9 +180,9 @@ const pages = {
 // establish some of the global values for the page, and call page specific function(s)
 
 const pageRouter = function(pageID) {
-
+    // page name/info for debugging
     console.log ("page: ", pageID);
-    // if there is page function defined, invoke that
+    // if there is page=specific function defined, invoke that
     // if no page function defined, invoke the default
     if (typeof site.pageMethods[pageID] !== "undefined") {
         site.pageMethods[pageID](pageID);
@@ -187,7 +190,6 @@ const pageRouter = function(pageID) {
         site.pageMethods.default(pageID);
     };
 };
-
 
 // expose specific methods
 pages.pageRouter = pageRouter;
