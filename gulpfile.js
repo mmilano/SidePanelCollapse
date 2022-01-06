@@ -9,7 +9,7 @@ const glog =            require("fancy-log");
 const debug =           require("gulp-debug");
 
 // css, sass/scss
-const sass =            require("gulp-sass");
+const sass =            require("gulp-sass")(require("sass"));
 const autoprefixer =    require("gulp-autoprefixer");
 const cssnano =         require("gulp-cssnano");
 const csslint =         require("gulp-csslint");
@@ -36,7 +36,7 @@ const glob =            require("glob");
 const sourcemaps =      require("gulp-sourcemaps");
 const rename =          require("gulp-rename");
 const notify =          require("gulp-notify");
-const notify_node =     require("node-notifier");  // existing dependency of gulp-notify
+// const notify_node =     require("node-notifier");  // existing dependency of gulp-notify
 const filter =          require("gulp-filter");
 const cached =          require("gulp-cached");
 const changed =         require("gulp-changed");
@@ -186,9 +186,8 @@ function refreshPanini() {
 // utility function to find current IP address.
 // * might not be bulletproof *
 function findIPAddress() {
-
 	let address = ip.address();
-	
+
     if (typeof address === "undefined") {
         address = noAddressMessage;
     }
@@ -204,7 +203,7 @@ function findIPAddress() {
 // https://stackoverflow.com/questions/10158771/access-localhost-on-the-main-machine-from-vmware-workstation-8-for-asp-net-devel/10159420#10159420
 const default_server_host = "0.0.0.0";
 var currentIPAddress;
-var noAddressMessage = "* cannot be determined *";
+const noAddressMessage = "* cannot be determined *";
 
 const options_webserver = {
     name: "dev",
@@ -238,7 +237,7 @@ function serverInfo() {
 function webserver(done) {
     currentIPAddress = findIPAddress();
 
-    var server = new Promise(function(resolve, reject) {
+    const server = new Promise(function(resolve, reject) {
         connect.server(options_webserver);
         resolve (true);
     });
@@ -372,7 +371,7 @@ gulp.task("build:pages", buildPagesAll);
 
 
 function watchindexPageSource(done) {
-    var watcherIndex = gulp.watch(paths.indexPageSRC, gulp.series("build:index"));
+    const watcherIndex = gulp.watch(paths.indexPageSRC, gulp.series("build:index"));
     watcherIndex.on("error", err => glog("watch error: " + err));
     watcherIndex.on("change", path => glog("changed >>> " + path));
     done();
@@ -387,7 +386,7 @@ gulp.task("watch:index", watchindexPageSource);
 // remove the src path from both files: src/site/pages/data & src/site/pages/page
 function constructPagePath(file) {
 
-    function makeHTMLFilename(file) {
+    const makeHTMLFilename = (file) => {
         return file + ".html";
     };
 
@@ -425,7 +424,7 @@ function buildPageOnDataChange(dataFile, done) {
     // given the full path to the html file,
     // need to remove the common root part of the path that is the pages directory (-pageBuildSourceRoot)
     // to get the page's own subdirectory
-    let pageFile = constructPagePath(dataFile);
+    const pageFile = constructPagePath(dataFile);
     glog("data:", dataFile);
     glog("page:", pageFile);
 
@@ -434,7 +433,7 @@ function buildPageOnDataChange(dataFile, done) {
 }
 
 function watchPageData(done) {
-    var watcherPageData = gulp.watch(paths.siteSourcePagesDataGLOB);
+    const watcherPageData = gulp.watch(paths.siteSourcePagesDataGLOB);
     watcherPageData.on("error", err => glog("watch error: " + err));
     watcherPageData.on("change", path => glog("data changed >>> " + path));
     watcherPageData.on("change", path => buildPageOnDataChange(path, done));
@@ -463,7 +462,7 @@ function buildpagesCHANGED(done) {
 gulp.task("build:pages-changed", buildpagesCHANGED);
 
 function watchPages(done) {
-    var watcherPages = gulp.watch([paths.sitePagesGLOB, paths.DSStoreIgnore], {delay: 400}, gulp.series("build:pages-changed"));
+    const watcherPages = gulp.watch([paths.sitePagesGLOB, paths.DSStoreIgnore], {delay: 400}, gulp.series("build:pages-changed"));
     watcherPages.on("error", err => glog("watch error: " + err));
     watcherPages.on("change", path => glog("pages changed >>> " + path));
 	done();
@@ -476,7 +475,7 @@ gulp.task("watch:pages", gulp.series(watchPageData, watchPages));
 // rebuild all because these items affect all pages.
 // also watch the site data, which also affects all the pages.
 function watchTemplateSources(done) {
-    var watchTemplateSources = gulp.watch([paths.siteHBSFilesGLOB, paths.siteDataGLOB], gulp.series("build:pages"));
+    const watchTemplateSources = gulp.watch([paths.siteHBSFilesGLOB, paths.siteDataGLOB], gulp.series("build:pages"));
     watchTemplateSources.on("error", err => glog("watch templates & helpers error: " + err));
     watchTemplateSources.on("change", path => glog("templates & helpers changed >>> " + path));
     done();
@@ -500,7 +499,7 @@ function minifyPages() {
     };
 
     // set up to use base & relative path for overwriting the original file with the minified file
-    let pathRelative = "./";
+    const pathRelative = "./";
 
     return gulp
     .src(paths.pagesBuiltGLOB, {base: pathRelative})
@@ -576,7 +575,7 @@ function maketheCSS_sidepanel(done) {
 
     let scss_sidepanel_source = paths_sidepanel.scss_source;
     let scss_sidepanel_destination = paths_sidepanel.css_destination;
-    let scss_sidepanel_destination_filename = "SidePanelCollapse";
+    const scss_sidepanel_destination_filename = "SidePanelCollapse";
 
     const options_scss_normal = {
         includePaths: ["/"],
@@ -590,14 +589,14 @@ function maketheCSS_sidepanel(done) {
     const options_scss_production = {
         includePaths: ["/"],
         errLogToConsole: true,
-        outputStyle: "compact",
+        outputStyle: "compressed",
         sourceComments: false,
         indentWidth: 2,
         precision: 4,
     };
 
     // async of normal mode build
-    var buildNormal = buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, options_scss_normal, "normal");
+    const buildNormal = buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, options_scss_normal, "normal");
 
     // async of production mode build
     var buildProduction = buildcss(scss_sidepanel_source, scss_sidepanel_destination, scss_sidepanel_destination_filename, options_scss_production, "production");
@@ -620,7 +619,7 @@ function maketheCSS_sidepanel(done) {
 // in this case, copy the /dist files to /demo
 function copyCSS_sidepanel() {
 
-    let source = "./dist/css/**/*";
+    const source = "./dist/css/**/*";
     let destination = siteBuildDestinationRoot + "public/css/sidePanelCollapse";
 
     return gulp
@@ -665,7 +664,7 @@ gulp.task("compile:scss_production", function(done) {
 // watch the sidePanelCollapse scss sources
 function watchSCSS_sidepanel(done) {
     // see note in watchSCSS()
-    var watcherSCSS = gulp.watch(paths_sidepanel.scss_sourceGLOB, {delay: 400}, gulp.series("compile:scss-sidepanel", "compile:scss", "copy:css-sidepanel"));
+    const watcherSCSS = gulp.watch(paths_sidepanel.scss_sourceGLOB, {delay: 400}, gulp.series("compile:scss-sidepanel", "compile:scss", "copy:css-sidepanel"));
     watcherSCSS.on("error", err => glog("watch error: " + err));
     watcherSCSS.on("unlink", path => glog("deleted >>> " + path));
     watcherSCSS.on("change", path => glog("changed >>> " + path));
@@ -712,7 +711,7 @@ gulp.task("watch:siteGallery", watchGalleryData);
 
 // check the Panini files
 function lintJSPanini() {
-    let src = paths.siteHBSjsFilesGLOB;
+    const src = paths.siteHBSjsFilesGLOB;
 
     return gulp
     .src(src)
@@ -724,7 +723,7 @@ function lintJSPanini() {
 
 // check the site files
 function lintJSDemoSite() {
-    let src = paths.jsSourceSITEGLOB;
+    const src = paths.jsSourceSITEGLOB;
 
     return gulp
     .src(src)
@@ -736,7 +735,7 @@ function lintJSDemoSite() {
 
 // check the SidepanelCollapse files
 function lintJS_sidepanel() {
-    let src = paths_sidepanel.js_source;
+    const src = paths_sidepanel.js_source;
 
     return gulp
     .src(src)
@@ -864,7 +863,7 @@ function scriptifySidepanel(done) {
         "destination_path": "./dist/js/"
     };
 
-    var build = new Promise(function(resolve, reject) {
+    const build = new Promise(function(resolve, reject) {
         let task = javascriptSidePanel(options);
         task
         .on("end", () => {
@@ -886,7 +885,7 @@ gulp.task("scriptify:sidepanel", scriptifySidepanel);
 // in this case, copy the /dist files to /demo
 function copyjs_sidepanel() {
 
-    let source = "./dist/js/**/*";
+    const source = "./dist/js/**/*";
     let destination = paths.jsDestination + "/sidePanelCollapse/";
 
     return gulp
@@ -922,7 +921,7 @@ gulp.task("js:site", gulp.parallel("browserify:site", "copy:jsSimple"));
 
 // watch the js sources
 function watchJSSite(done) {
-    var watcherJS = gulp.watch([paths.jsSourceGLOB], {delay: 300}, gulp.series("lint:js-demo", "browserify:site"));
+    const watcherJS = gulp.watch([paths.jsSourceGLOB], {delay: 300}, gulp.series("lint:js-demo", "browserify:site"));
     watcherJS.on("error", err => glog("watch error: " + err.message));
     watcherJS.on("change", path => glog("changed >>> " + path));
 	done();
@@ -930,7 +929,7 @@ function watchJSSite(done) {
 
 // watch the site-simple.js source
 function watchJSSiteSimple(done) {
-    var watcherJSsimple = gulp.watch(siteSourceRoot + "js/site/" + paths.jsFile_site_simple, gulp.series("lint:js-demo", "copy:jsSimple"));
+    const watcherJSsimple = gulp.watch(siteSourceRoot + "js/site/" + paths.jsFile_site_simple, gulp.series("lint:js-demo", "copy:jsSimple"));
     watcherJSsimple.on("error", err => glog("watch error: " + err.message));
     watcherJSsimple.on("change", path => glog("changed >>> " + path));
 	done();
@@ -939,7 +938,7 @@ function watchJSSiteSimple(done) {
 // watch the sidepanelcollapse js
 // if it changes, rebuild js for /dist and /demo
 function watchJSSidePanel(done) {
-    var watcherJSsidepanel = gulp.watch(paths_sidepanel.js_sourceGLOB, gulp.series("lint:js-sidepanel", "browserify:site", "scriptify:sidepanel", "copy:jsSidepanel"));
+    const watcherJSsidepanel = gulp.watch(paths_sidepanel.js_sourceGLOB, gulp.series("lint:js-sidepanel", "browserify:site", "scriptify:sidepanel", "copy:jsSidepanel"));
     watcherJSsidepanel.on("error", err => glog("watch error: " + err.message));
     watcherJSsidepanel.on("change", path => glog("changed >>> " + path));
 	done();
@@ -1005,7 +1004,6 @@ gulp.task("default", gulp.series("demo")); // alias
 
 
 function sidepanelProduction(done) {
-
     gulp.series("lint:js-sidepanel", "scriptify:sidepanel","compile:scss-sidepanel")();
     done();
 }
