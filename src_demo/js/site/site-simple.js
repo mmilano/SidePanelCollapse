@@ -9,10 +9,9 @@
 window.addEventListener("load", function() {
 
     // if the desire is to initialize SidePanelCollapse manually instead of the auto-init that the data-attribute initiates,
-    // then this is a place that could be done, like the following (disabled) example code.
+    // then this is the place that could be done, like the following (disabled) example code.
 
-
-    // var sidepanelOptions = {
+    // const sidepanelOptions = {
     //     sidepanelElement: "#sidePanel",
     //     sidepanelCloseElement: ".sidePanel-close",
     //     durationShow: "2s",
@@ -23,7 +22,7 @@ window.addEventListener("load", function() {
     //     sidePanelIsOpenClass: "sidepanel-shown",
     // };
 
-    // var sidepanel = new SidePanelCollapse(sidepanelOptions);
+    // const sidepanel = new SidePanelCollapse(sidepanelOptions);
 
     console.log("script does some programmatic things here after the window 'load' event fires");
     console.log("at this point, the SidePanel will have been created and initialized.");
