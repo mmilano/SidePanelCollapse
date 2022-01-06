@@ -24,7 +24,7 @@ const siteData = {
         "website",
     ],
 
-    "siteYear": 2022,
+    "year": 2022,
 
     "og": {
         get site_name() {
