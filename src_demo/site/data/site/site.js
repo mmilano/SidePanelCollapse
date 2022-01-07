@@ -4,10 +4,10 @@
 // define sitewide values and data,
 // PRIMARY site metadata and meta details
 
-var siteBase = "./";
-var siteHome = "/";
+const siteBase = "./";
+const siteHome = "/";
 
-var siteData = {
+const siteData = {
     "site_name": "Bootstrap SidePanelCollapse",
     "title": "Horizontal Sliding Side Panel",
     "description": "An example project to demonstrate using the Bootstrap 'collapse' component to make a vertical sidebar slide horizontally, with variable timing.",
@@ -24,7 +24,7 @@ var siteData = {
         "website",
     ],
 
-    "siteYear": 2020,
+    "year": 2022,
 
     "og": {
         get site_name() {
@@ -48,7 +48,7 @@ var siteData = {
         },
     },
 
-    "site-version":     "1.1.0",
+    "site-version":     "1.2.0",
     "site-root":        siteBase,
     "site-home":        siteHome,
     "path-pages":       "./",

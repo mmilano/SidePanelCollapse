@@ -1,8 +1,9 @@
-#osx stuff
+# osx stuff
 .DS_Store
 
-# bbedit project files
+# project files
 *.bbprojectd
+*.code-workspace
 
 # logs
 logs

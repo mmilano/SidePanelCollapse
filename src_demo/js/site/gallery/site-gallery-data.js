@@ -4,7 +4,7 @@
 // includes all the data
 // AND any processing for generated values.
 
-var gallerySetup = (function() {
+const gallerySetup = (function() {
 
     // define the site's pages
     //
@@ -16,8 +16,7 @@ var gallerySetup = (function() {
     // url:             name of the page's content file
     // page:            convenience value. just the page name, without extension. intended to match the panini {{page}} value when on the page, for cross-referencing.
 
-    var galleryData = {
-
+    const galleryData = {
         "page-a": {
             "id": "page-a",
             "url": "page-a.html",

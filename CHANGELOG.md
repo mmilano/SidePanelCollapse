@@ -1,20 +1,33 @@
 # Changelog
 
-## [1.1.1] - 05-31-2021
-Package updates.
+## [1.2.0] - 01-07-2022
 
-* Updated bootstrap to version 4.6.0.
-* Updated jquery to version 3.6.0.
+* package updates
+* bootstrap to 4.6.1
+* revision typing of multiple javascript variables
+* convert some functions to arrow functions
+* update year
+* update readme content
+* added/revised comments
+
+
+
+## [1.1.1] - 06-04-2021
+Primarily package updates
+
+* bootstrap to 4.6.0
+* package audit fix (w/o -force)
 
 
 
 ## [1.1.0] - 03-07-2020
 Primarily package updates.
 
+
 ### Changed
 * Updated browser targets
-* Updated bootstrap to version 4.5.0.
-* Updated jquery to version 3.5.1.
+* Updated bootstrap usage to version 4.5.0.
+* Updated jquery usage to version 3.5.1.
 * Updated autoprefixer package
 * Multiple other package updates
 
