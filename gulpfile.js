@@ -995,7 +995,7 @@ gulp.task("default", gulp.series("demo")); // alias
 
 
 function sidepanelProduction(done) {
-    gulp.series("lint:js-sidepanel", "scriptify:sidepanel","compile:scss-sidepanel")();
+    gulp.series("lint:js-sidepanel", "scriptify:sidepanel", "compile:scss-sidepanel")();
     done();
 }
 
