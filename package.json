@@ -39,8 +39,8 @@
     "defaults"
   ],
   "devDependencies": {
-    "@babel/core": "^7.16.7",
-    "@babel/preset-env": "^7.16.7",
+    "@babel/core": "^7.22.1",
+    "@babel/preset-env": "^7.22.4",
     "ap-style-title-case": "^1.1.2",
     "bootstrap": "^4.6.1",
     "browserify": "^17.0.0",
