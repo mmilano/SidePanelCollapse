@@ -5,7 +5,6 @@
 //
 // @returns the datestamp
 
-module.exports = function() {
-    let nowDate = new Date();
-    return nowDate.toDateString();
+module.exports = () => {
+    return new Date().toDateString();
 };

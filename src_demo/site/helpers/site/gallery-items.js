@@ -2,9 +2,9 @@
 // handlebars BLOCK helper module
 //
 // generate the gallery of pages
+"use strict";
 
-var gallery = function(globalContext, options) {
-    "use strict";
+const gallery = function(globalContext, options) {
 
     let out = ""; // output
 
@@ -15,11 +15,11 @@ var gallery = function(globalContext, options) {
     }
 
     // in lieu of passing in the {object} site-gallery, get it out of the global context that is passed in
-    let siteGallery = globalContext && globalContext["site-gallery"];
+    const siteGallery = globalContext && globalContext["site-gallery"];
 
     // create a parallel array of just the active page keys
-    let keys = Object.keys(siteGallery);
-    let pagesActive = [];
+    const keys = Object.keys(siteGallery);
+    const pagesActive = [];
     keys.forEach(function(page) {
         if (!siteGallery[page].disable) {
            pagesActive.push(page);
@@ -31,7 +31,7 @@ var gallery = function(globalContext, options) {
 
     // generate the block element for each active page
     pagesActive.forEach(function(p) {
-        let aPage = siteGallery[p];
+        const aPage = siteGallery[p];
 
         // render the block helper content
         let element = options.fn(aPage);

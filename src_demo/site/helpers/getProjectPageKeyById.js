@@ -11,11 +11,11 @@
 // *** @param options is the object that Handlebars already passes in
 //
 // @returns {string} the value of key from the page data
+"use strict";
 
 const panini = require("panini");
 
 module.exports = function(pageID, key, options) {
-    "use strict";
 
     // check that options === the handlebars options object.
     // allow for arbitrary number of attributes passed as arguments
@@ -31,13 +31,13 @@ module.exports = function(pageID, key, options) {
 
     // given the id,
     // first get the gallery data, then get the page name
-    let siteGalleryData = siteGallery[pageID];
-    let page = siteGalleryData["page"];
+    const siteGalleryData = siteGallery[pageID];
+    const page = siteGalleryData["page"];
 
     // then, lookup the pagedata object
     // use the existing panini helper
-    let getPageData = panini.Handlebars.helpers.getPageData;
-    let value = getPageData(globalContext, page, key);
+    const getPageData = panini.Handlebars.helpers.getPageData;
+    const value = getPageData(globalContext, page, key);
 
     return value;
 };

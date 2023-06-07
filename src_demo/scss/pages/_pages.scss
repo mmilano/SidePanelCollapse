@@ -32,7 +32,6 @@ $overview-shift:                        -8px;
     margin-bottom: $side-item-margin-bottom;
 }
 
-
 footer {
     @include section-border-bar("border-top", #BBB);
 }
@@ -197,5 +196,4 @@ h3 {
     #tableOfContents {
         position: fixed;
     }
-
 }

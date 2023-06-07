@@ -1,25 +1,25 @@
 // *****
 // panini/handlebars helper module
 //
-// generate the sub-page page list in the pages - currently displayed as the slide-out side panel
+// generate the list of sub-pages in the site
+// currently used to display nav options in the slide-out side panel
 //
 // @param {object} globalContext: the top level (handlebars) context for the site
+"use strict";
 
 const panini = require("panini");
 const node_path = require("path");
 const titlecase = require("ap-style-title-case");
 
-module.exports = function(globalContext, options) {
-    "use strict";
+module.exports = function (globalContext, options) {
 
     let out = ""; // output
-
     let currentPage, currentPageID;
 
-    const hbs = panini.Handlebars;
     const hbs_partials = panini.Handlebars.partials;
     const hbs_helpers = panini.Handlebars.helpers;
 
+    // utility function
     // check if the passed-in partial is already compiled.
     // if so,just use that.
     // if not, compile it.
@@ -30,37 +30,35 @@ module.exports = function(globalContext, options) {
         if (typeof p === "function") {
             partialCompiled = p;
         } else {
-            partialCompiled = hbs.compile(p);
+            partialCompiled = panini.Handlebars.compile(p);
         }
 
         return partialCompiled;
     }
 
-    let template_compiled = {};
-
     // convenience references to the partials and helpers
+	const template_compiled = {};
     template_compiled["name"] = getCompiled(hbs_partials["sidenav-name"]);
     template_compiled["group"] = getCompiled(hbs_partials["sidenav-group"]);
     template_compiled["divider"] = getCompiled(hbs_partials["sidenav-divider"]);
-    let getPageData = hbs_helpers["getPageData"];
+    const getPageData = hbs_helpers["getPageData"];
 
     // for page name:
     // get url from the gallery data
     // but
     // get page name from the page data
     function renderPageName(page) {
-        let pageURL = page.url;
+        const pageURL = page.url;
 
         // to get the title in the page data,
         // have to breakdown the page url because the page data is keyed to the page file name
-        let fileName = node_path.parse(pageURL).name;
-        let pageData = globalContext[fileName];
-        let pageName = pageData["page-title-short"];
-        pageName = titlecase(pageName);
+        const fileName = node_path.parse(pageURL).name;
+        const pageData = globalContext[fileName];
+        const pageName = titlecase(pageData["page-title-short"]);
 
         let context = {
-            "url": pageURL,
-            "pagename": pageName,
+            url: pageURL,
+            pagename: pageName,
         };
 
         if (page.id === currentPageID) {
@@ -70,38 +68,32 @@ module.exports = function(globalContext, options) {
         return template_compiled["name"](context, options);
     }
 
-    function renderDivider() {
-        // not being used in demo
-        // return template_compiled["divider"]();
-        return "<!-- divider -->";
+	// NOTE: not being used in sidepanel demo
+    const renderDivider = () => "<!-- divider -->";
+
+	// NOTE: not being used in sidepanel demo
+    const renderGroupName = (group) => {
+        let context = {
+            "group": group,
+        };
+        return template_compiled["group"](context);
+
     }
 
-// not being used in demo
-//     function renderGroupName(group) {
-//         let context = {
-//             "group": group,
-//         };
-//         return template_compiled["group"](context);
-//     }
+	// NOTE: not being used in sidepanel demo
+    const renderGroupBegin = () => "<!-- begin: a group -->";
 
-    function renderGroupBegin() {
-        // not being used in demo
-        return "<!-- begin: a group -->";
-    }
-
-    function renderGroupEnd() {
-        // not being used in demo
-        return "<!-- end: a group -->";
-    }
+	// NOTE: not being used in sidepanel demo
+    const renderGroupEnd = () => "<!-- end: a group -->";
 
     // iterate the data array of pages passed in and find just the non-disabled ones
     function getActivePages(gallery) {
         let list = [];
         let keys = Object.keys(gallery);
 
-        keys.forEach(function(key) {
+        keys.forEach(function (key) {
             if (!gallery[key].disable) {
-               list.push(key);
+            	list.push(key);
             };
         });
         return list;
@@ -109,17 +101,17 @@ module.exports = function(globalContext, options) {
 
     // allow for arbitrary number of attributes passed as arguments
     if (!options || !options.fn) {
-        options = arguments[arguments.length-1];
+        options = arguments[arguments.length - 1];
     }
 
     // in lieu of passing in the {object} site-gallery, get it out of the global context that is passed in
-    let siteGallery = globalContext && globalContext["site-gallery"];
+    const siteGallery = globalContext && globalContext["site-gallery"];
 
     // create a parallel array of just the active page keys
-    let pagesActive = getActivePages(siteGallery);
+    const pagesActive = getActivePages(siteGallery);
 
     // convert 'human-friendly' length to be compatible with the machine-friendly index
-    let galleryPagesLength = pagesActive.length < 2 ? 1 : pagesActive.length - 1;
+    const galleryPagesLength = pagesActive.length < 2 ? 1 : pagesActive.length - 1;
 
     let previousGroup = "";
 
@@ -127,12 +119,12 @@ module.exports = function(globalContext, options) {
     currentPage = globalContext.page;
     currentPageID = getPageData(globalContext, currentPage, "id");
 
-    pagesActive.forEach(function(k, index) {
-        let htmlFragment = "";  // set to empty at beginning
+    pagesActive.forEach(function (k, index) {
+        let htmlFragment = ""; // set to empty at beginning
 
-        let aPage = siteGallery[k];
-        let pageName = node_path.parse(aPage.url).name;
-        let pageGroup = getPageData(globalContext, pageName, "group");
+        const aPage = siteGallery[k];
+        const pageName = node_path.parse(aPage.url).name;
+        const pageGroup = getPageData(globalContext, pageName, "group");
 
         // if this group = group from previous page,
         // then just render the page name
