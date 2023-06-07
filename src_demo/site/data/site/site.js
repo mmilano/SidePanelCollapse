@@ -1,5 +1,5 @@
 // BUILD DATA
-// used in panini page generation
+// used in page generation
 //
 // define sitewide values and data,
 // PRIMARY site metadata and meta details
@@ -48,7 +48,7 @@ const siteData = {
         },
     },
 
-    "site-version":     "1.2.0",
+    "site-version":     "1.3.0",
     "site-root":        siteBase,
     "site-home":        siteHome,
     "path-pages":       "./",
