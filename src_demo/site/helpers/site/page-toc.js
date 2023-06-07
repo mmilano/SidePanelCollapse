@@ -21,6 +21,7 @@
 //
 
 /* jshint esversion: 6 */ // allow es6 features
+"use strict";
 
 const panini = require("panini");
 const cheerio = require("cheerio");
@@ -31,8 +32,6 @@ module.exports = function (attr, options) {
     /* jshint validthis: true */
     /* jshint undef:true */
     /* jshint -W069 */ // suppress the warning 'better written in dot notation'
-
-    "use strict";
 
     const hbs = panini.Handlebars;
     const hbs_partials = panini.Handlebars.partials;
@@ -300,7 +299,7 @@ module.exports = function (attr, options) {
             let indexTop = contentsKeyFirst(contentsIndexTop++);
             contents[indexTop] = firstEntry;
 
-            let $PAGE = this.$ROOT;
+            const $PAGE = this.$ROOT;
             let topLevel = this.getTopLevel($PAGE);
 
             // this should be a collection of all the headings that should appear in the table of contents
