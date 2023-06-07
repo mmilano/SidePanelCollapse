@@ -5,7 +5,7 @@
 
 const path = require("path");
 
-var requireNoCache = function(filePath) {
+const requireNoCache = function(filePath) {
     "use strict";
 
     function _invalidateRequireCacheForFile(filePath) {

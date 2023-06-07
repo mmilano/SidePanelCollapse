@@ -6,7 +6,7 @@
 // @param string
 // @returns string
 
-var trimSpace = function(text) {
+const trimSpace = function(text) {
     "use strict";
 
     let t = text.trim();  // trim front and trailing space
