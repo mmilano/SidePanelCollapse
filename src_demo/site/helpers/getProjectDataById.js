@@ -11,10 +11,9 @@
 // @param {string} key - the key for the value to get
 //
 // @returns {string} the value of key from the gallery data
-
+"use strict";
 
 module.exports = function(globalContext, pageID, key) {
-    "use strict";
 
     let value = "";  // default = empty
 
@@ -22,7 +21,7 @@ module.exports = function(globalContext, pageID, key) {
     const siteGallery = globalContext && globalContext["site-gallery"];
 
     if (siteGallery[pageID] !== undefined) {
-        let pageCollectionData = siteGallery[pageID];
+        const pageCollectionData = siteGallery[pageID];
 
         if (pageCollectionData[key] !== undefined) {
             value = pageCollectionData[key];

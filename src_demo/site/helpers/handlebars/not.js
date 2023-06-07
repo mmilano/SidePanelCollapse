@@ -8,7 +8,7 @@
  * @returns boolean
  */
 
-var not = function(expression) {
+const not = function (expression) {
     return !expression;
 };
 

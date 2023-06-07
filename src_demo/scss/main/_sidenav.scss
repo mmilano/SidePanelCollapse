@@ -34,6 +34,7 @@ $nav-group-font-color-hover:            #3D88C9;
     z-index: $sidenav-zindex;
     position: fixed;
     top: 0;
+    bottom: 0;
     #{$sidenav-side}: 0;
     height: 100vh;  // sidepanel extends the full height of the window
     padding: 0;

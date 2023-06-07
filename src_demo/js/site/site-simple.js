@@ -24,8 +24,6 @@ window.addEventListener("load", function() {
 
     // const sidepanel = new SidePanelCollapse(sidepanelOptions);
 
-    console.log("script does some programmatic things here after the window 'load' event fires");
+    console.log("script can do programmatic things here after the window 'load' event fires");
     console.log("at this point, the SidePanel will have been created and initialized.");
 });
-
-

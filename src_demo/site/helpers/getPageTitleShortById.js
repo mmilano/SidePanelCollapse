@@ -10,11 +10,11 @@
 // *** @param options is the object that Handlebars already passes in
 //
 // @returns {string} the value of page title name - SHORT VALUE - from the page data
+"use strict";
 
 const panini = require("panini");
 
 module.exports = function(pageID, options) {
-    "use strict";
 
     // which data value to get
     const key = "page-title-short";
@@ -33,12 +33,12 @@ module.exports = function(pageID, options) {
 
     // given the id,
     // first have to get the name of the page
-    let pageGalleryData = siteGallery[pageID];
-    let page = pageGalleryData["page"];
+    const pageGalleryData = siteGallery[pageID];
+    const page = pageGalleryData["page"];
 
     // then, lookup the pagedata object using the existing helper
-    let getPageData = panini.Handlebars.helpers.getPageData;
-    let pageDataValue = getPageData(globalContext, page, key);
+    const getPageData = panini.Handlebars.helpers.getPageData;
+    const pageDataValue = getPageData(globalContext, page, key);
 
     return pageDataValue;
 };

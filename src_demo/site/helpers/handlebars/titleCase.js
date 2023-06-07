@@ -5,11 +5,8 @@
 //
 // @param string
 // @returns string
+"use strict";
 
 const titlecase = require("ap-style-title-case");
 
-module.exports = function(str) {
-    "use strict";
-
-    return titlecase(str);
-};
+module.exports = (str) => titlecase(str);

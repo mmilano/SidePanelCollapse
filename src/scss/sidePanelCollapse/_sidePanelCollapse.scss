@@ -1,9 +1,11 @@
 /*! **********
- * SidePanelCollapse v1.2.0
+ * SidePanelCollapse v1.3.0
  * A Bootstrap 4-based sidebar augmenting the "collapse" component to collapse horizontally,
  * and allow variable duration timings for the transitions
  *
  * Main (universal) SCSS for the sidepanel
+ *
+ * NOTE: * these values for .sidepanel control the behavior - NOT THE VISUAL STYLE - of the sidepanel.
  *
  * Michel Milano
  *
@@ -12,25 +14,25 @@
 
 
 // sidepanel transitions
-$sidepanel-transition-function:           ease-in;
+$sidepanel-transition-function:           ease-in !default;
 
 // default sidepanel transition durations
-$sidepanel-duration-show:                 1.05s;  // responsive without being too fast
-$sidepanel-duration-hide:                 0.35s;  // prompt
-$sidepanel-duration-hide-fast:            0.13s;  // very fast
+$sidepanel-duration-show:                 1.05s !default;  // responsive without being too fast
+$sidepanel-duration-hide:                 0.35s !default;  // prompt
+$sidepanel-duration-hide-fast:            0.13s !default;  // very fast
 
 // backdrop values
-$sidepanel-zindex:                        $zindex-fixed + 1;        // first: define a z-index based on Bootstrap v4 default nav, plus 1, to put .sidepanel above the nav
-$sidepanel-backdrop-zindex:               $sidepanel-zindex - 100;  // then, for backdrop: enough to be under .sidepanel, but over the main page content
-$sidepanel-backdrop-opacity-max:          1;
+$sidepanel-zindex:                        $zindex-fixed + 1 !default;        // first: define a z-index based on Bootstrap v4 default nav, plus 1, to put .sidepanel above the nav
+$sidepanel-backdrop-zindex:               $sidepanel-zindex - 100 !default;  // then, for backdrop: enough to be under .sidepanel, but over the main page content
+$sidepanel-backdrop-opacity-max:          1 !default;
 
 // note: the backdrop translucency is baked into the background color itself (via the alpha channel), and not with a separate opacity value.
-$sidepanel-backdrop-dark:                 rgba(#000, 0.51);
-$sidepanel-backdrop-light:                rgba(#FFF, 0.6);
+$sidepanel-backdrop-dark:                 rgba(#000, 0.51) !default;
+$sidepanel-backdrop-light:                rgba(#FFF, 0.6) !default;
 
 // backdrop transition durations
-$sidepanel-backdrop-duration-show:        0.33s;
-$sidepanel-backdrop-duration-hide:        0.17s;
+$sidepanel-backdrop-duration-show:        0.33s !default;
+$sidepanel-backdrop-duration-hide:        0.17s !default;
 
 
 .sidepanel {
@@ -53,7 +55,7 @@ $sidepanel-backdrop-duration-hide:        0.17s;
         width: 0;
 
         // duration value defined to use the css variable rather than scss variable so that the duration can be customized at runtime.
-        // if this is never going to happen, this could be simplified to just
+        // if this is never going to happen, this could be simplified to use the SCSS variable instead of the CSS variable (as in the next commented-out line)
         // transition-duration: $sidepanel-duration-show;
         transition-duration: var(--durationShow);  // default duration. will be in effect for opening the sidepanel, but is overridden by javascript when closing
     }
