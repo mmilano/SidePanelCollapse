@@ -5,12 +5,12 @@
 // takes the body content as input
 // assumes ONLY ONE per page
 //
-// adapted version of
+// adapted from
 //  * Bootstrap Table of Contents (http://afeld.github.io/bootstrap-toc/)
 //  * Copyright 2015 Aidan Feldman
 //  * Licensed under MIT (https://github.com/afeld/bootstrap-toc/blob/gh-pages/LICENSE.md) */
 //
-// instead of using jquery to parse the page, uses cheerio.
+// uses "cheerio" to parse the page
 //
 //
 // data attribute identifiers within the content:
