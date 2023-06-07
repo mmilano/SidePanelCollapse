@@ -11,7 +11,7 @@ const debug =           require("gulp-debug");
 const sass =            require("gulp-sass")(require("sass"));
 const autoprefixer =    require("gulp-autoprefixer");
 const cssnano =         require("gulp-cssnano");
-const csslint =         require("gulp-csslint");
+// const csslint =         require("gulp-csslint");
 
 // js
 const jshint =          require("gulp-jshint");
@@ -41,7 +41,7 @@ const changed =         require("gulp-changed");
 const changedInPlace =  require("gulp-changed-in-place");
 const del =             require("del");
 const node_path =       require("path");
-const fs_utimes =       require("fs").utimes;
+// const fs_utimes =       require("fs").utimes;
 
 // dev/demo web server
 const connect =         require("gulp-connect");
@@ -162,15 +162,15 @@ const paths_sidepanel = {
 // simply touch a file so that filesystem thinks the file changed
 // by setting mtime to now.
 // takes single file or array of files
-function touchNow(src) {
-    const timenow = Date.now() / 1000;  // https://nodejs.org/docs/latest/api/fs.html#fs_fs_utimes_path_atime_mtime_callback
-    if (!Array.isArray(src)) {
-        src = src.split();
-    }
-    src.forEach(function(file) {
-        fs_utimes(file, timenow, timenow, function(){return;});
-    });
-}
+// function touchNow(src) {
+//     const timenow = Date.now() / 1000;  // https://nodejs.org/docs/latest/api/fs.html#fs_fs_utimes_path_atime_mtime_callback
+//     if (!Array.isArray(src)) {
+//         src = src.split();
+//     }
+//     src.forEach(function(file) {
+//         fs_utimes(file, timenow, timenow, function(){return;});
+//     });
+// }
 
 
 // tell panini to refresh all the files
@@ -193,12 +193,12 @@ function findIPAddress() {
     return address;
 }
 
-// note: host 0.0.0.0 allows you to view the pages at http://localhost:9191
-// OR http://[current IP address]:9191 (on macOSX),
-// AND http://[current IP address]:9191 from a virtual machine.
-//
-// source of this suggestion:
-// https://stackoverflow.com/questions/10158771/access-localhost-on-the-main-machine-from-vmware-workstation-8-for-asp-net-devel/10159420#10159420
+// note: default_server_host 0.0.0.0 allows you to view the pages at
+//      http://localhost:9191
+// OR   http://[current IP address]:9191 (on macOSX),
+// AND  http://[current IP address]:9191 from a virtual machine.
+// (assuming default port # as listed below)
+//s
 const default_server_host = "0.0.0.0";
 let currentIPAddress;
 const noAddressMessage = "* cannot be determined *";
@@ -213,7 +213,7 @@ const options_webserver = {
       enable: false,
       path: "./"
     },
-    livereload: false
+    livereload: false,
 };
 
 // some user-friendly server info
@@ -277,7 +277,8 @@ function copyIco(done) {
     done();
 }
 
-// copy images
+// images
+
 function copyImages(done) {
     gulp
     .src(paths.imgSourceGLOB)
@@ -293,12 +294,12 @@ function copyImages(done) {
     // done();
 // }
 
-function watchImages(done) {
-    const watcherImages = gulp.watch(paths.imgSourceGLOBall, gulp.series("copy:images-changed"));
-    watcherImages.on("error", err => glog("watch error: " + err));
-    watcherImages.on("change", path => glog("image changed >>> " + path));
-    done();
-}
+// function watchImages(done) {
+//     const watcherImages = gulp.watch(paths.imgSourceGLOBall, gulp.series("copy:images-changed"));
+//     watcherImages.on("error", err => glog("watch error: " + err));
+//     watcherImages.on("change", path => glog("image changed >>> " + path));
+//     done();
+// }
 
 gulp.task("copy:images", copyImages);
 // gulp.task("copy:images-changed", copyImagesChanged);
@@ -537,10 +538,6 @@ gulp.task("validate:site", gulp.parallel("validate:pages"));  // alias
 //
 // compile the scss, minify it, etc.
 
-// const options_autoprefix = {
-//     browsers: browserTargets,
-// };
-
 const options_cssnano = {
     zindex: false
 };
@@ -747,14 +744,11 @@ gulp.task ("lint:js-demo", lintJSDemoSite);
 gulp.task ("lint:js-sidepanel", lintJS_sidepanel);
 
 // javascript building: global options
-// babel options to transpile javascript to browser-compatible level
+// babel options to transpile javascript to browser-compatible form
 const options_babel = {
   "presets": [
     [ "@babel/preset-env",
         {
-//             "targets": {
-//                 "browsers": browserTargets
-//             },
             "exclude": [
                 "transform-typeof-symbol"  // don't add polyfill for typeof
             ],
@@ -869,7 +863,6 @@ function scriptifySidepanel(done) {
         });
 
     })
-    // .then(() => {})
     .catch(err => {glog(err)})
     .then(() => {
         done();
