@@ -21,12 +21,12 @@ const util = {
         if (!breakpoint_size) {
             // if no value, then the browser doesn't support css variables.
             // so use an arbitrary default value
-            breakpoint_size = 42;  // breakpoint size default. arbitrary breakpoint size value in px.
+            breakpoint_size = 42; // breakpoint size default. arbitrary breakpoint size value in px.
         };
 
         // get width of the current window
         const pageWidth = window.innerWidth;
-        return (pageWidth > breakpoint_size ? true : false);
+        return pageWidth > breakpoint_size ? true : false;
     },
 
     scrollSpyCreate: function(target, shouldSpy) {
@@ -64,20 +64,16 @@ const util = {
     checkIfDisplayed: function getDisplayStyle(el) {
         // setup function for the passed in element for ongoing use in page
         // return true if the element of interest IS displayed
-        return function() {
-            return (getComputedStyle(el).display !== "none" ? true : false );
-        };
+        return () => (getComputedStyle(el).display !== "none" ? true : false);
     },
-
 };
 
-
-// define page specific scripts, if any are needed.
+// define page specific scripts, if any are desired/needed.
 // if there is no specific, default will be used
 const pages = {
 
     // pages script for homepage ()= index.html)
-    "index": function indexPage(pageID) {
+    index: function indexPage(pageID) {
 
         // handle toggling the nav & scrollspy
         function navSpy(flag) {
@@ -137,7 +133,7 @@ const pages = {
         // resize events: update the primaryNav behavior
         window.addEventListener("resize", (e) => {
             // check the current style.display value
-            let horizontalNavIsDisplayed = horizontalNavDisplayed();
+            const horizontalNavIsDisplayed = horizontalNavDisplayed();
             if (horizontalNavIsDisplayed && !previousNavWasHoriz) {
                 // if: horiz nav IS true (=displayed) && previous-nav is false, then
                 navSpy(true);
@@ -152,7 +148,7 @@ const pages = {
     },
 
     // default page handler
-    "default": function(pageID) {
+    default: function (pageID) {
         // can do something with pageID if necessary
 
         // instantiate a new sidepanel for the page
