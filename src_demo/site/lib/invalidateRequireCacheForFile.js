@@ -2,12 +2,11 @@
 //
 // invalidate the node require cache for a file
 // original source: https://gist.github.com/adam-lynch/11037907
+"use strict";
 
 const path = require("path");
 
-var requireNoCache = function(filePath) {
-    "use strict";
-
+const requireNoCache = function(filePath) {
     function _invalidateRequireCacheForFile(filePath) {
         delete require.cache[path.resolve(filePath)];
     }

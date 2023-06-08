@@ -10,10 +10,9 @@
 // @param {string} pageID - the page id value
 //
 // @returns {object} the page object from the gallery data
-
+"use strict";
 
 module.exports = function(globalContext, pageID) {
-    "use strict";
 
     let data = "";  // default
 

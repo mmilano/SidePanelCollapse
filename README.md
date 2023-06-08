@@ -67,13 +67,14 @@ So you might wonder: what are all these other files?
 
 Everything in the `/src_demo` directory is for the demonstration examples that can be [built and viewed](#the-demos). These demos are derived from an existing site that is built around a custom static page generation system using (a forked version of) [Panini][Panini].
 
-In addition to the handlebars partials, there are custom handlebars helpers (for example, `page-toc.js` generatively creates the page's table of contents when the page is built), site-specific javascript modules, and supporting files. The data-driven pages and things like the "gallery" on the advanced demo's index/homepage are also from to the original site.
+In addition to the handlebars partials, there are custom handlebars helpers (for example, `page-toc.js` generatively creates the page's table of contents when the page is built), site-specific javascript modules, and supporting files.
+The data-driven pages and things like the "gallery" on the advanced demo's index/homepage are also from to the original site.
 
 If you are curious, that other site is at [stochasticnotions.com][stochasticnotions].
 
 I crafted this library in order to fill a need that I had on my own project, and then transformed it to be a stand-alone package. During that evolution, I have tried to distill everything down to greater simplicity, and have cut down the source code considerably. But I might have missed some vestigial artifacts. If some aspect of seems internally inexplicable, that is probably the reason why.
 
-Feel free to contact me if you have questions.
+Contact me if you have questions.
 
 
 

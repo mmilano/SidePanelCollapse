@@ -14,5 +14,4 @@ module.exports = {
     "og": {
         "description": "Simple Demo",
     },
-
 };

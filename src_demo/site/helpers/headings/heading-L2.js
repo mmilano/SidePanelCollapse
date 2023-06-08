@@ -7,17 +7,15 @@
 // supports any of the following
 // <h2>simple title</h2>
 // <h2 id="section2" class="fomoco">less simple title</h2>
-
+"use strict";
 
 const basepath = process.cwd();
 const trimWhitespace = require( basepath + "/src_demo/site/lib/trim");
 const titlecase = require("ap-style-title-case");
 
 module.exports = function(attr, options) {
-    "use strict";
 
     let out, open;
-
     const openTag =  "<h2>";
     const closeTag = "</h2>";
 
@@ -34,7 +32,7 @@ module.exports = function(attr, options) {
         // iterate through the options
         // if parameter passed in is "attribute=true" format, handle that as a special case of a single name attribute
         // otherwise, express as: attribute="value"
-        for (var a in (options.hash)) {
+        for (let a in (options.hash)) {
             if (options.hash[a] === true) {
                attributes = " " + a + attributes;
             } else {

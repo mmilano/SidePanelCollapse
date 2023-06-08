@@ -12,9 +12,10 @@
 
 window.SidePanelCollapse = require("SidePanelCollapse");
 
+// demo specific:
 // collection of scripts and handlers specific to each page, keyed to page ID
 const pageMethods = require("pages.js");
 
 module.exports = {
-    pageMethods: pageMethods,
+    pageMethods,
 };

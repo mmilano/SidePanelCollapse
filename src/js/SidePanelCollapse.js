@@ -1,5 +1,5 @@
 /*! **********
- * SidePanelCollapse v1.2.0
+ * SidePanelCollapse v1.3.0
  * A Bootstrap 4-based sidebar augmenting the "collapse" component to collapse horizontally,
  * and allow variable duration timings for the transitions
  *
@@ -11,7 +11,7 @@
 /* globals define, self, SidePanel */
 
 // UMD template
-(function(window, SidePanelCollapse) {
+(function (window, SidePanelCollapse) {
     if (typeof define === "function" && define.amd) {
         // AMD
         define([], SidePanelCollapse);
@@ -26,7 +26,11 @@
 } (typeof self !== "undefined" ? self : this, function() {
     "use strict";
 
-    const _proto = SidePanelCollapse.prototype; // convenience shorthand
+    /**
+     * convenience shorthand
+     * @const
+     */
+    const _proto = SidePanelCollapse.prototype;
 
     /**
      * default selector for creation via data attribute
@@ -169,7 +173,7 @@
         // of things to do when when the sidebar opening is completed.
         // presumes: event is on the sidepanel DOM element itself.
         function whenTransitionEnds(_this) {
-            var handler = function () {};
+            let handler = function () {};
             //var handler = function(e) {
             // no action currently
             //};
@@ -432,7 +436,7 @@
     function initOnData() {
         window.SidePanel = [];
         const list = document.querySelectorAll(data_selector);
-        list.forEach(function (element) {
+        list.forEach((element) => {
             SidePanel.push(new SidePanelCollapse(element.id));
         });
     }

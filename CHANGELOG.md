@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.3.0] - 07-06-2023
+
+* new dist builds for v1.3.0
+* bootstrap to 4.6.2
+* package updates
+* minor javascript cleanup
+* refine the demo site
+* fix bug in sidebar layout of more advanced example page
+
+
+
 ## [1.2.0] - 01-07-2022
 
 * package updates
