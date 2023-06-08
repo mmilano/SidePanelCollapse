@@ -7,13 +7,12 @@ establish some of the global values for the page, and call page specific functio
 @param {string} page: page id value
 
 **********
---~}}
+--}}
 
 <script>
 {{#with (lookup . page)}}
-    var pageGlobal = {
-        pageID: "{{id}}",
-    };
-    document.addEventListener("DOMContentLoaded", site.pageMethods.pageRouter(pageGlobal.pageID), false);
+    const pageID = "{{id}}";
+    document.addEventListener("DOMContentLoaded", site.pageMethods.pageRouter(pageID), false);
 {{/with}}
 </script>
+
