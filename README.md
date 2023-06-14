@@ -158,7 +158,7 @@ Minimum requirements to use SidePanelCollapse on a site.
 
 ### Tech Requirements
 
-* [Bootstrap 4.x][Bootstrap-home]. The library was developed for version 4.6.1.
+* [Bootstrap 4.x][Bootstrap-home]. The library was developed for version 4.6.2.
 * [jQuery 3.x][jQuery-home]. Developed with version 3.6, slim build. Bootstrap4.x itself requires jQuery, so this library should already be part of the site.
 
 
