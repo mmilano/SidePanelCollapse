@@ -5,10 +5,7 @@
 
 const basepath = process.cwd();
 
-// special invocation of require
-const requireNoCache = require(basepath + "/src_demo/site/lib/invalidateRequireCacheForFile.js");
-
 // include the canonical subpage/gallery data file
-const galleryData = requireNoCache(basepath + "/src_demo/js/site/gallery/site-gallery-data.js");
+const galleryData = require(basepath + "/src_demo/js/site/gallery/site-gallery-data.js");
 
 module.exports = galleryData;
