@@ -5,10 +5,10 @@
  *
  * Main (universal) SCSS for the sidepanel
  *
- * NOTE: * these values for .sidepanel control the behavior - NOT THE VISUAL STYLE - of the sidepanel.
+ * NOTE: * these values for ".sidepanel" control the behavior - NOT THE VISUAL STYLE - of the sidepanel.
  *
  * Michel Milano
- *
+ * 2023
  * MIT License
- */.sidepanel{--durationShow:1.05s;--durationHide:0.35s;--durationHideFast:0.13s;transition-property:width;transition-timing-function:ease-in}.sidepanel.collapsing{width:0;transition-duration:var(--durationShow)}.backdrop{z-index:931;display:none;position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;background-color:hsla(0,0%,100%,.6);animation:b .17s linear}.backdrop.fadein{animation:a .33s linear forwards}.backdrop.show{display:block}.backdrop.dark{background-color:rgba(0,0,0,.51)}@keyframes a{0%{opacity:0}to{opacity:1}}@keyframes b{0%{opacity:1}to{opacity:0}}
+ */.sidepanel{--durationShow:1.05s;--durationHide:0.35s;--durationHideFast:0.13s;transition-property:width;transition-timing-function:ease-in}.sidepanel.collapsing{width:0;transition-duration:var(--durationShow)}.sidepanel-backdrop{z-index:931;display:none;position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;background-color:hsla(0,0%,100%,.6);animation:b .17s linear}.sidepanel-backdrop.fadein{animation:a .33s linear forwards}.sidepanel-backdrop.show{display:block}.sidepanel-backdrop.dark{background-color:rgba(0,0,0,.51)}@keyframes a{0%{opacity:0}to{opacity:1}}@keyframes b{0%{opacity:1}to{opacity:0}}
 /*# sourceMappingURL=map/sidePanelCollapse.min.css.map */

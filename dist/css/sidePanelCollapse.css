@@ -9,10 +9,10 @@
  *
  * Main (universal) SCSS for the sidepanel
  *
- * NOTE: * these values for .sidepanel control the behavior - NOT THE VISUAL STYLE - of the sidepanel.
+ * NOTE: * these values for ".sidepanel" control the behavior - NOT THE VISUAL STYLE - of the sidepanel.
  *
  * Michel Milano
- *
+ * 2023
  * MIT License
  */
 .sidepanel {
@@ -27,7 +27,7 @@
     transition-duration: var(--durationShow);
 }
 
-.backdrop {
+.sidepanel-backdrop {
     z-index: 931;
     display: none;
     position: fixed;
@@ -39,13 +39,13 @@
     background-color: rgba(255, 255, 255, 0.6);
     animation: backdropFadeOut 0.17s linear;
 }
-.backdrop.fadein {
+.sidepanel-backdrop.fadein {
     animation: backdropFadeIn 0.33s linear forwards;
 }
-.backdrop.show {
+.sidepanel-backdrop.show {
     display: block;
 }
-.backdrop.dark {
+.sidepanel-backdrop.dark {
     background-color: rgba(0, 0, 0, 0.51);
 }
 
