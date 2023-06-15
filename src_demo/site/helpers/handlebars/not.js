@@ -8,7 +8,7 @@
  * @returns boolean
  */
 
-const not = function (expression) {
+const not = (expression) => {
     return !expression;
 };
 

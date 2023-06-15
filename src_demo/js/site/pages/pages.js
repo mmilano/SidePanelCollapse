@@ -81,12 +81,10 @@ const pages = {
                 // TRUE = now the horiz nav IS displayed
                 // so dispose of the existing scrollspy, and create a new one for the primarynav
                 util.scrollSpyToggle(navHorizontal);
-                // console.log ("toggle: now display " + navHorizontal);
             } else {
                 // FALSE = now the horiz nav IS NOT displayed
                 // so dispose of the existing scrollspy, and create a new one for sidenav
                 util.scrollSpyToggle(navVertical);
-                // console.log ("toggle: now display " + navVertical);
             }
         }
 
@@ -121,7 +119,7 @@ const pages = {
 
         // create the scrollspy on the nav for the current state of the index page
         // pages needs to have the scrollspy work on both horizontal and vertical navs
-        let targetNav = horizontalNavIsDisplayed ? navHorizontal : navVertical;
+        const targetNav = horizontalNavIsDisplayed ? navHorizontal : navVertical;
 
         // initialize boolean value for determining if the nav display toggled between display states,
         // meaning the the nav changed from horiz to vertical

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.1] - 07-15-2023
+* fix a bug for when SidePanelCollapse() is called with just a string name by constructing a valid options{}
+* minor simplifications
+
+
+
 ## [1.3.0] - 07-06-2023
 
 * new dist builds for v1.3.0
