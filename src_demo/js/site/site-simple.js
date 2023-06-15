@@ -18,11 +18,10 @@ window.addEventListener("load", function() {
     //     durationHide: "1.5s",
     //     durationHideFast: "0.25s",
     //     backdrop: true,
-    //     backdropStyleClass: "light",
+    //     backdropStyleClass: "dark",
     //     sidePanelIsOpenClass: "sidepanel-shown",
     // };
-
-    // const sidepanel = new SidePanelCollapse(sidepanelOptions);
+    // window.sidepanel = new SidePanelCollapse(sidepanelOptions);
 
     console.log("script can do programmatic things here after the window 'load' event fires");
     console.log("at this point, the SidePanel will have been created and initialized.");
