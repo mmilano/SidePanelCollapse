@@ -5,10 +5,10 @@
  *
  * Main (universal) SCSS for the sidepanel
  *
- * NOTE: * these values for .sidepanel control the behavior - NOT THE VISUAL STYLE - of the sidepanel.
+ * NOTE: * these values for ".sidepanel" control the behavior - NOT THE VISUAL STYLE - of the sidepanel.
  *
  * Michel Milano
- *
+ * 2023
  * MIT License
  */
 
@@ -63,8 +63,7 @@ $sidepanel-backdrop-duration-hide:        0.17s !default;
 
 // backdrop = the full-page background displayed when sidenav is displayed (open).
 // intended to screen the existing page content.
-// borrows inspiration from bootstrap .modal-backdrop
-.backdrop {
+.sidepanel-backdrop {
     z-index: $sidepanel-backdrop-zindex;
     display: none;
 
@@ -91,13 +90,13 @@ $sidepanel-backdrop-duration-hide:        0.17s !default;
         display: block;
     }
 
-    // light-coloured. established as the default, so additional rule is not necessary
+    // light version. established as the default, so additional rule is not necessary
     // note: it is still applied in the javascript however.
     // &.light {
     //     background-color: $sidepanel-backdrop-light;
     // }
 
-    // dark-coloured
+    // dark version
     &.dark {
         background-color: $sidepanel-backdrop-dark;
     }
