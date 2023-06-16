@@ -7,7 +7,6 @@
 /* jshint sub:true */                    // suppress warnings about using [] notation when it can be expressed in dot notation
 /* globals SidePanelCollapse, site */    // tell jshint about global variables that are not formally defined in the particular file
 /* jshint latedef: false */              // prohibits the use of a variable before it was defined
-
 "use strict";
 
 // utility methods
@@ -21,7 +20,7 @@ const util = {
         if (!breakpoint_size) {
             // if no value, then the browser doesn't support css variables.
             // so use an arbitrary default value
-            breakpoint_size = 42; // breakpoint size default. arbitrary breakpoint size value in px.
+            breakpoint_size = 42; // arbitrary breakpoint size value in px.
         };
 
         // get width of the current window
@@ -88,8 +87,8 @@ const pages = {
             }
         }
 
-        // instantiate a new side panel for the page for when/if the sidenav will display
-        // options for this page
+
+        // SidePanelCollapse options for this page
         const sidePanelOptions = {
             durationShow: "1.25s",
             durationHide: "1s",
@@ -97,6 +96,7 @@ const pages = {
             backdropStyleClass: "dark",
         };
 
+        // instantiate a new side panel for the page for when/if the sidenav will display
         // expose sidePanel as global for demo purposes
         window.sidePanel = new SidePanelCollapse(sidePanelOptions);
 
@@ -141,15 +141,13 @@ const pages = {
                 previousNavWasHoriz = false;
             }
         }, false);
-
     },
 
     // default page handler
     default: function (pageID) {
-        // can do something with pageID if necessary
+        // ...can do something with pageID if desired
 
-        // instantiate a new sidePanel for the page
-        // with options (different from index)
+         // SidePanelCollapse options for thse pages (note: different from index)
         const sidePanelOptions = {
             durationShow: "1.25s",
             durationHide: ".7s",
@@ -157,6 +155,7 @@ const pages = {
             backdropStyle: "dark",
         };
 
+        // instantiate a new sidePanel for the page
         // expose sidePanel as global for demo purposes
         window.sidePanel = new SidePanelCollapse(sidePanelOptions);
 
