@@ -3,9 +3,7 @@
 // .sidenav styles add to .sidePanel styles for site-specific design.
 // one could also override .sidePanel styles here
 
-
 $sidenav-side:                          "right";  // the default position = right side of window
-
 $sidenav-zindex:                        $zindex-fixed + 1;  // z-index of Bootstrap4 default nav, plus 1, to put the sidenav above the nav
 
 $sidenav-width-large:                   260px;
