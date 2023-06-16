@@ -1,7 +1,7 @@
 // visual design styles for the sidenav
 //
-// .sidenav styles add to .sidepanel styles for site-specific design.
-// one could also override .sidepanel styles here
+// .sidenav styles add to .sidePanel styles for site-specific design.
+// one could also override .sidePanel styles here
 
 
 $sidenav-side:                          "right";  // the default position = right side of window
@@ -28,13 +28,13 @@ $sidenav-nav-padding-left:              25px;
     top: 0;
     bottom: 0;
     #{$sidenav-side}: 0;
-    height: 100vh;  // sidepanel extends the full height of the window
+    height: 100vh;  // sidePanel extends the full height of the window
     padding: 0;
     overflow-x: hidden;
 
     background-color: $sidenav-background-color;
 
-    // because the width of the top-level .sidepanel is changed during the collapse event by Bootstrap,
+    // because the width of the top-level .sidePanel is changed during the collapse event by Bootstrap,
     // an interior element is used to maintain a fixed width for the content.
     .sidenav-content {
         position: relative;
