@@ -2,12 +2,10 @@
 // general site javascript initialization
 //
 // there isn't much to this, just some placeholders to stand in for some script code on a page
-
 "use strict";
 
 // run after page is fully loaded
 window.addEventListener("load", function() {
-
     // if the desire is to initialize SidePanelCollapse manually instead of the auto-init that the data-attribute initiates,
     // then this is the place that could be done, like the following (disabled) example code.
 

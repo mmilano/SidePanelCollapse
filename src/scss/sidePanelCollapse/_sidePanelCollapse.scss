@@ -33,7 +33,6 @@ $sidePanel-backdrop-light:                rgba(#FFF, 0.6) !default;
 $sidePanel-backdrop-duration-show:        0.33s !default;
 $sidePanel-backdrop-duration-hide:        0.17s !default;
 
-
 .sidePanel {
     // output the duration values as css variables so that they only have to be declared in one place, and
     // the page's javascript can access/extract them when needed.
