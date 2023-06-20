@@ -7,7 +7,6 @@
 /* jshint sub:true */                    // suppress warnings about using [] notation when it can be expressed in dot notation
 /* globals SidePanelCollapse, site */    // tell jshint about global variables that are not formally defined in the particular file
 /* jshint latedef: false */              // prohibits the use of a variable before it was defined
-
 "use strict";
 
 // utility methods
@@ -21,7 +20,7 @@ const util = {
         if (!breakpoint_size) {
             // if no value, then the browser doesn't support css variables.
             // so use an arbitrary default value
-            breakpoint_size = 42; // breakpoint size default. arbitrary breakpoint size value in px.
+            breakpoint_size = 42; // arbitrary breakpoint size value in px.
         };
 
         // get width of the current window
@@ -88,17 +87,18 @@ const pages = {
             }
         }
 
-        // instantiate a new side panel for the page for when/if the sidenav will display
-        // options for this page
-        const sidepanelOptions = {
+
+        // SidePanelCollapse options for this page
+        const sidePanelOptions = {
             durationShow: "1.25s",
             durationHide: "1s",
             durationHideFast: "0.5s",
             backdropStyleClass: "dark",
         };
 
-        // expose sidepanel as global for demo purposes
-        window.sidepanel = new SidePanelCollapse(sidepanelOptions);
+        // instantiate a new side panel for the page for when/if the sidenav will display
+        // expose sidePanel as global for demo purposes
+        window.sidePanel = new SidePanelCollapse(sidePanelOptions);
 
         // define the 2 different nav's for the page
         // the horizontal - primaryNav - displayed at very large window sizes (Bootstrap definition of large)
@@ -113,7 +113,6 @@ const pages = {
         // the primarynav horizontal nav that will collapse depending to screen size (= navbar-expand-*)
         const horizontalNav = document.getElementById("primaryNav-horiz");
         // is the horizontal nav being displayed (i.e. have a display value other than 'none'?)
-        // debugger;
         const horizontalNavDisplayed = util.checkIfDisplayed(horizontalNav);
         let horizontalNavIsDisplayed = util.checkIfDisplayed(horizontalNav)();
 
@@ -142,24 +141,23 @@ const pages = {
                 previousNavWasHoriz = false;
             }
         }, false);
-
     },
 
     // default page handler
     default: function (pageID) {
-        // can do something with pageID if necessary
+        // ...can do something with pageID if desired
 
-        // instantiate a new sidepanel for the page
-        // with options (different from index)
-        const sidepanelOptions = {
+         // SidePanelCollapse options for thse pages (note: different from index)
+        const sidePanelOptions = {
             durationShow: "1.25s",
             durationHide: ".7s",
             durationHideFast: "0.2s",
             backdropStyle: "dark",
         };
 
-        // expose sidepanel as global for demo purposes
-        window.sidepanel = new SidePanelCollapse(sidepanelOptions);
+        // instantiate a new sidePanel for the page
+        // expose sidePanel as global for demo purposes
+        window.sidePanel = new SidePanelCollapse(sidePanelOptions);
 
         // only activate scrollspy on TOC if window is above certain size
         // this is dependent on the layout being in columns >= checked size, so that TOC will be displayed

@@ -1,7 +1,6 @@
 // main style file
 // GENERAL common, shared style definitions
 
-
 html {
     scroll-behavior: smooth;  // replacement for smoothscroll. limited browser support, but sufficient for demo
 }
@@ -91,7 +90,7 @@ h1, h2, h3, h4, b, strong {
 section {
     &.theme-section {
         h2 {
-            margin-bottom: 5rem;
+            margin-bottom: 4rem;
         }
     }
 }

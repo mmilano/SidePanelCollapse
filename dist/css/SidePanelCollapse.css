@@ -3,31 +3,31 @@
  *
 */
 /*! **********
- * SidePanelCollapse v1.3.1
+ * SidePanelCollapse v1.3.2
  * A Bootstrap 4-based sidebar augmenting the "collapse" component to collapse horizontally,
  * and allow variable duration timings for the transitions
  *
- * Main (universal) SCSS for the sidepanel
+ * Main (universal) SCSS for the sidePanel
  *
- * NOTE: * these values for ".sidepanel" control the behavior - NOT THE VISUAL STYLE - of the sidepanel.
+ * NOTE: * these values for ".sidePanel" control the behavior - NOT THE VISUAL STYLE - of the sidePanel.
  *
  * Michel Milano
  * 2023
  * MIT License
  */
-.sidepanel {
+.sidePanel {
     --durationShow: 1.05s;
     --durationHide: 0.35s;
     --durationHideFast: 0.13s;
     transition-property: width;
     transition-timing-function: ease-in;
 }
-.sidepanel.collapsing {
+.sidePanel.collapsing {
     width: 0;
     transition-duration: var(--durationShow);
 }
 
-.sidepanel-backdrop {
+.sidePanel-backdrop {
     z-index: 931;
     display: none;
     position: fixed;
@@ -39,13 +39,13 @@
     background-color: rgba(255, 255, 255, 0.6);
     animation: backdropFadeOut 0.17s linear;
 }
-.sidepanel-backdrop.fadein {
+.sidePanel-backdrop.fadein {
     animation: backdropFadeIn 0.33s linear forwards;
 }
-.sidepanel-backdrop.show {
+.sidePanel-backdrop.show {
     display: block;
 }
-.sidepanel-backdrop.dark {
+.sidePanel-backdrop.dark {
     background-color: rgba(0, 0, 0, 0.51);
 }
 
@@ -65,4 +65,4 @@
         opacity: 0;
     }
 }
-/*# sourceMappingURL=map/sidePanelCollapse.css.map */
+/*# sourceMappingURL=map/SidePanelCollapse.css.map */

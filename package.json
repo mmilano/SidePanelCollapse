@@ -1,15 +1,13 @@
 {
-  "name": "sidebar-slide",
-  "version": "1.3.1",
+  "name": "SidePanelCollapse",
+  "version": "1.3.2",
   "description": "A horizontal sliding sidebar with Bootstrap v4.6.x and the 'collapse' component, along with different duration timing for both the show and hide events.",
   "keywords": [
-    "bootstrap4",
+    "bootstrap 4",
     "horizontal",
-    "collapse",
-    "demonstration",
-    "example",
-    "website",
     "sidebar",
+    "collapse",
+    "website",
     "javascript-library"
   ],
   "author": {
@@ -36,15 +34,18 @@
     "@src-sidepanel": "src-sidepanelcollapse"
   },
   "browserslist": [
-    "defaults"
+    ">0.3%"
   ],
   "devDependencies": {
     "@babel/core": "^7.22.5",
     "@babel/preset-env": "^7.22.5",
     "ap-style-title-case": "^1.1.2",
+    "autoprefixer": "^10.4.14",
     "bootstrap": "^4.6.2",
     "browserify": "^17.0.0",
     "cheerio": "^1.0.0-rc.12",
+    "cssnano": "^6.0.1",
+    "cssnano-preset-advanced": "^6.0.1",
     "del": "^6.0.0",
     "fancy-log": "^2.0.0",
     "glob": "^10.2.7",
@@ -57,8 +58,6 @@
     "gulp-changed-in-place": "^2.3.0",
     "gulp-cli": "^2.3.0",
     "gulp-connect": "^5.7.0",
-    "gulp-csslint": "^1.0.1",
-    "gulp-cssnano": "^2.1.3",
     "gulp-debug": "^4.0.0",
     "gulp-filter": "^7.0.0",
     "gulp-html": "^6.0.0",
@@ -67,6 +66,7 @@
     "gulp-jshint": "^2.1.0",
     "gulp-noop": "^1.0.1",
     "gulp-notify": "^4.0.0",
+    "gulp-postcss": "^9.0.1",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^3.0.0",
@@ -77,6 +77,7 @@
     "mocha": "^10.2.0",
     "node-notifier": "^10.0.1",
     "panini": "github:mmilano/panini#master",
+    "postcss": "^8.4.24",
     "sass": "^1.63.4",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"

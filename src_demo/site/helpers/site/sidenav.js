@@ -68,28 +68,27 @@ module.exports = function (globalContext, options) {
         return template_compiled["name"](context, options);
     }
 
-	// NOTE: not being used in sidepanel demo
+	// NOTE: not being used in demo
     const renderDivider = () => "<!-- divider -->";
 
-	// NOTE: not being used in sidepanel demo
+	// NOTE: not being used in demo
     const renderGroupName = (group) => {
-        let context = {
+        const context = {
             "group": group,
         };
         return template_compiled["group"](context);
-
     }
 
-	// NOTE: not being used in sidepanel demo
+	// NOTE: not being used in demo
     const renderGroupBegin = () => "<!-- begin: a group -->";
 
-	// NOTE: not being used in sidepanel demo
+	// NOTE: not being used in demo
     const renderGroupEnd = () => "<!-- end: a group -->";
 
     // iterate the data array of pages passed in and find just the non-disabled ones
     function getActivePages(gallery) {
         let list = [];
-        let keys = Object.keys(gallery);
+        const keys = Object.keys(gallery);
 
         keys.forEach(function (key) {
             if (!gallery[key].disable) {

@@ -170,7 +170,7 @@ There are additional requirements to build/view the demos or work with the sourc
 
 A recent model browser.
 * Chrome, Firefox, Safari, Edge. Some mobile versions, too.
-* IE - not so much.
+* IE? not so much.
 
 See note regarding [browser targets](#about-the-production-builds).
 
@@ -179,10 +179,10 @@ See note regarding [browser targets](#about-the-production-builds).
 To begin with, you should have an element in your web page – the "side panel" – containing content that you want to show and hide, side to side.
 
 * The top level of the side panel must have a unique CSS selector. The default is `#sidePanel`.
-* The side panel HTML element itself must have the `width` and `sidepanel` classes.
+* The side panel HTML element itself must have the `width` and `sidePanel` classes.
 
 ```html
-<div class="sidepanel width mysidenav collapse" id="sidePanel">
+<div class="sidePanel width mysidenav collapse" id="sidePanel">
     ...
 </div>
 ```
@@ -209,6 +209,7 @@ SidePanelCollapse only manages the interactions of the side panel.
 It makes absolutely no claims on the visual design of the side panel element.
 All visual styling must be done separately. It can be any color, practically any size, and can have most any content. You should be able to make it work with just about any design of your own. Take a look at [the Demos](#the-demos) for ideas.
 
+There are visual style rules on the backdrop element, however, defining the colors of the "light" and "dark" versions.
 
 
 
@@ -225,7 +226,7 @@ Add the boolean attribute `data-sidepanel-collapse` on the side panel HTML eleme
 Data attribute activation will use the default settings. Custom configurations are only available via javascript initialization.
 
 ```html
-<div class="sidepanel sidenav width collapse" id="sidePanel" data-sidepanel-collapse>
+<div class="sidePanel sidenav width collapse" id="sidePanel" data-sidepanel-collapse>
     ...
 </div>
 ```
@@ -235,7 +236,7 @@ Data attribute activation will use the default settings. Custom configurations a
 Activate SidePanelCollapse manually by creating a new SidePanelCollapse instance with the constructor.
 
 ```js
-sidepanel = new SidePanelCollapse(options);
+yourSidePanel = new SidePanelCollapse(options);
 ```
 
 Setting custom configuration options is, well...optional, and only available via javascript initialization. [Configuration Options](#configuration-options) describes the available choices in detail.
@@ -249,44 +250,56 @@ Setting custom configuration options is, well...optional, and only available via
 SidePanelCollapse can be initialized via javascript with custom settings using a javascript properties object. Use only what you need - any values not specified will use the defaults.
 
 ```js
-var options = {
+let options = {
     durationShow: "3s",
     durationHide: "2s",
     backdropStyle: "dark",
 };
-sidepanel = new SidePanelCollapse(options);
+sidePanel = new SidePanelCollapse(options);
 ```
 
 
 | Name | Type | Default  | Description |
 | ---- | --------------- | ------------- | ----------- |
-| `sidepanelElement`      | CSS ID selector | `#sidePanel` | CSS ID selector for the top-level of the side panel. |
-| `sidepanelCloseElement` | CSS selector or `false` | `.sidePanel-close` | CSS selector for the close button that should close the panel. If `false`, no closing button will be used by the library. |
+| `sidePanelElement`      | CSS ID selector | `#sidePanel` | CSS ID selector for the top-level of the side panel. |
+| `sidePanelCloseElement` | CSS selector or `false` | `.sidePanel-close` | CSS selector for the close button that should close the panel. If `false`, no closing button will be used by the library. |
+| `sidePanelIsOpenClass`  | CSS CLASS name | `sidePanel-open` | CSS class that is added to the document `<body>` when the sidePanelElement shows, removed when it hides. |
 | `durationShow`          | CSS transition-duration | `1.1s` | Duration for the opening transition.
 | `durationHide`          | CSS transition-duration | `0.35s` | Duration for the standard closing transition.
 | `durationHideFast`          | CSS transition-duration | `0.13s` | Duration for  _FAST_ closing transition.
 | `backdrop`              | boolean | `true` | Whether or not a backdrop (i.e. overlay) should display behind the open panel. |
 | `backdropStyleClass`         | CSS CLASS name | `light` |  Which style of backdrop to use, corresponding to a CSS class style. Built-in classes are "light" or "dark". |
-| `sidePanelIsOpenClass`  | CSS CLASS name | `sidepanel-open` | CSS class that is added to the document `<body>` when the sidepanelElement shows, removed when it hides. |
 | `handleLinks`         | boolean | `true `| Whether or not `<a>` html links in the side panel should be handled in a special manner by the library.  |
 
 
 ⚠️**Caveat Developer**:
-During initialization, if the `sidepanelElement` HTML element cannot be found in the document, a browser console alert will display and the SidePanelCollapse will not be created. Otherwise, it will be created – whether or not the custom values are valid.
+During initialization, if the `sidePanelElement` HTML element cannot be found in the document, a browser console alert will display and the SidePanelCollapse will not be created. Otherwise, it will be created – whether or not the custom values are valid.
 
 Any custom settings should be manually verified and validated for the context. For example, the durations are required to be valid CSS transition-duration values. If they are not, there may not be any overt indication that something is awry, but the side panel will not function correctly.
 
 
-## `sidepanelElement`
+## `sidePanelElement`
 
 This selects the panel HTML element itself. Its value must be a valid unique CSS ID selector for the top level of the side panel DOM element in the HTML page. As a test, if `document.getElementById()` returns the right element and only one element, then it should work correctly.
 
 
-## `sidepanelCloseElement`
+## `sidePanelCloseElement`
 
 The side panel closing button. It must be a valid unique CSS selector for close button DOM element in the HTML page. As a test, if `document.querySelector()` returns the right element and only one element, then it should  work.
 
 If you do not want to use a close button, set boolean `false` and the library will not look for a close button. If the CSS selector cannot be found in the DOM, the internal value will also be `false`.
+
+
+## `sidePanelIsOpenClass`
+
+When the side panel opens, the CSS class name specified by `sidePanelIsOpenClass` is added to the document's `<body>` tag and then removed when it hides. This provides a convenient cascade to enable styles that should apply only when the panel is open.
+
+```scss
+// turn all <p> chartreuse when sidebar is open
+.sidePanel-open p {
+    background-color: #AAFF11;
+}
+```
 
 
 ## Durations
@@ -335,24 +348,11 @@ var options = {
 <div class="backdrop brightSpring"></div>
 ```
 
-
-## `sidePanelIsOpenClass`
-
-When the side panel opens, the CSS class name specified by `sidePanelIsOpenClass` is added to the document's `<body>` tag and then removed when it hides. This provides a convenient cascade to enable styles that should apply only when the panel is open.
-
-```scss
-// turn all <p> chartreuse when sidebar is open
-.sidepanel-open p {
-    background-color: #AAFF11;
-}
-```
-
-
 ## `handleLinks`
 
 The `handleLinks` option is a boolean value that determines if SidePanelCollapse will attempt to alter the default behavior of links in the side panel element.
 
-When `handleLinks` is true, SidePanelCollapse will attempt to parse the content of the element. Any links found - technically defined as `<a>` tags that are descendants of `sidepanelElement` – will be given a custom event handler. When clicked, the side panel will be closed "fast" and then the page will be sent to the link destination.
+When `handleLinks` is true, SidePanelCollapse will attempt to parse the content of the element. Any links found - technically defined as `<a>` tags that are descendants of `sidePanelElement` – will be given a custom event handler. When clicked, the side panel will be closed "fast" and then the page will be sent to the link destination.
 
 When `false`, link-handling is disabled and nothing changes.
 
@@ -417,7 +417,7 @@ The first three of these are mostly straightforward. The fourth is not.
 
 SidePanelCollapse allows for a close `<button>` element within the vertical panel or on the page. For example, in the demos, this is the glyph "X" in the side header bar that overlaps and covers the opening menu glyph (&#9776;).
 
-The default CSS selector for the close button is `.sidePanel-close`. Give the option `sidepanelCloseElement` a custom CSS selector on initialization to target a differently-named closing element that adheres to the Bootstrap collapse `.navbar-toggler` requirements. Or it can be given a value of `false`. In that case, no separate close button will be initialized by the library, and the other closing methods can be relied upon.
+The default CSS selector for the close button is `.sidePanel-close`. Give the option `sidePanelCloseElement` a custom CSS selector on initialization to target a differently-named closing element that adheres to the Bootstrap collapse `.navbar-toggler` requirements. Or it can be given a value of `false`. In that case, no separate close button will be initialized by the library, and the other closing methods can be relied upon.
 
 Clicking the close button will close the side panel at the normal duration speed.
 
