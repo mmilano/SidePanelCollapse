@@ -70,7 +70,7 @@
         // css selectors:
         // default selectors for the sidePanel DOM elements
         sidePanelElement: "#sidePanel", // top-level of the side-panel element in the DOM. CSS format
-        sidePanelCloseElement: ".sidePanel-close", // the close button, containing the close icon, visible when the sidepanel is displayed. CSS format.
+        sidePanelCloseElement: ".sidePanel-close", // the close button, containing the close icon, visible when the sidePanel is displayed. CSS format.
 
         // HTML class attribute:
         // class that is added to the document's <body> element when sidePanel shows, removed when it hides.
@@ -90,7 +90,7 @@
         durationHideFast: styles.getPropertyValue("--durationHideFast"),
 
         // boolean:
-        // whether or not a backdrop, or overlay, should display behind the sidepanel
+        // whether or not a backdrop, or overlay, should display behind the sidePanel
         backdrop: true,
 
         // HTML class attribute:
@@ -99,7 +99,7 @@
         backdropStyleClass: "light",  // javascript format
 
         // boolean:
-        // whether sidepanel should enable special behavior for <a> links in the sidepanel.
+        // whether sidePanel should enable special behavior for <a> links in the sidePanel content.
         // currently, the behavior is to intercept the link click, close the sidePanel using the HideFast duration, and then follow the link
         handleLinks: true,
     };
@@ -311,18 +311,18 @@
     };
 
     // Backdrop constructor
-    // @param: provide backdrop with access to the parent sidepanel object that is created...
-    function Backdrop(_sidepanel) {
+    // @param: provide backdrop with access to the parent sidePanel object that is created...
+    function Backdrop(_sidePanel) {
         // create the backdrop HTML element
         const create = (styleClass) => {
             let el = document.createElement("div");
-            el.className = "sidepanel-backdrop" + " " + styleClass;
+            el.className = "sidePanel-backdrop" + " " + styleClass;
             return el;
         };
 
         // construction
         // create the backdrop DOM element and store it
-        this.element = create(_sidepanel.settings.backdropStyleClass);
+        this.element = create(_sidePanel.settings.backdropStyleClass);
 
         // add backdrop to the document DOM (at bottom)
         document.body.appendChild(this.element);
@@ -397,9 +397,9 @@
             return false;
         }
 
-        // sidepanel exists!
+        // sidePanel exists!
         //
-        // begin: sidepanel initialization
+        // begin: sidePanel initialization
 
         // the open and close methods will be called as event listeners, and all of them need to access the correct 'this,'
         // which is troublesome with event listeners.
@@ -421,7 +421,7 @@
         this.$sidePanel.on("show.bs.collapse", this.open);
 
         // (try to) select and cache the close button element.
-        // note: assumes there is only one .sidepanel and only one close button within the sidepanel structure
+        // note: assumes there is only one .sidePanel and only one close button within the sidePanel structure
         this.sidePanelCloseButton = _settings.sidePanelCloseElement ? _$sidePanel[0].querySelector(_settings.sidePanelCloseElement) : false;
         if (this.sidePanelCloseButton) {
             // add persistent event listener for action on the close element
