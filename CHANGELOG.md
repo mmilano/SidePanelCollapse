@@ -1,5 +1,13 @@
 # Changelog
 
+
+## [1.3.2] - 07-19-2023
+* revising camelCase of SidePanel naming for class and ID references (in HTML, in CSS, in JS),
+along with all references
+* replace older gulp-cssnano build process with newer postcss-based build process
+
+
+
 ## [1.3.1] - 07-15-2023
 * fix a bug for when SidePanelCollapse() is called with just a string name by constructing a valid options{}
 * minor simplifications
