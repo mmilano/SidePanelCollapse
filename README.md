@@ -42,7 +42,7 @@ _proto._getDimension = function _getDimension() {
 ([Bootstrap.js/collapse source][BS-source-width])
 
 Vertical/height collapse is the default behavior, but Bootstrap will check if the collapsing element has a `width` class.
-If so, then the width, not height, collapses between 0 and its width value. It transforms horizontally, not vertically.
+If so, then the width, not height, "collapses" between 0 and the width value. It transforms horizontally, not vertically.
 
 
 ## SidePanelCollapse Goes Sideways
@@ -63,7 +63,7 @@ Then, going beyond simple horizontal movement, the library provides additional f
 
 **The SidePanelCollapse library is itself just two files, one javascript and one CSS. The package's source code is in `src/` and the pre-built files are in `dist/`.**
 
-So you might wonder: what are all these other files?
+So what are all these other files?
 
 Everything in the `/src_demo` directory is for the demonstration examples that can be [built and viewed](#the-demos). These demos are derived from an existing site that is built around a custom static page generation system using (a forked version of) [Panini][Panini].
 
@@ -92,7 +92,7 @@ This is the simplest way of using SidePanelCollapse: the javascript and CSS file
  ```html
  <!DOCTYPE html>
  <head>
-    <link href="path/to/sidePanelCollapse.min.css" rel="stylesheet"/>
+    <link href="path/to/SidePanelCollapse.min.css" rel="stylesheet"/>
 </head>
 <body>
     ...
@@ -158,8 +158,8 @@ Minimum requirements to use SidePanelCollapse on a site.
 
 ### Tech Requirements
 
-* [Bootstrap 4.x][Bootstrap-home]. The library was developed for version 4.6.2.
-* [jQuery 3.x][jQuery-home]. Developed with version 3.6, slim build. Bootstrap4.x itself requires jQuery, so this library should already be part of the site.
+* [Bootstrap 4.x][Bootstrap-home]. The library was developed with version 4.6.2.
+* [jQuery 3.x][jQuery-home]. Developed with version 3.6x, slim build. Bootstrap4.x itself requires jQuery, so this library should already be part of the site.
 
 
 There are additional requirements to build/view the demos or work with the source code:
@@ -262,7 +262,7 @@ sidePanel = new SidePanelCollapse(options);
 | Name | Type | Default  | Description |
 | ---- | --------------- | ------------- | ----------- |
 | `sidePanelElement`      | CSS ID selector | `#sidePanel` | CSS ID selector for the top-level of the side panel. |
-| `sidePanelCloseElement` | CSS selector or `false` | `.sidePanel-close` | CSS selector for the close button that should close the panel. If `false`, no closing button will be used by the library. |
+| `sidePanelCloseElement` | CSS CLASS selector, or `false` | `.sidePanel-close` | CSS selector for the close button that should close the panel. If `false`, no closing button will be used by the library. |
 | `sidePanelIsOpenClass`  | CSS CLASS name | `sidePanel-open` | CSS class that is added to the document `<body>` when the sidePanelElement shows, removed when it hides. |
 | `durationShow`          | CSS transition-duration | `1.1s` | Duration for the opening transition.
 | `durationHide`          | CSS transition-duration | `0.35s` | Duration for the standard closing transition.
@@ -332,14 +332,14 @@ The visual style of the backdrop is set by the `backdropStyleClass` value. Inclu
 
 You can specify a custom style by defining a rule in your project's SCSS and providing the selector as a string (without the leading dot). It must be a class and cannot be an id.
 
-For example, this SCSS and configuration option...
+For example, these SCSS and JS configuration options...
 ```scss
 .brightSpring {
     background-color: rgba(#AAFF11, 0.57);
 }
 ```
 ```js
-var options = {
+const options = {
     backdropStyleClass: "brightSpring",
 };
 ```
@@ -604,7 +604,7 @@ Production builds of the library (the .js and .css files) get saved into the pro
 
 #### Browser Targets
 
-The CSS and javascript is compiled or transpiled to a default browser target = `["> 0.5%"].` If you need a different target range, this value can be changed (in the gulp task file) and the files rebuilt to the new target. Be cognizant that increasing the range will probably increase the final file size as a result of added polyfills.
+The CSS and javascript is compiled or transpiled to a default browser target = `["> 0.3%"].` If you need a different target range, this value can be changed (in the `package.json` file) and the files rebuilt to the new target. Be cognizant that increasing the range will probably increase the final file size as a result of added polyfills.
 
 
 
