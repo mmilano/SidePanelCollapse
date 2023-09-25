@@ -12,11 +12,12 @@ const basepath = process.cwd();
 const trimWhitespace = require( basepath + "/src_demo/site/lib/trim");
 const titlecase = require("ap-style-title-case");
 
+const openTag =  "<h2>";
+const closeTag = "</h2>";
+
 module.exports = function(attr, options) {
 
     let out, open;
-    const openTag =  "<h2>";
-    const closeTag = "</h2>";
 
     // allow for arbitrary number of attributes passed as arguments
     if (!options || !options.fn) {
