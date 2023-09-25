@@ -5,7 +5,6 @@
 // currently used to display nav options in the slide-out side panel
 //
 // @param {object} globalContext: the top level (handlebars) context for the site
-"use strict";
 
 const panini = require("panini");
 const node_path = require("path");
@@ -14,27 +13,28 @@ const titlecase = require("ap-style-title-case");
 module.exports = function (globalContext, options) {
 
     let out = ""; // output
-    let currentPage, currentPageID;
+    // let currentPage, currentPageID;
 
     const hbs_partials = panini.Handlebars.partials;
     const hbs_helpers = panini.Handlebars.helpers;
+    const hbs_handlebars_compile = panini.Handlebars.compile;
 
     // utility function
     // check if the passed-in partial is already compiled.
     // if so,just use that.
     // if not, compile it.
     // return the compiled partial
-    function getCompiled(p) {
+    const getCompiled = (p) => {
         let partialCompiled;
 
         if (typeof p === "function") {
             partialCompiled = p;
         } else {
-            partialCompiled = panini.Handlebars.compile(p);
+            partialCompiled = hbs_handlebars_compile(p);
         }
 
         return partialCompiled;
-    }
+    };
 
     // convenience references to the partials and helpers
 	const template_compiled = {};
@@ -56,7 +56,7 @@ module.exports = function (globalContext, options) {
         const pageData = globalContext[fileName];
         const pageName = titlecase(pageData["page-title-short"]);
 
-        let context = {
+        const context = {
             url: pageURL,
             pagename: pageName,
         };
@@ -115,10 +115,10 @@ module.exports = function (globalContext, options) {
     let previousGroup = "";
 
     // currentPage = page where list is being generated
-    currentPage = globalContext.page;
-    currentPageID = getPageData(globalContext, currentPage, "id");
+    const currentPage = globalContext.page;
+    const currentPageID = getPageData(globalContext, currentPage, "id");
 
-    pagesActive.forEach(function (k, index) {
+    pagesActive.forEach((k, index) => {
         let htmlFragment = ""; // set to empty at beginning
 
         const aPage = siteGallery[k];

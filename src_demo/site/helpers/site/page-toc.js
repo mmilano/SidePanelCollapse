@@ -21,12 +21,32 @@
 //
 
 /* jshint esversion: 6 */ // allow es6 features
-"use strict";
 
 const panini = require("panini");
 const cheerio = require("cheerio");
 const basepath = process.cwd();
 const trimWhitespace = require(basepath + "/src_demo/site/lib/trim");
+
+// internal default values for the TOC
+const defaultsTOC = {
+    // default scope is the whole page
+    $scope: null,
+
+    // how many heading levels to go down when generating the toc. e.g. 3 -> go to h3 (dont parse h4)
+    maxHeadingDepth: 3,
+
+    // when searching for headings, which level to start at. 1 = h1, 2 = h2, etc.
+    topHeadingLevel: 1,
+
+    // when generating unique ID values, start from this number (appended to the original id value)
+    startingID: 1,
+
+    // css selector for the <section>s that start sections
+    sectionSelector: "section[id]",
+
+    // css selector of headings to ignore
+    ignoreSelector: "[data-toc-ignore]",
+};
 
 module.exports = function (attr, options) {
     /* jshint validthis: true */
@@ -36,67 +56,23 @@ module.exports = function (attr, options) {
     const hbs = panini.Handlebars;
     const hbs_partials = panini.Handlebars.partials;
 
-    // internal default values for the TOC
-    const defaults = {
-        // default scope is the whole page
-        $scope: null,
-
-        // how many heading levels to go down when generating the toc. e.g. 3 -> stop at h3
-        maxHeadingDepth: 3,
-
-        // when searching for headings, which level to start at. 1 = h1, 2 = h2, etc.
-        topHeadingLevel: 1,
-
-        // when generating unique ID values, start from this number (appended to the original id value)
-        startingUniqueID: 1,
-
-        // css selector for the <section>s that start sections
-        sectionSelector: "section[id]",
-
-        // selector of headings to ignore
-        ignoreSelector: "[data-toc-ignore]",
-    };
-
     // check if the passed-in partial is already compiled.
-    // if so, just use that.
-    // if not, compile it, and
-    // return the compiled partial
-
-    function getCompiled(p) {
-        let partialCompiled;
+    // if so,just use that.
+    // if not, compile it, and return the compiled partial
+    const getCompiled = (p) => {
+        let compiled;
 
         if (typeof p === "function") {
-            partialCompiled = p;
+            compiled = p;
         } else {
-            partialCompiled = hbs.compile(p);
+            compiled = hbs.compile(p);
         }
-        return partialCompiled;
-    }
 
-    let template_compiled = [];
-    template_compiled["pageTOC"] = getCompiled(hbs_partials["page-tableOfContents"]);
-
-    // ******************
-    // BEGIN
-    // STEP1: get the rendered page body content
-
-    // allow for arbitrary number of attributes passed as arguments
-    if (!options || !options.fn) {
-        options = arguments[arguments.length - 1];
-    }
-
-    // rendered body content has been added to the pagedata value in panini, and is available via options.data.root.pageRendered
-    let bodyRendered = options.data.root.pageRendered;
-
-    // END: get the rendered page body content
-    // ******************
+        return compiled;
+    };
 
 
     function TableOfContents (options) {
-
-        // forge bonds to the defaults and methods.
-        // var myself = this;
-        this.defaults = defaults;
 
         // check if the element is a cheerio object (o.noteType = undefined) or Node object (o.noteType = 1)?
         this.checkForNode = function checkForNode(o) {
@@ -410,23 +386,38 @@ module.exports = function (attr, options) {
             this.$scope = arg.$scope !== undefined ? arg.$scope : $;
             this.$ROOT = this.$scope.root();
 
-            this.maxHeadingDepth = arg.maxHeadingDepth !== undefined ? arg.maxHeadingDepth : defaults.maxHeadingDepth;
-            this.topHeadingLevel = arg.topHeadingLevel !== undefined ? arg.topHeadingLevel : defaults.topHeadingLevel;
+            this.maxHeadingDepth = arg.maxHeadingDepth !== undefined ? arg.maxHeadingDepth : defaultsTOC.maxHeadingDepth;
+            this.topHeadingLevel = arg.topHeadingLevel !== undefined ? arg.topHeadingLevel : defaultsTOC.topHeadingLevel;
 
             // uniqueID is internal property used as index for creating new uniqueIDs
-            this.startingUniqueID = arg.startingUniqueID !== undefined ? arg.startingUniqueID : defaults.startingUniqueID;
-            this.uniqueIDIndex = defaults.startingUniqueID;
+            // this.startingUniqueID = arg.startingUniqueID !== undefined ? arg.startingUniqueID : defaults.startingUniqueID;
+            this.uniqueIDIndex = defaultsTOC.startingID;
 
-            this.sectionSelector = arg.sectionSelector !== undefined ? arg.sectionSelector : defaults.sectionSelector;
-            this.ignoreSelector = arg.ignoreSelector !== undefined ? arg.ignoreSelector : defaults.ignoreSelector;
+            this.sectionSelector = arg.sectionSelector !== undefined ? arg.sectionSelector : defaultsTOC.sectionSelector;
+            this.ignoreSelector = arg.ignoreSelector !== undefined ? arg.ignoreSelector : defaultsTOC.ignoreSelector;
         }
 
         initialize.call(this, options);
     };
 
     // ******************
-    // BEGIN: parsing the body content to create the table of contents
+    // BEGIN
+
+
+    // parsing the body content to create the table of contents
     //
+
+    // allow for arbitrary number of attributes passed as arguments
+    if (!options || !options.fn) {
+        options = arguments[arguments.length - 1];
+    }
+
+    const template_compiled = [];
+    template_compiled["pageTOC"] = getCompiled(hbs_partials["page-tableOfContents"]);
+
+    // rendered body content has been added to the pagedata value in panini, and is available via options.data.root.pageRendered
+    const bodyRendered = options.data.root.pageRendered;
+
     // load the whole page into cheerio
     const $ = cheerio.load(bodyRendered);
 
@@ -437,7 +428,7 @@ module.exports = function (attr, options) {
     };
 
     // initialize the table of contents
-    let _toc = new TableOfContents(_toc_options);
+    const _toc = new TableOfContents(_toc_options);
     let currentTopLevel = _toc.getTopLevel();
 
     let contents = {};

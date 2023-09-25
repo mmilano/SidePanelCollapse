@@ -12,7 +12,6 @@
 // @param {string} key - the key for the value to get
 //
 // @returns {string} the value of key from the gallery data
-"use strict";
 
 module.exports = function(globalContext, page, key) {
 

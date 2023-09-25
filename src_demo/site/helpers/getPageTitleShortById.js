@@ -10,14 +10,13 @@
 // *** @param options is the object that Handlebars already passes in
 //
 // @returns {string} the value of page title name - SHORT VALUE - from the page data
-"use strict";
 
 const panini = require("panini");
 
-module.exports = function(pageID, options) {
+// which data value to get
+const key = "page-title-short";
 
-    // which data value to get
-    const key = "page-title-short";
+module.exports = function(pageID, options) {
 
     // check that options === the handlebars options object
     // allow for arbitrary number of attributes passed as arguments

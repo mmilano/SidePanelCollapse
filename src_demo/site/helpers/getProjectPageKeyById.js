@@ -11,7 +11,6 @@
 // *** @param options is the object that Handlebars already passes in
 //
 // @returns {string} the value of key from the page data
-"use strict";
 
 const panini = require("panini");
 
