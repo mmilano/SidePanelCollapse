@@ -7,7 +7,6 @@
 // supports any of the following
 // <h2>simple title</h2>
 // <h2 id="section2" class="fomoco">less simple title</h2>
-"use strict";
 
 const basepath = process.cwd();
 const trimWhitespace = require( basepath + "/src_demo/site/lib/trim");
