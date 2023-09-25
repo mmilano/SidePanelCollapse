@@ -114,7 +114,7 @@ const pages = {
         const horizontalNav = document.getElementById("primaryNav-horiz");
         // is the horizontal nav being displayed (i.e. have a display value other than 'none'?)
         const horizontalNavDisplayed = util.checkIfDisplayed(horizontalNav);
-        let horizontalNavIsDisplayed = util.checkIfDisplayed(horizontalNav)();
+        let horizontalNavIsDisplayed = horizontalNavDisplayed();
 
         // create the scrollspy on the nav for the current state of the index page
         // pages needs to have the scrollspy work on both horizontal and vertical navs
