@@ -8,7 +8,7 @@ const siteBase = "./";
 const siteHome = "/";
 
 const siteData = {
-    "site_name": "Bootstrap SidePanelCollapse",
+    "site_name": "SidePanelCollapse",
     "title": "Horizontal Sliding Side Panel",
     "description": "An example project to demonstrate using the Bootstrap 'collapse' component to make a vertical sidebar slide horizontally, with variable timing.",
     "project-url": "http://localhost:9191",
