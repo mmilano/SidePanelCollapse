@@ -1,9 +1,10 @@
 /*! **********
- * SidePanelCollapse v1.3.2
+ * SidePanelCollapse v1.4.0
  * A Bootstrap 4-based sidebar augmenting the "collapse" component to collapse horizontally,
  * and allow variable duration timings for the transitions
  *
  * Michel Milano
+ * 2023
  * MIT License
  */
 
@@ -475,7 +476,7 @@
      * either
      * initialze the sidepanel when DOMContentLoaded event is fired,
      * or, if already fired,
-     * then initialize right now
+     * then initialize now
      */
 
     if (document.readyState === "loading") {
