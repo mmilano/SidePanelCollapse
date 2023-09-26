@@ -13,7 +13,6 @@ const titlecase = require("ap-style-title-case");
 module.exports = function (globalContext, options) {
 
     let out = ""; // output
-    // let currentPage, currentPageID;
 
     const hbs_partials = panini.Handlebars.partials;
     const hbs_helpers = panini.Handlebars.helpers;
@@ -77,7 +76,7 @@ module.exports = function (globalContext, options) {
             "group": group,
         };
         return template_compiled["group"](context);
-    }
+    };
 
 	// NOTE: not being used in demo
     const renderGroupBegin = () => "<!-- begin: a group -->";
