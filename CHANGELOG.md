@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [1.4.0] - 09-25-2023
+no functional changes
+
+* fix some remaining pathname casing errors
+* minor code changes
+* revise gulp tasks to use "exports" task definition, replacing older "gulp.task()" definitions
+* package updates
+
+
+
 ## [1.3.2] - 07-19-2023
 * revising camelCase of SidePanel naming for class and ID references (in HTML, in CSS, in JS),
 along with all references
@@ -15,7 +25,6 @@ along with all references
 
 
 ## [1.3.0] - 07-06-2023
-
 * new dist builds for v1.3.0
 * bootstrap to 4.6.2
 * package updates
@@ -26,7 +35,6 @@ along with all references
 
 
 ## [1.2.0] - 01-07-2022
-
 * package updates
 * bootstrap to 4.6.1
 * revision typing of multiple javascript variables
