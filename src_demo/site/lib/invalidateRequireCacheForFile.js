@@ -2,7 +2,6 @@
 //
 // invalidate the node require cache for a file
 // original source: https://gist.github.com/adam-lynch/11037907
-"use strict";
 
 const path = require("path");
 

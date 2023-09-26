@@ -2,7 +2,6 @@
 // handlebars BLOCK helper module
 //
 // generate the gallery of pages
-"use strict";
 
 const gallery = function(globalContext, options) {
 
@@ -27,11 +26,13 @@ const gallery = function(globalContext, options) {
     });
 
     let pagesLength = pagesActive.length - 1;  // convert human-friendly length to be compatible with the machine-friendly index
-    if (pagesLength < 1) {pagesLength = 1;};
+    if (pagesLength < 1) {
+        pagesLength = 1;
+    };
 
     // generate the block element for each active page
-    pagesActive.forEach(function(p) {
-        const aPage = siteGallery[p];
+    pagesActive.forEach((index) => {
+        const aPage = siteGallery[index];
 
         // render the block helper content
         let element = options.fn(aPage);

@@ -1,16 +1,11 @@
-/*! **********
- * SidePanelCollapse v1.3.2
- * A Bootstrap 4-based sidebar augmenting the "collapse" component to collapse horizontally,
- * and allow variable duration timings for the transitions
+/*
  *
- * Main (universal) SCSS for the sidePanel
+ * Main SCSS for SidePanelCollapse
+ * NOTE: * these values for ".sidePanel" control ONLY THE BEHAVIOR - NOT THE VISUAL STYLE - of the sidePanel element.
  *
- * NOTE: * these values for ".sidePanel" control the behavior - NOT THE VISUAL STYLE - of the sidePanel.
+ * visual style of .sidePanel element needs to be defined separately.
  *
- * Michel Milano
- * 2023
- * MIT License
- */
+*/
 
 // sidePanel transitions
 $sidePanel-transition-function:           ease-in !default;

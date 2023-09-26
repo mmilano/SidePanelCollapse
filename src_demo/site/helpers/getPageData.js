@@ -11,7 +11,6 @@
 // @param {string} key - the key for the value to get
 //
 // @returns {string/object} the value of key from the individual page data
-"use strict";
 
 module.exports = function(globalContext, page, key) {
 

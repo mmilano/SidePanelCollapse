@@ -1,7 +1,7 @@
 // *****
 // handlebars helper module
 //
-// simple return of a datastamp
+// return of a datastamp
 //
 // @returns the datestamp
 
