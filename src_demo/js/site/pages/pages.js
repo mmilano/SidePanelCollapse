@@ -71,7 +71,7 @@ const util = {
 // if there is no specific, default will be used
 const pages = {
 
-    // pages script for homepage ()= index.html)
+    // pages script for homepage (= index.html)
     index: function indexPage(pageID) {
 
         // handle toggling the nav & scrollspy
@@ -184,6 +184,7 @@ const pageRouter = function(pageID) {
 };
 
 // expose specific methods
-pages.pageRouter = pageRouter;
-
-module.exports = pages;
+module.exports = {
+    pages,
+    pageRouter,
+};
