@@ -4,7 +4,7 @@
 // includes all the data
 // AND any processing for generated values.
 
-const gallerySetup = (function() {
+const gallerySetup = (function gallerySetup() {
 
     // define the site's pages
     //
