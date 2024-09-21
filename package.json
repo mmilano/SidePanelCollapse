@@ -1,6 +1,6 @@
 {
   "name": "SidePanelCollapse",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "A horizontal sliding sidebar utilizing Bootstrap v4.6.x and the 'collapse' component, with elaborate variable duration timing for both the show and hide events.",
   "keywords": [
     "bootstrap 4",
@@ -36,10 +36,10 @@
     ">0.3%"
   ],
   "devDependencies": {
-    "@babel/core": "^7.23.0",
-    "@babel/preset-env": "^7.22.20",
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
     "ap-style-title-case": "^1.1.2",
-    "autoprefixer": "^10.4.16",
+    "autoprefixer": "^10.4.20",
     "bootstrap": "^4.6.2",
     "browserify": "^17.0.0",
     "cheerio": "^1.0.0-rc.12",
@@ -52,7 +52,6 @@
     "gulp-babel": "^8.0.0",
     "gulp-cache": "^1.1.3",
     "gulp-cached": "^1.1.1",
-    "gulp-changed": "^4.0.3",
     "gulp-changed-in-place": "^2.3.0",
     "gulp-cli": "^2.3.0",
     "gulp-connect": "^5.7.0",
@@ -75,7 +74,7 @@
     "mocha": "^10.2.0",
     "node-notifier": "^10.0.1",
     "panini": "github:mmilano/panini#master",
-    "postcss": "^8.4.30",
+    "postcss": "^8.4.47",
     "sass": "^1.68.0",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
