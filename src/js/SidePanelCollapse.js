@@ -1,10 +1,10 @@
 /*! **********
- * SidePanelCollapse v1.4.0
+ * SidePanelCollapse v1.5.0
  * A Bootstrap 4-based sidebar augmenting the "collapse" component to collapse horizontally,
  * and allow variable duration timings for the transitions
  *
  * Michel Milano
- * 2023
+ * 2024
  * MIT License
  */
 
@@ -34,7 +34,7 @@
     const _proto = SidePanelCollapse.prototype;
 
     /**
-     * default selector for creation via data attribute
+     * default selector for creation of a sidepanel in the page via data attribute
      * @const
      */
     const data_selector = "[data-sidepanel-collapse]";
@@ -48,7 +48,7 @@
 
      /**
      * default value
-     * access the css variable values as module is instantiated
+     * access the css variable values as the element is instantiated
      * @const
      */
     const styles = el ? getComputedStyle(el) : "";
@@ -270,14 +270,6 @@
         document.removeEventListener("keyup", this.handleKey);
         document.body.classList.remove(this.settings.sidePanelIsOpenClass);
     };
-
-    // future home of method to dispose of all the sidepanel.
-    // dev note: currently disabled. to be developed.
-    //     _proto.dispose = function() {
-    //         for (var prop in this) {
-    //             this[prop] = null;
-    //         }
-    //     };
 
     // *****
     // Backdrop
