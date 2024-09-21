@@ -39,7 +39,7 @@ const gallerySetup = (function() {
     // **********
     // BEGIN:
     // any processing of the gallery data
-        // nothing for the demo
+    // ...nothing for the demo
     // END
     // **********
 
