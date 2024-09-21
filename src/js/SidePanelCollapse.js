@@ -54,6 +54,14 @@
     const styles = el ? getComputedStyle(el) : "";
 
     /**
+    * sidePanel closing duration built in choices
+    * "normal" = regular close speed
+    * "fast"   = faster closing speed
+    */
+    const sidePanelCloseDuration_normal = "normal";
+    const sidePanelCloseDuration_fast = "fast";
+
+    /**
     * sidePanel default settings
     * @const
     * @property {string} sidePanelElement - top-level element of the side-panel. CSS format
@@ -67,6 +75,8 @@
     * @property {boolean} handleLinks - whether or not links are to be processed
     */
 
+    // defaults
+    // these values can be overridden on intialization
     const defaults = {
         // css selectors:
         // default selectors for the sidePanel DOM elements
@@ -123,8 +133,8 @@
         // return function. used for the link eventListener
         return function (e) {
             e.preventDefault();
-            this.closeType = "fast";
-            // create link event handler with closure
+            this.closeType = sidePanelCloseDuration_fast;
+            // create link event handler
             this.$sidePanel.one("hidden.bs.collapse", linkEvent(e.target.href));
             this.close();
         };
@@ -216,7 +226,7 @@
         if (this.isCollapsing() && !this.closeQueued) {
             // not already queued, so queue up to close immediately when transition has finished, and return out.
             this.closeQueued = true;
-            this.closeType = "fast";
+            this.closeType = sidePanelCloseDuration_fast;
             this.$sidePanel.one("shown.bs.collapse", this.close);
             return;
         } else if (this.isCollapsing() && this.closeQueued) {
@@ -247,9 +257,10 @@
             // case "page":
             // dev todo: future expansion
             /* falls through */
-            case "fast":
+            // case "fast":
+            case sidePanelCloseDuration_normal:
                 _duration = this.settings.durationHideFast;
-                this.closeType = "normal"; // reset
+                this.closeType = sidePanelCloseDuration_normal; // reset
                 break;
             default:
                 // = "normal"
@@ -340,9 +351,10 @@
          */
         function defineSettings(defaults, options) {
             // start with the defaults
-            let settings = Object.assign({}, defaults);
+            // let settings = Object.assign({}, defaults);
             // reconcile with any provided options that will supercede/overwrite defaults
-            Object.assign(settings, options);
+            // Object.assign(settings, options);
+            let settings = Object.assign(defaults, options);
 
             // if backdrop is anything other than "true", it is false
             settings.backdrop = settings.backdrop === true ? true : false;
@@ -421,7 +433,7 @@
             this.sidePanelCloseButton.addEventListener("click", this.close, false);
         } else {
             // no close button found :(
-            // the sidepanel will be initialized, but maybe this isn't what is desired?
+            // the sidepanel will be initialized, but log warning in case this isn't what is desired?
             console.warn('SidePanel: no close element could be found with the selector "' + _settings.sidePanelCloseElement + '".');
         }
 
@@ -434,7 +446,7 @@
         }
 
         // flag for which close type, and therefore duration, to use: normal, or fast
-        this.closeType = "normal"; // default behavior when closing the sidepanel
+        this.closeType = sidePanelCloseDuration_normal; // default behavior when closing the sidepanel
 
         // handle links:
         // find all the links in the sidepanel and add an event on them
