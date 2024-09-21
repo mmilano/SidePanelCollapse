@@ -26,6 +26,7 @@ const siteData = {
 
     "year": 2024,
 
+    // data to generate sample open graph metadata for the demo pages
     "og": {
         get site_name() {
             return siteData.site_name; // use the general site name
