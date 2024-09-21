@@ -147,7 +147,7 @@ const pages = {
     default: function (pageID) {
         // ...can do something with pageID if desired
 
-         // SidePanelCollapse options for thse pages (note: different from index)
+         // SidePanelCollapse options for these pages (note: different from index)
         const sidePanelOptions = {
             durationShow: "1.25s",
             durationHide: ".7s",
