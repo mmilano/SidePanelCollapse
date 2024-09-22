@@ -87,7 +87,6 @@ const pages = {
             }
         }
 
-
         // SidePanelCollapse options for this page
         const sidePanelOptions = {
             durationShow: "1.25s",
@@ -185,6 +184,6 @@ const pageRouter = function(pageID) {
 
 // expose specific methods
 module.exports = {
-    pages,
-    pageRouter,
+    pageMethods: pages,
+    pageRouter: pageRouter,
 };
