@@ -4,7 +4,7 @@
 const {src, dest, watch, series, parallel} =   require('gulp');
 
 // gulp debuggin'
-const log =            require("fancy-log");
+const log =             require("fancy-log");
 const debug =           require("gulp-debug");
 
 // css, sass/scss
@@ -16,7 +16,8 @@ const autoprefixer =    require("autoprefixer");
 const cssnano =         require("cssnano");
 
 // js
-const jshint =          require("gulp-jshint");
+const ESLint =          require("gulp-eslint-new");
+
 const browserify =      require("browserify");
 const source =          require("vinyl-source-stream");
 const buffer =          require("vinyl-buffer");
@@ -672,76 +673,38 @@ const watchGalleryData = function (done) {
 //
 // lint, assemble, compile, and etc., the javascript
 
-// utility function to run jshint on the source files
-function lintJS(source, cache) {
+
+// lint check files
+function ESlint(source, cache) {
     return src(source)
-    .pipe(cached(cache))
-    .pipe(debug({title: "js lint:"}))   // iterate out name of each file being checked
-    .pipe(jshint())
-    .pipe(jshint.reporter("default"));
+    .pipe(cached(cache))  // named cache for persistence
+    .pipe(debug({ title: "lint:" }))  // iterate out name of each file being checked
+    .pipe(ESLint({ fix: false }))
+    .pipe(ESLint.format());
 }
-
-
-
-// check the Panini files
-// function lintJSPanini() {
-//     const source = paths.siteHBSjsFilesGLOB;
-
-//     return src(source)
-//     .pipe(cached("jslintPanini"))
-//     .pipe(debug({title: "js lint:"}))   // iterate out name of each file being checked
-//     .pipe(jshint())
-//     .pipe(jshint.reporter("default"));
-// }
 
 function lintJS_Panini(done) {
     const source = paths.siteHBSjsFilesGLOB;
-    const cacheName = "lintPanini";
-    lintJS (source, cacheName);
+    const cacheName = "panini";
+    ESlint (source, cacheName);
     done();
 }
 
-
-
-// check the site files
-// function lintJSDemoSite() {
-//     const source = paths.jsSourceSITEGLOB;
-
-//     return src(source)
-//     .pipe(cached("lintSite"))
-//     .pipe(debug({title: "js lint:"}))   // iterate out name of each file being checked
-//     .pipe(jshint())
-//     .pipe(jshint.reporter("default"));
-// }
-
-function lintJS_demoSite(done) {
+function lintJS_demo(done) {
     const source = paths.jsSourceSITEGLOB;
-    const cacheName = "lintSite";
-    lintJS (source, cacheName);
+    const cacheName = "demo";
+    ESlint (source, cacheName);
     done();
 }
-
-
-
-// check the SidePanelCollapse files
-// function lintJS_sidePanel() {
-//     const source = paths_sidePanel.js_source;
-
-//     return src(source)
-//     .pipe(debug({title: "js lint:"}))
-//     .pipe(jshint())
-//     .pipe(jshint.reporter("default"));
-// }
 
 function lintJS_sidePanel(done) {
     const source = paths.jsSourceSITEGLOB;
-    const cacheName = "sidepanel";
-    lintJS (source, cacheName);
+    const cacheName = "SidePanel";
+    ESlint (source, cacheName);
     done();
 }
 
-
-const lintAll = series (lintJS_Panini, lintJS_demoSite, lintJS_sidePanel);
+const lintAll = series (lintJS_Panini, lintJS_demo, lintJS_sidePanel);
 exports.lintAll = lintAll;
 
 // javascript building: global options
@@ -800,12 +763,12 @@ const browserifyScript = function (file) {
 };
 
 // browserify the site.js code
-const browserifyJSSite = function (done) {
+const browserifyJSDemo = function (done) {
     browserifyScript(paths.jsFile_site);
     done();
 };
 
-exports.browserifyJSSite = browserifyJSSite;
+exports.browserifyJSDemo = browserifyJSDemo;
 
 // SidePanelCollapse.js javascript processing
 // create (conditionally) two files: verbose version and minified version
@@ -892,18 +855,19 @@ exports.demo_sidePanel = demo_sidePanel;
 // which is actually so simple that no processing is needed.
 // so, this is jusy a copy task
 const copyJSSimple = function (done) {
-    src(siteSourceRoot + "js/site/" + paths.jsFile_site_simple)
+    const sources = siteSourceRoot + "js/site/" + paths.jsFile_site_simple;
+    src(sources)
     .pipe(dest(paths.jsDestination));
     done();
 };
 exports.copyJSSimple = copyJSSimple;
 
-const jsSite = series(browserifyJSSite, copyJSSimple);
+const jsSite = series(browserifyJSDemo, copyJSSimple);
 exports.jsSite = jsSite;
 
 // watch the js sources
 const watchJSSource = function (done) {
-    const watcherJS = watch([paths.jsSourceGLOB], {delay: 400}, series(lintJS_demoSite, browserifyJSSite));
+    const watcherJS = watch([paths.jsSourceGLOB], {delay: 400}, series(lintJS_demo, browserifyJSDemo));
     watcherJS.on("change", path => log("changed >>> " + path));
     watcherJS.on("error", err => log("watch error: " + err.message));
 	done();
@@ -912,7 +876,7 @@ const watchJSSource = function (done) {
 // watch the sidePanelCollapse js
 // if it changes, rebuild js for /dist and /demo
 const watchJSSidePanel = function (done) {
-    const watcherJSSidePanel = watch(paths_sidePanel.js_sourceGLOB, series(lintJS_sidePanel, browserifyJSSite, scriptifySidePanel, copyjs_sidePanel));
+    const watcherJSSidePanel = watch(paths_sidePanel.js_sourceGLOB, series(lintJS_sidePanel, scriptifySidePanel, copyjs_sidePanel, browserifyJSDemo));
     watcherJSSidePanel.on("change", path => log("changed >>> " + path));
     watcherJSSidePanel.on("error", err => log("watch error: " + err.message));
 	done();
