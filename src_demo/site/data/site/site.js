@@ -15,7 +15,7 @@ const siteData = {
 
     // site meta keywords
     "keywords": [
-        "Bootstrap 4",
+        "Bootstrap 5",
         "collapse",
         "horizontal collapse",
         "vertical sidebar",

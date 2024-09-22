@@ -16,7 +16,7 @@ $sidePanel-duration-hide:                 0.35s !default;  // prompt
 $sidePanel-duration-hide-fast:            0.13s !default;  // very fast
 
 // backdrop values
-$sidePanel-zindex:                        $zindex-fixed + 1 !default;        // first: define a z-index based on Bootstrap v4 default nav, plus 1, to put .sidePanel above the nav
+$sidePanel-zindex:                        $zindex-fixed + 1 !default;        // first: define a z-index based on Bootstrap default nav, plus 1, to put .sidePanel above the nav
 $sidePanel-backdrop-zindex:               $sidePanel-zindex - 100 !default;  // then, for backdrop: enough to be under .sidePanel, but over the main page content
 $sidePanel-backdrop-opacity-max:          1 !default;
 

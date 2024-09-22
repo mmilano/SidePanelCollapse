@@ -1,6 +1,6 @@
 # SidePanelCollapse
 
-SidePanelCollapse is a javascript and CSS package that works with Bootstrap 4 to make a vertical navigation bar open and close, with added features to create a more nuanced user experience.
+SidePanelCollapse is a javascript and CSS package that works with Bootstrap 5 to make a vertical navigation bar open and close, with added features to create a more nuanced user experience.
 
 * [Introduction](#introduction)
 * [Installing](#installing-sidepanelcollapse)
@@ -108,7 +108,7 @@ The [Simple Demo](#the-simple-demo) uses this option.
 
 ### Option B: Incorporate Into an Existing Build Process
 
-If your own project already has a (node.js-based) build process, already compiles, transpiles, and processes javascript and it is using SCSS, then the SidePanelCollapse source files can be incorporated into your project.
+If your own project already has a (e.g. node.js-based) build process, already compiles, transpiles, and processes javascript, and it is using SCSS, then the SidePanelCollapse source files might be right for you to incorporate into your project.
 
 The [Advanced Demo](#the-advanced-demo) uses this method.
 
@@ -158,13 +158,18 @@ Minimum requirements to use SidePanelCollapse on a site.
 
 ### Tech Requirements
 
-* [Bootstrap 4.x][Bootstrap-home]. The library was developed with version 4.6.2.
+* [Bootstrap 5.x][Bootstrap-home]. This version of the library was developed with version 5.
 * [jQuery 3.x][jQuery-home]. Developed with version 3.6x, slim build. Bootstrap4.x itself requires jQuery, so this library should already be part of the site.
 
 
 There are additional requirements to build/view the demos or work with the source code:
-* [Node](https://nodejs.org/), v8+.
+* [Node](https://nodejs.org/), v14+.
 * npm. Which is generally installed with node
+
+#### Bootstrap 4?
+
+This library was oriingally developed with version 4.x of Bootstrap. The [version compatible with Bootstrap4][Bootstrap4-version] is available.
+
 
 ### Browser Support
 
@@ -639,6 +644,8 @@ SidePanelCollapse is released under the MIT license.
 
 [Bootstrap-home]: https://getbootstrap.com/
 [BS-collapse]: https://getbootstrap.com/docs/4.6/components/collapse/
+
+[Bootstrap4-version]: https://getbootstrap.com/
 
 [BS-source-width]: https://github.com/twbs/bootstrap/blob/349a373ff62bf530135ad95d7d1d3f1be6abbf22/js/dist/collapse.js#L276
 

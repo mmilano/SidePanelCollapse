@@ -32,7 +32,7 @@ $sidenav-nav-padding-left:              25px;
 
     background-color: $sidenav-background-color;
 
-    // because the width of the top-level .sidePanel is changed during the collapse event by Bootstrap,
+    // because the width of the top-level .sidePanel element is changed during the collapse event by Bootstrap,
     // an interior element is used to maintain a fixed width for the content.
     .sidenav-content {
         position: relative;
