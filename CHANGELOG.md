@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.5.0] - 09-25-2024
+no functional changes
+
+* minor revisions to core SidePanel javascript
+* change to use ESlint instead of jshint
+* file cleanup
+* package updates
+
+
 
 ## [1.4.0] - 09-25-2023
 no functional changes
