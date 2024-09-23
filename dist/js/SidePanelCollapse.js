@@ -31,35 +31,35 @@
    * convenience shorthand
    * @const
    */
-  var _proto = SidePanelCollapse.prototype;
+  const _proto = SidePanelCollapse.prototype;
 
   /**
    * default selector for creation of a sidepanel in the page via data attribute
    * @const
    */
-  var data_selector = "[data-sidepanel-collapse]";
+  const data_selector = "[data-sidepanel-collapse]";
 
   /**
    * default value
    * check and cache if there is no sidePanel in the page so that error is not thrown
    * @const
    */
-  var el = document.querySelector(".sidePanel");
+  const el = document.querySelector(".sidePanel");
 
   /**
   * default value
   * access the css variable values as the element is instantiated
   * @const
   */
-  var styles = el ? getComputedStyle(el) : "";
+  const styles = el ? getComputedStyle(el) : "";
 
   /**
   * sidePanel closing duration built in choices
   * "normal" = regular close speed
   * "fast"   = faster closing speed
   */
-  var sidePanelCloseDuration_normal = "normal";
-  var sidePanelCloseDuration_fast = "fast";
+  const sidePanelCloseDuration_normal = "normal";
+  const sidePanelCloseDuration_fast = "fast";
 
   /**
   * sidePanel default settings
@@ -77,7 +77,7 @@
 
   // defaults
   // these values can be overridden on intialization
-  var defaults = {
+  const defaults = {
     // css selectors:
     // default selectors for the sidePanel DOM elements
     sidePanelElement: "#sidePanel",
@@ -153,7 +153,7 @@
   // expects: invoked as event callback, with .bind(the main sidepanel object) (i.e. .bind(this))
   // (which is done as the default in constructor)
   _proto.handleKey = function (e) {
-    var key = e.keyCode;
+    let key = e.keyCode;
     switch (key) {
       case 27:
         // 'esc'
@@ -182,7 +182,7 @@
     function whenTransitionEnds(_this) {
       // no action currently
       // let handler = function (e) {};
-      return function () {};
+      return () => {};
     }
 
     // if open is invoked via default bootstrap behavior, then .collapse("show") will have been invoked by bootstrap already,
@@ -218,7 +218,7 @@
     // when hiding/closing is complete, remove the transition duration override so that
     // the fallback, css-defined duration, will apply when the sidebar is shown/opened again.
     // presumes event is on the sidenav DOM element itself.
-    var whenTransitionEnds = function whenTransitionEnds(e) {
+    const whenTransitionEnds = e => {
       e.target.style.transitionDuration = null;
     };
 
@@ -254,7 +254,7 @@
     // manually set the duration so that closing transition uses a custom duration.
     // this is overriding the default behavior, where duration is set by the css .collapsing class rule, and the same
     // duration is used for both opening and closing.
-    var _duration;
+    let _duration;
     switch (this.closeType) {
       // case "page":
       // dev todo: future expansion
@@ -306,7 +306,7 @@
      * because event is on backdrop, event.target is the backdrop - uses backdrop from there for simplicity
      * @param {*} e event
      */
-    var whenAnimationEnds = function whenAnimationEnds(e) {
+    const whenAnimationEnds = e => {
       e.target.classList.remove("show");
     };
 
@@ -323,8 +323,8 @@
   // @param: provide backdrop with access to the parent sidePanel object that is created...
   function Backdrop(_sidePanel) {
     // create the backdrop HTML element
-    var create = function create(styleClass) {
-      var el = document.createElement("div");
+    const create = styleClass => {
+      let el = document.createElement("div");
       el.className = "sidePanel-backdrop" + " " + styleClass;
       return el;
     };
@@ -358,7 +358,7 @@
       // let settings = Object.assign({}, defaults);
       // reconcile with any provided options that will supercede/overwrite defaults
       // Object.assign(settings, options);
-      var settings = Object.assign(defaults, options);
+      let settings = Object.assign(defaults, options);
 
       // if backdrop is anything other than "true", it is false
       settings.backdrop = settings.backdrop === true ? true : false;
@@ -390,11 +390,11 @@
 
     // create settings
     // and cache in temp variable for easier management
-    var _settings = this.settings = defineSettings(defaults, options);
+    const _settings = this.settings = defineSettings(defaults, options);
 
     // (try to) select and store the main sidepanel element
     // as jquery object
-    var _$sidePanel = this.$sidePanel = $(_settings.sidePanelElement);
+    const _$sidePanel = this.$sidePanel = $(_settings.sidePanelElement);
 
     // check if sidepanel exists on the page and was selected.
     // if not, exit early.
@@ -458,9 +458,9 @@
     // in order to trap the links and implement custom behavior.
     // note: this.$sidePanel[0] is the native HTML element in the jquery object
     if (_settings.handleLinks) {
-      var sidePanelLinks = this.$sidePanel[0].getElementsByTagName("a");
-      var ln = sidePanelLinks.length;
-      for (var i = 0; i < ln; i++) {
+      const sidePanelLinks = this.$sidePanel[0].getElementsByTagName("a");
+      const ln = sidePanelLinks.length;
+      for (let i = 0; i < ln; i++) {
         sidePanelLinks[i].addEventListener("click", linkHandle().bind(this));
       }
     }
@@ -474,8 +474,8 @@
    */
   function initOnData() {
     window.SidePanel = [];
-    var list = document.querySelectorAll(data_selector);
-    list.forEach(function (element) {
+    const list = document.querySelectorAll(data_selector);
+    list.forEach(element => {
       SidePanel.push(new SidePanelCollapse(element.id));
     });
   }
