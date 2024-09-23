@@ -1,6 +1,6 @@
 # SidePanelCollapse
 
-SidePanelCollapse is a javascript and CSS package that works with Bootstrap 4 to make a vertical navigation bar open and close, with added features to create a more nuanced user experience.
+SidePanelCollapse is a javascript and CSS package that works with Bootstrap 4 to make a vertical element open and close horizontally, with added features to create a more nuanced user experience.
 
 * [Introduction](#introduction)
 * [Installing](#installing-sidepanelcollapse)
@@ -20,16 +20,16 @@ SidePanelCollapse is a javascript and CSS package that works with Bootstrap 4 to
 
 The [Bootstrap Collapse][BS-collapse] component is typically used to show and hide content in a vertical manner, collapsing up and down.
 
-While developing a site, I wanted to add a vertical full-window navigation sidebar. I was already using Bootstrap, so I thought that maybe I could use the existing component to make the navigation bar instead of adding another code package to the project or writing something new. (Of course, what I ended up writing is this library, so maybe this became a rabbit hole...)
+While developing a site, I wanted to add a vertical, full-window navigation sidebar. I was already using Bootstrap, so I thought that maybe I could use the existing component to make the navigation bar instead of adding another code package to the project or writing something new. (Though, what I ended up writing is this packages, so maybe this became a rabbit hole...)
 
-Initial experiments did not work. But – it turns out that it is possible.
+Initial experiments did not work. But it turns out that it *is* possible.
 
-Bootstrap 4 can be used to make an element collapse horizontally.
+Bootstrap 4 can be used to make an element "collapse" horizontally.
 
 
 ## The Hook
 
-The relevant code from Bootstrap (4.6x) is this fragment:
+The important behavior from Bootstrap (4.6x) is this code fragment:
 
 ```javascript
 
@@ -42,17 +42,17 @@ _proto._getDimension = function _getDimension() {
 ([Bootstrap.js/collapse source][BS-source-width])
 
 Vertical/height collapse is the default behavior, but Bootstrap will check if the collapsing element has a `width` class.
-If so, then the width, not height, "collapses" between 0 and the width value. It transforms horizontally, not vertically.
+If so, then the width, not height, "collapses" between 0 and the width value. It transforms horizontally instead of vertically.
 
 
 ## SidePanelCollapse Goes Sideways
 
-SidePanelCollapse starts from this buried possibility and augments the normal behavior of Bootstrap collapse to manage an element that opens and closes horizontally.
+SidePanelCollapse starts from this latent possibility and augments the normal behavior of Bootstrap collapse to manage an element that opens and closes horizontally.
 Then, going beyond simple horizontal movement, the library provides additional functionality to make the user experience better (admittedly, an opinionated better).
 
 ### Features:
 
-* Different and customizable durations for the open and close transitions.
+* Different and customizable durations for the open and close transitions applied to the side panel element.
 * Optimized closing behavior when a link is clicked.
 * A backdrop that overlays the page when the side panel is open.
 * Option for a custom "close" button that is separate from the button that opens the side panel.
@@ -65,14 +65,14 @@ Then, going beyond simple horizontal movement, the library provides additional f
 
 So what are all these other files?
 
-Everything in the `/src_demo` directory is for the demonstration examples that can be [built and viewed](#the-demos). These demos are derived from an existing site that is built around a custom static page generation system using (a forked version of) [Panini][Panini].
+Everything in the `/src_demo` directory is for the demonstration examples that can be [built and viewed](#the-demos). These demos are derived from an existing site that is built around a static page generation system using (a custom forked version of) [Panini][Panini].
 
-In addition to the handlebars partials, there are custom handlebars helpers (for example, `page-toc.js` generatively creates the page's table of contents when the page is built), site-specific javascript modules, and supporting files.
-The data-driven pages and things like the "gallery" on the advanced demo's index/homepage are also from to the original site.
+In addition to the handlebars partials, there are custom (handlebars) helpers (for example, `page-toc.js` generatively creates the page's table of contents when the page is built), demo-specific javascript modules, and supporting files.
+The data-driven pages and things like the "gallery" on the advanced demo's index/homepage are also from the other site.
 
-If you are curious, that other site is at [stochasticnotions.com][stochasticnotions].
+(If you are curious, that other site is at [stochasticnotions.com][stochasticnotions].)
 
-I crafted this library in order to fill a need that I had on my own project, and then transformed it to be a stand-alone package. During that evolution, I have tried to distill everything down to greater simplicity, and have cut down the source code considerably. But I might have missed some vestigial artifacts. If some aspect of seems internally inexplicable, that is probably the reason why.
+I crafted this library in order to fill a need that I had on my own project, and then evolved it to be a stand-alone package. During that process, I have tried to distill everything down to greater simplicity, and have cut down the source code. But I might have missed some vestigial artifacts. If some aspect seems internally inexplicable, that is probably the reason why.
 
 Contact me if you have questions.
 
@@ -83,9 +83,11 @@ Contact me if you have questions.
 
 ## Installation Options
 
-Two options are available to install and use SidePanelCollapse in your own project.
+Two options are available to install and use SidePanelCollapse in your own project:
+1. using external linked files
+1. incorporating the source into your build process
 
-### Option A: External Linked Files
+### Option 1: External Linked Files
 
 This is the simplest way of using SidePanelCollapse: the javascript and CSS files are added to the HTML page(s) as external resources.
 
@@ -101,19 +103,19 @@ This is the simplest way of using SidePanelCollapse: the javascript and CSS file
 ```
 
 1. Clone the repository, or download and unzip.
-1. Copy the pre-built `/dist` sidePanelCollapse files to an appropriate location in your own project. You can choose to use either the minified or regular versions. If you also want the source maps, copy those as well (maintain the `/map` directory structure so that the browser can find the map files).
+1. Copy the pre-built `/dist` SidePanelCollapse files to an appropriate location in your own project. You can choose to use either the minified or regular versions. If you also want the source maps, copy those as well (maintain the `/map` directory structure so that the browser can find the map files).
 1. Add the `<link>` and `<script>` tags to your HTML document.
 
-The [Simple Demo](#the-simple-demo) uses this option.
+The [Simple Demo](#the-simple-demo) uses this method.
 
-### Option B: Incorporate Into an Existing Build Process
+### Option 2: Incorporate Into an Existing Build Process
 
-If your own project already has a (node.js-based) build process, already compiles, transpiles, and processes javascript and it is using SCSS, then the SidePanelCollapse source files can be incorporated into your project.
+If your own project already has a (e.g. snode.js-based) build process, already compiles, transpiles, and processes javascript, and it is using SCSS, then the SidePanelCollapse source files might be right for you.
 
 The [Advanced Demo](#the-advanced-demo) uses this method.
 
 1. Clone the repository, or download and unzip.
-1. Copy all of the `/src` sidePanelCollapse javascript and SCSS files to a location in your own project. Those files are:
+1. Copy all of the `/src` SidePanelCollapse javascript and SCSS files to the appropriate location in your own project. Those files are:
 
  ```shell
 src/
@@ -127,15 +129,15 @@ src/
         SidePanelCollapse.js
 ```
 
-3. SidePanelCollapse's SCSS references one or two Bootstrap variables, and so the Bootstrap source scss needs to be available (in `node-modules/`). If Bootstrap 4 is not already in your project's dependencies, add it. E.g.:
+3. SidePanelCollapse's SCSS references a few Bootstrap variables, and so the Bootstrap source scss needs to be available (by default, in `node-modules/`). If Bootstrap 4 is not already in your project's dependencies, add it. E.g.:
 
 ```shell
-> npm install --save-dev bootstrap@4.6.1
+> npm install --save-dev bootstrap@4
 ```
 
-4. You will need to add the appropriate directives to include or require the source files into your own source.
+4. Add the appropriate directives to include or require the source files into your own source.
     - For SCSS, this is an SCSS import.
-    - For javascript, this will be whatever method you are already using (e.g. `require` or `import`).
+    - For javascript, this will be whatever method you are already using (e.g. `require`).
 ```scss
 // scss
 @import "sidePanelCollapse";
@@ -159,12 +161,12 @@ Minimum requirements to use SidePanelCollapse on a site.
 ### Tech Requirements
 
 * [Bootstrap 4.x][Bootstrap-home]. The library was developed with version 4.6.2.
-* [jQuery 3.x][jQuery-home]. Developed with version 3.6x, slim build. Bootstrap4.x itself requires jQuery, so this library should already be part of the site.
+* [jQuery 3.x][jQuery-home]. Developed with version 3.7x, slim build. Bootstrap4.x itself requires jQuery, so this library should already be part of the site.
 
 
 There are additional requirements to build/view the demos or work with the source code:
-* [Node](https://nodejs.org/), v8+.
-* npm. Which is generally installed with node
+* [Node](https://nodejs.org/), v16+.
+* npm
 
 ### Browser Support
 
@@ -409,13 +411,13 @@ Once it is open, there are four regulated ways to close the side panel:
 1. A close button
 1. The ESCAPE key
 1. Clicking the backdrop
-1. Clicking a link (in the panel)
+1. Clicking a link (in the side panel)
 
 The first three of these are mostly straightforward. The fourth is not.
 
 ### A Close Button
 
-SidePanelCollapse allows for a close `<button>` element within the vertical panel or on the page. For example, in the demos, this is the glyph "X" in the side header bar that overlaps and covers the opening menu glyph (&#9776;).
+SidePanelCollapse allows for a close `<button>` element within the vertical panel or on the page. For example, in the demos, this is the glyph "X" in the side header bar.
 
 The default CSS selector for the close button is `.sidePanel-close`. Give the option `sidePanelCloseElement` a custom CSS selector on initialization to target a differently-named closing element that adheres to the Bootstrap collapse `.navbar-toggler` requirements. Or it can be given a value of `false`. In that case, no separate close button will be initialized by the library, and the other closing methods can be relied upon.
 
@@ -442,12 +444,12 @@ When the `handleLinks` behavior is enabled, SidePanelCollapse will add an inters
 
 The setting `handleLinks: false` disables this behavior. You might do this if, for example, your project is an application and the sidebar is not for navigation but options for an item selected in the main page.
 
-SidePanelCollapse was designed and built originally for a static HTML site. Therefore, many of the methods and behaviors are written with that assumption, and not, for example, a more dynamic site like an application where the links may have complex behaviors connected to them. Nonetheless, it should be possible to adapt to more complex contexts. Let me know if you find success or encounter issues.
+SidePanelCollapse was designed and built originally for a static HTML site. Therefore, many of the methods and behaviors are written with that context, and not, for example, a more dynamic site like an application where the links may have complex behaviors connected to them. Nonetheless, it should be possible to adapt to more complex contexts. Let me know if you find success or encounter issues.
 
 
 ### Links and the User Experience
 
-The design intent behind managed links is to provide a subtly more sophisticated user experience.
+The design intent behind managed links is to provide a subtly (more) sophisticated user experience.
 
 If `handleLinks` is disabled, link actions will happen in the usual unmodified manner of links – immediately. Typically this means that the browser will leave the current page as-is and begin to load the link's destination URL. In the browser window, the side panel will remain open until the new destination page begins to render, and the window will "jump cut" to the new page.
 
@@ -519,9 +521,9 @@ All of the default SidePanelCollapse settings are used for configuration.
 
 ## The Advanced Demo
 
-The "advanced demo" (for want of a more clever name) is a more involved example of using SidePanelCollapse. It has a top-level home page and a couple of mock interior pages. Although these are all individual page files, the site is structured as a kind of primordial single page application in that all of the pages rely on a single common javascript file with a simplistic routing mechanism to run different functions depending on the page.
+The "advanced demo" (for want of a more clever name) is a more involved example of using SidePanelCollapse. It has a top-level home page and a couple of mock interior pages. Although these are all individual page files, the site is structured as a kind of conceptual single page application in that all of the pages rely on a single common javascript file with a simplistic routing mechanism to run different functions depending on the page.
 
-In this demo, SidePanelCollapse is incorporated into the site's source, is initialized programmatically, and has custom configuration settings.
+In the advanced demo, SidePanelCollapse is incorporated into the site's source, is initialized programmatically, and has custom configuration settings.
 
 ### Inclusion: Integrated
 
@@ -533,7 +535,7 @@ The SCSS is included by an `import` directive in `site.scss`, and `gulp` tasks c
 @import "sidePanelCollapse";
 ```
 
-For the javascript, the beginning of the site's standalone script loads SidePanelCollapse.js, and an aggregate javascript is assembled by a `browserify` task.
+For the javascript, the site's standalone script requires `SidePanelCollapse.js`, and an aggregate javascript is assembled by a `browserify` task.
 
 ```js
 window.SidePanelCollapse = require("SidePanelCollapse");
@@ -584,12 +586,12 @@ Connect to:  192.168.1.42:9191
 ...
 ```
 
-Open one of the "connect to:" addresses in your recent-model browser to view the example sites if you want to use them for testing changes.
+Open one of the "Connect to:" addresses in your recent-model browser to view the example sites if you want to use them for testing changes.
 
 
 ## Building Just The Library
 
-If all you want is a new build of library files, there is a task for that. Assuming everything is already installed (per [Building For Development](#building-for-development)), open a terminal to the root of the project directory and run the `production` task.
+If all you want is a new build of library files, there is a (gulp) task for that. Assuming everything is already installed (per [Building For Development](#building-for-development)), open a terminal to the root of the project directory and run the `production` task.
 
 ```shell
 > gulp production
@@ -604,7 +606,7 @@ Production builds of the library (the .js and .css files) get saved into the pro
 
 #### Browser Targets
 
-The CSS and javascript is compiled or transpiled to a default browser target = `["> 0.3%"].` If you need a different target range, this value can be changed (in the `package.json` file) and the files rebuilt to the new target. Be cognizant that increasing the range will probably increase the final file size as a result of added polyfills.
+The CSS and javascript is compiled or transpiled to a browser target = `["> 0.3%"]` and `not dead.` If you need a different target range, this value can be changed (in the `package.json` file) and the files rebuilt to the new target. Be cognizant that increasing the range will probably increase the final file size as a result of added polyfills.
 
 
 
@@ -621,7 +623,7 @@ If you have any questions, ideas, or problems, feel free to open a new issue.
 
 #### Pioneers
 
-There are other examples in the wild demonstrating a Bootstrap horizontal collapse that I may have read when  trying to work out how to make sideways happen. To the original authors of those: thank you for your inspiration and help.
+There are other examples in the wild demonstrating a Bootstrap horizontal collapse that I may have read when  trying to work out how to make things go sideways. To the original authors of those: thank you for your inspiration.
 
 #### Attributions
 
