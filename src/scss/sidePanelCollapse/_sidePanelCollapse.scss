@@ -58,6 +58,8 @@ $sidePanel-backdrop-duration-hide:        0.17s !default;
 // intended to screen the existing page content.
 .sidePanel-backdrop {
     z-index: $sidePanel-backdrop-zindex;
+
+    // default display status is to not display
     display: none;
 
     position: fixed;
@@ -71,23 +73,25 @@ $sidePanel-backdrop-duration-hide:        0.17s !default;
 
     background-color: $sidePanel-backdrop-light;  // "light" is the default
 
-    // in effect, fadeout is the default
+    // default animation on backdrop
+    // which is to appear as a fadeout
     animation: backdropFadeOut $sidePanel-backdrop-duration-hide linear;
 
-    // when the fadein class is applied, fadein animation will be in effect
+    // when the .fadein class is applied, fadein animation will be in effect,
+    // overriding the default
     &.fadein {
         animation: backdropFadeIn $sidePanel-backdrop-duration-show linear forwards;
     }
 
+    // when .show is applied, backdrop element will display
     &.show {
         display: block;
     }
 
-    // light version. established as the default, so additional rule is not necessary
-    // note: it is still applied in the javascript however.
-    // &.light {
-    //     background-color: $sidePanel-backdrop-light;
-    // }
+    // light version.
+    // 'light' style is defined as the default (above), so rules are not necessary.
+    // the class is still applied in the javascript, however, to allow for any site-specific overrides
+    &.light {}
 
     // dark version
     &.dark {
