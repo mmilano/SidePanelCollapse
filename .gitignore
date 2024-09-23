@@ -1,9 +1,10 @@
 # osx stuff
 .DS_Store
 
-# project files
+# project dev stuff
 *.bbprojectd
 *.code-workspace
+.vscode
 
 # logs
 logs
@@ -29,4 +30,3 @@ build
 demo
 
 # dev stuff
-src_demo/js/vendor/
