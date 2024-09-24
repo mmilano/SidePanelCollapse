@@ -26,7 +26,7 @@ const siteData = {
 
     "year": 2024,
 
-    // data to generate sample open graph metadata for the demo pages
+    // data for sample open graph metadata for the demo pages
     "og": {
         get site_name() {
             return siteData.site_name; // use the general site name
@@ -49,7 +49,7 @@ const siteData = {
         },
     },
 
-    "site-version":     "1.4.0",
+    "site-version":     "1.5.0",
     "site-root":        siteBase,
     "site-home":        siteHome,
     "path-pages":       "./",
