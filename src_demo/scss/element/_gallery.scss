@@ -1,4 +1,7 @@
-// ------- GALLERY -------
+/*
+ * styles for the GALLERY
+ *
+*/
 
 @use "sass:math";
 
@@ -17,7 +20,7 @@ $card-border-radius:                    4px;
 
 $card-image-border-radius:              math.div($card-border-radius, 2);
 
-$card-duration-fast:                    0.25s;
+$card-duration-fast:                    0.2s;
 
 #gallery-grid {
     margin-left: -$gallery-item-side-padding;
