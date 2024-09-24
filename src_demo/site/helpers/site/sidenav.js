@@ -38,7 +38,7 @@ module.exports = function (globalContext, options) {
     // convenience references to the partials and helpers
 	const template_compiled = {};
     template_compiled["name"] = getCompiled(hbs_partials["sidenav-name"]);
-    template_compiled["group"] = getCompiled(hbs_partials["sidenav-group"]);
+    // template_compiled["group"] = getCompiled(hbs_partials["sidenav-group"]);
     // template_compiled["divider"] = getCompiled(hbs_partials["sidenav-divider"]);
     const getPageData = hbs_helpers["getPageData"];
 
