@@ -2,8 +2,6 @@ import globals from "globals";
 import js from "@eslint/js";
 
 export default [
-    js.configs.recommended,
-
     {
         languageOptions: {
             globals: {
@@ -17,6 +15,8 @@ export default [
         },
 
         rules: {
+            ...js.configs.recommended.rules,
+
             indent: ["warn", 4, {
                 SwitchCase: 1,
             }],
@@ -41,10 +41,10 @@ export default [
                 maxBOF: 3,
             }],
 
-            "spaced-comment": [0],
+            "spaced-comment": ["off"],
             "object-shorthand": ["warn", "consistent"],
-            "padded-blocks": [0],
-            "key-spacing": [0],
+            "padded-blocks": ["off"],
+            "key-spacing": ["off"],
             "object-curly-spacing": ["warn"],
             "eol-last": ["warn"],
 
