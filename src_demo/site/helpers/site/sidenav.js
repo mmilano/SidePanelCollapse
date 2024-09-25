@@ -10,7 +10,7 @@ const panini = require("panini");
 const node_path = require("path");
 const titlecase = require("ap-style-title-case");
 
-module.exports = function (globalContext, options) {
+module.exports = function generateSideNav (globalContext, options) {
 
     let out = ""; // output
 
@@ -36,7 +36,7 @@ module.exports = function (globalContext, options) {
     };
 
     // convenience references to the partials and helpers
-	const template_compiled = {};
+    const template_compiled = {};
     template_compiled["name"] = getCompiled(hbs_partials["sidenav-name"]);
     // template_compiled["group"] = getCompiled(hbs_partials["sidenav-group"]);
     // template_compiled["divider"] = getCompiled(hbs_partials["sidenav-divider"]);
@@ -67,21 +67,21 @@ module.exports = function (globalContext, options) {
         return template_compiled["name"](context, options);
     }
 
-	// NOTE: not being used in demo
+    // NOTE: not being used in demo
     const renderDivider = () => "<!-- divider -->";
 
-	// NOTE: not being used in demo
-    const renderGroupName = (group) => {
-        const context = {
-            "group": group,
-        };
-        return template_compiled["group"](context);
-    };
+    // NOTE: not being used in demo
+    // const renderGroupName = (group) => {
+    //     const context = {
+    //         "group": group,
+    //     };
+    //     return template_compiled["group"](context);
+    // };
 
-	// NOTE: not being used in demo
+    // NOTE: not being used in demo
     const renderGroupBegin = () => "<!-- begin: a group -->";
 
-	// NOTE: not being used in demo
+    // NOTE: not being used in demo
     const renderGroupEnd = () => "<!-- end: a group -->";
 
     // iterate the data array of pages passed in and find just the non-disabled ones
@@ -89,7 +89,7 @@ module.exports = function (globalContext, options) {
         let list = [];
         const keys = Object.keys(gallery);
 
-        keys.forEach(function (key) {
+        keys.forEach((key) => {
             if (!gallery[key].disable) {
             	list.push(key);
             };

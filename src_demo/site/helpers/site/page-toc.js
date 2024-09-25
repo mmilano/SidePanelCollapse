@@ -19,8 +19,6 @@
 // data-title-short         alt value of the element's text to be used in the table of contents. allows a shorter version of the heading
 //
 
-/* jshint esversion: 6 */ // allow es6 features
-
 const panini = require("panini");
 const cheerio = require("cheerio");
 const basepath = process.cwd();
@@ -47,10 +45,7 @@ const defaultsTOC = {
     ignoreSelector: "[data-toc-ignore]",
 };
 
-module.exports = function (attr, options) {
-    /* jshint validthis: true */
-    /* jshint undef:true */
-    /* jshint -W069 */ // suppress the warning 'better written in dot notation'
+module.exports = function generatePageTOC (attr, options) {
 
     const hbs = panini.Handlebars;
     const hbs_partials = panini.Handlebars.partials;

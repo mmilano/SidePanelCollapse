@@ -19,9 +19,9 @@ const gallery = function(globalContext, options) {
     // create a parallel array of just the active page keys
     const keys = Object.keys(siteGallery);
     const pagesActive = [];
-    keys.forEach(function(page) {
+    keys.forEach((page) => {
         if (!siteGallery[page].disable) {
-           pagesActive.push(page);
+            pagesActive.push(page);
         };
     });
 
