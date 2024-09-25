@@ -4,16 +4,13 @@
 // globals, etc.
 
 
-// make SidePanel available as global
+// make SidePanelCollapse available as global
 // this isn't strictly necessary, depending on how your site is structured,
 // but done here for the sake of simplicity in the demo.
 window.SidePanelCollapse = require("SidePanelCollapse");
 
 // demo specific:
-// const pages = require("pages.js");
-// const pageRouter = pages.pageRouter;
-// const pageMethods = pages.pages;
-const {pageRouter, pageMethods} = require("pages.js");
+const {pageRouter, pageMethods} = require("pages");
 
 module.exports = {
     pageRouter,
