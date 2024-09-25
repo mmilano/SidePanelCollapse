@@ -32,9 +32,9 @@ export default [
             "prefer-template": ["off"],
             "func-names": ["warn", "as-needed"],
             "one-var-declaration-per-line": ["off"],
-            "wrap-iife": ["warn", "inside"],
+            // "wrap-iife": ["warn", "inside"],
+            "wrap-iife": ["off", "inside"],
             "import/no-unresolved": ["off"],
-
             "no-multiple-empty-lines": ["warn", {
                 max: 3,
                 maxEOF: 1,
