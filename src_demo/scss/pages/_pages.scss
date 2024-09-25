@@ -12,9 +12,9 @@ $section-border-bar-color:              #AFAFAA;
 
 // $side-item is used for the individual items in the right sidebar (tags, roles, etc) and the left nav (table of contents)
 $side-item-line-height:                 1.25rem;
-$side-item-margin-bottom:               .5rem;
+$side-item-margin-bottom:               0.5rem;
 
-$subnav-margin-bottom:                  .6rem;
+$subnav-margin-bottom:                  0.6rem;
 
 $overview-font-size:                    1.7rem;
 $overview-font-lineheight:              1.5;
@@ -84,16 +84,16 @@ footer {
     @include section-border-bar;
     @include section-border-bar("border-bottom");
 
-    // FIRST-LEVEL ITEMS,
-    // <h2> headings in the page (the main sections)
+    // the main sections
+    // <h2> headings in the page
     flex-direction: column;
 
-    // SECOND-LEVEL ITEMS,
+    // sub sections
     // <h3> headings in the page
     nav {
         flex-direction: column;
 
-        margin-top: .4rem;
+        margin-top: 0.4rem;
         margin-bottom: $subnav-margin-bottom;
         margin-left: 1.5rem;
 
@@ -108,7 +108,7 @@ footer {
             transition-duration: $nav-item-color-transition-duration;
         }
 
-        &:not(.active):hover {}  // inherit from main
+        // &:not(.active):hover {}  // inherit from main
     }
 
     .nav-item {
