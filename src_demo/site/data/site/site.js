@@ -49,7 +49,7 @@ const siteData = {
         },
     },
 
-    "site-version":     "1.5.0",
+    "site-version":     "2.0.0",
     "site-root":        siteBase,
     "site-home":        siteHome,
     "path-pages":       "./",
