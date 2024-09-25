@@ -15,9 +15,11 @@ const gallerySetup = (function gallerySetup() {
     // id:              unique id for the page
     // url:             name of the page's content file
     // page:            convenience value. just the page name, without extension. intended to match the panini {{page}} value when on the page, for cross-referencing.
+    // disable:         boolean. optional. defaults to true. whether or not to generate this page.
 
     const galleryData = {
         "page-a": {
+            disable: false,
             "id": "page-a",
             "url": "page-a.html",
             "page": "page-a",
