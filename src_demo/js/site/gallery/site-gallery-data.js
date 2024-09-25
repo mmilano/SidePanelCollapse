@@ -20,19 +20,19 @@ const gallerySetup = (function gallerySetup() {
         "page-a": {
             "id": "page-a",
             "url": "page-a.html",
-            "page": "page-a"
+            "page": "page-a",
         },
 
         "page-b": {
             "id": "page-b",
             "url": "page-b.html",
-            "page": "page-b"
+            "page": "page-b",
         },
 
         "page-c": {
             "id": "page-c",
             "url": "page-c.html",
-            "page": "page-c"
+            "page": "page-c",
         },
     };
 
