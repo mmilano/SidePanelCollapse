@@ -1,13 +1,7 @@
 // PRIMARY NAVBAR //
 
-$site-primarynavbar-background-color:       #DDDDDA;
-$site-primarynavbar-background-color:       #D0D0CC;
-
-
 .top-navbar {
-    height: $page-primarynavbar-height;
-    padding-top: 0;
-    padding-bottom: 0;
+
     font-family: $font-family-secondary;
     background-color: $site-primarynavbar-background-color;
 
@@ -21,26 +15,13 @@ $site-primarynavbar-background-color:       #D0D0CC;
     }
 }
 
-.navbar-brand {
-    margin: 0 2rem 0 1rem;
-    font-size: 1rem;
-    padding: 0;
-    color: $text-color-nav-default;
-    font-weight: $font-weight-semibold;
-}
+.navbar-brand {}
 
-// using a custom toggler glyph, not the default Bootstrap one
-.navbar-toggler {
-    position: relative;
-    border: unset;
-    border-radius: unset;
-    padding: 3px 1rem 3px 1rem;
-}
 
 // for larger windows
 @include media-breakpoint-up(lg) {
-
-    // when top-navbar is horizontal & expanded (i.e. above the navbar-expand-* class in the page), entries are displyed in a row
+    // when top-navbar is horizontal & expanded (i.e. above the navbar-expand-* class in the page),
+    // entries are displyed in a row
     .top-navbar {
         .nav-item {
             margin-right: .9rem;
