@@ -1,103 +1,140 @@
 // pages.js
-// master array object of scripts specific to each individual page.
+//
+// master object of scripts specific to each individual page.
 // one for each page in the site.
 // key = pageID
 //
 
-/* jshint sub:true */                    // suppress warnings about using [] notation when it can be expressed in dot notation
-/* globals SidePanelCollapse, site */    // tell jshint about global variables that are not formally defined in the particular file
-/* jshint latedef: false */              // prohibits the use of a variable before it was defined
+/* global SidePanelCollapse, bootstrap */
 "use strict";
 
+console.log ("the pages.js file");
+// establish the breakpoint size
+// Bootstrap values are included as css variables in the Bootstrap css.
+// get the value
+
+let breakpoint = parseInt(getComputedStyle(document.body).getPropertyValue("--bs-breakpoint-lg"));
+if (!breakpoint) {
+    // if no value, then the css variables arent available (no browser support? didnt load?)
+    // so use an arbitrary default value.
+    breakpoint = 42; // arbitrary breakpoint size value in px.
+};
+console.log ("the pages.js file:", breakpoint);
+
+/**
+ * layout constant
+ * Pixels to offset from top when calculating position of scroll.
+ * used for Bootstrap scrollSpy
+ * "offset" is deprecated in Bootstrap 5; see scrollRootMargin
+ * @const
+ */
+const scrollOffset = 110;
+
+/**
+ * deriving from scrollOffset,
+ * convert the offset to rootMargin for Bootstrap 5 scrollSpy
+ * borrowing the scrollSpy source values for the conversion
+ * @const
+ */
+const scrollRootMargin = `${scrollOffset}px 0px -30% 0px`;
+
+
 // utility methods
-const util = {
+const siteMethods = {
+    scrollSpyInstance: () => {},
 
     // utility method to check if window is larger than breakpoint
     checkWidth: function() {
-        // Bootstrap values are included as css variables in the Bootstrap css.
-        // get the value
-        let breakpoint_size = parseInt(getComputedStyle(document.body).getPropertyValue("--breakpoint-lg"));
-        if (!breakpoint_size) {
-            // if no value, then the browser doesn't support css variables.
-            // so use an arbitrary default value
-            breakpoint_size = 42; // arbitrary breakpoint size value in px.
-        };
 
         // get width of the current window
         const pageWidth = window.innerWidth;
-        return pageWidth > breakpoint_size ? true : false;
+        return pageWidth > breakpoint ? true : false;
     },
 
     scrollSpyCreate: function(target, shouldSpy) {
         // if a target value is passed, use that; if not, use a default value for the primary nav
-        target = target ? target : "#primaryNav";
+        const scrollTarget = target ? target : "#primaryNav";
 
-        // check if scrollspy should activate based on the window width - in certain cases, wider window sizes
-        // default to the computed active flag, whatever that is
-        shouldSpy = (shouldSpy !== undefined) ? shouldSpy : util.checkWidth();
+        // check if scrollspy should activate based on the window width
+        shouldSpy = (shouldSpy !== undefined) ? shouldSpy : this.checkWidth();
+
+        // placeholder
+        // let scrollSpy = {
+        //     refresh: () => {},
+        //     dispose: () => {},
+        // };
+        let scrollSpy;
 
         if (shouldSpy) {
-            $(document.body).scrollspy({
-                target: target,
-
-                // offset = Pixels to offset from top when calculating position of scroll.
-                // https://getbootstrap.com/docs/4.6/components/scrollspy/#options
-                offset: 110,
+            scrollSpy = new bootstrap.ScrollSpy(document.body, {
+                target: scrollTarget,
+                // offset: scrollOffset,
+                rootMargin: scrollRootMargin,
             });
         };
+
+        // store the scollspy for usage
+        this.scrollSpyInstance = scrollSpy;
     },
 
+
+
     scrollSpyRefresh: function() {
-        $(document.body).scrollspy("refresh");
+        // bootstrap.ScrollSpy.getInstance(dataSpyEl).refresh();
+        if (this.scrollSpyInstance) {
+            this.scrollSpyInstance.refresh();
+        }
     },
 
     scrollSpyDispose: function() {
-        $(document.body).scrollspy("dispose");
+        if (this.scrollSpyInstance) {
+            this.scrollSpyInstance.dispose();
+        }
     },
 
     scrollSpyToggle: function(target) {
-        util.scrollSpyDispose();
-        util.scrollSpyCreate(target);
+        this.scrollSpyDispose();
+        this.scrollSpyCreate(target);
     },
 
-    checkIfDisplayed: function getDisplayStyle(el) {
-        // setup function for the passed in element for ongoing use in page
-        // return true if the element of interest IS displayed
+    // create a function
+    // return true if the element of interest IS displayed
+    checkIfDisplayed: function getComputedDisplayStatus(el) {
         return () => (getComputedStyle(el).display !== "none" ? true : false);
     },
 };
 
 // define page specific scripts, if any are desired/needed.
 // if there is no specific, default will be used
-const pages = {
+const pageMethods = {
 
     // pages script for homepage (= index.html)
-    index: function indexPage(pageID) {
+    index: function indexPageMethod() {
 
         // handle toggling the nav & scrollspy
         function navSpy(flag) {
             if (flag) {
                 // TRUE = now the horiz nav IS displayed
-                // so dispose of the existing scrollspy, and create a new one for the primarynav
-                util.scrollSpyToggle(navHorizontal);
+                // so dispose of the existing scrollspy, and create a new one for the primary-nav
+                siteMethods.scrollSpyToggle(navHorizontal);
             } else {
                 // FALSE = now the horiz nav IS NOT displayed
-                // so dispose of the existing scrollspy, and create a new one for sidenav
-                util.scrollSpyToggle(navVertical);
+                // so dispose of the existing scrollspy, and create a new one for side-nav
+                siteMethods.scrollSpyToggle(navVertical);
             }
         }
 
         // SidePanelCollapse options for this page
         const sidePanelOptions = {
-            durationShow: "1.25s",
+            durationShow: "1.77s",
             durationHide: "1s",
-            durationHideFast: "0.5s",
+            durationHideFast: "0.4s",
             backdropStyleClass: "dark",
         };
 
-        // instantiate a new side panel for the page for when/if the sidenav will display
+        // instantiate a new side panel for the page for when/if the side-nav will display
         // expose sidePanel as global for demo purposes
-        window.sidePanel = new SidePanelCollapse(sidePanelOptions);
+        window.SidePanelInstance = new SidePanelCollapse(sidePanelOptions);
 
         // define the 2 different nav's for the page
         // the horizontal - primaryNav - displayed at very large window sizes (Bootstrap definition of large)
@@ -112,7 +149,7 @@ const pages = {
         // the primarynav horizontal nav that will collapse depending to screen size (= navbar-expand-*)
         const horizontalNav = document.getElementById("primaryNav-horiz");
         // is the horizontal nav being displayed (i.e. have a display value other than 'none'?)
-        const horizontalNavDisplayed = util.checkIfDisplayed(horizontalNav);
+        const horizontalNavDisplayed = siteMethods.checkIfDisplayed(horizontalNav);
         const horizontalNavIsDisplayed = horizontalNavDisplayed();
 
         // create the scrollspy on the nav for the current state of the index page
@@ -123,11 +160,11 @@ const pages = {
         // meaning the the nav changed from horiz to vertical
         let previousNavWasHoriz = horizontalNavIsDisplayed;
 
-        // create the first scrollSpy on the currently displayed nav, and it "should spy" now.
-        util.scrollSpyCreate(targetNav, true);
+        // create scrollSpy on the currently displayed nav, and it "should spy" now.
+        siteMethods.scrollSpyCreate(targetNav, true);
 
-        // resize events: update the primaryNav behavior
-        window.addEventListener("resize", (e) => {
+        // on resize events: update the primaryNav behavior
+        window.addEventListener("resize", () => {
             // check the current style.display value
             const horizontalNavIsDisplayed = horizontalNavDisplayed();
             if (horizontalNavIsDisplayed && !previousNavWasHoriz) {
@@ -135,7 +172,7 @@ const pages = {
                 navSpy(true);
                 previousNavWasHoriz = true;
             } else if (!horizontalNavIsDisplayed && previousNavWasHoriz) {
-                // else if: horiz nav is NOT displayed and previous-nav is true, then
+                // else if: horiz nav is false (=NOT displayed) && previous-nav is true, then
                 navSpy(false);
                 previousNavWasHoriz = false;
             }
@@ -145,22 +182,24 @@ const pages = {
     // default page handler
     default: function (pageID) {
         // ...can do something with pageID if desired
+        // console.log ("page: ", pageID);
 
         // SidePanelCollapse options for these pages (note: different from index)
         const sidePanelOptions = {
-            durationShow: "1.25s",
-            durationHide: ".7s",
-            durationHideFast: "0.2s",
+            durationShow: "1.95s",
+            durationHide: "0.7s",
+            durationHideFast: "0.19s",
             backdropStyle: "dark",
         };
 
-        // instantiate a new sidePanel for the page
+        // instantiate a new SidePanelCollapse for the page
         // expose sidePanel as global for demo purposes
         window.sidePanel = new SidePanelCollapse(sidePanelOptions);
 
         // only activate scrollspy on TOC if window is above certain size
         // this is dependent on the layout being in columns >= checked size, so that TOC will be displayed
-        util.scrollSpyCreate("#tableOfContents", util.checkWidth());
+        console.log ("only activate scrollspy");
+        siteMethods.scrollSpyCreate("#tableOfContents", siteMethods.checkWidth());
     },
 };
 
@@ -168,22 +207,23 @@ const pages = {
 // page function
 // general opening script for each page
 //
-// establish some of the global values for the page, and call page specific function(s)
+// establish any global values for the page, and call page specific function(s)
 
 const pageRouter = function(pageID) {
     // page name/info for debugging
     console.log ("page: ", pageID);
     // if there is page=specific function defined, invoke that
     // if no page function defined, invoke the default
-    if (typeof site.pageMethods[pageID] !== "undefined") {
-        site.pageMethods[pageID](pageID);
+    if (typeof pageMethods[pageID] !== "undefined") {
+        pageMethods[pageID](pageID);
     } else {
-        site.pageMethods.default(pageID);
+        pageMethods.default(pageID);
     };
+
 };
 
 // expose specific methods
 module.exports = {
-    pageMethods: pages,
+    pageMethods: pageMethods,
     pageRouter: pageRouter,
 };
