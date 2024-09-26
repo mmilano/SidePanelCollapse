@@ -25,7 +25,7 @@ const babel =           require("gulp-babel");
 const uglify =          require("gulp-uglify");
 
 // html
-const htmlvalidator =   require("gulp-html");
+const htmlValidator =   require("gulp-html");
 const htmlmin =         require("gulp-htmlmin");
 
 // page-generation/templating tool
@@ -35,8 +35,7 @@ const panini =          require("panini");
 const noop =            require("gulp-noop");
 const sourcemaps =      require("gulp-sourcemaps");
 const rename =          require("gulp-rename");
-// const notify =          require("gulp-notify");
-const filter =          require("gulp-filter");
+// const filter =          require("gulp-filter");
 const cached =          require("gulp-cached");
 const changedInPlace =  require("gulp-changed-in-place");
 const del =             require("del");
@@ -272,10 +271,10 @@ const options_pageBuild = {
     root:       "./src_demo/site/pages/page",   // path to the root folder all the pages live in
     layouts:    paths.siteBuildSource + "layouts/",
     pageLayouts: {
-                "index.html":           "layout-index",
-                "index-simple.html":    "layout-index-simple",
-                "":                     "layout-page",  // key intentionally left blank
-                },
+        "index.html":           "layout-index",
+        "index-simple.html":    "layout-index-simple",
+        "":                     "layout-page",  // key intentionally left blank
+    },
     helpers:    paths.siteBuildSource + "helpers/",       // path to a folder containing panini & handlebars helpers
     partials:   paths.siteBuildSource + "partials/",      // path to a folder containing HTML partials
     data:       [paths.siteBuildSource + "data/", paths.siteBuildSource + "pages/data/"],  // path to all data, which (the data) will be passed in and available to to every page
@@ -413,7 +412,7 @@ function watchPages(done) {
     const watcherPages = watch([paths.sitePagesGLOB, paths.DSStoreIgnore], {delay: 400}, buildPagesCHANGED);
     watcherPages.on("change", path => log("pages changed >>> " + path));
     watcherPages.on("error", err => log("watch error: " + err));
-	done();
+    done();
 }
 
 const watchAllPages = parallel(watchPageData, watchPages);
@@ -472,7 +471,7 @@ const options_validator = {
 
 function validatepPagesBuilt() {
     return src([paths.pagesBuiltGLOB])
-    .pipe(htmlvalidator(options_validator))
+    .pipe(htmlValidator(options_validator))
     .pipe(debug({title: "validating:"}))
     .on("error", err => log("PAGE validation error:\n" + err.message))
     .on("end", () => log("PAGES validated"));
@@ -616,9 +615,7 @@ function makeTheCSS_site(buildMode) {
     buildCSS(paths.scssSource, paths.cssDestination, null, options_scss_demo, buildMode)
     .then(msg => {log(msg)})
     .catch(err => {log(err)});
-    // .then(() => {
-    //     done();
-    // });
+    // .then(() => {});
 }
 
 const compileSCSS_site = function (done) {
@@ -710,26 +707,26 @@ exports.lintAll = lintAll;
 // javascript building: global options
 // babel options to transpile javascript to browser-compatible form
 const options_babel = {
-  "presets": [
-    [ "@babel/preset-env",
-        {
-            "exclude": [
-                "transform-typeof-symbol"  // don't add polyfill for typeof
-            ],
-            "modules": false,
-            "debug": false
-        }
-    ]
-  ],
+    "presets": [
+        [ "@babel/preset-env",
+            {
+                "exclude": [
+                    "transform-typeof-symbol"  // don't add polyfill for typeof
+                ],
+                "modules": false,
+                "debug": false,
+            }
+        ]
+    ],
 };
 
 const options_uglify = {
     output: {
-        comments: "/^!/"  // retain comments that match this pattern
+        comments: "/^!/",  // retain comments that match this pattern
     },
-    // compress: {
-        // drop_debugger: false,
-    // }
+    compress: {
+        drop_debugger: false,
+    }
 };
 
 // main site.js assembly for demo
@@ -748,7 +745,7 @@ const browserifyScript = function (file) {
         .on("error", function(err) {
             log("browserify error: " + err);
             this.emit("end");
-            })
+        })
         .pipe(source(paths.browserifyDestinationFile_site))
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
@@ -870,7 +867,7 @@ const watchJSSource = function (done) {
     const watcherJS = watch([paths.jsSourceGLOB], {delay: 400}, series(lintJS_demo, browserifyJSDemo));
     watcherJS.on("change", path => log("changed >>> " + path));
     watcherJS.on("error", err => log("watch error: " + err.message));
-	done();
+    done();
 };
 
 // watch the sidePanelCollapse js
@@ -879,7 +876,7 @@ const watchJSSidePanel = function (done) {
     const watcherJSSidePanel = watch(paths_sidePanel.js_sourceGLOB, series(lintJS_sidePanel, scriptifySidePanel, copyjs_sidePanel, browserifyJSDemo));
     watcherJSSidePanel.on("change", path => log("changed >>> " + path));
     watcherJSSidePanel.on("error", err => log("watch error: " + err.message));
-	done();
+    done();
 };
 
 exports.watchJSSite = watchJSSource;
