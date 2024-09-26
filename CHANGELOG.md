@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.0.0] - 09-27-2024
+
+* convert to work with Bootstrap 5
+* update readme
+
+
+
+
+
 ## [1.5.0] - 09-25-2024
 no functional changes
 
