@@ -1,7 +1,7 @@
 "use strict";
 
 // const gulp =            require("gulp");
-const {src, dest, watch, series, parallel} =   require('gulp');
+const {src, dest, watch, series, parallel} = require('gulp');
 
 // gulp debuggin'
 const log =             require("fancy-log");
@@ -163,7 +163,7 @@ function refreshPanini() {
 // utility function to find current IP address.
 // * might not be bulletproof *
 const findIPAddress = () => {
-	let address = ip.address();
+    let address = ip.address();
 
     if (typeof address === "undefined") {
         address = noAddressMessage;
@@ -189,8 +189,8 @@ const options_webserver = {
     defaultFile: "index.html",
     root: siteBuildDestinationRoot,
     directoryListing: {
-      enable: false,
-      path: "./"
+        enable: false,
+        path: "./"
     },
     livereload: false,
 };
@@ -272,10 +272,10 @@ const options_pageBuild = {
     root:       "./src_demo/site/pages/page",   // path to the root folder all the pages live in
     layouts:    paths.siteBuildSource + "layouts/",
     pageLayouts: {
-                "index.html":           "layout-index",
-                "index-simple.html":    "layout-index-simple",
-                "":                     "layout-page",  // key intentionally left blank
-                },
+        "index.html":           "layout-index",
+        "index-simple.html":    "layout-index-simple",
+        "":                     "layout-page",  // key intentionally left blank
+    },
     helpers:    paths.siteBuildSource + "helpers/",       // path to a folder containing panini & handlebars helpers
     partials:   paths.siteBuildSource + "partials/",      // path to a folder containing HTML partials
     data:       [paths.siteBuildSource + "data/", paths.siteBuildSource + "pages/data/"],  // path to all data, which (the data) will be passed in and available to to every page
@@ -710,17 +710,17 @@ exports.lintAll = lintAll;
 // javascript building: global options
 // babel options to transpile javascript to browser-compatible form
 const options_babel = {
-  "presets": [
-    [ "@babel/preset-env",
-        {
-            "exclude": [
-                "transform-typeof-symbol"  // don't add polyfill for typeof
-            ],
-            "modules": false,
-            "debug": false
-        }
-    ]
-  ],
+    "presets": [
+        [ "@babel/preset-env",
+            {
+                "exclude": [
+                    "transform-typeof-symbol"  // don't add polyfill for typeof
+                ],
+                "modules": false,
+                "debug": false
+            }
+        ]
+    ],
 };
 
 const options_uglify = {
@@ -748,7 +748,7 @@ const browserifyScript = function (file) {
         .on("error", function(err) {
             log("browserify error: " + err);
             this.emit("end");
-            })
+        })
         .pipe(source(paths.browserifyDestinationFile_site))
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
