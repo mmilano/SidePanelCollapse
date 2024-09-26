@@ -59,37 +59,22 @@ See note regarding [browser targets](#about-the-production-builds).
 
 # Introduction
 
-The [Bootstrap Collapse][BS-collapse] component is typically used to show and hide content in a vertical manner, collapsing up and down.
+The Bootstrap Collapse component is typically used to show and hide content in a vertical manner, collapsing up and down.
 
-While developing a site, I wanted to add a vertical full-window navigation sidebar. I was already using Bootstrap, so I thought that maybe I could use the existing component to make the navigation bar instead of adding another code package to the project or writing something new. (Of course, what I ended up writing is this library, so maybe this became a rabbit hole...)
+While developing a site, I wanted to add a vertical full-window navigation sidebar. I was already using Bootstrap 4, so I thought that maybe I could use the existing components to make the navigation bar instead of adding another code package to the project or writing something new.
 
 Initial experiments did not work. But it turns out that it *is* possible.
 
-Bootstrap 4 can be used to make an element "collapse", or slide, horizontally.
+Bootstrap 4 can be used to make an element "collapse", or slide, horizontally. It was necessary to dig into the source code itself to discover this.
 
+Bootstrap 5 made this capability overt and no longer hidden. And the ability was added to the documentation: [Horizontal collapse][BS5-horizontal-collapse].
 
-## The Hook
-
-The important behavior from Bootstrap (4.6x) is this code fragment:
-
-```javascript
-
-_proto._getDimension = function _getDimension() {
-    var hasWidth = $__default["default"](this._element).hasClass(DIMENSION_WIDTH);
-    return hasWidth ? DIMENSION_WIDTH : DIMENSION_HEIGHT;
-};
-
-```
-([Bootstrap.js/collapse source][BS-source-width])
-
-Vertical/height collapse is the default behavior, but Bootstrap will check if the collapsing element has a `width` class.
-If so, then the width, not height, "collapses" between 0 and the width value. It transforms horizontally instead of vertically.
 
 
 ## SidePanelCollapse Goes Sideways
 
-SidePanelCollapse starts from this latent possibility and augments the normal behavior of Bootstrap collapse to manage an element that opens and closes horizontally.
-Then, going beyond simple horizontal movement, the library provides additional functionality to make the user experience better (admittedly, an opinionated better).
+SidePanelCollapse starts from this capability and augments the normal behavior of Bootstrap collapse to manage an element that opens and closes horizontally.
+Furthermore, going beyond simple horizontal transformation, SidePanelCollapse provides additional functionality to make the user experience better (admittedly, an opinionated better).
 
 
 
@@ -194,14 +179,15 @@ To begin with, you should have an element in your web page – the "side panel"
 
 * The top level of the side panel must have a unique CSS selector. The default is `#sidePanel`.
 * The side panel HTML element itself must have the `width` and `sidePanel` classes.
+* The side panel HTML element must be set up as a valid, functioning Bootstrap horizontal collapse component with the classes `collapse` and `collapse-horizontal`.
 
 ```html
-<div class="sidePanel width yourSideNavClass collapse" id="sidePanel">
+<div class="sidePanel width yourSideNavClass collapse collapse-horizontal" id="sidePanel">
     ...
 </div>
 ```
 
-* The side panel HTML element must first be set up as a valid, functioning Bootstrap collapse component, including a functioning Bootstrap button configured to open the collapse element.
+* The side panel HTML element must be set up as a valid, functioning Bootstrap horizontal collapse component, including a functioning Bootstrap button configured to open the collapse element.
 
 ```html
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidePanel" aria-controls="sidePanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -209,7 +195,7 @@ To begin with, you should have an element in your web page – the "side panel"
 </button>
 ```
 
-See the [Bootstrap Collapse documentation][BS-collapse] for details of the collapse component requirements.
+See the [Bootstrap Collapse documentation][BS5-collapse] for details of the collapse component requirements.
 
 * There should be an HTML button element that will close the panel when clicked. This complements the Bootstrap button element for opening a collapse-able element. Having a close button isn't exactly a technical requirement, but a user-centered design requirement.
 * The side panel must be initialized by SidePanelCollapse before it will function correctly. Either passively via a data-attribute or manually via javascript.
@@ -653,8 +639,9 @@ SidePanelCollapse is released under the MIT license.
 
 
 [Bootstrap-home]: https://getbootstrap.com/
-[BS-collapse]: https://getbootstrap.com/docs/4.6/components/collapse/
+[BS4-collapse]: https://getbootstrap.com/docs/4.6/components/collapse/
 
+[BS5-horizontal-collapse]: [https://getbootstrap.com/docs/5.3/components/collapse/#horizontal]
 [Bootstrap4Version]: https://github.com/mmilano/SidePanelCollapse/tree/version1.5.0
 
 [BS-source-width]: https://github.com/twbs/bootstrap/blob/349a373ff62bf530135ad95d7d1d3f1be6abbf22/js/dist/collapse.js#L276
