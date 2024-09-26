@@ -10,9 +10,6 @@
 window.SidePanelCollapse = require("SidePanelCollapse");
 
 // demo specific:
-// const pages = require("pages.js");
-// const pageRouter = pages.pageRouter;
-// const pageMethods = pages.pages;
 const {pageRouter, pageMethods} = require("pages.js");
 
 module.exports = {
