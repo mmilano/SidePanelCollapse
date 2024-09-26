@@ -22,11 +22,11 @@ $sidePanel-backdrop-opacity-max:          1 !default;
 
 // note: the backdrop translucency is baked into the background color itself (via the alpha channel), and not with a separate opacity value.
 $sidePanel-backdrop-dark:                 rgba(#000, 0.51) !default;
-$sidePanel-backdrop-light:                rgba(#FFF, 0.6) !default;
+$sidePanel-backdrop-light:                rgba(#FFF, 0.5) !default;
 
 // backdrop transition durations
 $sidePanel-backdrop-duration-show:        0.33s !default;
-$sidePanel-backdrop-duration-hide:        0.17s !default;
+$sidePanel-backdrop-duration-hide:        $sidePanel-duration-hide * 0.55 !default;
 
 .sidePanel {
     // output the duration values as css variables so that they only have to be declared in one place, and
@@ -39,7 +39,7 @@ $sidePanel-backdrop-duration-hide:        0.17s !default;
 
     // transition properties
     // default on load to have no transition duration (therefore no effect) so that there is no slide-out animation shown when the page first loads (in some cases).
-    // Bootstrap collapse will change the width (not height) because '.width' is in the HTML
+    // Bootstrap collapse will change the width (not height)
     transition-property: width;
     transition-timing-function: $sidePanel-transition-function;
 
@@ -54,7 +54,7 @@ $sidePanel-backdrop-duration-hide:        0.17s !default;
     }
 }
 
-// backdrop = the full-page background displayed when sidenav is displayed (open).
+// backdrop = the full-page background displayed when side-nav is displayed (open).
 // intended to screen the existing page content.
 .sidePanel-backdrop {
     z-index: $sidePanel-backdrop-zindex;
