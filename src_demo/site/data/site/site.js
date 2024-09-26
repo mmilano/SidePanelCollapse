@@ -10,7 +10,7 @@ const siteHome = "/";
 const siteData = {
     "site_name": "SidePanelCollapse",
     "title": "Horizontal Sliding Side Panel",
-    "description": "An example project to demonstrate using the Bootstrap 'collapse' component to make a vertical sidebar slide horizontally, with variable timing.",
+    "description": "A project to demonstrate using the Bootstrap 'collapse' component to make a vertical sidebar slide horizontally, with advanced variable timing.",
     "project-url": "http://localhost:9191",
 
     // site meta keywords
@@ -24,8 +24,9 @@ const siteData = {
         "website",
     ],
 
-    "year": 2023,
+    "year": 2024,
 
+    // data to generate sample open graph metadata for the demo pages
     "og": {
         get site_name() {
             return siteData.site_name; // use the general site name

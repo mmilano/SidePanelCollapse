@@ -1,4 +1,4 @@
-// page data js
+// page data
 
 module.exports = {
     id: "page-a",

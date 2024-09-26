@@ -8,7 +8,6 @@
 // adapted from
 //  * Bootstrap Table of Contents (http://afeld.github.io/bootstrap-toc/)
 //  * Copyright 2015 Aidan Feldman
-//  * Licensed under MIT (https://github.com/afeld/bootstrap-toc/blob/gh-pages/LICENSE.md) */
 //
 // uses "cheerio" to parse the page
 //
@@ -57,8 +56,8 @@ module.exports = function (attr, options) {
     const hbs_partials = panini.Handlebars.partials;
 
     // check if the passed-in partial is already compiled.
-    // if so,just use that.
-    // if not, compile it, and return the compiled partial
+    // if so, just use that.
+    // if not, compile it, and return the compiled partial.
     const getCompiled = (p) => {
         let compiled;
 

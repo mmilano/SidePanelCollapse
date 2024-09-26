@@ -87,7 +87,6 @@ const pages = {
             }
         }
 
-
         // SidePanelCollapse options for this page
         const sidePanelOptions = {
             durationShow: "1.25s",
@@ -114,7 +113,7 @@ const pages = {
         const horizontalNav = document.getElementById("primaryNav-horiz");
         // is the horizontal nav being displayed (i.e. have a display value other than 'none'?)
         const horizontalNavDisplayed = util.checkIfDisplayed(horizontalNav);
-        let horizontalNavIsDisplayed = horizontalNavDisplayed();
+        const horizontalNavIsDisplayed = horizontalNavDisplayed();
 
         // create the scrollspy on the nav for the current state of the index page
         // pages needs to have the scrollspy work on both horizontal and vertical navs
@@ -147,7 +146,7 @@ const pages = {
     default: function (pageID) {
         // ...can do something with pageID if desired
 
-         // SidePanelCollapse options for thse pages (note: different from index)
+        // SidePanelCollapse options for these pages (note: different from index)
         const sidePanelOptions = {
             durationShow: "1.25s",
             durationHide: ".7s",
@@ -185,6 +184,6 @@ const pageRouter = function(pageID) {
 
 // expose specific methods
 module.exports = {
-    pages,
-    pageRouter,
+    pageMethods: pages,
+    pageRouter: pageRouter,
 };

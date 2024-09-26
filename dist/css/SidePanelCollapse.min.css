@@ -1,10 +1,10 @@
 /*! **********
- * SidePanelCollapse v1.4.0
+ * SidePanelCollapse v1.5.0
  * A Bootstrap 4-based sidebar augmenting the "collapse" component to collapse horizontally,
  * and allow variable duration timings for the transitions
  *
  * Michel Milano
- * 2023
+ * 2024
  * MIT License
- */.sidePanel{--durationShow:1.05s;--durationHide:0.35s;--durationHideFast:0.13s;transition-property:width;transition-timing-function:ease-in}.sidePanel.collapsing{transition-duration:var(--durationShow);width:0}.sidePanel-backdrop{animation:b .17s linear;background-color:hsla(0,0%,100%,.6);bottom:0;display:none;left:0;opacity:0;position:fixed;right:0;top:0;z-index:931}.sidePanel-backdrop.fadein{animation:a .33s linear forwards}.sidePanel-backdrop.show{display:block}.sidePanel-backdrop.dark{background-color:rgba(0,0,0,.51)}@keyframes a{0%{opacity:0}to{opacity:1}}@keyframes b{0%{opacity:1}to{opacity:0}}
+ */.sidePanel{--durationShow:1.05s;--durationHide:0.35s;--durationHideFast:0.13s;transition-property:width;transition-timing-function:ease-in}.sidePanel.collapsing{transition-duration:var(--durationShow);width:0}.sidePanel-backdrop{animation:b .17s linear;background-color:#fff9;bottom:0;display:none;left:0;opacity:0;position:fixed;right:0;top:0;z-index:931}.sidePanel-backdrop.fadein{animation:a .33s linear forwards}.sidePanel-backdrop.show{display:block}.sidePanel-backdrop.dark{background-color:#00000082}@keyframes a{0%{opacity:0}to{opacity:1}}@keyframes b{0%{opacity:1}to{opacity:0}}
 /*# sourceMappingURL=map/SidePanelCollapse.min.css.map */

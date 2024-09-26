@@ -4,6 +4,7 @@
 # project files
 *.bbprojectd
 *.code-workspace
+.vscode
 
 # logs
 logs
@@ -29,4 +30,3 @@ build
 demo
 
 # dev stuff
-src_demo/js/vendor/

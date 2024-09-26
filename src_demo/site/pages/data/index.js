@@ -1,4 +1,4 @@
-// page data js
+// page data
 // page = index.html
 
 module.exports = {
