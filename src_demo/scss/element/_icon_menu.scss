@@ -1,5 +1,6 @@
 /*
- * pure css menu icon (aka: the layer cake. the sandwich. the hamburger)
+ * pure css menu icon
+ * aka: the layer cake. the sandwich. the hamburger)
  *
 */
 
@@ -14,7 +15,7 @@ $menuicon-layer-offset:            8px;                      // spacing between 
 $menuicon-rounding:                1.8px;                    // the rounding value is the css corners of the rectangles, to soften them
 $menuicon-color:                   $toasted-black;           // color of the glyph in normal state
 $menuicon-color-hover:             $color-black-lighter3;    // color of the glyph when hovered
-$menuicon-transition-duration:     .25s;                     // duration of color change on hover
+$menuicon-transition-duration:     .2s;                     // duration of color change on hover
 $menuicon-transition-function:     ease;                     // css transition timing function
 
 .menuIcon {

@@ -19,14 +19,14 @@ intended to be used as the generating helper
 
     {{#each contents}}
     <div class="nav-item">
-        <a class="nav-link {{~#if @first}} active{{/if}}" href="#{{this.anchor}}" data-target="#{{this.anchor}}">{{{titleCase this.title}}}</a>
+        <a class="nav-link {{~#if @first}} active{{/if}}" href="#{{this.anchor}}" data-bs-target="#{{this.anchor}}">{{{titleCase this.title}}}</a>
 
         {{#if subsections}}
             {{!-- using nested nav so that parent heading will also be active when subheading is active --}}
             <nav class="nav subnav">
             {{#each subsections}}
                 <div class="nav-item">
-                <a class="nav-link" href="#{{this.anchor}}" data-target="#{{this.anchor}}">{{{titleCase this.title}}}</a>
+                    <a class="nav-link" href="#{{this.anchor}}" data-bs-target="#{{this.anchor}}">{{{titleCase this.title}}}</a>
                 </div>
             {{/each}}
             </nav>

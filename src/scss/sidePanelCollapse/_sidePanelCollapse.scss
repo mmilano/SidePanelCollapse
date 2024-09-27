@@ -16,17 +16,17 @@ $sidePanel-duration-hide:                 0.35s !default;  // prompt
 $sidePanel-duration-hide-fast:            0.13s !default;  // very fast
 
 // backdrop values
-$sidePanel-zindex:                        $zindex-fixed + 1 !default;        // first: define a z-index based on Bootstrap v4 default nav, plus 1, to put .sidePanel above the nav
+$sidePanel-zindex:                        $zindex-fixed + 1 !default;        // first: define a z-index based on Bootstrap default nav, plus 1, to put .sidePanel above the nav
 $sidePanel-backdrop-zindex:               $sidePanel-zindex - 100 !default;  // then, for backdrop: enough to be under .sidePanel, but over the main page content
 $sidePanel-backdrop-opacity-max:          1 !default;
 
 // note: the backdrop translucency is baked into the background color itself (via the alpha channel), and not with a separate opacity value.
 $sidePanel-backdrop-dark:                 rgba(#000, 0.51) !default;
-$sidePanel-backdrop-light:                rgba(#FFF, 0.6) !default;
+$sidePanel-backdrop-light:                rgba(#FFF, 0.5) !default;
 
 // backdrop transition durations
 $sidePanel-backdrop-duration-show:        0.33s !default;
-$sidePanel-backdrop-duration-hide:        0.17s !default;
+$sidePanel-backdrop-duration-hide:        $sidePanel-duration-hide * 0.55 !default;
 
 .sidePanel {
     // output the duration values as css variables so that they only have to be declared in one place, and
@@ -39,7 +39,7 @@ $sidePanel-backdrop-duration-hide:        0.17s !default;
 
     // transition properties
     // default on load to have no transition duration (therefore no effect) so that there is no slide-out animation shown when the page first loads (in some cases).
-    // Bootstrap collapse will change the width (not height) because '.width' is in the HTML
+    // Bootstrap collapse will change the width (not height)
     transition-property: width;
     transition-timing-function: $sidePanel-transition-function;
 
@@ -54,10 +54,12 @@ $sidePanel-backdrop-duration-hide:        0.17s !default;
     }
 }
 
-// backdrop = the full-page background displayed when sidenav is displayed (open).
+// backdrop = the full-page background displayed when side-nav is displayed (open).
 // intended to screen the existing page content.
 .sidePanel-backdrop {
     z-index: $sidePanel-backdrop-zindex;
+
+    // default display status is to not display
     display: none;
 
     position: fixed;
@@ -71,23 +73,25 @@ $sidePanel-backdrop-duration-hide:        0.17s !default;
 
     background-color: $sidePanel-backdrop-light;  // "light" is the default
 
-    // in effect, fadeout is the default
+    // default animation on backdrop
+    // which is to appear as a fadeout
     animation: backdropFadeOut $sidePanel-backdrop-duration-hide linear;
 
-    // when the fadein class is applied, fadein animation will be in effect
+    // when the .fadein class is applied, fadein animation will be in effect,
+    // overriding the default
     &.fadein {
         animation: backdropFadeIn $sidePanel-backdrop-duration-show linear forwards;
     }
 
+    // when .show is applied, backdrop element will display
     &.show {
         display: block;
     }
 
-    // light version. established as the default, so additional rule is not necessary
-    // note: it is still applied in the javascript however.
-    // &.light {
-    //     background-color: $sidePanel-backdrop-light;
-    // }
+    // light version.
+    // 'light' style is defined as the default (above), so rules are not necessary.
+    // the class is still applied in the javascript, however, to allow for any site-specific overrides
+    &.light {}
 
     // dark version
     &.dark {

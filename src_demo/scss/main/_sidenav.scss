@@ -1,25 +1,25 @@
-// visual design styles for the sidenav
+// visual design styles for the side-nav
 //
-// .sidenav styles add to .sidePanel styles for site-specific design.
+// .sideNav styles add to .sidePanel styles for site-specific design.
 // one could also override .sidePanel styles here
 
-$sidenav-side:                          "right";  // the default position = right side of window
-$sidenav-zindex:                        $zindex-fixed + 1;  // z-index of Bootstrap4 default nav, plus 1, to put the sidenav above the nav
+$sideNav-side:                          "right";  // the default position = right side of window
+$sideNav-zindex:                        $zindex-fixed + 1;  // z-index of Bootstrap default nav, plus 1, to put the sideNav above the nav
 
-$sidenav-width-large:                   260px;
-$sidenav-width-small:                   $sidenav-width-large - 20;  // adjustment for smaller window sizes
+$sideNav-width-large:                   260px;
+// $sideNav-width-small:                   $sideNav-width-large - 20;  // adjustment for smaller window sizes
 
-$sidenav-background-color:              #302956;
-$sidenav-header-bar-color:              #494946;
+$sideNav-background-color:              #302956;
+$sideNav-header-bar-color:              #494946;
 
-$sidenav-closeButton-height:            36px;
-$sidenav-close-xposition-small:         200px;
-$sidenav-close-xposition-large:         193px;
+$sideNav-closeButton-height:            36px;
+// $sideNav-close-xposition-small:         200px;
+$sideNav-close-xposition-large:         185px;
 
-$sidenav-nav-offset-top:                $page-primarynavbar-height + 12;  // visual margin from top of sidebar to account for the header bar
-$sidenav-nav-margin-left-large:         25px;
-$sidenav-nav-margin-left-small:         20px;  // adjustment for smaller window sizes
-$sidenav-nav-margin-right:              1.5rem;
+$sideNav-nav-offset-top:                $page-primarynavbar-height + 12;  // visual margin from top of sidebar to account for the header bar
+$sideNav-nav-margin-left-large:         25px;
+$sideNav-nav-margin-left-small:         20px;  // adjustment for smaller window sizes
+$sideNav-nav-margin-right:              1.5rem;
 
 $nav-item-link-hover-color:             $link-color-highlight;
 $nav-item-font-size:                    0.83rem;
@@ -28,26 +28,26 @@ $nav-group-font-color:                  #476978;
 $nav-group-font-color-hover:            #3D88C9;
 
 
-.sidenav {
-    z-index: $sidenav-zindex;
+.sideNav {
+    z-index: $sideNav-zindex;
     position: fixed;
     top: 0;
     bottom: 0;
-    #{$sidenav-side}: 0;
+    #{$sideNav-side}: 0;
     height: 100vh;  // sidePanel extends the full height of the window
     padding: 0;
     overflow-x: hidden;
 
-    background-color: $sidenav-background-color;
+    background-color: $sideNav-background-color;
 
     // because the width of the top-level .sidePanel is changed during the collapse event by Bootstrap,
     // an interior element is used to maintain a fixed width for the content.
-    .sidenav-content {
+    .sideNav-content {
         position: relative;
-        width: $sidenav-width-small;
+        width: $sideNav-width-large;
     }
 
-    // sidenav is structured to be one general "nav" element
+    // sideNav is structured to be one general "nav" element
     .nav {
         display: block;  // override Bootstrap
     }
@@ -71,31 +71,31 @@ $nav-group-font-color-hover:            #3D88C9;
         padding-bottom: .35rem;
     }
 
-    // bar at top of the sidenav. visually extends the horizontal primary navbar,
+    // bar at top of the sideNav. visually extends the horizontal primary navbar,
     // and contains the "X" close icon
-    .sidenav-headBar {
-        z-index: $sidenav-zindex;
+    .sideNav-headBar {
+        z-index: $sideNav-zindex;
         position: fixed;
         // top: 0;
 
-        width: $sidenav-width-small;
+        width: $sideNav-width-large;
         height: $page-primarynavbar-height;
 
         // flex layout model to match the primary navbar
         display: flex;
         align-items: center;
 
-        background-color: $sidenav-header-bar-color;
+        background-color: $sideNav-header-bar-color;
     }
 
-    .sidenav-close {
-        margin-left: $sidenav-close-xposition-small; // visually adjust the close button to match the x-position of the sandwich menu button in the primary nav
+    .sideNav-close {
+        margin-left: $sideNav-close-xposition-large; // visually adjust the close button to match the x-position of the sandwich menu button in the primary nav
     }
 
     // main content = list of the pages
-    .sidenav-nav {
-        margin-top: $sidenav-nav-offset-top;
-        padding: 0 0 3rem $sidenav-nav-margin-left-small;
+    .sideNav-nav {
+        margin-top: $sideNav-nav-offset-top;
+        padding: 0 $sideNav-nav-margin-right 3rem $sideNav-nav-margin-left-large;
         font-family: $font-family-secondary;
         font-size: .9rem;
     }
@@ -113,21 +113,21 @@ $nav-group-font-color-hover:            #3D88C9;
 
 // group = heading + list of items under that heading
 // note: not used in demo
-// .sidenav-group {}
+// .sideNav-group {}
 
 // title for groups of items
 // note: not used in demo
-// .sidenav-group-heading {}
+// .sideNav-group-heading {}
 
 // item
 // note: not used in demo
-// .sidenav-item {}
+// .sideNav-item {}
 
 
 // specific styles for display on the index page, aka homepage
 .theme-homepage {
-    .sidenav {
-        .sidenav-nav {
+    .sideNav {
+        .sideNav-nav {
             font-size: 1rem;
         }
     }
@@ -135,27 +135,14 @@ $nav-group-font-color-hover:            #3D88C9;
 
 // for larger windows
 @include media-breakpoint-up(md) {
-
-    .sidenav {
-        .sidenav-content {
-            width: $sidenav-width-large;
-        }
-
-        .sidenav-headBar {
-            width: $sidenav-width-large;
-        }
+    .sideNav {
 
         .nav-link {
             margin-bottom: .5rem;
             padding-bottom: .5rem;
         }
 
-        .sidenav-close {
-            margin-left: $sidenav-close-xposition-large;
-        }
-
-        .sidenav-nav {
-            padding: 0 $sidenav-nav-margin-right 3rem $sidenav-nav-margin-left-large;
+        .sideNav-nav {
             font-size: 1rem;
         }
     }

@@ -1,13 +1,16 @@
-//
-// styles for the primarynav dingbat
+/*
+ * styles for the primarynav dingbat
+ *
+*/
 
 $dingbat-element-width:     32px;
+$dingbat-element-fontsize:  1.7rem;
 
 .dingbat {
     position: relative;
     width: $dingbat-element-width;
     margin: 0;
-    font-size: 1.7rem;
+    font-size: $dingbat-element-fontsize;
 
 	span {
         display: block;

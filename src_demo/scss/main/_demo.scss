@@ -15,8 +15,8 @@ footer {
         width: $pill-width-demo;
         height: $pill-height-demo;
 
-        color: $core-white;
         background-color: $pill-background-color-demo;
+        color: $core-white;
     }
 
     &.demo-simple {
@@ -25,7 +25,7 @@ footer {
 
     &.demo-complex {
         position: absolute;
-        bottom: 140px;
+        bottom: 2rem;
         left: 50%;
         transform: translateX(-50%);
     }

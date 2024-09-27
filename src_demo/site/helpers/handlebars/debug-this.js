@@ -23,7 +23,7 @@ module.exports = function(argument1, argument2) {
         console.log ("ARGUMENT 1:");
         if (typeof val === "object") {
 
-           for (i in val) {
+            for (i in val) {
                 let k = val[i];
                 console.log(i + ":" + k);
             };
@@ -39,7 +39,7 @@ module.exports = function(argument1, argument2) {
         console.log ("ARGUMENT 2:");
         if (typeof val === "object") {
 
-           for (i in val) {
+            for (i in val) {
                 let k = val[i];
                 console.log(i + ":" + k);
             };

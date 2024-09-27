@@ -1,7 +1,19 @@
 # SidePanelCollapse
 
-SidePanelCollapse is a javascript and CSS package that works with Bootstrap 4 to make a vertical element open and close horizontally, with added features to create a more nuanced user experience.
+SidePanelCollapse is a javascript and CSS package that works with Bootstrap 5 to make a vertical navigation bar open and close, with added features to create a more nuanced user experience.
 
+Features:
+
+* Different and customizable durations for the open and close transitions applied to the side panel element.
+* Optimized closing behavior when a link is clicked.
+* Backdrop that overlays the page when the side panel is open.
+* Allows closing the side panel with a button, a tap on the backdrop, or the ESC key.
+* Option for a custom "close" button that is separate from the button that opens the side panel.
+
+
+#
+
+* [Requirements](#Requirements)
 * [Introduction](#introduction)
 * [Installing](#installing-sidepanelcollapse)
 * [Using](#using-sidepanelcollapse)
@@ -15,48 +27,55 @@ SidePanelCollapse is a javascript and CSS package that works with Bootstrap 4 to
 
 
 
+# Requirements
+
+
+Minimum technical requirements to use SidePanelCollapse.
+
+* [Bootstrap 5.x][Bootstrap-home]. This version of the library was developed with version 5.
+
+
+
+There are additional requirements to build/view the demos or work with the source code:
+* [Node](https://nodejs.org/), v18+.
+* npm
+
+
+## Using Bootstrap 4?
+A previous version of this library was made to work with Bootstrap 4:
+[SidePanelCollapse for Bootstrap 4][Bootstrap4Version].
+
+
+### Browser Support
+
+* A recent model browser.
+    * Chrome, Firefox, Safari, Edge. Some mobile versions, too.
+    * IE? not so much.
+
+See note regarding [browser targets](#about-the-production-builds).
+
+
+
 
 # Introduction
 
-The [Bootstrap Collapse][BS-collapse] component is typically used to show and hide content in a vertical manner, collapsing up and down.
+The Bootstrap Collapse component is typically used to show and hide content in a vertical manner, collapsing up and down.
 
-While developing a site, I wanted to add a vertical, full-window navigation sidebar. I was already using Bootstrap, so I thought that maybe I could use the existing component to make the navigation bar instead of adding another code package to the project or writing something new. (Though, what I ended up writing is this packages, so maybe this became a rabbit hole...)
+While developing a site, I wanted to add a vertical full-window navigation sidebar. I was already using Bootstrap 4, so I thought that maybe I could use the existing components to make the navigation bar instead of adding another code package to the project or writing something new.
 
 Initial experiments did not work. But it turns out that it *is* possible.
 
-Bootstrap 4 can be used to make an element "collapse" horizontally.
+Bootstrap 4 *can* be used to make an element "collapse", or slide, horizontally. It was necessary to dig into the source code itself to discover this.
 
+Bootstrap 5 made this capability overt and no longer hidden. And the ability was added to the documentation: [Horizontal collapse][BS5-horizontal-collapse].
 
-## The Hook
-
-The important behavior from Bootstrap (4.6x) is this code fragment:
-
-```javascript
-
-_proto._getDimension = function _getDimension() {
-    var hasWidth = $__default["default"](this._element).hasClass(DIMENSION_WIDTH);
-    return hasWidth ? DIMENSION_WIDTH : DIMENSION_HEIGHT;
-};
-
-```
-([Bootstrap.js/collapse source][BS-source-width])
-
-Vertical/height collapse is the default behavior, but Bootstrap will check if the collapsing element has a `width` class.
-If so, then the width, not height, "collapses" between 0 and the width value. It transforms horizontally instead of vertically.
 
 
 ## SidePanelCollapse Goes Sideways
 
-SidePanelCollapse starts from this latent possibility and augments the normal behavior of Bootstrap collapse to manage an element that opens and closes horizontally.
-Then, going beyond simple horizontal movement, the library provides additional functionality to make the user experience better (admittedly, an opinionated better).
+SidePanelCollapse starts from this capability and augments the normal behavior of Bootstrap collapse to manage an element that opens and closes horizontally.
+Furthermore, going beyond simple horizontal transformation, SidePanelCollapse provides additional functionality to make the user experience better (admittedly, an opinionated better).
 
-### Features:
-
-* Different and customizable durations for the open and close transitions applied to the side panel element.
-* Optimized closing behavior when a link is clicked.
-* A backdrop that overlays the page when the side panel is open.
-* Option for a custom "close" button that is separate from the button that opens the side panel.
-* Allows closing the side panel with a button, a tap on the backdrop, or the ESC key.
 
 
 ## Wot's All This, Then?
@@ -110,9 +129,9 @@ The [Simple Demo](#the-simple-demo) uses this method.
 
 ### Option 2: Incorporate Into an Existing Build Process
 
-If your own project already has a (e.g. snode.js-based) build process, already compiles, transpiles, and processes javascript, and it is using SCSS, then the SidePanelCollapse source files might be right for you.
+If your own project already has a (e.g. node.js-based) build process, already compiles, transpiles, and processes javascript, and it is using SCSS, then the SidePanelCollapse source files might be right for you.
 
-The [Advanced Demo](#the-advanced-demo) uses this method.
+The [Advanced Demo](#the-advanced-demo) uses this option.
 
 1. Clone the repository, or download and unzip.
 1. Copy all of the `/src` SidePanelCollapse javascript and SCSS files to the appropriate location in your own project. Those files are:
@@ -132,7 +151,7 @@ src/
 3. SidePanelCollapse's SCSS references a few Bootstrap variables, and so the Bootstrap source scss needs to be available (by default, in `node-modules/`). If Bootstrap 4 is not already in your project's dependencies, add it. E.g.:
 
 ```shell
-> npm install --save-dev bootstrap@4
+> npm install --save-dev bootstrap@5
 ```
 
 4. Add the appropriate directives to include or require the source files into your own source.
@@ -154,42 +173,26 @@ SidePanelCollapse = require("SidePanelCollapse");
 # Using SidePanelCollapse
 
 
-## Requirements
-
-Minimum requirements to use SidePanelCollapse on a site.
-
-### Tech Requirements
-
-* [Bootstrap 4.x][Bootstrap-home]. The library was developed with version 4.6.2.
-* [jQuery 3.x][jQuery-home]. Developed with version 3.7x, slim build. Bootstrap4.x itself requires jQuery, so this library should already be part of the site.
-
-
-There are additional requirements to build/view the demos or work with the source code:
-* [Node](https://nodejs.org/), v16+.
-* npm
-
-### Browser Support
-
-A recent model browser.
-* Chrome, Firefox, Safari, Edge. Some mobile versions, too.
-* IE? not so much.
-
-See note regarding [browser targets](#about-the-production-builds).
-
 ### HTML Page Requirements
 
-To begin with, you should have an element in your web page – the "side panel" – containing content that you want to show and hide, side to side.
+To begin with, you should have an element in your web page – the "side panel" – containing content that you want to show and hide, side-to-side.
 
 * The top level of the side panel must have a unique CSS selector. The default is `#sidePanel`.
 * The side panel HTML element itself must have the `width` and `sidePanel` classes.
+* The side panel HTML element must be set up as a valid, functioning Bootstrap horizontal collapse component with the classes `collapse` and `collapse-horizontal`.
 
 ```html
-<div class="sidePanel width mysidenav collapse" id="sidePanel">
+<div class="sidePanel yourSideNavClass collapse collapse-horizontal" id="sidePanel">
     ...
 </div>
 ```
 
-* The side panel HTML element must first be set up as a valid, functioning Bootstrap collapse component, including a functioning Bootstrap button configured to open the collapse element.
+* The side panel HTML element must be set up as a valid, functioning Bootstrap horizontal collapse component.
+See the [Bootstrap Collapse documentation][BS5-collapse] for details of the collapse component requirements.
+
+Second, there should be elements to open and to close the side panel.
+
+* For opening, have an HTML element configured to open the collapse element. Preferably, this is a button element.
 
 ```html
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidePanel" aria-controls="sidePanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -197,48 +200,46 @@ To begin with, you should have an element in your web page – the "side panel"
 </button>
 ```
 
-See the [Bootstrap Collapse documentation][BS-collapse] for details of the collapse component requirements.
+* There should be an HTML element that will close the panel when clicked. This complements the opening element. Having a close interface element isn't exactly a technical requirement, but a user-centered design requirement.
 
-* There should be an HTML button element that will close the panel when clicked. This complements the Bootstrap button element for opening a collapse-able element. Having a close button isn't exactly a technical requirement, but a user-centered design requirement.
-* The side panel must be initialized by SidePanelCollapse before it will function correctly. Either passively via a data-attribute or manually via javascript.
-
-Once the page has loaded, the side panel must be instantiated and initialized by SidePanelCollapse before it will function correctly.
+Latly, the side panel must be initialized by SidePanelCollapse before it will function correctly. Either passively via a data-attribute or manually via javascript.
 
 
 ### Visual Design Requirements
 
-SidePanelCollapse only manages the interactions of the side panel.
-It makes absolutely no claims on the visual design of the side panel element.
-All visual styling must be done separately. It can be any color, practically any size, and can have most any content. You should be able to make it work with just about any design of your own. Take a look at [the Demos](#the-demos) for ideas.
+**SidePanelCollapse only manages the interactions of the side panel!**
 
-There are visual style rules on the backdrop element, however, defining the colors of the "light" and "dark" versions.
+SidePanelCollapse, as a library, makes absolutely no claims on the visual design of the side panel elements.
+All visual styling must be done separately. If using core Bootstrap components, the Bootstrap styling will be in effect. They can be any color, practically any size, and can have most any content. You should be able to make it work with just about any design of your own. Take a look at [the Demos](#the-demos) for ideas.
+
+There are default visual style rules for the backdrop element, however, defining the appearance of the "light" and "dark" versions. These visual styles can be overridden easily with your own styles.
 
 
 
 ## Initialization
 
-Initialization can happen 'automatically' on page load by putting a data attribute on your side panel HTML element, or it can be done programmatically with a javascript function constructor.
+Initialization of the side panel can happen 'automatically' on page load by putting a data attribute on your side panel HTML element, or it can be done programmatically with a javascript function constructor.
 
-Either of these methods is available to you no matter how you have incorporated the library into your own project. You can use linked files and then invoke it manually, or you can integrate it into your build process and use a data attribute. **But only initialize once.**
+Either of these methods is available to you no matter how you have incorporated the library into your own project. You can use linked external files and then invoke it manually, or you can integrate it into your build process and use a data attribute. **But only initialize once.**
 
 ### Via Data Attribute
 
 Add the boolean attribute `data-sidepanel-collapse` on the side panel HTML element to have the side panel activated automatically when the page loads.
 
-Data attribute activation will use the default settings. Custom configurations are only available via javascript initialization.
+Data attribute activation will use the [default settings](#sidepanelcollapse-settings). Custom configurations are only available via javascript initialization.
 
 ```html
-<div class="sidePanel sidenav width collapse" id="sidePanel" data-sidepanel-collapse>
+<div class="sidePanel sideNavStyles collapse collapse-horizontal" id="sidePanel" data-sidepanel-collapse>
     ...
 </div>
 ```
 
 ### Via Javascript
 
-Activate SidePanelCollapse manually by creating a new SidePanelCollapse instance with the constructor.
+Activate SidePanelCollapse manually by creating a new SidePanelCollapse instance.
 
 ```js
-yourSidePanel = new SidePanelCollapse(options);
+const yourSidePanel = new SidePanelCollapse(options);
 ```
 
 Setting custom configuration options is, well...optional, and only available via javascript initialization. [Configuration Options](#configuration-options) describes the available choices in detail.
@@ -260,6 +261,7 @@ let options = {
 sidePanel = new SidePanelCollapse(options);
 ```
 
+## SidePanelCollapse Settings
 
 | Name | Type | Default  | Description |
 | ---- | --------------- | ------------- | ----------- |
@@ -274,25 +276,27 @@ sidePanel = new SidePanelCollapse(options);
 | `handleLinks`         | boolean | `true `| Whether or not `<a>` html links in the side panel should be handled in a special manner by the library.  |
 
 
+
 ⚠️**Caveat Developer**:
+
 During initialization, if the `sidePanelElement` HTML element cannot be found in the document, a browser console alert will display and the SidePanelCollapse will not be created. Otherwise, it will be created – whether or not the custom values are valid.
 
 Any custom settings should be manually verified and validated for the context. For example, the durations are required to be valid CSS transition-duration values. If they are not, there may not be any overt indication that something is awry, but the side panel will not function correctly.
 
 
-## `sidePanelElement`
+### `sidePanelElement`
 
 This selects the panel HTML element itself. Its value must be a valid unique CSS ID selector for the top level of the side panel DOM element in the HTML page. As a test, if `document.getElementById()` returns the right element and only one element, then it should work correctly.
 
 
-## `sidePanelCloseElement`
+### `sidePanelCloseElement`
 
 The side panel closing button. It must be a valid unique CSS selector for close button DOM element in the HTML page. As a test, if `document.querySelector()` returns the right element and only one element, then it should  work.
 
 If you do not want to use a close button, set boolean `false` and the library will not look for a close button. If the CSS selector cannot be found in the DOM, the internal value will also be `false`.
 
 
-## `sidePanelIsOpenClass`
+### `sidePanelIsOpenClass`
 
 When the side panel opens, the CSS class name specified by `sidePanelIsOpenClass` is added to the document's `<body>` tag and then removed when it hides. This provides a convenient cascade to enable styles that should apply only when the panel is open.
 
@@ -304,33 +308,33 @@ When the side panel opens, the CSS class name specified by `sidePanelIsOpenClass
 ```
 
 
-## Durations
+### Durations
 
 SidePanelCollapse implements different durations for normal open and close transitions, and has a third duration for closing very fast.
 
 See [Timing and the User Experience](#timing-and-the-user-experience) for thoughts about the SidePanelCollapse has been designed with regard to the transition durations.
 
-### `durationShow`
+#### `durationShow`
 
 The panel opens using the duration value `durationShow`. The default value chosen is felt to be a good balance between two qualities: fast enough to be prompt and attentive, but not too fast that it feels pugnacious.
 
-### `durationHide`
+#### `durationHide`
 
 **Closing Normally:**
 When the side panel is closed using the close button, clicking the backdrop, or using the keyboard, the closing duration is the value `durationHide`.
 
 The default hide duration is chosen to be fast enough to get out of the way expediently without being too fast for the situation.
 
-### `durationHideFast`
+#### `durationHideFast`
 
 **Closing Very Fast:** In specific circumstances, SidePanelCollapse closes the panel using the `durationHideFast` duration. The default very fast duration is about 1/3 of the standard closing duration.
 
 
-## `backdrop` & `backdropStyleClass`
+### `backdrop` & `backdropStyleClass`
 
 When `backdrop` is true, opening the panel will be accompanied by a translucent overlay that displays behind the side panel and above the main page content.
 
-The visual style of the backdrop is set by the `backdropStyleClass` value. Included in the library are two  styles: `light`, the default, is a diaphanous #FFF; `dark` is a shadowy #000.
+The visual style of the backdrop is set by the `backdropStyleClass` value. Included in the library are two  styles: `light`, the default, is a diaphanous white; `dark` is a shadowy black.
 
 You can specify a custom style by defining a rule in your project's SCSS and providing the selector as a string (without the leading dot). It must be a class and cannot be an id.
 
@@ -349,6 +353,9 @@ const options = {
 ```html
 <div class="backdrop brightSpring"></div>
 ```
+
+Alternatively, you can override the default backdrp styles with custom css. Be sure to load custom styles in the right order so that the style cascade works as you intend.
+
 
 ## `handleLinks`
 
@@ -423,7 +430,7 @@ The default CSS selector for the close button is `.sidePanel-close`. Give the op
 
 Clicking the close button will close the side panel at the normal duration speed.
 
-**Caution**: The toggle button used to first open the side panel will close the panel when clicked (if it is visible and not covered). Activating it calls directly to bootstrap.js. However, when it closes, it will not clean up the page properly. Notably, the backdrop will remain. This is something to change in [a future iteration](#roadmap).
+**Caution**: The toggle button used to first open the side panel will close the panel when clicked (if it is visible and not covered). Activating it calls directly to bootstrap.js. However, when it closes, it will not clean up the page properly. Notably, the backdrop will remain. This is something to change in a future iteration.
 
 ### The Escape Key
 
@@ -606,7 +613,7 @@ Production builds of the library (the .js and .css files) get saved into the pro
 
 #### Browser Targets
 
-The CSS and javascript is compiled or transpiled to a browser target = `["> 0.3%"]` and `not dead.` If you need a different target range, this value can be changed (in the `package.json` file) and the files rebuilt to the new target. Be cognizant that increasing the range will probably increase the final file size as a result of added polyfills.
+The CSS and javascript is compiled or transpiled to moderate browser targets, defined in the `package.json` file. If you need a different target range, the values can be changed, and the files rebuilt to the new target. Be cognizant that increasing the range may also require added polyfills, which will require additional build configuration changes (in the gulp file).
 
 
 
@@ -623,7 +630,7 @@ If you have any questions, ideas, or problems, feel free to open a new issue.
 
 #### Pioneers
 
-There are other examples in the wild demonstrating a Bootstrap horizontal collapse that I may have read when  trying to work out how to make things go sideways. To the original authors of those: thank you for your inspiration.
+There are other examples in the wild demonstrating a Bootstrap horizontal collapse that I may have read when trying to work out how to make things go sideways. To the original authors of those: thank you for your inspiration.
 
 #### Attributions
 
@@ -640,7 +647,10 @@ SidePanelCollapse is released under the MIT license.
 
 
 [Bootstrap-home]: https://getbootstrap.com/
-[BS-collapse]: https://getbootstrap.com/docs/4.6/components/collapse/
+[BS4-collapse]: https://getbootstrap.com/docs/4.6/components/collapse/
+
+[BS5-horizontal-collapse]: [https://getbootstrap.com/docs/5.3/components/collapse/#horizontal]
+[Bootstrap4Version]: https://github.com/mmilano/SidePanelCollapse/tree/version1.5.0
 
 [BS-source-width]: https://github.com/twbs/bootstrap/blob/349a373ff62bf530135ad95d7d1d3f1be6abbf22/js/dist/collapse.js#L276
 

@@ -12,10 +12,10 @@ const basepath = process.cwd();
 const trimWhitespace = require( basepath + "/src_demo/site/lib/trim");
 const titlecase = require("ap-style-title-case");
 
-const openTag =  "<h2>";
+const openTag = "<h2>";
 const closeTag = "</h2>";
 
-module.exports = function(attr, options) {
+module.exports = function generateH2 (attr, options) {
 
     let out, open;
 
@@ -34,7 +34,7 @@ module.exports = function(attr, options) {
         // otherwise, express as: attribute="value"
         for (let a in (options.hash)) {
             if (options.hash[a] === true) {
-               attributes = " " + a + attributes;
+                attributes = " " + a + attributes;
             } else {
                 attributes = " " + a + "=\"" + options.hash[a] + "\"" + attributes;
             }

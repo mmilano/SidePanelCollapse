@@ -1,7 +1,7 @@
 /*! **********
  * SidePanelCollapse v1.5.0
- * A Bootstrap 4-based sidebar augmenting the "collapse" component to collapse horizontally,
- * and allow variable duration timings for the transitions
+ * A Bootstrap 5-based sidebar augmenting the "collapse" component to collapse horizontally,
+ * and providing elaborate variable timings for the transition durations
  *
  * Michel Milano
  * 2024

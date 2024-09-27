@@ -1,5 +1,5 @@
 /*
- * css for the multi-page (not so simple) demo site
+ * scss for the multi-page (not as simple) demo site
  *
 */
 
@@ -17,10 +17,11 @@
 
 // SidePanelCollapse: incorporate the scss into the build
 // 'includePaths' option (in gulpfile) allows this to find /src/scss/sidePanelCollapse/
-// include it before site's sidenav styles to allow overriding in the second file
+// include it before site's side-nav styles to allow overriding in the second file
 @import "SidePanelCollapse";
 
 // styles for not-as-simple demo
+@import "main/_navbar-common";
 @import "main/_navbar";
 @import "main/_sidenav";
 

@@ -1,5 +1,5 @@
 /*
- * css for the simple demo site
+ * scss for the simple demo site
  *
 */
 
@@ -15,6 +15,7 @@
 @import "main/_demo";
 
 // styles for the simple project
+@import "main/_navbar-common";
 @import "main/_navbar-simple";
 @import "main/_sidenav-simple";
 

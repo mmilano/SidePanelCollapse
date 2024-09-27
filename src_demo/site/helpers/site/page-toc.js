@@ -19,8 +19,6 @@
 // data-title-short         alt value of the element's text to be used in the table of contents. allows a shorter version of the heading
 //
 
-/* jshint esversion: 6 */ // allow es6 features
-
 const panini = require("panini");
 const cheerio = require("cheerio");
 const basepath = process.cwd();
@@ -47,10 +45,7 @@ const defaultsTOC = {
     ignoreSelector: "[data-toc-ignore]",
 };
 
-module.exports = function (attr, options) {
-    /* jshint validthis: true */
-    /* jshint undef:true */
-    /* jshint -W069 */ // suppress the warning 'better written in dot notation'
+module.exports = function generatePageTOC (attr, options) {
 
     const hbs = panini.Handlebars;
     const hbs_partials = panini.Handlebars.partials;
@@ -91,6 +86,7 @@ module.exports = function (attr, options) {
             return o;
         };
 
+        // filter out elements that have the data ignoreSelector value
         this.filterOut = function filterOut($el) {
             // construct selector for elements that should be filtered out. in this case, it is determined by the ignoreSelector value
             const filterOutSelector = ":not(" + this.ignoreSelector + ")";
@@ -98,7 +94,6 @@ module.exports = function (attr, options) {
         };
 
         // return all matching elements in the set, or their descendants
-        // exclude items that have 'data-toc-ignore' attribute
         this.findAndFilter = function findAndFilter(selector, $scope) {
             if ($scope === undefined) {
                 console.warn("findAndFilter: NO SCOPE GIVEN");
@@ -113,7 +108,7 @@ module.exports = function (attr, options) {
 
         // given a NODE DOM element,
         // try to get its title value, or what should be used in the TOC
-        this.getTitle = function (el) {
+        this.getTitle = function getTitle(el) {
             let title;
 
             if (el === undefined) {
@@ -164,13 +159,13 @@ module.exports = function (attr, options) {
         };
 
         // check if an element is in the top scope
-        this.checkIfExists = function (attr) {
+        this.checkIfExists = function checkIfExists(attr) {
             let exists = this.$scope(attr).length > 0;
             return exists ? true : false;
         };
 
         // check if an element with given ID exists
-        this.checkIfIDExists = function (attr) {
+        this.checkIfIDExists = function checkIfIDExists(attr) {
             return this.checkIfExists("#" + attr);
         };
 
@@ -202,7 +197,7 @@ module.exports = function (attr, options) {
         // given a NODE DOM element,
         // either return its existing ID value,
         // or if there is none, create a new unique ID value
-        this.getAnchor = function (el) {
+        this.getAnchor = function getAnchor(el) {
             let anchor;
 
             // if there is an existing id value, get that
@@ -260,7 +255,8 @@ module.exports = function (attr, options) {
             return headings;
         };
 
-        this.generateContents = function () {
+        // the main method
+        this.generateContents = function generateContents() {
             let contents = {};
             // index counter for the top-level sections
             let contentsIndexTop = 1;
@@ -346,7 +342,7 @@ module.exports = function (attr, options) {
         // given a $element object, return the tag object itself
         // because some calls require the tag object, instead of the cheerio object
         // cheerio specific
-        this.getTag = function ($el) {
+        this.getTag = function getTag($el) {
             return $el.get(0);
         };
 
@@ -354,12 +350,11 @@ module.exports = function (attr, options) {
         //
         // create a new contents item object given the anchor (= the html ID attribute) & title value
         // and return it
-        this.createContentsEntry = function (anchor, title) {
-            const obj = {
+        this.createContentsEntry = function createContentsEntry(anchor, title) {
+            return {
                 anchor: anchor,
                 title: title,
             };
-            return obj;
         };
 
         // create a new contents item object
